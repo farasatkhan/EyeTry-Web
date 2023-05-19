@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../../components/ui/navbar";
+// import Navbar from "../../components/ui/navbar";
 import Footer from "../../components/ui/Footer";
 import Sidebar from "../../components/ui/Sidebar";
 import { FaBookOpen } from "react-icons/fa";

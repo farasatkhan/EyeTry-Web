@@ -1,12 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../components/ui/navbar";
+import Navbar from "../components/ui/Navbar";
 import Footer from "../components/ui/Footer";
 import Sidebar from "../components/ui/Sidebar";
 import { FaBookOpen } from "react-icons/fa";
 import { FaRegEnvelope, FaUser, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
-
-
 
 
 export default function ProfileHome() {

@@ -27,6 +27,8 @@ import GiftCards from './pages/UserProfiling/GiftCards';
 import ChangePassword from './pages/UserProfiling/ChangePassword';
 import UploadTryonImages from './pages/UserProfiling/UploadTryonImages';
 import UploadUserImage from './pages/UserProfiling/UploadUserImage';
+import SelectPrescriptionType from './pages/HomeScreens/SelectPrescriptionType';
+import SelectPrescriptionOption from './pages/HomeScreens/SelectPrescriptionOption';
 
 
 function App() {
@@ -51,6 +53,8 @@ function App() {
         <Route path="change_password" element={<ChangePassword />} />
         <Route path="upload_tryon_images" element={<UploadTryonImages />} />
         <Route path="upload_user_image" element={<UploadUserImage />} />
+        <Route path="select_prescription_type" element={<SelectPrescriptionType />} />
+        <Route path="select_prescription_Option" element={<SelectPrescriptionOption />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
     </Router>

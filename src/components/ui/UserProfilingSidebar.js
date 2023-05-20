@@ -33,7 +33,7 @@ import { FaBold, FaSortDown } from "react-icons/fa";
 import { red } from '@mui/material/colors';
 import EmailSent from '../../pages/UserProfiling/EmailSent';
 import Footer from './Footer';
-
+import { FaGlasses } from "react-icons/fa";
 
 
 
@@ -174,7 +174,7 @@ export default function PersistentDrawerLeft(props) {
       <CssBaseline />
       <AppBar position="fixed" style={{ color: "black", backgroundColor: "white", paddingRight: 20, paddingLeft: 20, display: "flex" }} open={open}>
         <Toolbar sx={{ flexGrow: 1 }}>
-          <IconButton
+          <IconButton 
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
@@ -188,7 +188,7 @@ export default function PersistentDrawerLeft(props) {
           {/* navbar */}
 
 
-          <AdbIcon sx={{ display: { xs: 'flex', sm: 'flex' }, mr: 1, ml: { xs: 0, sm: 2, md: 5, lg: 7, xl: 10 } }} />
+          <FaGlasses size={30} sx={{ display: { xs: 'flex', sm: 'flex' }, mr: 1, ml: { xs: 0, sm: 2, md: 5, lg: 7, xl: 10 } }} />
           {/* <Typography 
             variant="h5"
             noWrap
@@ -205,10 +205,10 @@ export default function PersistentDrawerLeft(props) {
               textDecoration: 'none',
             }}
           > */}
-          <div style={{ fontWeight: "400", fontSize: "24px" }} ><span style={{ fontWeight: "800", fontSize: "24px" }}>EYE</span>TRY</div>
+          <div style={{ fontWeight: "400", fontSize: "24px", marginLeft:10 }} ><span style={{ fontWeight: "800", fontSize: "24px" }}>EYE</span>TRY</div>
           {/* </Typography> */}
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' } }}>
             {/* <IconButton
               size="large"
               aria-label="account of current user"
@@ -247,7 +247,7 @@ export default function PersistentDrawerLeft(props) {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: 'block', md: 'none'},
               }}
             >
               {pages.map((page) => (
@@ -281,7 +281,7 @@ export default function PersistentDrawerLeft(props) {
           </Box>
 
 
-          <Box sx={{ ml: 5, flexGrow: 1, display: { xs: 'none', sm: 'none', md: 'flex' } }}>
+          <Box sx={{ ml: 5, flexGrow: 1, display: { xs: 'none', sm: 'none', md: 'none', lg:'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -295,7 +295,7 @@ export default function PersistentDrawerLeft(props) {
 
           <Box sx={{ display: 'flex', justifyContent: 'flex-start', flexGrow: 1 }}>
             <Search>
-              <Search sx={{ flexGrow: 1 }} style={{ backgroundColor: "red" }} >
+              <Search sx={{ flexGrow: 1 }} >
                 <SearchIconWrapper>
                   <SearchIcon />
                 </SearchIconWrapper>

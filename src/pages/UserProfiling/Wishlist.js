@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
-import Sidebar from "../../components/ui/Sidebar";
+import Sidebar from "../../components/ui/UserProfilingSidebar";
 
 
 

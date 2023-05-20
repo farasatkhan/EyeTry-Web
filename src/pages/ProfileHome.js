@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/ui/Navbar";
 import Footer from "../components/ui/Footer";
-import Sidebar from "../components/ui/Sidebar";
+import Sidebar from "../components/ui/UserProfilingSidebar";
 import { FaBookOpen } from "react-icons/fa";
 import { FaRegEnvelope, FaUser, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
 

@@ -27,8 +27,12 @@ import GiftCards from './pages/UserProfiling/GiftCards';
 import ChangePassword from './pages/UserProfiling/ChangePassword';
 import UploadTryonImages from './pages/UserProfiling/UploadTryonImages';
 import UploadUserImage from './pages/UserProfiling/UploadUserImage';
-import SelectPrescriptionType from './pages/HomeScreens/SelectPrescriptionType';
+import SelectLensType from './pages/HomeScreens/SelectLensType';
 import SelectPrescriptionOption from './pages/HomeScreens/SelectPrescriptionOption';
+import SelectPrescriptionType from './pages/HomeScreens/SelectPrescriptionType';
+import EnterPrescription from './pages/HomeScreens/EnterPrescription';
+// admin
+import AddFrames from './pages/Administrator/AddFrames';
 
 
 function App() {
@@ -53,8 +57,17 @@ function App() {
         <Route path="change_password" element={<ChangePassword />} />
         <Route path="upload_tryon_images" element={<UploadTryonImages />} />
         <Route path="upload_user_image" element={<UploadUserImage />} />
-        <Route path="select_prescription_type" element={<SelectPrescriptionType />} />
+        <Route path="select_prescription_type" element={<SelectLensType />} />
         <Route path="select_prescription_Option" element={<SelectPrescriptionOption />} />
+        <Route path="select_prescription_Type" element={<SelectPrescriptionType />} />
+        <Route path="select_prescription_Type" element={<SelectPrescriptionType />} />
+        <Route path="enter_prescription" element={<EnterPrescription />} />
+
+
+
+        {/* Admin Routes */}
+        <Route path="add_frames" element={<AddFrames />} />
+
         <Route path="*" element={<NoPage />} />
       </Routes>
     </Router>

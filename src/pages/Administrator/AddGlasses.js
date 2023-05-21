@@ -21,7 +21,7 @@ import Stack from '@mui/material/Stack';
 import ColorPalette from '../../components/ui/Admin/ColorPalette';
 
 
-export default function AddFrames() {
+export default function AddGlasses() {
 
     return <AdminSidebar screenComponent={< AddFramesScreen />} />
 }

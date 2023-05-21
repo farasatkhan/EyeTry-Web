@@ -33,6 +33,8 @@ import SelectPrescriptionType from './pages/HomeScreens/SelectPrescriptionType';
 import EnterPrescription from './pages/HomeScreens/EnterPrescription';
 // admin
 import AddFrames from './pages/Administrator/AddFrames';
+import AddLens from './pages/Administrator/AddLens';
+import AddGlasses from './pages/Administrator/AddGlasses';
 
 
 function App() {
@@ -67,7 +69,8 @@ function App() {
 
         {/* Admin Routes */}
         <Route path="add_frames" element={<AddFrames />} />
-
+        <Route path="add_lens" element={<AddLens />} />
+        <Route path="add_glasses" element={<AddGlasses />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
     </Router>

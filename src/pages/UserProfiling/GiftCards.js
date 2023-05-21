@@ -158,9 +158,7 @@ function GiftCardsScreen() {
                                         </tbody>
                                     </table>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
 

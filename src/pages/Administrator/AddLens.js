@@ -21,18 +21,18 @@ import Stack from '@mui/material/Stack';
 import ColorPalette from '../../components/ui/Admin/ColorPalette';
 
 
-export default function AddFrames() {
+export default function AddLens() {
 
     return <AdminSidebar screenComponent={< AddFramesScreen />} />
 }
 
 function AddFramesScreen() {
     // for radio buttons
-    const [selectedOption, setSelectedOption] = useState('option1');
+    // const [selectedOption, setSelectedOption] = useState('option1');
 
-    const handleOptionChange = (event) => {
-        setSelectedOption(event.target.value);
-    };
+    // const handleOptionChange = (event) => {
+    //     setSelectedOption(event.target.value);
+    // };
 
     // for dropdown
     const [age, setAge] = React.useState('');
@@ -107,7 +107,7 @@ function AddFramesScreen() {
 
                 <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10 ">
                     <div class=" text-center mb-12" >
-                        <h3 className="text-2xl sm:text-2xl  font-semibold font-sans">Add Frames</h3>
+                        <h3 className="text-2xl sm:text-3xl  font-semibold font-sans">Add Lens</h3>
                     </div>
 
 
@@ -309,30 +309,6 @@ function AddFramesScreen() {
                         </div>
                     </div>
 
-                    <div className="flex flex-row space-x-20 mt-6 mb-5">
-                        <div className="flex-grow">
-                            <label for="lastname" className="block text-base font-semibold text-gray-800 font-sans">Frame Material</label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <FaUser color='grey' />
-                                </div>
-                                <input id='material' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
-                                    focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
-                                    sm:text-sm transition duration-150 ease-in-out" placeholder="Enter frame material" type="text" />
-                            </div>
-                        </div>
-                        <div className="flex-grow">
-                            <label for="lastname" className="block text-base font-semibold text-gray-800 font-sans">Frame Style</label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <FaUser color='grey' />
-                                </div>
-                                <input id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
-                                    focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
-                                    sm:text-sm transition duration-150 ease-in-out" placeholder="Enter frame style" type="text" />
-                            </div>
-                        </div>
-                    </div>
 
 
 

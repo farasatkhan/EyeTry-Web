@@ -9,20 +9,26 @@ import axiosInstance from '../../api/getTokken';
 
 
 function Signin() {
+
     const navigate = useNavigate();
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [errorMsg, setErrorMsg] = React.useState('')
     const [errorVisible, setErrorVisible] = React.useState(false)
-
-
+    const [errorMsg, setErrorMsg] = React.useState('')
 
     // handling checkbox 
-    const [checked, setChecked] = React.useState(false);
+    const [checked, setChecked] = React.useState(true);
 
     const handleCheckBoxChange = () => {
         setChecked(!checked);
     };
+    // Methods
+    // const goToSignUp= () =>{
+    //     navigation.navigate('SignUp')
+    // }
+    // const goToForgotPassword = () =>{
+    //     navigation.navigate('ForgotPassword')
+    // }
 
     const validateForm = () => {
         // Validating user input
@@ -46,25 +52,25 @@ function Signin() {
         }
         try {
             const response = await signInUser(email, password);
-            console.log(response.data);
             const { user, accessToken, refreshToken } = response.data
-            try {
-                localStorage.setItem('user', JSON.stringify(user))
-                localStorage.setItem('accessToken', accessToken)
-                localStorage.setItem('refreshToken', refreshToken)
-            } catch (e) { throw e }
-            navigate('/');
+            console.log("Access Token", accessToken)
+            console.log("Refresf Token", refreshToken)
+            localStorage.setItem('user', JSON.stringify(user))
+            localStorage.setItem('accessToken', accessToken)
+            localStorage.setItem('refreshToken', refreshToken)
+            navigate('/'); // Replace '/' with the desired URL
 
         }
         catch (error) {
             console.log(error.response.data.message);
             setErrorVisible(true);
             setErrorMsg(error.response.data.message);
-            throw error
+            // throw error
         }
-
-
     }
+
+
+
     return (
         <div className="h-screen">
             <div className="flex flex-row items-center flex-1 h-full justify-center px-4 sm:px-0">
@@ -76,7 +82,14 @@ function Signin() {
                     <div className="flex  flex-col w-4/5 mx-auto flex-1 justify-center mb-8">
                         <h1 className='font-sans font-bold text-4xl mx-auto mb-10' >Sign In!</h1>
 
-                        <form onSubmit={() => handleSignIn()} className="mt-6 w-[90%] mx-auto">
+
+                        {errorVisible &&
+                            <p style={{ color: 'red', fontSize: 16, alignSelf: 'flex-start', paddingBottom: '4%' }}>
+                                {errorMsg}
+                            </p>
+                        }
+
+                        <form action='' onSubmit={() => handleSignIn()} className="mt-6 w-[90%] mx-auto">
 
                             <label htmlFor="email" className="block text-sm font-semibold text-gray-800 font-sans">Email</label>
                             <div className="relative">

@@ -1,11 +1,11 @@
-import React from "react";
+import React, {Alert, Text, } from "react";
 import { Link } from "react-router-dom";
 // import Navbar from "../../components/ui/Navbar";
 import Footer from "../../components/ui/Footer";
 import Sidebar from "../../components/ui/UserProfilingSidebar";
 import { FaBookOpen } from "react-icons/fa";
 import { FaRegEnvelope, FaUser, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
-
+import {addAddress} from '../../api/userapi'
 
 export default function AddAddress() {
 
@@ -13,11 +13,76 @@ export default function AddAddress() {
 }
 
 function AddAddressScreen() {
+    const [firstName,setFirstName] = React.useState('')
+    const [lastName,setLastName] = React.useState('')
+    const [currentAddress,setCurrentAddress] = React.useState('')
+    const [state,setState] = React.useState('')
+    
+    const [city,setCity] = React.useState('')
+    const [postalCode,setPostalCode] = React.useState('')
+    const [phone,setPhone] = React.useState('')
+    const [address1, setAddress1] = React.useState('')
+    const [address2, setAddress2] = React.useState('')
+
+    const [selectedCountry,setSelectedCountry] = React.useState(null)
+
+    const countries = ['Pakistan','Afghanistan','UAE','USA','India','Bangladesh','Saudi-Arabia']
+
+    const [errorVisible,setErrorVisible] = React.useState(false)
+    const [errorMsg,setErrorMsg] = React.useState('')
+    const [successVisible,setSuccessVisible] = React.useState(false)
+    const [successMessage,setSuccessMessage] = React.useState(null)
+
+
+    // form validation 
+    const validateForm = () =>{
+        if (!selectedCountry || !city || !postalCode || !phone) {
+            setErrorVisible(true)
+            setErrorMsg('Please fill out all fields');
+            return false;
+        }
+        return true
+    }
+
+    const saveAddress =async () => {
+        if(!validateForm()){
+            return
+        }
+        const addressData = {
+                firstName: firstName,
+                lastname: lastName,
+                phone: phone,
+                currentAddress: currentAddress,
+                city:city,
+                state: state,
+                country: selectedCountry,
+                zipCode: postalCode
+        }
+
+        console.log("Address" ,addressData)
+        try {
+            const response = await addAddress(addressData)
+            console.log("Response inside comp",response)
+            if(response.status == 200){
+                setSuccessMessage("Address Added Successfully. Redirecting to My Addresses Screen")
+                setSuccessVisible(true)
+                
+                // setTimeout(() => {
+                //     navigation.navigate('AddressBook')
+                // }, 3000);
+                Alert("Information Saved!")
+                 
+            }
+        }
+        catch (e){
+            console.error(e)
+        }
+    }
+
+
     return (
         <div className="flex flex-col min-h-screen">
-
             <div className="p-5  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[90%] mx-auto mb-5">
-
                 <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10">
                     <div className="mb-10 flex flex-col md:flex-row md:items-center">
                         <div class="md:text-left text-center md:mb-0 mb-4">
@@ -25,7 +90,16 @@ function AddAddressScreen() {
                             <p className=" font-sans text-base ">Edit your profile quickly</p>
                         </div>
                     </div>
-
+                    {errorVisible &&  
+                <Text style={{color:'red',fontSize:16,alignSelf:'flex-start',paddingBottom:'2%'}}>
+                        {errorMsg}
+                </Text>
+                } 
+             {successVisible &&  
+                <Text style={{color:'green',fontSize:16,alignSelf:'flex-start',textAlign:'center',paddingBottom:'2%'}}>
+                    {successMessage}
+                </Text>
+                    } 
                     <div className="flex flex-row space-x-4">
                         <div className="flex-grow">
                             <label for="firstname" className="block text-sm font-semibold text-gray-800 font-sans">First Name</label>
@@ -33,9 +107,9 @@ function AddAddressScreen() {
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <FaUser color='grey' />
                                 </div>
-                                <input id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
-                focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
-                sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your First Name" type="text" />
+                                <input value={firstName} onChange={(e) => setFirstName(e.target.value)} id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
+                                focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
+                                sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your First Name" type="text" />
                             </div>
                         </div>
                         <div className="flex-grow">
@@ -44,19 +118,19 @@ function AddAddressScreen() {
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <FaUser color='grey' />
                                 </div>
-                                <input id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
-                focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
-                sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your Last Name" type="text" />
+                                <input value={lastName} onChange={(e) => setLastName(e.target.value)} id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
+                                focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
+                                sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your Last Name" type="text" />
                             </div>
                         </div>
                     </div>
 
-                    <label for="firstname" className="mt-10 block text-sm font-semibold text-gray-800 font-sans">Address 1</label>
+                    <label for="address1" className="mt-10 block text-sm font-semibold text-gray-800 font-sans">Address 1</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <FaUser color='grey' />
                         </div>
-                        <input id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
+                        <input value={address1} onChange={(e) => setAddress1(e.target.value)} id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
                             focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
                             sm:text-sm transition duration-150 ease-in-out" placeholder="Enter your complete address" type="text" />
                     </div>
@@ -66,7 +140,7 @@ function AddAddressScreen() {
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <FaUser color='grey' />
                         </div>
-                        <input id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
+                        <input value={address2} onChange={(e) => setAddress2(e.target.value)} id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
                             focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
                             sm:text-sm transition duration-150 ease-in-out" placeholder="Enter your complete address" type="text" />
                     </div>
@@ -78,9 +152,9 @@ function AddAddressScreen() {
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <FaUser color='grey' />
                                 </div>
-                                <input id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5  bg-white border rounded-md
-                focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
-                sm:text-sm transition duration-150 ease-in-out" placeholder="" type="text" />
+                                <input value={city} onChange={(e) => setCity(e.target.value)} id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5  bg-white border rounded-md
+                                focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
+                                sm:text-sm transition duration-150 ease-in-out" placeholder="Enter City" type="text" />
                             </div>
                         </div>
                         <div className="flex-grow">
@@ -89,9 +163,9 @@ function AddAddressScreen() {
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <FaUser color='grey' />
                                 </div>
-                                <input id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
-                focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
-                sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your Last Name" type="number" />
+                                <input value={postalCode} onChange={(e) => setPostalCode(e.target.value)} id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
+                                focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
+                                sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your postal code" type="number" />
                             </div>
                         </div>
                     </div>
@@ -103,9 +177,9 @@ function AddAddressScreen() {
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <FaUser color='grey' />
                                 </div>
-                                <input id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5  bg-white border rounded-md
-                focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
-                sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your First Name" type="phone" />
+                                <input value={phone} onChange={(e) => setPhone(e.target.value)} id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5  bg-white border rounded-md
+                                focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
+                                sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your phone number" type="phone" />
                             </div>
                         </div>
                         <div className="flex-grow">
@@ -114,24 +188,17 @@ function AddAddressScreen() {
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <FaUser color='grey' />
                                 </div>
-                                <input id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
-                focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
-                sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your Last Name" type="tel" />
+                                <input value={selectedCountry} onChange={(e) => setSelectedCountry(e.target.value)} id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
+                                focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
+                                sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your Country" type="tel" />
                             </div>
                         </div>
                     </div>
 
-
-
-
-
-
-
-
                     <div className="md:ml-auto md:text-right text-center mt-20">
-                            <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-8 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Cancel</button>
-                            <button type="button" class=" text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Save</button>
-                        </div>
+                        <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-8 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Cancel</button>
+                        <button type="button" class=" text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Save</button>
+                    </div>
                 </div>
             </div>
         </div>

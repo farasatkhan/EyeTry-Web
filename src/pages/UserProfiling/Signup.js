@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { FaRegEnvelope, FaUser, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
 import { AiOutlineLock } from "react-icons/ai";
 import { FiLock } from "react-icons/fi";
@@ -14,69 +14,76 @@ function Signup() {
     const [password, setPassword] = React.useState('');
     const [confirmPassword, setConfirmPassword] = React.useState('');
 
-        // handling checkbox 
-        const [checked, setChecked] = React.useState(false);
+    const [errorVisible, setErrorVisible] = React.useState(false)
+    const [errorMsg, setErrorMsg] = React.useState('')
+    // handling checkbox 
+    const [checked, setChecked] = React.useState(true);
 
-        const handleCheckBoxChange = () => {
-          setChecked(!checked);
-        };
+    const handleCheckBoxChange = () => {
+        setChecked(!checked);
+    };
 
-            // Form Validation
-    const validateForm = () =>{
+    // Form Validation
+    const validateForm = () => {
         // Validating user input
         if (!firstName || !lastName || !email || !password || !confirmPassword) {
-            console.log("error")
+            setErrorVisible(true)
+            setErrorMsg('Please fill out all fields');
             return false;
         }
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            console.log("error")
+            setErrorVisible(true)
+            setErrorMsg('Please enter a valid email address.');
             return false;
         }
         if (password !== confirmPassword) {
-            console.log("error")
+            setErrorVisible(true)
+            setErrorMsg('Passwords do not match');
             return false;
         }
         if (!checked) {
-            console.log("error")
+            setErrorVisible(true)
+            setErrorMsg('Please agree to terms and conditions');
             return false;
         }
         return true
     }
 
     const handleSignUp = async () => {
-        // event.preventDefault(); // prevent default form submission behavior
 
-        if (!validateForm()){
+        if (!validateForm()) {
             return
         }
-            // ApI Request const { user, accessToken, refreshToken,message }
+        // ApI Request const { user, accessToken, refreshToken,message }
         try {
-            // Alert.alert("Inside Try")
             const response = await registerUser(firstName, lastName, email, password, confirmPassword);
-            
-            const { user, accessToken, refreshToken } = response.data 
-    
-            // Saving to Async Storage
-            localStorage.setItem('user',JSON.stringify(user))
-            localStorage.setItem('accessToken',accessToken)
-            localStorage.setItem('refreshToken',refreshToken)
-    
+
+            const { user, accessToken, refreshToken } = response.data
+
+            // Saving to local storage
+            localStorage.setItem('user', JSON.stringify(user))
+            localStorage.setItem('accessToken', accessToken)
+            localStorage.setItem('refreshToken', refreshToken)
+
             console.log(user)
             console.log(accessToken)
             console.log(refreshToken)
-            navigate('/signin');
-            } 
-            catch (error) {
-                console.error(error.response.status)
-                // if(error.response.status == 400){
-                //     console.log("YOu May navigate to signin")
-                // }
-                // setErrorVisible(true)
-                // setErrorMsg(error.response.data.message)
-                throw error
-            }   
-      };
+            navigate('/');
+        }
+        catch (error) {
+            console.error(error.response.status)
+            if (error.response.status == 400) {
+                console.log("You May navigate to signin")
+            }
+            setErrorVisible(true)
+            setErrorMsg(error.response.data.message)
+            throw error
+        }
+    };
+
+
+
     return (
         <div className="h-screen">
             <div className="flex flex-row items-center flex-1 h-full justify-center px-4 sm:px-0">
@@ -87,6 +94,12 @@ function Signup() {
                 <div className="flex flex-col h-full w-full md:w-1/2 p-4 overflow-y-scroll">
                     <div className="flex flex-col w-4/5 mx-auto flex-1 justify-center mb-8">
                         <h1 className='font-sans font-bold text-4xl mx-auto mb-3 mt-2' >Sign Up!</h1>
+
+                        {errorVisible &&
+                            <p style={{ color: 'red', fontSize: 16, alignSelf: 'flex-start', padding: '4%' }}>
+                                {errorMsg}
+                            </p>
+                        }
 
                         <form onSubmit={handleSignUp} className="mt-5 w-[90%] mx-auto">
                             <label htmlFor="firstname" className="block text-sm font-semibold text-gray-800 font-sans">First Name</label>
@@ -145,10 +158,10 @@ function Signup() {
                                 <input value={checked} onChange={handleCheckBoxChange} type="checkbox" id="keep-signed-in" name="keep-signed-in" className="form-checkbox w-4 h-4 text-indigo-600" />
                                 <span className="ml-2 text-sm text-gray-500 font-sans">Agree with <span className='text-[#1C9CEA] hover:underline'>Terms and Conditions</span> </span>
                             </label>
-                            
+
                             {/* <Link to="/signin"> */}
                             <div className="mt-12 ">
-                                <button type='submit'  className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform
+                                <button type='submit' className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform
                              bg-black rounded-md hover:bg-gray-700 focus:outline-none focus:bg-black">Sign Up</button>
                             </div>
                             {/* </Link> */}

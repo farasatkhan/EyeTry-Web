@@ -36,6 +36,10 @@ import AddFrames from './pages/Administrator/AddFrames';
 import AddLens from './pages/Administrator/AddLens';
 import AddGlasses from './pages/Administrator/AddGlasses';
 
+// Vision Assessments
+import ColorBlindTest from './pages/VisionAssessments/ColorBlindTest'
+import VisionAcuityTest from './pages/VisionAssessments/VisionAcuityTest'
+
 
 function App() {
   return (
@@ -72,6 +76,10 @@ function App() {
         <Route path="add_lens" element={<AddLens />} />
         <Route path="add_glasses" element={<AddGlasses />} />
         <Route path="*" element={<NoPage />} />
+
+        {/* Vission Assessments */}
+        <Route path="color_blind_test" element={<ColorBlindTest />} />
+        <Route path="vision_acuity_test" element={<VisionAcuityTest />} />
       </Routes>
     </Router>
   );

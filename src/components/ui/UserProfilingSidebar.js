@@ -91,7 +91,8 @@ const drawerWidth = 240;
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     flexGrow: 1,
-    padding: theme.spacing(3),
+    // inside nav n side bars - main screen
+    padding: theme.spacing(0),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -144,10 +145,10 @@ export default function PersistentDrawerLeft(props) {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+  
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
@@ -189,7 +190,7 @@ export default function PersistentDrawerLeft(props) {
 
 
           <FaGlasses size={30} sx={{ display: { xs: 'flex', sm: 'flex' }, mr: 1, ml: { xs: 0, sm: 2, md: 5, lg: 7, xl: 10 } }} />
-          {/* <Typography 
+          <Typography 
             variant="h5"
             noWrap
             component="a"
@@ -204,9 +205,9 @@ export default function PersistentDrawerLeft(props) {
               color: 'inherit',
               textDecoration: 'none',
             }}
-          > */}
+          >
           <div style={{ fontWeight: "400", fontSize: "24px", marginLeft:10 }} ><span style={{ fontWeight: "800", fontSize: "24px" }}>EYE</span>TRY</div>
-          {/* </Typography> */}
+          </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' } }}>
             {/* <IconButton
@@ -286,7 +287,7 @@ export default function PersistentDrawerLeft(props) {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'black', display: 'flex', fontWeight: { md: 'bold', lg: 'bold' }, fontSize: { md: '12px', lg: '14px' } }}
+                sx={{ my: 2, color: 'black', display: 'flex', fontWeight: { md: '700', lg: '700' }, fontSize: { md: '12px', lg: '12px' } }}
               >
                 {page}
               </Button>
@@ -321,10 +322,12 @@ export default function PersistentDrawerLeft(props) {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <Box sx={{ flexGrow: 0, ml: 2 }}>
+          <Box sx={{ flexGrow: 0, ml: 2, }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src={require("../../assets/images/Ellipse.png")} />
+                <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className=' font-semibold font-black '>Qasim Malik</p></p>
+                <image alt="user-profile-pic" src={require("../../assets/images/Ellipse.png")} width={50} height={50}  />
               </IconButton>
             </Tooltip>
             <Menu

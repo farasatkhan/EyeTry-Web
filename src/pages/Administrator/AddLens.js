@@ -309,6 +309,30 @@ function AddFramesScreen() {
                         </div>
                     </div>
 
+                    <div className="flex flex-row space-x-20 mt-6 mb-5">
+                        <div className="flex-grow">
+                            <label for="lastname" className="block text-base font-semibold text-gray-800 font-sans">Lens Coating</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <FaUser color='grey' />
+                                </div>
+                                <input id='material' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
+                                    focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
+                                    sm:text-sm transition duration-150 ease-in-out" placeholder="Enter frame material" type="text" />
+                            </div>
+                        </div>
+                        <div className="flex-grow">
+                            <label for="lastname" className="block text-base font-semibold text-gray-800 font-sans">Frame Style</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <FaUser color='grey' />
+                                </div>
+                                <input id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
+                                    focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
+                                    sm:text-sm transition duration-150 ease-in-out" placeholder="Enter frame style" type="text" />
+                            </div>
+                        </div>
+                    </div>
 
 
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from "../../components/ui/UserProfilingSidebar";
+import Sidebar from "../../components/ui/VissionAssessments/VissionAssessmentsSideBar";
+import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
 
 // importing images
 import Image1 from '../../visionAssessments/colorblind-test-image1.webp';
@@ -14,6 +15,7 @@ import Image9 from '../../visionAssessments/colorblind-test-image9.webp';
 import Image10 from '../../visionAssessments/colorblind-test-image10.webp';
 import Image11 from '../../visionAssessments/colorblind-test-image11.webp';
 import Image12 from '../../visionAssessments/colorblind-test-image12.webp';
+import { TextField } from '@mui/material';
 
 export default function ColorBlindnessTest() {
 
@@ -88,29 +90,35 @@ const ColorBlindnessTestScreen = () => {
       </button>
     ));
 
+
     return (
       <div className='flex flex-row space-x-10'>
         <div>
           <img className=' object-cover' width={280} height={280} src={currentImage.src} alt={`Image ${currentImage.id}`} />
-          <p>What number do you see in the image?</p>
+
         </div>
 
         <div className='flex items-center justify-center'>
           <div className="screen-box ">
-            <p className="user-input">{userInput}</p>
+            <p>What number do you see in the image?</p>
+            {/* <p className="user-input">{userInput}</p> */}
+            <input className='block w-[92%] mx-auto pl-10 pr-3 borderblock px-4  py-2.5 mt-2  bg-white border rounded-md
+                            border-blue-300 ring-blue-300 outline-none ring ring-opacity-40 
+                            sm:text-sm transition duration-150 ease-in-out" placeholder="Enter prescription name" type="text' type="text" value={userInput} disabled />
+
             {/* <div className="number-buttons">{numberButtons}</div> */}
-            <div className="flex flex-wrap max-w-xs mx-auto p-2  ">
-              <button key={1} onClick={() => handleNumberButtonClick(1)} className="w-1/3 px-4  p-2 bg-[#374151] rounded-sm text-white">1</button>
-              <button key={2} onClick={() => handleNumberButtonClick(2)} className="w-1/3  p-2 bg-[#374151] rounded-sm text-white">2</button>
-              <button key={3} onClick={() => handleNumberButtonClick(3)} className="w-1/3  p-2 bg-[#374151] rounded-sm text-white">3</button>
-              <button key={4} onClick={() => handleNumberButtonClick(4)} className="w-1/3  p-2 bg-[#374151] rounded-sm text-white">4</button>
-              <button key={5} onClick={() => handleNumberButtonClick(5)} className="w-1/3  p-2 bg-[#374151] rounded-sm text-white">5</button>
-              <button key={6} onClick={() => handleNumberButtonClick(6)} className="w-1/3  p-2 bg-[#374151] rounded-sm text-white">6</button>
-              <button key={7} onClick={() => handleNumberButtonClick(7)} className="w-1/3  p-2 bg-[#374151] rounded-sm text-white">7</button>
-              <button key={8} onClick={() => handleNumberButtonClick(8)} className="w-1/3  p-2 bg-[#374151] rounded-sm text-white">8</button>
-              <button key={9} onClick={() => handleNumberButtonClick(9)} className="w-1/3  p-2 bg-[#374151] rounded-sm text-white">9</button>
+            <div className="flex flex-wrap max-w-xs  p-2  ">
+              <button key={1} onClick={() => handleNumberButtonClick(1)} className="w-1/3 px-4 p-2 bg-[#374151] border-4 border-white rounded-lg text-white">1</button>
+              <button key={2} onClick={() => handleNumberButtonClick(2)} className="w-1/3 px-4 p-2 bg-[#374151] border-4 border-white rounded-lg text-white">2</button>
+              <button key={3} onClick={() => handleNumberButtonClick(3)} className="w-1/3 px-4 p-2 bg-[#374151] border-4 border-white rounded-lg text-white">3</button>
+              <button key={4} onClick={() => handleNumberButtonClick(4)} className="w-1/3 px-4 p-2 bg-[#374151] border-4 border-white rounded-lg text-white">4</button>
+              <button key={5} onClick={() => handleNumberButtonClick(5)} className="w-1/3 px-4 p-2 bg-[#374151] border-4 border-white rounded-lg text-white">5</button>
+              <button key={6} onClick={() => handleNumberButtonClick(6)} className="w-1/3 px-4 p-2 bg-[#374151] border-4 border-white rounded-lg text-white">6</button>
+              <button key={7} onClick={() => handleNumberButtonClick(7)} className="w-1/3 px-4 p-2 bg-[#374151] border-4 border-white rounded-lg text-white">7</button>
+              <button key={8} onClick={() => handleNumberButtonClick(8)} className="w-1/3 px-4 p-2 bg-[#374151] border-4 border-white rounded-lg text-white">8</button>
+              <button key={9} onClick={() => handleNumberButtonClick(9)} className="w-1/3 px-4 p-2 bg-[#374151] border-4 border-white rounded-lg text-white">9</button>
+              <button onClick={handleSubmit} className='w-full text-center bg-red-700 text-white py-2.5 border-4 border-white rounded-lg' >Submit</button>
             </div>
-          <button onClick={handleSubmit}>Submit</button>
           </div>
 
         </div>
@@ -134,58 +142,124 @@ const ColorBlindnessTestScreen = () => {
     );
   };
 
+  const getTotalIncorrectResults = () => {
+    return results.filter(result => !result.isCorrect).length;
+  };
+
+  const getTestResultMessage = () => {
+    const totalIncorrectResults = getTotalIncorrectResults();
+  
+    if (totalIncorrectResults === 0) {
+      return <span style={{ color: 'green' }}>Congrats! Your Eye Sight Is Perfect :)</span>;
+    } else if (totalIncorrectResults === 1) {
+      return <span style={{ color: '#E49B0F' }}>Yout have passed the test but I suggest that you retake the test to ensure that your eyesight is not weak.</span>;
+    } else if (totalIncorrectResults >= 2 && totalIncorrectResults < 4) {
+      return <span style={{ color: '#E49B0F' }}>I suggest that you visit a doctor as it appears that you may be experiencing issues with your vision acuity.</span>;
+    } else if (totalIncorrectResults >= 4) {
+      return <span style={{ color: 'red' }}>Your test results indicate a significant number of incorrect answers. It is strongly advised to consult with an eye care specialist immediately.</span>;
+    }
+  
+    return null;
+  };
+  
+
   const renderResults = () => {
+    return results.map((result, index) => (
+      <tr key={index}>
+        <td>{index + 1}</td>
+        <td>{result.isCorrect ? <AiOutlineCheckCircle className="h-5 w-5 text-green-500" /> : <AiOutlineCloseCircle className="h-5 w-5 text-red-500" />}</td>
+        <td>{result.isCorrect ? 'Correct' : 'Incorrect'}</td>
+      </tr>
+    ));
+  };
+
+  const DisplayResults = () => {
     return (
       <div>
-        <h2>Test Results</h2>
-        {results.map((result, index) => (
-          <p key={index}>
-            Image {result.imageId}: {result.isCorrect ? 'Correct' : 'Incorrect'}
-          </p>
-        ))}
+        <h2 className="text-2xl font-bold">Test Results</h2>
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="py-2 px-4 text-left">Move</th>
+              <th className="py-2 px-4 text-left">Result</th>
+              <th className="py-2 px-4 text-left">Status</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {renderResults()}
+          </tbody>
+        </table>
+        <p className="text-lg font-bold mt-5">
+          {getTestResultMessage()}
+        </p>
+      </div>
+    );
+  };
+
+
+  const handleRetakeTest = () => {
+    shuffleImages();
+    setCurrentImageIndex(0);
+    setUserInput('');
+    setResults([]);
+    setShowResults(false);
+  };
+  const renderRetakeButton = () => {
+    return (
+      <div className="flex justify-center mt-8">
+        <button
+          onClick={handleRetakeTest}
+          className="px-4 py-2 bg-red-700 text-white rounded-lg"
+        >
+          Retake Test
+        </button>
       </div>
     );
   };
 
   return (
     <div className="flex flex-col min-h-screen">
-
-      <div className="p-5 mt-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[70%] mx-auto mb-5">
-
       <div className="flex flex-col items-center">
-                <h3 className="text-2xl sm:text-4xl font-bold font-sans text-[#374151] mt-10">Color Blind Test</h3>
-                <p className="font-sans text-base mt-2 mb-8">Find out if you're color blind in less than 2 minutes!</p>
-                <div className="flex justify-center">
-                  <img src={require('../../assets/images/visionAssessments/colorblind.webp')} alt="Color Blind Test" />
-                </div>
-              </div>
-              <p className='mt-10 text-justify'>Color Blind Test info: This fairly common condition often goes undiagnosed, because
+        <h3 className="text-2xl sm:text-4xl font-bold font-sans text-[#374151] mt-10 ">Color Blind Test</h3>
+        <p className="font-sans text-base mt-2 mb-8">Find out if you're color blind in less than 2 minutes!</p>
+        <div className="flex justify-center">
+          <img src={require('../../assets/images/visionAssessments/colorblind.webp')} alt="Color Blind Test" />
+        </div>
+      </div>
+
+      <div className="p-5 mt-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[90%] mx-auto mb-5">
+
+
+        <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10 ">
+          <h3 className="text-2xl sm:text-4xl font-bold font-sans text-[#374151] mt-10">Take Test Now</h3>
+          <p className='mt-10 text-justify font-sans'>Color Blind Test info: This fairly common condition often goes undiagnosed, because
             you do not realize you aren’t seeing colors as other people do. Yet testing for color
             blindness is simple — doesn’t even require a trip to the doctor.
             Simply look at the symbols below and enter the numbers that you can see. You’ll get an
             instant result that will help you if you are struggling with color blindness, and which
             colors are more problematic.</p>
           <p className='mt-5 font-semibold mb-10'>Note: this is test is based off the standard Ishihara color plate test</p>
-        <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10 ">
-
 
           <div className='flex justify-center'>
             {showResults ? (
-              renderResults()
-            ) : (
               <div>
+                {DisplayResults()}
+                {renderRetakeButton()}
+              </div>
+            ) : (
+              <div className='mb-20'>
                 {renderImage()}
                 {renderProgressBar()}
               </div>
             )}
           </div>
 
-          <div className="w-full flex items-center justify-center">
+          {/* <div className="w-full flex items-center justify-center">
             <div className="md:ml-auto md:text-right text-center mt-16 mb-10">
               <button type="button" className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Cancel</button>
               <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete Account</button>
             </div>
-          </div>
+          </div> */}
 
         </div>
 

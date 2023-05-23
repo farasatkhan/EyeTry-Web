@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
 import Image from '../../assets/images/visionAssessments/E.png';
+import Sidebar from '../../components/ui/VissionAssessments/VissionAssessmentsSideBar'
 
-const TumblingETest = () => {
+
+export default function TumblingETest() {
+
+  return <Sidebar screenComponent={< TumblingETestScreen />} />
+}
+
+
+const TumblingETestScreen = () => {
   const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
   const [results, setResults] = useState([]);
   const [moves, setMoves] = useState([]);
@@ -60,6 +68,7 @@ const TumblingETest = () => {
       transform: `rotate(${getRotationValue(direction)}deg)`,
       width: `${arrowSize}px`, // Use width property instead of fontSize
       height: `${arrowSize}px`, // Use height property instead of fontSize
+      margin: '0 auto',
     };
   
     return <img src={Image} alt="Direction" style={rotationStyle} />;
@@ -96,17 +105,17 @@ const TumblingETest = () => {
 
   const getTestResultMessage = () => {
     const totalIncorrectResults = getTotalIncorrectResults();
-
+  
     if (totalIncorrectResults === 0) {
-        return "Your Eye Sight Is Perfect! :)"
-    } else if (totalIncorrectResults == 1){
-        return "I suggest that you retake the test to ensure that your eyesight is not weak.";
-    }else if (totalIncorrectResults >= 2 && totalIncorrectResults < 4) {
-      return "I suggest that you visit a doctor as it appears that you may be experiencing issues with your vision acuity.";
+      return <span style={{ color: 'green' }}>Congrats! Your Eye Sight Is Perfect :)</span>;
+    } else if (totalIncorrectResults === 1) {
+      return <span style={{ color: '#E49B0F' }}>Yout have passed the test but I suggest that you retake the test to ensure that your eyesight is not weak.</span>;
+    } else if (totalIncorrectResults >= 2 && totalIncorrectResults < 4) {
+      return <span style={{ color: '#E49B0F' }}>I suggest that you visit a doctor as it appears that you may be experiencing issues with your vision acuity.</span>;
     } else if (totalIncorrectResults >= 4) {
-      return "Your test results indicate a significant number of incorrect answers. It is strongly advised to consult with an eye care specialist immediately.";
+      return <span style={{ color: 'red' }}>Your test results indicate a significant number of incorrect answers. It is strongly advised to consult with an eye care specialist immediately.</span>;
     }
-
+  
     return null;
   };
 
@@ -119,35 +128,54 @@ const TumblingETest = () => {
   const progressPercentage = (currentMoveIndex / (moves.length - 1)) * 100;
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col items-center">
+      <h3 className="text-2xl sm:text-4xl font-bold font-sans text-[#374151] mt-10 ">Visual Acuity Testing (Snellen Chart)</h3>
+      <p className="font-sans text-base mt-2 mb-8">Find out if you're color blind in less than 2 minutes!</p>
+      <div className="flex justify-center">
+        <img src={require('../../assets/images/visionAssessments/colorblind.webp')} alt="Color Blind Test" />
+      </div>
+    </div>
+    <div className="p-5 mt-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[90%] mx-auto mb-5">
+
+    <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10 ">
+    <h3 className="text-2xl sm:text-4xl font-bold font-sans text-[#374151] mt-10">Take Test Now</h3>
+    <p className='mt-10 text-justify font-sans'>Test your visual acuity from the comfort of your couch or office chair with our online eye test. This test could help give you an indication of whether if you suffer from myopia (short-sightedness), hyperopia (farsightedness) or other eyesight problems that may require corrective glasses or lenses.
+
+Before you start the online eye test, please remove any prescription glasses or lenses. As eyesight can change over time, performing the test without these aids will give you an indication of the accuracy of your current prescription.</p>
+    <p className='mt-5 font-semibold mb-10'>Note: this test is based off the standard Snellen Chart test</p>
+    <div className="container mx-auto p-4 ">
       <h1 className="text-3xl font-bold mb-4">Tumbling E Eye Test</h1>
       {currentMoveIndex !== -1 ? (
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Which direction is the E pointing?</h2>
-          <div className="text-center mb-4">
+        <div className=''>
+          <h2 className="text-2xl font-bold mb-4 mx-auto">Which direction is the E pointing?</h2>
+          <div className='w-[200px] h-[120px] mx-auto mt-16'>          
+             <div className="text-center mb-4 mx-auto ">
             {getCurrentDirectionSymbol()}
           </div>
-          <div className="flex justify-center space-x-4">
+          </div>
+
+          <div className="flex justify-center space-x-4 mb-10">
             <button
-              className="p-2 bg-blue-500 text-white rounded"
+              className="p-2 w-24 bg-red-700 text-white rounded"
               onClick={() => handleButtonClick('up')}
             >
               <span className="text-2xl">&uarr;</span>
             </button>
             <button
-              className="p-2 bg-blue-500 text-white rounded"
+              className="p-2 w-24 bg-red-700 text-white rounded"
               onClick={() => handleButtonClick('right')}
             >
               <span className="text-2xl">&rarr;</span>
             </button>
             <button
-              className="p-2 bg-blue-500 text-white rounded"
+              className="p-2 w-24 bg-red-700 text-white rounded"
               onClick={() => handleButtonClick('down')}
             >
               <span className="text-2xl">&darr;</span>
             </button>
             <button
-              className="p-2 bg-blue-500 text-white rounded"
+              className="p-2 w-24 bg-red-700 text-white rounded"
               onClick={() => handleButtonClick('left')}
             >
               <span className="text-2xl">&larr;</span>
@@ -156,7 +184,7 @@ const TumblingETest = () => {
           <div className="mt-4">
             <div className="h-2 bg-gray-300 rounded">
               <div
-                className="h-full bg-blue-500 rounded"
+                className="h-full bg-[#374151] rounded"
                 style={{ width: `${progressPercentage}%` }}
               ></div>
             </div>
@@ -191,7 +219,12 @@ const TumblingETest = () => {
         </div>
       )}
     </div>
+
+
+  </div>
+</div>
+</div>
   );
 };
 
-export default TumblingETest;
+

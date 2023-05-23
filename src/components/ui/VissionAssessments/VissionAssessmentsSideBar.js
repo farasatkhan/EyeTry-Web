@@ -21,7 +21,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import AdbIcon from '@mui/icons-material/Adb';
+
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -31,13 +31,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import { FaBold, FaSortDown } from "react-icons/fa";
-import { red } from '@mui/material/colors';
-import EmailSent from '../../pages/UserProfiling/EmailSent';
-import Footer from './Footer';
+
+import Footer from '../Footer';
 import { FaGlasses } from "react-icons/fa";
-import { logoutUser } from '../../api/authapi';
+import { logoutUser } from '../../../api/authapi';
 import { useNavigate } from 'react-router-dom';
-import { Navigation } from '@mui/icons-material';
 
 
 
@@ -346,9 +344,9 @@ export default function PersistentDrawerLeft(props) {
           <Box sx={{ flexGrow: 0, ml: 2, }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={require("../../assets/images/Ellipse.png")} />
+                <Avatar alt="Remy Sharp" src={require("../../../assets/images/Ellipse.png")} />
                 <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className=' font-semibold font-black '>Qasim Malik</p></p>
-                <image alt="user-profile-pic" src={require("../../assets/images/Ellipse.png")} width={50} height={50}  />
+                <image alt="user-profile-pic" src={require("../../../assets/images/Ellipse.png")} width={50} height={50}  />
               </IconButton>
             </Tooltip>
             <Menu
@@ -397,7 +395,7 @@ export default function PersistentDrawerLeft(props) {
 
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div style={{ width: 150, height: 150, borderRadius: 100, backgroundColor: "red", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <img src={require('../../assets/images/profilepic.png')} alt="logo" className='w-full h-full ' />
+            <img src={require('../../../assets/images/profilepic.png')} alt="logo" className='w-full h-full ' />
           </div>
           <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20 }}>Qasim Malik</h2>
         </div>
@@ -407,12 +405,10 @@ export default function PersistentDrawerLeft(props) {
 <List>
   {[
     { text: 'My Profile', path: '/profile' },
-    { text: 'Personal Details', path: '/my_details' },
-    { text: 'My Prescriptions', path: '/prescription_details' },
-    { text: 'Address Book', path: '/add_address' },
-    { text: 'Payment Methods', path: '/add_payment' },
-    { text: 'Try On Images', path: '/upload_tryon_images' },
-    { text: 'Manage Giftcards', path: '/giftcards' },
+    { text: 'Color Blind Test', path: '/color_blind_test'},
+    { text: 'Vission Acutiy Test', path: '/vision_acuity_test'},
+    { text: 'Contrast Sensitivity Test', path: '/contrast_sensitivity_test'},
+    { text: 'Astigmatism Test', path: '/astigmatism_test'},
     { text: 'Log Out' , path: '/signin' }
   ].map(({ text, path }, index) => (
     <ListItem key={text} disablePadding>

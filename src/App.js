@@ -31,6 +31,7 @@ import SelectLensType from './pages/HomeScreens/SelectLensType';
 import SelectPrescriptionOption from './pages/HomeScreens/SelectPrescriptionOption';
 import SelectPrescriptionType from './pages/HomeScreens/SelectPrescriptionType';
 import EnterPrescription from './pages/HomeScreens/EnterPrescription';
+import ProfileHome from "./pages/ProfileHome";
 
 // admin imports
 import AddFrames from './pages/Administrator/AddFrames';
@@ -40,7 +41,8 @@ import AddGlasses from './pages/Administrator/AddGlasses';
 // Vision Assessments imports
 import ColorBlindTest from './pages/VisionAssessments/ColorBlindTest'
 import VisionAcuityTest from './pages/VisionAssessments/VisionAcuityTest'
-import ProfileHome from "./pages/ProfileHome";
+import ContrastSensitivityTest from "./pages/VisionAssessments/ContrastSensitivityTest";
+import AstigmatismTest from "./pages/VisionAssessments/AstigmatismTest";
 
 
 function App() {
@@ -83,6 +85,8 @@ function App() {
         {/* Vission Assessments */}
         <Route path="color_blind_test" element={<ColorBlindTest />} />
         <Route path="vision_acuity_test" element={<VisionAcuityTest />} />
+        <Route path="contrast_sensitivity_test" element={<ContrastSensitivityTest />} />
+        <Route path="astigmatism_test" element={<AstigmatismTest />} />
       </Routes>
     </Router>
   );

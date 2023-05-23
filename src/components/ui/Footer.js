@@ -12,10 +12,10 @@ const Footer = () => {
                   <h1 className=" font-sans  text-6xl " ><span className="font-bold">EYE</span>TRY</h1>
               </Link>
           </div>
-          <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-4 text-white">
+          <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-4 text-white text-sm pl-[50px] pr-[100px] mt-[20px] md:h-[200px]" >
               <div>
-                  <h2 className="mb-6 text-sm font-semibold  uppercase dark:text-white">PRODUCTS</h2>
-                  <ul className="text-gray-400 dark:text-gray-400 font-medium">
+                  <h2 className="mb-6 text-xs font-semibold  uppercase dark:text-white">PRODUCTS</h2>
+                  <ul className="text-gray-400 dark:text-gray-400 font-medium text-sm">
                       <li className="mb-4">
                           <Link to="https://flowbite.com/" class="hover:underline">Eyeglasses</Link>
                       </li>
@@ -37,13 +37,13 @@ const Footer = () => {
                   </ul>
               </div>
               <div>
-                  <h2 className="mb-6 text-sm font-semibold  uppercase dark:text-white">SHOP ONLINE</h2>
+                  <h2 className="mb-6 text-xs font-semibold  uppercase dark:text-white">SHOP ONLINE</h2>
                   <ul className="text-gray-400 dark:text-gray-400 font-medium">
                       <li className="mb-4">
                           <Link to="https://github.com/themesberg/flowbite" class="hover:underline ">Virtual Try-On</Link>
                       </li>
                   </ul>
-                  <h2 className="mb-6 text-sm font-semibold  uppercase dark:text-white">Information</h2>
+                  <h2 className="mb-6 text-xs font-semibold  uppercase dark:text-white">Information</h2>
                   <ul className="text-gray-400 dark:text-gray-400 font-medium">
                       <li className="mb-4">
                           <Link to="https://github.com/themesberg/flowbite" class="hover:underline ">FAQs</Link>
@@ -57,13 +57,13 @@ const Footer = () => {
                   </ul>
               </div>
               <div>
-                  <h2 className="mb-6 text-sm font-semibold  uppercase dark:text-white">GET PRESCRIPTION</h2>
+                  <h2 className="mb-6 text-xs font-semibold  uppercase dark:text-white">GET PRESCRIPTION</h2>
                   <ul className="text-gray-400 dark:text-gray-400 font-medium">
                       <li className="mb-4">
                           <Link to="#" className="hover:underline">Renew a Prescription</Link>
                       </li>
                   </ul>
-                  <h2 className="mb-6 text-sm font-semibold  uppercase dark:text-white">GUIDE</h2>
+                  <h2 className="mb-6 text-xs font-semibold  uppercase dark:text-white">GUIDE</h2>
                   <ul className="text-gray-400 dark:text-gray-400 font-medium">
                       <li className="mb-4">
                           <Link to="#" className="hover:underline">Our Lenses</Link>
@@ -77,13 +77,13 @@ const Footer = () => {
                   </ul>
               </div>
               <div>
-                  <h2 className="mb-6 text-sm font-semibold uppercase dark:text-white">Need Help?</h2>
+                  <h2 className="mb-6 text-xs font-semibold uppercase dark:text-white">Need Help?</h2>
                   <ul className="text-gray-400 dark:text-gray-400 font-medium">
                       <li className="mb-4">
                           <Link to="#" className="hover:underline">Connect with Support</Link>
                       </li>
                   </ul>
-                  <h2 className="mb-6 text-sm font-semibold uppercase dark:text-white">About US</h2>
+                  <h2 className="mb-6 text-xs font-semibold uppercase dark:text-white">About US</h2>
                   <ul className="text-gray-400 dark:text-gray-400 font-medium">
                       <li className="mb-4">
                           <Link to="#" className="hover:underline">Terms & Conditions</Link>
@@ -119,7 +119,7 @@ const Footer = () => {
           </div>
       <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-4" />
       <div className="sm:flex sm:items-center sm:justify-between">
-          <span className="text-sm text-gray-300 sm:text-center dark:text-gray-400 mx-auto">© 2023 <Link to="https://flowbite.com/" className="hover:underline">EYETRY™</Link>. All Rights Reserved.
+          <span className="text-xs mt-3 text-gray-300 sm:text-center dark:text-gray-400 mx-auto">© 2023 <Link to="https://flowbite.com/" className="hover:underline">EYETRY™</Link>. All Rights Reserved.
           </span>
       </div>
     </div>

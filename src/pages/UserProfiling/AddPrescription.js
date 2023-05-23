@@ -36,15 +36,11 @@ function AddPrescriptionScreen() {
 
     return (
         <div className="flex flex-col min-h-screen">
-
             <div className="p-5  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[90%] mx-auto mb-5">
-
                 <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10 ">
                     <div class=" text-center mb-12" >
                         <h3 className="text-2xl sm:text-4xl  font-bold font-sans">Add Prescription</h3>
                     </div>
-
-
                     <label for="firstname" className="block text-base font-semibold text-gray-800 font-sans">Precription Name</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -54,8 +50,6 @@ function AddPrescriptionScreen() {
                             focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
                             sm:text-sm transition duration-150 ease-in-out" placeholder="Enter prescription name" type="text" />
                     </div>
-
-
                     <div className="flex flex-row space-x-20 mt-10">
                         <div className="flex-grow">
                             <label for="firstname" className="block text-base font-semibold text-gray-800 font-sans">Date of Prescription</label>

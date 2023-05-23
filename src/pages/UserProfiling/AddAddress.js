@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import Footer from "../../components/ui/Footer";
 import Sidebar from "../../components/ui/UserProfilingSidebar";
 import { FaBookOpen } from "react-icons/fa";
+import { FaAddressCard } from "react-icons/fa";
+import { MdLocationOn } from "react-icons/md";
+import { BsFilePostFill } from "react-icons/bs";
+import { BsTelephonePlusFill } from "react-icons/bs";
 import { FaRegEnvelope, FaUser, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
 import {addAddress} from '../../api/userapi'
 
@@ -128,7 +132,7 @@ function AddAddressScreen() {
                     <label for="address1" className="mt-10 block text-sm font-semibold text-gray-800 font-sans">Address 1</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <FaUser color='grey' />
+                            <FaAddressCard color='grey' />
                         </div>
                         <input value={address1} onChange={(e) => setAddress1(e.target.value)} id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
                             focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
@@ -138,7 +142,7 @@ function AddAddressScreen() {
                     <label for="lastname" className="block text-sm mt-10 font-semibold text-gray-800 font-sans">Address 2</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <FaUser color='grey' />
+                            <FaAddressCard color='grey' />
                         </div>
                         <input value={address2} onChange={(e) => setAddress2(e.target.value)} id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
                             focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
@@ -150,7 +154,7 @@ function AddAddressScreen() {
                             <label for="firstname" className=" mt-10 block text-sm font-semibold text-gray-800 font-sans">City</label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <FaUser color='grey' />
+                                    <MdLocationOn color='grey' />
                                 </div>
                                 <input value={city} onChange={(e) => setCity(e.target.value)} id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5  bg-white border rounded-md
                                 focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
@@ -161,7 +165,7 @@ function AddAddressScreen() {
                             <label for="lastname" className="mt-10 block text-sm font-semibold text-gray-800 font-sans">Postal Code</label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <FaUser color='grey' />
+                                    <BsFilePostFill color='grey' />
                                 </div>
                                 <input value={postalCode} onChange={(e) => setPostalCode(e.target.value)} id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
                                 focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
@@ -175,7 +179,7 @@ function AddAddressScreen() {
                             <label for="firstname" className="mt-10 block text-sm font-semibold text-gray-800 font-sans">Phone</label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <FaUser color='grey' />
+                                    <BsTelephonePlusFill color='grey' />
                                 </div>
                                 <input value={phone} onChange={(e) => setPhone(e.target.value)} id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5  bg-white border rounded-md
                                 focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
@@ -186,7 +190,7 @@ function AddAddressScreen() {
                             <label for="lastname" className="mt-10 block text-sm font-semibold text-gray-800 font-sans">Country</label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <FaUser color='grey' />
+                                    <MdLocationOn color='grey' />
                                 </div>
                                 <input value={selectedCountry} onChange={(e) => setSelectedCountry(e.target.value)} id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2 lg:py-3.5 bg-white border rounded-md
                                 focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
@@ -197,7 +201,7 @@ function AddAddressScreen() {
 
                     <div className="md:ml-auto md:text-right text-center mt-20">
                         <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-8 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Cancel</button>
-                        <button type="button" class=" text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Save</button>
+                        <Link to='/profile'><button type="button" class=" text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Save</button></Link>
                     </div>
                 </div>
             </div>

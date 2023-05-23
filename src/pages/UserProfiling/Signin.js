@@ -1,6 +1,5 @@
 import React from 'react';
 import { FaRegEnvelope, FaUser, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
-import { AiOutlineLock } from "react-icons/ai";
 import { FiLock } from "react-icons/fi";
 import { Link, Navigate } from 'react-router-dom';
 import { signInUser } from '../../api/authapi';
@@ -22,13 +21,6 @@ function Signin() {
     const handleCheckBoxChange = () => {
         setChecked(!checked);
     };
-    // Methods
-    // const goToSignUp= () =>{
-    //     navigation.navigate('SignUp')
-    // }
-    // const goToForgotPassword = () =>{
-    //     navigation.navigate('ForgotPassword')
-    // }
 
     const validateForm = () => {
         // Validating user input
@@ -46,7 +38,9 @@ function Signin() {
         return true
     }
 
-    const handleSignIn = async () => {
+    const handleSignIn = async (event) => {
+        
+        event.preventDefault();
         if (!validateForm()) {
             return
         }
@@ -58,7 +52,7 @@ function Signin() {
             localStorage.setItem('user', JSON.stringify(user))
             localStorage.setItem('accessToken', accessToken)
             localStorage.setItem('refreshToken', refreshToken)
-            navigate('/'); // Replace '/' with the desired URL
+            navigate('/profile'); // Replace '/' with the desired URL
 
         }
         catch (error) {
@@ -89,7 +83,7 @@ function Signin() {
                             </p>
                         }
 
-                        <form action='' onSubmit={() => handleSignIn()} className="mt-6 w-[90%] mx-auto">
+                        <form onSubmit={handleSignIn} className="mt-6 w-[90%] mx-auto">
 
                             <label htmlFor="email" className="block text-sm font-semibold text-gray-800 font-sans">Email</label>
                             <div className="relative">

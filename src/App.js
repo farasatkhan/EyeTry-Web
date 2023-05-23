@@ -5,6 +5,7 @@ import {
   Routes
 } from "react-router-dom";
 import './App.css';
+// user profiling imports 
 import Signin from './pages/UserProfiling/Signin';
 import Signup from './pages/UserProfiling/Signup';
 import Home from './pages/Home';
@@ -13,7 +14,6 @@ import AdminSignin from './pages/Administrator/AdminSignin';
 import ForgotPassword from './pages/UserProfiling/ForgotPassword';
 import EmailSent from './pages/UserProfiling/EmailSent';
 import SetNewPass from './pages/UserProfiling/SetNewPass';
-import Profile1 from './pages/UserProfiling/Profile1';
 import PasswordReset from './pages/UserProfiling/PasswordReset';
 import Wishlist from './pages/UserProfiling/Wishlist';
 import AddAddress from './pages/UserProfiling/AddAddress';
@@ -31,26 +31,29 @@ import SelectLensType from './pages/HomeScreens/SelectLensType';
 import SelectPrescriptionOption from './pages/HomeScreens/SelectPrescriptionOption';
 import SelectPrescriptionType from './pages/HomeScreens/SelectPrescriptionType';
 import EnterPrescription from './pages/HomeScreens/EnterPrescription';
-// admin
+
+// admin imports
 import AddFrames from './pages/Administrator/AddFrames';
 import AddLens from './pages/Administrator/AddLens';
 import AddGlasses from './pages/Administrator/AddGlasses';
 
-// Vision Assessments
+// Vision Assessments imports
 import ColorBlindTest from './pages/VisionAssessments/ColorBlindTest'
 import VisionAcuityTest from './pages/VisionAssessments/VisionAcuityTest'
+import ProfileHome from "./pages/ProfileHome";
 
 
 function App() {
   return (
     <Router>
       <Routes>
+        {/* User Profiling Routes */}
         <Route path="/" element={<Home />} />
         <Route path="signin" element={<Signin />} />
         <Route path="signup" element={<Signup />} />
         <Route path="forgotpassword" element={<ForgotPassword />} />
         <Route path="emailsent" element={<EmailSent />} />
-        <Route path="profile" element={<Profile1 />} />
+        <Route path="profile" element={<ProfileHome />} />
         <Route path="wish" element={<Wishlist />} />
         <Route path="add_address" element={<AddAddress />} />
         <Route path="add_payment" element={<AddPayment />} />
@@ -63,13 +66,13 @@ function App() {
         <Route path="change_password" element={<ChangePassword />} />
         <Route path="upload_tryon_images" element={<UploadTryonImages />} />
         <Route path="upload_user_image" element={<UploadUserImage />} />
+        
+        {/* order management routes */}
         <Route path="select_prescription_type" element={<SelectLensType />} />
         <Route path="select_prescription_Option" element={<SelectPrescriptionOption />} />
         <Route path="select_prescription_Type" element={<SelectPrescriptionType />} />
         <Route path="select_prescription_Type" element={<SelectPrescriptionType />} />
         <Route path="enter_prescription" element={<EnterPrescription />} />
-
-
 
         {/* Admin Routes */}
         <Route path="add_frames" element={<AddFrames />} />

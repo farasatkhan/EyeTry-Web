@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 const baseURL = 'http://localhost:3000'
 
 // Re Generating Access Token
@@ -46,10 +45,12 @@ export const signInUser = async (email,password) =>{
             email:email,
             password:password
         });
+        console.log(response)
         return response;
         
     }
     catch (error){
+      console.log("error")
         throw error
     }
 }
@@ -67,3 +68,5 @@ export const logoutUser = async () =>{
       throw error
   }
 }
+
+

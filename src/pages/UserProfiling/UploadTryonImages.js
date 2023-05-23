@@ -43,17 +43,17 @@ function UploadTryonImagesScreen() {
                         <p className=" font-sans text-base mt-3">Manage Your Try-On Images</p>
                     </div>
 
-                    <p className="text-xl font-sans font-bold mt-10">Step 1: Select Your PD(Pupillary Distance)</p>
+                    <p className="text-lg font-sans font-bold mt-10">Step 1: Select Your PD(Pupillary Distance)</p>
 
-                    <p className="text-lg font-sans font-bold mt-10">PD - Pupillary Distance</p>
-                    <div className="text-lg font-sans font-semibold flex items-center ml-5 mt-2" >
+                    <p className="text-base font-sans font-bold mt-10">PD - Pupillary Distance</p>
+                    <div className="text-base font-sans font-semibold flex items-center ml-5 mt-2" >
                         <label class="flex items-center">
                             <input
                                 type="radio"
                                 value="option1"
                                 checked={selectedOption === 'option1'}
                                 onChange={handleOptionChange}
-                                className="w-5 h-5 mr-2"
+                                className="w-4 h-4 mr-2"
                             />
                             <span class="ml-2">Option 1</span>
                         </label>
@@ -64,7 +64,7 @@ function UploadTryonImagesScreen() {
                                 value="option2"
                                 checked={selectedOption === 'option2'}
                                 onChange={handleOptionChange}
-                                className="w-5 h-5 mr-2"
+                                className="w-4 h-4 mr-2"
                             />
                             <span class="ml-2">Option 2</span>
                         </label>
@@ -89,9 +89,10 @@ function UploadTryonImagesScreen() {
 
                     <div className="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mt-10 mx-auto mb-10">
                         <div class="flex flex-col items-center justify-between w-full p-5 pt-7 sm:flex-row sm:items-center">
-                            <h2 class="mr-auto text-normal tracking-tight text-gray-900 dark:text-white  text-justify sm:w-auto sm:mr-5">Please make sure your face is straight and level
-                                Use a photo without glasses.
-                                Don’t tilt your head or use sideview
+                            <h2 class="mr-auto text-base font-sans text-normal tracking-tight text-gray-900 dark:text-white  text-justify sm:w-auto sm:mr-5">Please make sure your face is straight and level
+                                Use a photo <p>without glasses.
+                                    Don’t tilt your head or use sideview
+                                </p>
                             </h2>
                             <button class="py-2.5 px-4 rounded inline-flex items-center sm:ml-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent justify-end mt-5 sm:mt-0">
                                 <FaBookOpen size={20} class="mr-2" />
@@ -108,9 +109,9 @@ function UploadTryonImagesScreen() {
 
 
                     <div className="w-full flex items-center justify-center">
-                        <button type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
+                        <Link to='/profile'><button type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
                         focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-10 dark:bg-gray-800 dark:hover:bg-gray-700
-                        dark:focus:ring-gray-700 dark:border-gray-700">Save</button>
+                        dark:focus:ring-gray-700 dark:border-gray-700">Save</button></Link>
                     </div>
 
 

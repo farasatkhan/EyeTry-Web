@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {Link} from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -34,6 +35,10 @@ import { red } from '@mui/material/colors';
 import EmailSent from '../../pages/UserProfiling/EmailSent';
 import Footer from './Footer';
 import { FaGlasses } from "react-icons/fa";
+import { logoutUser } from '../../api/authapi';
+import { useNavigate } from 'react-router-dom';
+import { Navigation } from '@mui/icons-material';
+
 
 
 
@@ -136,6 +141,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft(props) {
 
+  const navigate = useNavigate();
+
   const ScreenComponent = props.screenComponent;
 
   // for navbar
@@ -153,7 +160,15 @@ export default function PersistentDrawerLeft(props) {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const logout = async () =>{
+    await logoutUser()
+
+  }
+  const handleCloseUserMenu = (setting) => {
+    if (setting == "Logout"){
+      logout();
+      navigate("/signin")
+    }
     setAnchorElUser(null);
   };
 
@@ -347,7 +362,7 @@ export default function PersistentDrawerLeft(props) {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
@@ -378,22 +393,37 @@ export default function PersistentDrawerLeft(props) {
           <div style={{ width: 150, height: 150, borderRadius: 100, backgroundColor: "red", display: "flex", justifyContent: "center", alignItems: "center" }}>
             <img src={require('../../assets/images/profilepic.png')} alt="logo" className='w-full h-full ' />
           </div>
-          <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20 }}>Alliyan Waheed</h2>
+          <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20 }}>Qasim Malik</h2>
         </div>
 
         <Divider />
-        <List>
-          {['My Orders', 'My Details', 'My Prescriptions', 'Address Book', 'Payment Methods', 'Try On Images', 'Log Out'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton >
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+
+<List>
+  {[
+    { text: 'My Profile', path: '/profile' },
+    { text: 'Personal Details', path: '/my_details' },
+    { text: 'My Prescriptions', path: '/prescription_details' },
+    { text: 'Address Book', path: '/add_address' },
+    { text: 'Payment Methods', path: '/add_payment' },
+    { text: 'Try On Images', path: '/upload_tryon_images' },
+    { text: 'Manage Giftcards', path: '/giftcards' },
+    { text: 'Log Out' , path: '/signin' }
+  ].map(({ text, path }, index) => (
+    <ListItem key={text} disablePadding>
+      <ListItemButton
+        component={Link}
+        to={path}
+        onClick={text === 'Log Out' ? logout : undefined}
+      >
+        <ListItemIcon>
+          {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+        </ListItemIcon>
+        <ListItemText primary={text} />
+      </ListItemButton>
+    </ListItem>
+  ))}
+</List>
+
 
       </Drawer>
       <Main open={open}>

@@ -30,7 +30,7 @@ function GiftCardsScreen() {
 
             <div className="p-5  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[90%] mx-auto mb-5">
 
-                <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10">
+                <div className="w-[100%] md:w-[70%] lg:w-[70%] mx-auto mt-10">
                     <div class=" text-center md:mb-0 mb-4">
                         <h3 className="text-2xl sm:text-4xl  font-bold font-sans">Manage Gift Cards</h3>
                         <p className=" font-sans text-base mt-3">Manage Your Gift Cards</p>
@@ -132,13 +132,13 @@ function GiftCardsScreen() {
                                         <tbody>
                                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                    Apple MacBook Pro 17"
+                                                    gitfcard 1
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    Silver
+                                                    5/20/2023
                                                 </td>
                                                 <td class="px-6 py-4">
-                                                    Laptop
+                                                    type 1
                                                 </td>
                                                 <td class=" py-4 text-right">
                                                     <button class="py-1 px-4 rounded inline-flex items-center ml-auto
@@ -163,9 +163,9 @@ function GiftCardsScreen() {
                     </div>
 
                     <div className="w-full flex items-center justify-center">
-                        <button type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
+                        <Link to='/profile'><button type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
                         focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-10 dark:bg-gray-800 dark:hover:bg-gray-700
-                        dark:focus:ring-gray-700 dark:border-gray-700">Save</button>
+                        dark:focus:ring-gray-700 dark:border-gray-700">Save</button></Link>
                     </div>
 
                 </div>

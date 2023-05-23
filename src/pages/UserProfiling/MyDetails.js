@@ -25,8 +25,8 @@ function MyDetailsScreen() {
                             <p className=" font-sans text-base ">Edit your profile quickly</p>
                         </div>
                         <div className="md:ml-auto md:text-right text-center">
-                            <button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Change Password</button>
-                            <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete Account</button>
+                            <Link to='/delete_account'><button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete Account</button></Link>
+                            <Link to='/change_password'><button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Change Password</button></Link>
                         </div>
                     </div>
 
@@ -74,15 +74,15 @@ function MyDetailsScreen() {
                                 <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20, marginLeft: 15 }}>Alliyan Waheed <span className="flex flex-row space-x-5" ><p className=" text-red-700 font-sans font-medium" >Delete</p> <p className="text-blue-700 font-sans font-medium" >Update</p></span>   </h2>
                             </div>
 
-                            <img src={require('../../assets/images/pfpdefault.png')} alt="logo" className='w-full h-full mt-5' />
+                            <Link to='/upload_user_image'><img src={require('../../assets/images/pfpdefault.png')} alt="logo" className='w-full h-full mt-5' /></Link>
 
                         </div>
                     </div>
 
                     <div className="w-full flex items-center justify-center">
-                        <button type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
+                        <Link to='/profile'><button type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
                         focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-10 dark:bg-gray-800 dark:hover:bg-gray-700
-                        dark:focus:ring-gray-700 dark:border-gray-700">Save</button>
+                        dark:focus:ring-gray-700 dark:border-gray-700">Save</button></Link>
                     </div>
 
 

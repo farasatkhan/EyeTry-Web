@@ -20,7 +20,7 @@ export default function DeleteAccount() {
 
 function DeleteAccountScreen() {
 // for modal
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false)
     const cancelButtonRef = useRef(null)
 
     return (

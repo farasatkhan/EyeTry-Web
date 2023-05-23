@@ -3,18 +3,25 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/ui/Navbar";
 import Footer from "../components/ui/Footer";
 import Sidebar from "../components/ui/UserProfilingSidebar";
-import { FaBookOpen } from "react-icons/fa";
+import { BiEdit } from "react-icons/bi";
+import { MdDelete } from "react-icons/md";
 import { FaRegEnvelope, FaUser, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
 
-
 export default function ProfileHome() {
+
+    return <Sidebar screenComponent={< ProfileHomeScreen />} />
+}
+function ProfileHomeScreen() {
     return (
         <div className="flex flex-col min-h-screen">
-
-            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%] mx-auto mb-10">
+            <div class=" text-center md:mb-0 mb-4">
+                <h3 className="text-2xl mt-10 sm:text-3xl  font-bold font-sans">Manage Profile Information</h3>
+                <p className=" font-sans text-base mt-3">Manage Your profile Information here</p>
+            </div>
+            <div className=" bg-white border mt-10 border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className=" left-0 pl-3 flex items-center pointer-events-none ">
-                        <FaBookOpen size={30} className="mr-5 pb-1" />
+                        <BiEdit size={30} className="mr-5 pb-1" />
                     </div>
 
                     <h4 class=" text-xl font-bold tracking-tight text-gray-900 dark:text-white ">My Orders</h4>
@@ -25,19 +32,19 @@ export default function ProfileHome() {
                 </div>
             </div>
 
-            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%] mx-auto mb-10">
+            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className="left-0 pl-3 flex items-center pointer-events-none">
-                        <FaBookOpen size={30} className="mr-5 pb-1" />
+                        <BiEdit size={30} className="mr-5 pb-1" />
                     </div>
                     <div class="flex items-center justify-between w-full">
                         <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Personal Information</h2>
-                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                        <Link to='/my_details'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                            <FaBookOpen size={20} class="mr-2" />
+                            <BiEdit size={20} class="mr-2" />
                             <span>Edit</span>
-                        </button>
+                        </button></Link>
                     </div>
                 </div>
                 <hr class="border-3 border-gray-300 my-4" />
@@ -81,19 +88,19 @@ export default function ProfileHome() {
             </div>
 
 
-            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%] mx-auto mb-10">
+            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className="left-0 pl-3 flex items-center pointer-events-none">
-                        <FaBookOpen size={30} className="mr-5 pb-1" />
+                        <BiEdit size={30} className="mr-5 pb-1" />
                     </div>
                     <div class="flex items-center justify-between w-full">
-                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Personal Information</h2>
-                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">My Prescriptions</h2>
+                        <Link to='/add_prescription'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                            <FaBookOpen size={20} class="mr-2" />
+                            <BiEdit size={20} class="mr-2" />
                             <span>Add New Prescription</span>
-                        </button>
+                        </button></Link>
                     </div>
                 </div>
                 <hr class="border-3 border-gray-300 my-4" />
@@ -120,75 +127,75 @@ export default function ProfileHome() {
                             <tbody>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        Apple MacBook Pro 17"
+                                        Prescription 1
                                     </th>
                                     <td class="px-6 py-4">
-                                        Silver
+                                        23 May 2023
                                     </td>
                                     <td class="px-6 py-4">
-                                        Laptop
+                                        Single Vision
                                     </td>
                                     <td class=" py-4 text-right">
                                         <button class="py-1 px-4 rounded inline-flex items-center ml-auto
                                             bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                                              hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                                            <FaBookOpen size={20} class="mr-2" />
+                                            <BiEdit size={20} class="mr-2" />
                                             <span>Edit</span>
                                         </button>
                                         <button class="py-1 px-4 rounded inline-flex items-center ml-auto
                                             bg-transparent hover:bg-red-500 text-red-700 font-semibold 
                                              hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                                            <FaBookOpen size={20} class="mr-2" />
+                                            <MdDelete size={20} class="mr-2" />
                                             <span>Delete</span>
                                         </button>
                                     </td>
                                 </tr>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        Microsoft Surface Pro
+                                        Prescription 2
                                     </th>
                                     <td class="px-6 py-4">
-                                        White
+                                        23 May 2023
                                     </td>
                                     <td class="px-6 py-4">
-                                        Laptop PC
+                                        Progressive
                                     </td>
                                     <td class=" py-4 text-right">
                                         <button class="py-1 px-4 rounded inline-flex items-center ml-auto
                                             bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                                              hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                                            <FaBookOpen size={20} class="mr-2" />
+                                            <BiEdit size={20} class="mr-2" />
                                             <span>Edit</span>
                                         </button>
                                         <button class="py-1 px-4 rounded inline-flex items-center ml-auto
                                             bg-transparent hover:bg-red-500 text-red-700 font-semibold 
                                              hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                                            <FaBookOpen size={20} class="mr-2" />
+                                            <MdDelete size={20} class="mr-2" />
                                             <span>Delete</span>
                                         </button>
                                     </td>
                                 </tr>
                                 <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        Magic Mouse 2
+                                        Prescription 3
                                     </th>
                                     <td class="px-6 py-4">
-                                        Black
+                                        23 May 2023
                                     </td>
                                     <td class="px-6 py-4">
-                                        Accessories
+                                        Bifocal
                                     </td>
                                     <td class=" py-4 text-right">
                                         <button class="py-1 px-4 rounded inline-flex items-center ml-auto
                                             bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                                              hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                                            <FaBookOpen size={20} class="mr-2" />
+                                            <BiEdit size={20} class="mr-2" />
                                             <span>Edit</span>
                                         </button>
                                         <button class="py-1 px-4 rounded inline-flex items-center ml-auto
                                             bg-transparent hover:bg-red-500 text-red-700 font-semibold 
                                              hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                                            <FaBookOpen size={20} class="mr-2" />
+                                            <MdDelete size={20} class="mr-2" />
                                             <span>Delete</span>
                                         </button>
                                     </td>
@@ -202,19 +209,19 @@ export default function ProfileHome() {
             </div>
 
 
-            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%] mx-auto mb-10">
+            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className="left-0 pl-3 flex items-center pointer-events-none">
-                        <FaBookOpen size={30} className="mr-5 pb-1" />
+                        <BiEdit size={30} className="mr-5 pb-1" />
                     </div>
                     <div class="flex items-center justify-between w-full">
                         <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Address Book</h2>
-                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                        <Link to='/add_address'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                            <FaBookOpen size={20} class="mr-2" />
+                            <BiEdit size={20} class="mr-2" />
                             <span>Add New Address</span>
-                        </button>
+                        </button></Link>
                     </div>
                 </div>
                 <hr class="border-3 border-gray-300 my-4" />
@@ -226,49 +233,47 @@ export default function ProfileHome() {
                             <tbody>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
-                                    <td class="px-6 py-4 text-base">
-                                        <h5 className=" font-bold text-black">Abdul Sammi Gul</h5>
-                                        4 Allen Street, Hostel City
-                                        Islamabad, 11000
-                                        +92300-0000000
-                                        This is your default delivery address
+                                    <td class="px-6 py-4 text-base font-sans">
+                                        <h5 className=" font-bold text-black mb-2">Abdul Sammi Gul</h5>
+                                        <p className="font-semibold text-base font-sans">This is your default delivery address</p>
+                                        <p className="text-base font-sans">4 Allen Street, Hostel City
+                                            <p>Islamabad, 11000
+                                                +92300-0000000</p></p>
                                     </td>
                                     <td class=" py-4 text-right">
                                         <button class="py-1 px-4 rounded inline-flex items-center ml-auto
                                             bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                                              hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                                            <FaBookOpen size={20} class="mr-2" />
+                                            <BiEdit size={20} class="mr-2" />
                                             <span>Edit</span>
                                         </button>
                                         <button class="py-1 px-4 rounded inline-flex items-center ml-auto
                                             bg-transparent hover:bg-red-500 text-red-700 font-semibold 
                                              hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                                            <FaBookOpen size={20} class="mr-2" />
+                                            <MdDelete size={20} class="mr-2" />
                                             <span>Delete</span>
                                         </button>
                                     </td>
                                 </tr>
-
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
 
-            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%] mx-auto mb-10">
+            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className="left-0 pl-3 flex items-center pointer-events-none">
-                        <FaBookOpen size={30} className="mr-5 pb-1" />
+                        <BiEdit size={30} className="mr-5 pb-1" />
                     </div>
                     <div class="flex items-center justify-between w-full">
                         <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Payment Methods</h2>
-                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                        <Link to='/add_payment'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                            <FaBookOpen size={20} class="mr-2" />
+                            <BiEdit size={20} class="mr-2" />
                             <span>Add New Payment Method</span>
-                        </button>
+                        </button></Link>
                     </div>
                 </div>
                 <hr class="border-3 border-gray-300 my-4" />
@@ -282,22 +287,23 @@ export default function ProfileHome() {
 
                                     <td class="px-6 py-4 text-base">
                                         <h5 className=" font-bold text-black">Abdul Sammi Gul</h5>
-                                        VISA
-                                        4599350720135209
-                                        12/2026
-                                        652
+                                        <p className="text-base font-sans">VISA
+                                            4599350720135209
+                                            12/2026
+                                            652
+                                        </p>
                                     </td>
                                     <td class=" py-4 text-right">
                                         <button class="py-1 px-4 rounded inline-flex items-center ml-auto
                                             bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                                              hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                                            <FaBookOpen size={20} class="mr-2" />
+                                            <BiEdit size={20} class="mr-2" />
                                             <span>Edit</span>
                                         </button>
                                         <button class="py-1 px-4 rounded inline-flex items-center ml-auto
                                             bg-transparent hover:bg-red-500 text-red-700 font-semibold 
                                              hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                                            <FaBookOpen size={20} class="mr-2" />
+                                            <MdDelete size={20} class="mr-2" />
                                             <span>Delete</span>
                                         </button>
                                     </td>
@@ -310,19 +316,19 @@ export default function ProfileHome() {
                 </div>
             </div>
 
-            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%] mx-auto mb-10">
+            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className="left-0 pl-3 flex items-center pointer-events-none">
-                        <FaBookOpen size={30} className="mr-5 pb-1" />
+                        <BiEdit size={30} className="mr-5 pb-1" />
                     </div>
                     <div class="flex items-center justify-between w-full">
                         <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Try On Images</h2>
-                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                        <Link to ='/upload_tryon_images'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                            <FaBookOpen size={20} class="mr-2" />
+                            <BiEdit size={20} class="mr-2" />
                             <span>Upload Image</span>
-                        </button>
+                        </button></Link>
                     </div>
                 </div>
                 <hr className="border-3 border-gray-300 my-4" />
@@ -334,13 +340,13 @@ export default function ProfileHome() {
                             <button class="py-1 px-4 rounded inline-flex items-center 
                                             bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                                              hover:text-white border border-blue-500 hover:border-transparent ">
-                                <FaBookOpen size={20} class="mr-2" />
+                                <BiEdit size={20} class="mr-2" />
                                 <span>Edit</span>
                             </button>
                             <button class="py-1 px-4 rounded inline-flex items-center 
                                             bg-transparent hover:bg-red-500 text-red-700 font-semibold 
                                              hover:text-white border border-red-500 hover:border-transparent ">
-                                <FaBookOpen size={20} class="mr-2" />
+                                <MdDelete size={20} class="mr-2" />
                                 <span>Delete</span>
                             </button>
                         </div>
@@ -351,35 +357,35 @@ export default function ProfileHome() {
                 </div>
             </div>
 
-            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%] mx-auto mb-10">
+            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className="left-0 pl-3 flex items-center pointer-events-none">
-                        <FaBookOpen size={30} className="mr-5 pb-1" />
+                        <BiEdit size={30} className="mr-5 pb-1" />
                     </div>
                     <div class="flex items-center justify-between w-full">
                         <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Giftcard / Store Credit</h2>
-                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                        <Link to='/giftcards'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                            <FaBookOpen size={20} class="mr-2" />
+                            <BiEdit size={20} class="mr-2" />
                             <span>Buy Gift Cards</span>
-                        </button>
+                        </button></Link>
                     </div>
                 </div>
                 <hr class="border-3 border-gray-300 my-4" />
                 <div className="p-5">
 
-                    <p className="text-base">To check your Gift Card/Store Credit balance, enter your card number or store credit</p>
+                    <p className="text-base font-sans mb-5">To check your Gift Card/Store Credit balance, enter your card number or store credit</p>
 
                     <span className="flex flex-row">
                         <input id='email' className="block w-full sm:w-[80%] lg:w-[50%] pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
                                 focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
                                 sm:text-sm transition duration-150 ease-in-out" placeholder="Gift Card/Store Credit number" type="number" />
-                            <button class="ml-5 px-4 rounded inline-flex items-center 
+                        <button class="ml-5 px-4 rounded inline-flex items-center 
                                             bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                                              hover:text-white border border-blue-500 hover:border-transparent ">
-                                <span>Check Balance</span>
-                            </button>
+                            <span>Check Balance</span>
+                        </button>
                     </span>
 
 

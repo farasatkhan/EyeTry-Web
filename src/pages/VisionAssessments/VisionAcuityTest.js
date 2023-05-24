@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
 import Image from '../../assets/images/visionAssessments/E.png';
 import Sidebar from '../../components/ui/VissionAssessments/VissionAssessmentsSideBar'
+import axios from 'axios'
+import { reGenerateAccessToken } from '../../api/authapi';
 
 
 export default function TumblingETest() {
@@ -14,6 +16,44 @@ const TumblingETestScreen = () => {
   const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
   const [results, setResults] = useState([]);
   const [moves, setMoves] = useState([]);
+  const [status, setStatus] = useState(true);
+  const baseURL = 'http://localhost:3000'
+  
+
+
+   const submitVisionAssessmentResult = async () => {
+    const data = {
+      testType: "Vision Acuity Test",
+      status: status
+    };
+  
+    try {
+      const accessToken = await localStorage.getItem('accessToken');
+      const response = await axios.post(`${baseURL}/users/submit_vision_assessment_result/`, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+  
+      console.log('Response:', response);
+      return response;
+    } catch (error) {
+      // Server is returning 403 for an expired token
+      if (error.response && error.response.status === 403) {
+        try {
+          console.log('Error Caught');
+          await reGenerateAccessToken();
+          return submitVisionAssessmentResult();
+        } catch (e) {
+          console.error('Error while refreshing token', e);
+          throw e;
+        }
+      }
+      throw error;
+    }
+  };
+  
+
 
   useEffect(() => {
     generateMoves();
@@ -100,7 +140,11 @@ const TumblingETestScreen = () => {
   };
 
   const getTotalIncorrectResults = () => {
-    return results.filter(result => !result.isCorrect).length;
+    const incorrectNumbers = results.filter(result => !result.isCorrect).length;
+    if (incorrectNumbers < 1){
+      setStatus(false)
+    }
+    return incorrectNumbers;
   };
 
   const getTestResultMessage = () => {
@@ -209,12 +253,22 @@ Before you start the online eye test, please remove any prescription glasses or 
             <p className="text-lg font-bold">
               {getTestResultMessage()}
             </p>
+            <div className='flex space-x-4 mt-10'>
             <button
-              className="mt-4 p-2 bg-blue-500 text-white rounded"
+              className="px-4 py-2 bg-red-700 text-white rounded"
               onClick={retakeTest}
             >
               Retake Test
             </button>
+            
+            <button
+              className="px-4 py-2 bg-gray-700 text-white rounded"
+              onClick={submitVisionAssessmentResult}
+            >
+              Save Results
+            </button>
+              </div>
+
           </div>
         </div>
       )}

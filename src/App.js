@@ -43,6 +43,7 @@ import ColorBlindTest from './pages/VisionAssessments/ColorBlindTest'
 import VisionAcuityTest from './pages/VisionAssessments/VisionAcuityTest'
 import ContrastSensitivityTest from "./pages/VisionAssessments/ContrastSensitivityTest";
 import AstigmatismTest from "./pages/VisionAssessments/AstigmatismTest";
+import TestHistory from "./pages/VisionAssessments/TestHistory";
 
 
 function App() {
@@ -87,6 +88,7 @@ function App() {
         <Route path="vision_acuity_test" element={<VisionAcuityTest />} />
         <Route path="contrast_sensitivity_test" element={<ContrastSensitivityTest />} />
         <Route path="astigmatism_test" element={<AstigmatismTest />} />
+        <Route path="test_history" element={<TestHistory />} />
       </Routes>
     </Router>
   );

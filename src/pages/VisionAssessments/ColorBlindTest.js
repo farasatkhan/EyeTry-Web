@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from "../../components/ui/VissionAssessments/VissionAssessmentsSideBar";
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
+import axios from 'axios'
+import { reGenerateAccessToken } from '../../api/authapi';
 
 // importing images
 import Image1 from '../../visionAssessments/colorblind-test-image1.webp';
@@ -23,6 +25,44 @@ export default function ColorBlindnessTest() {
 }
 
 const ColorBlindnessTestScreen = () => {
+
+
+  const [status, setStatus] = useState(true);
+  const baseURL = 'http://localhost:3000'
+  
+
+   const submitVisionAssessmentResult = async () => {
+    const data = {
+      testType: "Color Blind Test",
+      status: status
+    };
+  
+    try {
+      const accessToken = await localStorage.getItem('accessToken');
+      const response = await axios.post(`${baseURL}/users/submit_vision_assessment_result/`, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+  
+      console.log('Response:', response);
+      return response;
+    } catch (error) {
+      // Server is returning 403 for an expired token
+      if (error.response && error.response.status === 403) {
+        try {
+          console.log('Error Caught');
+          await reGenerateAccessToken();
+          return submitVisionAssessmentResult();
+        } catch (e) {
+          console.error('Error while refreshing token', e);
+          throw e;
+        }
+      }
+      throw error;
+    }
+  };
+
   const [images, setImages] = useState([
     { id: 1, src: Image1, number: 7 },
     { id: 2, src: Image2, number: 6 },
@@ -143,20 +183,24 @@ const ColorBlindnessTestScreen = () => {
   };
 
   const getTotalIncorrectResults = () => {
-    return results.filter(result => !result.isCorrect).length;
+        const incorrectNumbers = results.filter(result => !result.isCorrect).length;
+    if (incorrectNumbers < 1){
+      setStatus(false)
+    }
+    return incorrectNumbers;
   };
 
   const getTestResultMessage = () => {
     const totalIncorrectResults = getTotalIncorrectResults();
   
     if (totalIncorrectResults === 0) {
-      return <span style={{ color: 'green' }}>Congrats! Your Eye Sight Is Perfect :)</span>;
+      return <span style={{ color: 'green' }}>Test Passed: Congrats! Your Eye Sight Is Perfect :)</span>;
     } else if (totalIncorrectResults === 1) {
-      return <span style={{ color: '#E49B0F' }}>Yout have passed the test but I suggest that you retake the test to ensure that your eyesight is not weak.</span>;
+      return <span style={{ color: '#E49B0F' }}>Test Passed: Yout have passed the test but I suggest that you retake the test to ensure that your eyesight is not weak.</span>;
     } else if (totalIncorrectResults >= 2 && totalIncorrectResults < 4) {
-      return <span style={{ color: '#E49B0F' }}>I suggest that you visit a doctor as it appears that you may be experiencing issues with your vision acuity.</span>;
+      return <span style={{ color: '#E49B0F' }}>Test Failed: I suggest that you visit a doctor as it appears that you may be experiencing issues with your vision acuity.</span>;
     } else if (totalIncorrectResults >= 4) {
-      return <span style={{ color: 'red' }}>Your test results indicate a significant number of incorrect answers. It is strongly advised to consult with an eye care specialist immediately.</span>;
+      return <span style={{ color: 'red' }}>Test Failed: Your test results indicate a significant number of incorrect answers. It is strongly advised to consult with an eye care specialist immediately.</span>;
     }
   
     return null;
@@ -206,13 +250,19 @@ const ColorBlindnessTestScreen = () => {
   };
   const renderRetakeButton = () => {
     return (
-      <div className="flex justify-center mt-8">
+      <div className="flex justify-center mt-8 space-x-4">
         <button
           onClick={handleRetakeTest}
-          className="px-4 py-2 bg-red-700 text-white rounded-lg"
+          className="px-4 py-2 bg-red-700 text-white rounded"
         >
           Retake Test
         </button>
+        <button
+              className="px-4 py-2 bg-gray-700 text-white rounded"
+              onClick={submitVisionAssessmentResult}
+            >
+              Save Results
+            </button>
       </div>
     );
   };

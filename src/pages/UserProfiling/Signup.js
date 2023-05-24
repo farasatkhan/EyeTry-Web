@@ -50,7 +50,8 @@ function Signup() {
         return true
     }
 
-    const handleSignUp = async () => {
+    const handleSignUp = async (event) => {
+        event.preventDefault();
 
         if (!validateForm()) {
             return
@@ -69,7 +70,7 @@ function Signup() {
             console.log(user)
             console.log(accessToken)
             console.log(refreshToken)
-            navigate('/');
+            navigate('/signin');
         }
         catch (error) {
             console.error(error.response.status)

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Sidebar from '../../components/ui/VissionAssessments/VissionAssessmentsSideBar'
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
-
+import axios from 'axios'
+import { reGenerateAccessToken } from '../../api/authapi';
 export default function ContrastSensitivityTest() {
 
     return <Sidebar screenComponent={< ContrastSensitivityTestScreen />} />
@@ -10,6 +11,44 @@ export default function ContrastSensitivityTest() {
 
 
 const ContrastSensitivityTestScreen = () => {
+
+    const [status, setStatus] = useState(false);
+    const baseURL = 'http://localhost:3000'
+
+
+
+    const submitVisionAssessmentResult = async () => {
+        const data = {
+            testType: "Contrast Sensitivity Test",
+            status: status
+        };
+
+        try {
+            const accessToken = await localStorage.getItem('accessToken');
+            const response = await axios.post(`${baseURL}/users/submit_vision_assessment_result/`, data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+
+            console.log('Response:', response);
+            return response;
+        } catch (error) {
+            // Server is returning 403 for an expired token
+            if (error.response && error.response.status === 403) {
+                try {
+                    console.log('Error Caught');
+                    await reGenerateAccessToken();
+                    return submitVisionAssessmentResult();
+                } catch (e) {
+                    console.error('Error while refreshing token', e);
+                    throw e;
+                }
+            }
+            throw error;
+        }
+    };
+
     const [imageLetters] = useState([
         ['D', 'P', 'X', 'H', 'C', 'B'],
         ['Y', 'P', 'T', 'U', 'A', 'G'],
@@ -149,9 +188,15 @@ const ContrastSensitivityTestScreen = () => {
                                     ? 'Congratulations! You passed the test.'
                                     : 'Sorry, you did not pass the test. Please try again.'}
                             </p>
-                            <button className=' mx-auto w-36 sm:w-56 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4
-                         focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-2  mb-2 dark:bg-red-600 dark:hover:bg-red-700
-                          dark:focus:ring-red-900' onClick={handleReset}>Restart Test</button>
+                            <div className='flex space-x-3'>
+                            <button className=' px-4 py-2 bg-red-700 text-white rounded' onClick={handleReset}>Restart Test</button>
+                            <button
+                                className="px-4 py-2 bg-gray-700 text-white rounded"
+                                onClick={submitVisionAssessmentResult}
+                            >
+                                Save Results
+                            </button>
+                            </div>
                         </>
                     )}
                 </div>

@@ -3,7 +3,8 @@ import image1 from '../../assets/images/visionAssessments/astigmatism1.gif'
 import image2 from '../../assets/images/visionAssessments/astigmatism2.gif'
 import image3 from '../../assets/images/visionAssessments/astigmatism3.gif'
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
-
+import axios from 'axios'
+import { reGenerateAccessToken } from '../../api/authapi';
 import Sidebar from '../../components/ui/VissionAssessments/VissionAssessmentsSideBar'
 
 export default function AstigmatismTest() {
@@ -13,6 +14,42 @@ export default function AstigmatismTest() {
 
 
 const AstigmatismTestScreen = () => {
+
+    const [status, setStatus] = useState(false);
+    const baseURL = 'http://localhost:3000'
+
+
+    const submitVisionAssessmentResult = async () => {
+        const data = {
+            testType: "Astigmatism Test",
+            status: status
+        };
+
+        try {
+            const accessToken = await localStorage.getItem('accessToken');
+            const response = await axios.post(`${baseURL}/users/submit_vision_assessment_result/`, data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+
+            console.log('Response:', response);
+            return response;
+        } catch (error) {
+            // Server is returning 403 for an expired token
+            if (error.response && error.response.status === 403) {
+                try {
+                    console.log('Error Caught');
+                    await reGenerateAccessToken();
+                    return submitVisionAssessmentResult();
+                } catch (e) {
+                    console.error('Error while refreshing token', e);
+                    throw e;
+                }
+            }
+            throw error;
+        }
+    };
 
     const images = [
         { path: image1, answer: true },
@@ -40,6 +77,8 @@ const AstigmatismTestScreen = () => {
     const handleAnswer = (answer) => {
         setAnswers([...answers, answer]);
         if (currentIndex === shuffledImages.length - 1) {
+            const pass = answers.every((answer, index) => answer === shuffledImages[index].answer);
+            setStatus(pass); // Set the status based on the pass variable
             setShowResults(true);
         } else {
             setCurrentIndex(currentIndex + 1);
@@ -59,12 +98,8 @@ const AstigmatismTestScreen = () => {
                 </div>
 
                 <div className='mt-5 mx-auto flex justify-center space-x-3'>
-                    <button class="w-24 sm:w-24 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
-                         focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5  mb-2 dark:bg-gray-800 dark:hover:bg-gray-700
-                          dark:focus:ring-gray-700 dark:border-gray-700" onClick={() => handleAnswer(true)}>Yes</button>
-                    <button class=" w-24 sm:w-24 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4
-                         focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5  mb-2 dark:bg-red-600 dark:hover:bg-red-700
-                          dark:focus:ring-red-900" onClick={() => handleAnswer(false)}>No</button>
+                    <button class="px-10 py-2 bg-gray-700 text-white rounded" onClick={() => handleAnswer(true)}>Yes</button>
+                    <button class=" px-10 py-2 bg-red-700 text-white rounded" onClick={() => handleAnswer(false)}>No</button>
                 </div>
             </div>
         );
@@ -85,9 +120,16 @@ const AstigmatismTestScreen = () => {
                         <AiOutlineCloseCircle size={24} />
                         <p>You failed the Astigmatism Test.</p>
                     </div>
-                )}                <button className='class="w-24 sm:w-36 mt-10 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
-                         focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5  mb-2 dark:bg-gray-800 dark:hover:bg-gray-700
-                          dark:focus:ring-gray-700 dark:border-gray-700"' onClick={shuffleImages}>Retake Test</button>
+                )}                
+                <div className='flex space-x-3 mt-10' >
+                <button className='px-4 py-2 bg-red-700 text-white rounded"' onClick={shuffleImages}>Retake Test</button>
+                <button
+                    className="px-4 py-2 bg-gray-700 text-white rounded"
+                    onClick={submitVisionAssessmentResult}
+                >
+                    Save Results
+                </button>
+                </div>
             </div>
         );
     };

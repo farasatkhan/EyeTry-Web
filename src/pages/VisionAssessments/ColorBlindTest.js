@@ -27,7 +27,8 @@ export default function ColorBlindnessTest() {
 const ColorBlindnessTestScreen = () => {
 
 
-  const [status, setStatus] = useState(true);
+  // const [status, setStatus] = useState(true);
+  let status;
   const baseURL = 'http://localhost:3000'
   
 
@@ -184,9 +185,10 @@ const ColorBlindnessTestScreen = () => {
 
   const getTotalIncorrectResults = () => {
         const incorrectNumbers = results.filter(result => !result.isCorrect).length;
-    if (incorrectNumbers < 1){
-      setStatus(false)
-    }
+    // if (incorrectNumbers < 1){
+    //   setStatus(false)
+    // }
+    incorrectNumbers == 0 ? status = true : status = false 
     return incorrectNumbers;
   };
 

@@ -16,7 +16,8 @@ const TumblingETestScreen = () => {
   const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
   const [results, setResults] = useState([]);
   const [moves, setMoves] = useState([]);
-  const [status, setStatus] = useState(true);
+  // const [status, setStatus] = useState(true);
+  let status
   const baseURL = 'http://localhost:3000'
   
 
@@ -141,9 +142,7 @@ const TumblingETestScreen = () => {
 
   const getTotalIncorrectResults = () => {
     const incorrectNumbers = results.filter(result => !result.isCorrect).length;
-    if (incorrectNumbers < 1){
-      setStatus(false)
-    }
+    incorrectNumbers == 0 ? status = true : status = false; 
     return incorrectNumbers;
   };
 

@@ -175,8 +175,8 @@ const TumblingETestScreen = () => {
     <div className="flex flex-col items-center">
       <h3 className="text-2xl sm:text-4xl font-bold font-sans text-[#374151] mt-10 ">Visual Acuity Testing (Snellen Chart)</h3>
       <p className="font-sans text-base mt-2 mb-8">Find out if you're color blind in less than 2 minutes!</p>
-      <div className="flex justify-center">
-        <img src={require('../../assets/images/visionAssessments/colorblind.webp')} alt="Color Blind Test" />
+      <div className="flex justify-center w-full">
+        <img className="w-full" src={require('../../assets/images/visionAssessments/acuitytest.jpg')} alt="Color Blind Test" />
       </div>
     </div>
     <div className="p-5 mt-10 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[90%] mx-auto mb-5">

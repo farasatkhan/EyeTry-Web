@@ -107,7 +107,7 @@ function Signin() {
                             </div>
 
                             <label htmlFor="keep-signed-in" className="inline-flex items-center mt-7">
-                                <input value={checked} onChange={handleCheckBoxChange} type="checkbox" id="keep-signed-in" name="keep-signed-in" className="form-checkbox w-4 h-4 text-indigo-600" />
+                                <input value={checked} checked onChange={handleCheckBoxChange} type="checkbox" id="keep-signed-in" name="keep-signed-in" className="form-checkbox w-4 h-4 text-indigo-600" />
                                 <span className="ml-2 text-sm  text-gray-500 font-sans">Keep me signed in</span>
                             </label>
 

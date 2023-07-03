@@ -17,7 +17,7 @@ function Signup() {
     const [errorVisible, setErrorVisible] = React.useState(false)
     const [errorMsg, setErrorMsg] = React.useState('')
     // handling checkbox 
-    const [checked, setChecked] = React.useState(true);
+    const [checked, setChecked] = React.useState(false);
 
     const handleCheckBoxChange = () => {
         setChecked(!checked);
@@ -42,7 +42,7 @@ function Signup() {
             setErrorMsg('Passwords do not match');
             return false;
         }
-        if (!checked) {
+        if (checked == false) {
             setErrorVisible(true)
             setErrorMsg('Please agree to terms and conditions');
             return false;
@@ -71,7 +71,7 @@ function Signup() {
             console.log(user)
             console.log(accessToken)
             console.log(refreshToken)
-            navigate('/signin');
+            navigate('/');
         }
         catch (error) {
             console.error(error.response.status)
@@ -161,7 +161,7 @@ function Signup() {
                                 <span className="ml-2 text-sm text-gray-500 font-sans">Agree with <span className='text-[#1C9CEA] hover:underline'>Terms and Conditions</span> </span>
                             </label>
 
-                            {/* <Link to="/signin"> */}
+                            {/* <Link to="/"> */}
                             <div className="mt-12 ">
                                 <button type='submit' className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform
                              bg-black rounded-md hover:bg-gray-700 focus:outline-none focus:bg-black">Sign Up</button>

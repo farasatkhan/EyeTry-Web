@@ -1,10 +1,8 @@
 import React from 'react';
-import { FaRegEnvelope, FaUser, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
-import { AiOutlineLock } from "react-icons/ai";
-import { FiLock } from "react-icons/fi";
+import { FaRegEnvelope } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
-function ForgotPassword() {
+function ForgotPassword() { 
   return (
     <div className="h-screen ">
             

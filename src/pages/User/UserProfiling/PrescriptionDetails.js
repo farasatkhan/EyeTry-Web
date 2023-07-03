@@ -1,10 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../../../layouts/User/Navbar";
-import Footer from "../../../layouts/User/Footer";
 import Sidebar from "../../../layouts/User/UserProfilingSidebar";
-import { FaBookOpen } from "react-icons/fa";
-import { FaRegEnvelope, FaUser, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
 
 
 export default function PrescriptionDetails() {
@@ -94,17 +90,8 @@ function PrescriptionDetailsScreen() {
                           dark:focus:ring-gray-700 dark:border-gray-700">Edit Prescription</button></Link>
                     </div>
                 </div>
-
-
-
-
             </div>
-
-
         </div>
-
-
-
     );
 }
 

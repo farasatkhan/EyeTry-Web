@@ -6,44 +6,44 @@ import {
 } from "react-router-dom";
 import './App.css';
 // user profiling imports 
-import Signin from './pages/UserProfiling/Signin';
-import Signup from './pages/UserProfiling/Signup';
-import Home from './pages/Home';
-import NoPage from './pages/NoPage';
-import AdminSignin from './pages/Administrator/AdminSignin';
-import ForgotPassword from './pages/UserProfiling/ForgotPassword';
-import EmailSent from './pages/UserProfiling/EmailSent';
-import SetNewPass from './pages/UserProfiling/SetNewPass';
-import PasswordReset from './pages/UserProfiling/PasswordReset';
-import Wishlist from './pages/UserProfiling/Wishlist';
-import AddAddress from './pages/UserProfiling/AddAddress';
-import AddPayment from './pages/UserProfiling/AddPayment';
-import DeleteAccount from './pages/UserProfiling/DeleteAccount';
-import EditPrescriptions from './pages/UserProfiling/EditPrescriptions';
-import MyDetails from './pages/UserProfiling/MyDetails';
-import PrescriptionDetails from './pages/UserProfiling/PrescriptionDetails';
-import AddPrescription from './pages/UserProfiling/AddPrescription';
-import GiftCards from './pages/UserProfiling/GiftCards';
-import ChangePassword from './pages/UserProfiling/ChangePassword';
-import UploadTryonImages from './pages/UserProfiling/UploadTryonImages';
-import UploadUserImage from './pages/UserProfiling/UploadUserImage';
-import SelectLensType from './pages/HomeScreens/SelectLensType';
-import SelectPrescriptionOption from './pages/HomeScreens/SelectPrescriptionOption';
-import SelectPrescriptionType from './pages/HomeScreens/SelectPrescriptionType';
-import EnterPrescription from './pages/HomeScreens/EnterPrescription';
-import ProfileHome from "./pages/ProfileHome";
+import Signin from './pages/User/UserProfiling/Signin';
+import Signup from './pages/User/UserProfiling/Signup';
+import Home from './pages/User/HomeScreens/Home';
+import NoPage from './pages/HomeScreens/NoPage';
+import AdminSignin from './pages/Admin/AdminSignin';
+import ForgotPassword from './pages/User/UserProfiling/ForgotPassword';
+import EmailSent from './pages/User/UserProfiling/EmailSent';
+import SetNewPass from './pages/User/UserProfiling/SetNewPass';
+import PasswordReset from './pages/User/UserProfiling/PasswordReset';
+import Wishlist from './pages/User/UserProfiling/Wishlist';
+import AddAddress from './pages/User/UserProfiling/AddAddress';
+import AddPayment from './pages/User/UserProfiling/AddPayment';
+import DeleteAccount from './pages/User/UserProfiling/DeleteAccount';
+import EditPrescriptions from './pages/User/UserProfiling/EditPrescriptions';
+import MyDetails from './pages/User/UserProfiling/MyDetails';
+import PrescriptionDetails from './pages/User/UserProfiling/PrescriptionDetails';
+import AddPrescription from './pages/User/UserProfiling/AddPrescription';
+import GiftCards from './pages/User/UserProfiling/GiftCards';
+import ChangePassword from './pages/User/UserProfiling/ChangePassword';
+import UploadTryonImages from './pages/User/UserProfiling/UploadTryonImages';
+import UploadUserImage from './pages/User/UserProfiling/UploadUserImage';
+import SelectLensType from './pages/User/HomeScreens/SelectLensType';
+import SelectPrescriptionOption from './pages/User/HomeScreens/SelectPrescriptionOption';
+import SelectPrescriptionType from './pages/User/HomeScreens/SelectPrescriptionType';
+import EnterPrescription from './pages/User/HomeScreens/EnterPrescription';
+import ProfileHome from "./pages/User/HomeScreens/ProfileHome";
 
 // admin imports
-import AddFrames from './pages/Administrator/AddFrames';
-import AddLens from './pages/Administrator/AddLens';
-import AddGlasses from './pages/Administrator/AddGlasses';
+import AddFrames from './pages/Admin/AddFrames';
+import AddLens from './pages/Admin/AddLens';
+import AddGlasses from './pages/Admin/AddGlasses';
 
 // Vision Assessments imports
-import ColorBlindTest from './pages/VisionAssessments/ColorBlindTest'
-import VisionAcuityTest from './pages/VisionAssessments/VisionAcuityTest'
-import ContrastSensitivityTest from "./pages/VisionAssessments/ContrastSensitivityTest";
-import AstigmatismTest from "./pages/VisionAssessments/AstigmatismTest";
-import TestHistory from "./pages/VisionAssessments/TestHistory";
+import ColorBlindTest from './pages/User/VisionAssessments/ColorBlindTest'
+import VisionAcuityTest from './pages/User/VisionAssessments/VisionAcuityTest'
+import ContrastSensitivityTest from "./pages/User/VisionAssessments/ContrastSensitivityTest";
+import AstigmatismTest from "./pages/User/VisionAssessments/AstigmatismTest";
+import TestHistory from "./pages/User/VisionAssessments/TestHistory";
 
 
 function App() {

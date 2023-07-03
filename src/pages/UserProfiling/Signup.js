@@ -52,21 +52,22 @@ function Signup() {
 
     const handleSignUp = async (event) => {
         event.preventDefault();
-
+        
         if (!validateForm()) {
             return
         }
         // ApI Request const { user, accessToken, refreshToken,message }
         try {
             const response = await registerUser(firstName, lastName, email, password, confirmPassword);
-
+            
             const { user, accessToken, refreshToken } = response.data
-
+            
             // Saving to local storage
             localStorage.setItem('user', JSON.stringify(user))
             localStorage.setItem('accessToken', accessToken)
             localStorage.setItem('refreshToken', refreshToken)
-
+            
+            console.log("testing handle signup")
             console.log(user)
             console.log(accessToken)
             console.log(refreshToken)
@@ -194,7 +195,7 @@ function Signup() {
                         </div>
 
                         <p className="mt-12 text-base font-sans text-center text-gray-700">Already a member?
-                            <Link to="/signin" className="font-medium font-sans text-[#3ba0e8] hover:underline"> Sign in</Link>
+                            <Link to="/" className="font-medium font-sans text-[#3ba0e8] hover:underline"> Sign in</Link>
                         </p>
                     </div>
                 </div>

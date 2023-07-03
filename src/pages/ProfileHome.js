@@ -6,12 +6,31 @@ import Sidebar from "../components/ui/UserProfilingSidebar";
 import { BiEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import { FaRegEnvelope, FaUser, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
+import { viewAddresses, deleteAddress, getSpecificAddress } from '../api/userapi';
 
 export default function ProfileHome() {
 
     return <Sidebar screenComponent={< ProfileHomeScreen />} />
 }
 function ProfileHomeScreen() {
+    const [addresses, setAddresses] = React.useState([])
+    const [isDataFetched, setIsDataFetched] = React.useState(false)
+
+    React.useEffect(() => {
+        const getAllAddresses = async () => {
+            try {
+                const response = await viewAddresses()
+                setAddresses(response)
+                setIsDataFetched(true) 
+            }
+            catch (e) {
+                throw e
+            }
+        }
+        getAllAddresses()
+    }
+        , [])
+
     return (
         <div className="flex flex-col min-h-screen">
             <div class=" text-center md:mb-0 mb-4">
@@ -231,30 +250,31 @@ function ProfileHomeScreen() {
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 
                             <tbody>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                {
+                                    addresses.map((address) => (
+                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                            <td className="px-6 py-4 text-base font-sans">
+                                                <h5 className="font-bold text-black mb-2">{address.firstName}</h5>
+                                                <p className="font-semibold text-base font-sans">This is your default delivery address</p>
+                                                <p className="text-base font-sans">
+                                                    {address.currentAddress}, {address.city}, {address.zipCode}, {address.country},
+                                                    {address.phone}
+                                                </p>
+                                            </td>
+                                            <td className="py-4 text-right">
+                                                <button to='/edit_address/:id' className="py-1 px-4 rounded inline-flex items-center ml-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
+                                                    <BiEdit size={20} className="mr-2" />
+                                                    <span>Edit</span>
+                                                </button>
+                                                <button  className="py-1 px-4 rounded inline-flex items-center ml-auto bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
+                                                    <MdDelete size={20} className="mr-2" />
+                                                    <span>Delete</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
 
-                                    <td class="px-6 py-4 text-base font-sans">
-                                        <h5 className=" font-bold text-black mb-2">Abdul Sammi Gul</h5>
-                                        <p className="font-semibold text-base font-sans">This is your default delivery address</p>
-                                        <p className="text-base font-sans">4 Allen Street, Hostel City
-                                            <p>Islamabad, 11000
-                                                +92300-0000000</p></p>
-                                    </td>
-                                    <td class=" py-4 text-right">
-                                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
-                                            bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
-                                             hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                                            <BiEdit size={20} class="mr-2" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
-                                            bg-transparent hover:bg-red-500 text-red-700 font-semibold 
-                                             hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                                            <MdDelete size={20} class="mr-2" />
-                                            <span>Delete</span>
-                                        </button>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -323,7 +343,7 @@ function ProfileHomeScreen() {
                     </div>
                     <div class="flex items-center justify-between w-full">
                         <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Try On Images</h2>
-                        <Link to ='/upload_tryon_images'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                        <Link to='/upload_tryon_images'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
                             <BiEdit size={20} class="mr-2" />

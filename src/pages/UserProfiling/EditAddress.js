@@ -65,11 +65,15 @@ function AddAddressScreen() {
 
         console.log("Address" ,addressData)
         try {
-            const response = await addAddress(addressData)
+            const response = await updateAddress(addressData)
             console.log("Response inside comp",response)
             if(response.status == 200){
                 setSuccessMessage("Address Added Successfully. Redirecting to My Addresses Screen")
-                setSuccessVisible(true)       
+                setSuccessVisible(true)
+                
+                // setTimeout(() => {
+                //     navigation.navigate('AddressBook')
+                // }, 3000);
                 Alert("Information Saved!")    
             }
         }

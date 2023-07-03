@@ -51,8 +51,8 @@ function App() {
     <Router>
       <Routes>
         {/* User Profiling Routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="signin" element={<Signin />} />
+        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={<Signin />} />
         <Route path="signup" element={<Signup />} />
         <Route path="forgotpassword" element={<ForgotPassword />} />
         <Route path="emailsent" element={<EmailSent />} />

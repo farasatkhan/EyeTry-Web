@@ -146,8 +146,8 @@ export const viewAddresses = async () => {
             Authorization:`Bearer ${accessToken}`
         }
         });
-        console.log("Response ",response.data.addressBook)
-        return response.data;
+        console.log("Response ",response.data)
+        return response.data.addressBook;
     } 
     catch (error) {
         // Server is returning 403 for expired token

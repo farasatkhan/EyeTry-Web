@@ -5,11 +5,12 @@ import {
   Routes
 } from "react-router-dom";
 import './App.css';
+
 // user profiling imports 
 import Signin from './pages/User/UserProfiling/Signin';
 import Signup from './pages/User/UserProfiling/Signup';
 import Home from './pages/User/HomeScreens/Home';
-import NoPage from './pages/HomeScreens/NoPage';
+import NoPage from './pages/User/HomeScreens/NoPage';
 import AdminSignin from './pages/Admin/AdminSignin';
 import ForgotPassword from './pages/User/UserProfiling/ForgotPassword';
 import EmailSent from './pages/User/UserProfiling/EmailSent';

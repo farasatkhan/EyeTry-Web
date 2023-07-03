@@ -1,7 +1,4 @@
 import React from 'react';
-import { FaRegEnvelope, FaUser, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
-import { AiOutlineLock } from "react-icons/ai";
-import { FiLock } from "react-icons/fi";
 import {Link} from "react-router-dom";
 
 function EmailSent() {
@@ -18,7 +15,7 @@ function EmailSent() {
                         <img src={require('../../../assets/images/UserProfiling/email.png')} alt="logo" className='w-[300px] h-[300px] object-cover' />
                     </div>
                     <div className="mt-14 text-center">
-                        <Link to="/signin"><button className="w-[70%] justify-center px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-black rounded-md
+                        <Link to="/"><button className="w-[70%] justify-center px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-black rounded-md
                         hover:bg-gray-700 focus:outline-none focus:bg-black">Login</button></Link>
                     </div>
                     <p className="mt-12 text-base font-sans text-center text-gray-700">Didn’t receive an email? 

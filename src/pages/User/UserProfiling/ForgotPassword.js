@@ -31,7 +31,7 @@ function ForgotPassword() {
                         </div>
 
                         <p className="mt-12 text-base font-sans text-center text-gray-700">Remember Password? 
-                            <Link to="/signin" className="font-medium font-sans text-[#3ba0e8] hover:underline"> Back To Login</Link>
+                            <Link to="/" className="font-medium font-sans text-[#3ba0e8] hover:underline"> Back To Login</Link>
                         </p>
             
                     </form>

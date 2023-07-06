@@ -18,7 +18,9 @@ import SetNewPass from './pages/User/UserProfiling/SetNewPass';
 import PasswordReset from './pages/User/UserProfiling/PasswordReset';
 import Wishlist from './pages/User/UserProfiling/Wishlist';
 import AddAddress from './pages/User/UserProfiling/AddAddress';
+import EditAddress from './pages/User/UserProfiling/EditAddress';
 import AddPayment from './pages/User/UserProfiling/AddPayment';
+import EditPayment from './pages/User/UserProfiling/EditPayment';
 import DeleteAccount from './pages/User/UserProfiling/DeleteAccount';
 import EditPrescriptions from './pages/User/UserProfiling/EditPrescriptions';
 import MyDetails from './pages/User/UserProfiling/MyDetails';
@@ -60,7 +62,9 @@ function App() {
         <Route path="profile" element={<ProfileHome />} />
         <Route path="wish" element={<Wishlist />} />
         <Route path="add_address" element={<AddAddress />} />
+        <Route path="edit_address/:id" element={<EditAddress />} />
         <Route path="add_payment" element={<AddPayment />} />
+        <Route path="edit_payment/:id" element={<EditPayment />} />
         <Route path="delete_account" element={<DeleteAccount />} />
         <Route path="edit_prescription" element={<EditPrescriptions />} />
         <Route path="my_details" element={<MyDetails />} />

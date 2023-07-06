@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 import { FaRegEnvelope, FaUser, } from "react-icons/fa";
+import { getUserData } from '../../../api/userapi';
 
 
 export default function MyDetails() {
@@ -11,6 +12,25 @@ export default function MyDetails() {
 }
 
 function MyDetailsScreen() {
+    const [firstName, setFirstName] = React.useState('')
+    const [lastName, setLastName] = React.useState('')
+    const [email, setEmail] = React.useState('')
+
+    React.useEffect(() => {
+        getProfileData()
+        },[])
+
+        const getProfileData = async () => {
+            try {
+                const response = await getUserData()
+                setFirstName(response.firstName)
+                setLastName(response.lastName)
+                setEmail(response.email)
+            }
+            catch (e) {
+                throw e
+            }
+        }
     return (
         <div className="flex flex-col min-h-screen">
 
@@ -34,7 +54,7 @@ function MyDetailsScreen() {
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <FaUser color='grey' />
                         </div>
-                        <input id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
+                        <input value={firstName} onChange={(e) => setFirstName(e.target.value)} id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
                             focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
                             sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your First Name" type="text" />
                     </div>
@@ -44,7 +64,7 @@ function MyDetailsScreen() {
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <FaUser color='grey' />
                         </div>
-                        <input id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
+                        <input value={lastName} onChange={(e) => setLastName(e.target.value)} id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
                             focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
                             sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your Last Name" type="text" />
                     </div>
@@ -54,7 +74,7 @@ function MyDetailsScreen() {
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <FaRegEnvelope color='grey' />
                         </div>
-                        <input id='email' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
+                        <input value={email} onChange={(e) => setEmail(e.target.value)} id='email' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
                             focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
                             sm:text-sm transition duration-150 ease-in-out" placeholder="info@yourmai.com" type="email" />
                     </div>

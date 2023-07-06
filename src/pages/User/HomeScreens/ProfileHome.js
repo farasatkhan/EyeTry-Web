@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 import { BiEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import { FaRegEnvelope, FaUser, } from "react-icons/fa";
-import { viewAddresses,  } from '../../../api/userapi';
+import { getUserData, deleteAddress, viewAllPayments, deletePaymentMethod } from '../../../api/userapi';
 
 export default function ProfileHome() {
 
@@ -12,22 +12,63 @@ export default function ProfileHome() {
 }
 function ProfileHomeScreen() {
     const [addresses, setAddresses] = React.useState([])
-    const [isDataFetched, setIsDataFetched] = React.useState(false)
-
+    const [firstName, setFirstName] = React.useState('')
+    const [lastName, setLastName] = React.useState('')
+    const [email, setEmail] = React.useState('')
+    const [payments, setPayments] = useState([])
+    const [isDeleted, setDeleted] = useState(false)
+    // getting address book
     React.useEffect(() => {
-        const getAllAddresses = async () => {
-            try {
-                const response = await viewAddresses()
-                setAddresses(response)
-                setIsDataFetched(true) 
-            }
-            catch (e) {
-                throw e
-            }
+        getProfileData()
+        getPaymentData()
+    }, [])
+
+    const getProfileData = async () => {
+        try {
+            const response = await getUserData()
+            setAddresses(response.addressBook)
+            setFirstName(response.firstName)
+            setLastName(response.lastName)
+            setEmail(response.email)
         }
-        getAllAddresses()
+        catch (e) {
+            throw e
+        }
     }
-        , [])
+
+    // delete address
+    const deleteSpecificAddress = async (id) => {
+        try {
+            await deleteAddress(id)
+            getProfileData()
+        }
+        catch (e) {
+            throw e
+        }
+    }
+
+    // getting payment data 
+    const getPaymentData = async () => {
+        try {
+            const response = await viewAllPayments()
+            setPayments(response)
+        }
+        catch (e) {
+            throw e
+        }
+    }
+
+    // delete Payment
+    const deleteSpecificPayment = async (id) => {
+        try {
+            await deletePaymentMethod(id)
+            getPaymentData()
+        }
+        catch (e) {
+            throw e
+        }
+    }
+
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -73,7 +114,7 @@ function ProfileHomeScreen() {
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <FaUser color='grey' />
                                 </div>
-                                <input id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
+                                <input value={firstName} onChange={(e) => setFirstName(e.target.value)} id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
                 focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
                 sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your First Name" type="text" />
                             </div>
@@ -84,7 +125,7 @@ function ProfileHomeScreen() {
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <FaUser color='grey' />
                                 </div>
-                                <input id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
+                                <input value={lastName} onChange={(e) => setLastName(e.target.value)} id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
                 focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
                 sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your Last Name" type="text" />
                             </div>
@@ -97,7 +138,7 @@ function ProfileHomeScreen() {
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <FaRegEnvelope color='grey' />
                         </div>
-                        <input id='email' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
+                        <input value={email} onChange={(e) => setEmail(e.target.value)} id='email' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
                             focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
                             sm:text-sm transition duration-150 ease-in-out" placeholder="info@yourmai.com" type="email" />
                     </div>
@@ -260,11 +301,13 @@ function ProfileHomeScreen() {
                                                 </p>
                                             </td>
                                             <td className="py-4 text-right">
-                                                <button to='/edit_address/:id' className="py-1 px-4 rounded inline-flex items-center ml-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                                                    <BiEdit size={20} className="mr-2" />
-                                                    <span>Edit</span>
-                                                </button>
-                                                <button  className="py-1 px-4 rounded inline-flex items-center ml-auto bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
+                                                <Link to={`/edit_address/${address._id}`}>
+                                                    <button className="py-1 px-4 rounded inline-flex items-center ml-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
+                                                        <BiEdit size={20} className="mr-2" />
+                                                        <span>Edit</span>
+                                                    </button>
+                                                </Link>
+                                                <button onClick={() => deleteSpecificAddress(address._id)} className="py-1 px-4 rounded inline-flex items-center ml-auto bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
                                                     <MdDelete size={20} className="mr-2" />
                                                     <span>Delete</span>
                                                 </button>
@@ -301,31 +344,42 @@ function ProfileHomeScreen() {
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 
                             <tbody>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                {
+                                    payments.map((payment) => (
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
-                                    <td class="px-6 py-4 text-base">
-                                        <h5 className=" font-bold text-black">Abdul Sammi Gul</h5>
-                                        <p className="text-base font-sans">VISA
-                                            4599350720135209
-                                            12/2026
-                                            652
-                                        </p>
-                                    </td>
-                                    <td class=" py-4 text-right">
-                                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
-                                            bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
-                                             hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                                            <BiEdit size={20} class="mr-2" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
-                                            bg-transparent hover:bg-red-500 text-red-700 font-semibold 
-                                             hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                                            <MdDelete size={20} class="mr-2" />
-                                            <span>Delete</span>
-                                        </button>
-                                    </td>
-                                </tr>
+                                            <td class="px-6 py-4 text-base">
+                                                <h5 className=" font-bold text-black">{payment.nameOnCard}</h5>
+                                                <p className="text-base font-sans">
+                                                    VISA&nbsp;&nbsp;
+                                                    {payment.paymentType}&nbsp;&nbsp;
+                                                    <br/>
+                                                    Expiration Date: {payment.expirationMonth}/{payment.expirationYear}&nbsp;&nbsp;
+                                                    <br/>
+                                                    Address: {payment.billingInfo.address}
+                                                </p>
+
+                                            </td>
+                                            <td class=" py-4 text-right">
+                                            <Link to={`/edit_payment/${payment._id}`}> 
+                                                <button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                                                bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
+                                                 hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
+                                                    <BiEdit size={20} class="mr-2" />
+                                                    <span>Edit</span>
+                                                </button>
+                                            </Link>
+                                                <button onClick={() => deleteSpecificPayment(payment._id)} class="py-1 px-4 rounded inline-flex items-center ml-auto
+                                                bg-transparent hover:bg-red-500 text-red-700 font-semibold 
+                                                 hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
+                                                    <MdDelete size={20} class="mr-2" />
+                                                    <span>Delete</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+
 
                             </tbody>
                         </table>

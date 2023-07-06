@@ -1,8 +1,8 @@
 import React, { Alert } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 import { FaUser } from "react-icons/fa";
-import { addPayment } from '../../../api/userapi'
+import { updatePaymentMethod, viewSpecificPaymentMethod } from '../../../api/userapi'
 
 // for date picker
 import dayjs from 'dayjs';
@@ -18,8 +18,8 @@ export default function Wishlist() {
 
 
 function AddPaymentScreen() {
-
-    const [paymentType, setPaymentType] = React.useState('Credit Card')
+    const {id} = useParams();
+    const [paymentType, setPaymentType] = React.useState('')
     const [nameOnCard, setNameOnCard] = React.useState('')
     const [cardNumber, setCardNumber] = React.useState('')
     const [cvv, setCvv] = React.useState('')
@@ -35,18 +35,44 @@ function AddPaymentScreen() {
     const [expirationYear, setExpirationYear] = React.useState(dayjs('2023'));
 
 
-    // const countries = ['Pakistan','Afghanistan','UAE','USA','India','Bangladesh','Saudi-Arabia']
 
     const [errorVisible, setErrorVisible] = React.useState(false)
     const [errorMsg, setErrorMsg] = React.useState('')
     const [successVisible, setSuccessVisible] = React.useState(false)
     const [successMessage, setSuccessMessage] = React.useState(null)
 
+    // Fetching Payment Data
+    React.useEffect(()=>{
+        const setData = async()=>{
+            console.log("check useeffect")
+            try{
+                const payment = await viewSpecificPaymentMethod(id);
+                setPaymentType(payment.paymentType)
+                setNameOnCard(payment.nameOnCard)
+                setCardNumber(payment.cardNumber)
+                setCvv(payment.cvv)
+                setFirstName(payment.billingInfo.firstName)
+                setLastName(payment.billingInfo.lastName)
+                setCountry(payment.billingInfo.country)
+                setCity(payment.billingInfo.city)
+                setAddress(payment.billingInfo.address)
+                setZipCode(payment.billingInfo.zipCode)
+                setState(payment.billingInfo.state)
+                setExpirationMonth(payment.expirationMonth.month)
+                setExpirationYear(payment.expirationYear.year)
+            }
+            catch(e){
+                throw e
+            }
+        }
+        setData()
+    },[])
+
 
     // form validation 
     const validateForm = () => {
         if (!country || !city || !zipCode || !firstName || !lastName || !address || !paymentType
-            || !nameOnCard || !cardNumber || !expirationMonth || !cvv || !state) {
+            || !nameOnCard || !cardNumber  || !cvv || !state) {
             setErrorVisible(true)
             setErrorMsg('Please fill out all fields');
             return false;
@@ -75,10 +101,10 @@ function AddPaymentScreen() {
         }
         console.log("paymentMethodData", paymentMethodData)
         try {
-            const response = await addPayment(paymentMethodData)
+            const response = await updatePaymentMethod(paymentMethodData, id)
             console.log("Response inside comp", response)
             if (response.status == 200) {
-                setSuccessMessage("Payment Method Added Successfully!")
+                setSuccessMessage("Payment Method Updated Successfully!")
                 setSuccessVisible(true)
                 setErrorVisible(false)
                 Alert("Information Saved!")
@@ -99,6 +125,7 @@ function AddPaymentScreen() {
         setAddress('')
         setState('')
         setZipCode('')
+        setCity('')
     }
 
 
@@ -111,7 +138,7 @@ function AddPaymentScreen() {
 
                 <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10">
                     <div class=" text-center md:mb-0 mb-4 mx-auto">
-                        <h3 className="text-2xl sm:text-4xl  font-bold font-sans">Add Payment Method</h3>
+                        <h3 className="text-2xl sm:text-4xl  font-bold font-sans">Edit Payment Method</h3>
                         <p className=" font-sans text-base mt-3">Select Your Payment Method</p>
                     </div>
 

@@ -20,14 +20,9 @@ function AddAddressScreen() {
     const [postalCode,setPostalCode] = React.useState('')
     const [phone,setPhone] = React.useState('')
     const [currentAddress,setCurrentAddress] = React.useState('')
-    const [selectedCountry,setSelectedCountry] = React.useState(null)
+    const [selectedCountry,setSelectedCountry] = React.useState('')
     const [state, setState] = React.useState('')
-
-    
-    
-
-    // const countries = ['Pakistan','Afghanistan','UAE','USA','India','Bangladesh','Saudi-Arabia']
-
+    // error messages
     const [errorVisible,setErrorVisible] = React.useState(false)
     const [errorMsg,setErrorMsg] = React.useState('')
     const [successVisible,setSuccessVisible] = React.useState(false)
@@ -36,7 +31,7 @@ function AddAddressScreen() {
 
     // form validation 
     const validateForm = () =>{
-        if (!selectedCountry || !city || !postalCode || !phone || !fName || !lName || !state || !currentAddress) {
+        if (!selectedCountry || !city || postalCode == '' || phone == '' || !fName || !lName || !state || !currentAddress) {
             setErrorVisible(true)
             setErrorMsg('Please fill out all fields');
             return false;
@@ -50,7 +45,7 @@ function AddAddressScreen() {
         }
         const addressData = {
             firstName: fName,
-            lastname: lName,
+            lastName: lName,
             phone: phone,
             currentAddress: currentAddress,
             city:city,
@@ -64,14 +59,24 @@ function AddAddressScreen() {
             const response = await addAddress(addressData)
             console.log("Response inside comp",response)
             if(response.status == 200){
-                setSuccessMessage("Address Added Successfully. Redirecting to My Addresses Screen")
-                setSuccessVisible(true)       
+                setSuccessMessage("Address Added Successfully!")
+                setSuccessVisible(true)
+                setErrorVisible(false)       
                 Alert("Information Saved!")    
             }
         }
         catch (e){
             console.error(e)
         }
+        // clearing all fields after adding a new address
+        setFName('')
+        setLName('')
+        setCity('')
+        setPostalCode('')
+        setPhone('')
+        setCurrentAddress('')
+        setSelectedCountry('')
+        setState('')
     }
 
 
@@ -86,14 +91,14 @@ function AddAddressScreen() {
                         </div>
                     </div>
                     {errorVisible &&  
-                <Text style={{color:'red',fontSize:16,alignSelf:'flex-start',paddingBottom:'2%'}}>
+                <p style={{color:'red',fontSize:16,alignSelf:'flex-start',paddingBottom:'2%'}}>
                         {errorMsg}
-                </Text>
+                </p>
                 } 
              {successVisible &&  
-                <Text style={{color:'green',fontSize:16,alignSelf:'flex-start',textAlign:'center',paddingBottom:'2%'}}>
+                <p style={{color:'green',fontSize:16,alignSelf:'flex-start',textAlign:'center',paddingBottom:'2%'}}>
                     {successMessage}
-                </Text>
+                </p>
                     } 
                     <div className="flex flex-row space-x-4">
                         <div className="flex-grow">

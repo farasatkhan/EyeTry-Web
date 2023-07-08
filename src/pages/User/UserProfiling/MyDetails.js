@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 
 import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 import { FaRegEnvelope, FaUser, } from "react-icons/fa";
-import { getUserData } from '../../../api/userapi';
+import { getUserData, updatePersonalInfo } from '../../../api/userapi';
+import { viewProfileImage, deleteProfileImage } from '../../../api/userapi';
+import defaultImage from '../../../assets/images/UserProfiling/pfpdefault.png';
 
 
 export default function MyDetails() {
@@ -15,22 +17,100 @@ function MyDetailsScreen() {
     const [firstName, setFirstName] = React.useState('')
     const [lastName, setLastName] = React.useState('')
     const [email, setEmail] = React.useState('')
+    const [profilePic, setProfilePic] = React.useState(null)
+    const baseURL = 'http://localhost:3000'
+
+        // error messages
+        const [errorVisible,setErrorVisible] = React.useState(false)
+        const [errorMsg,setErrorMsg] = React.useState('')
+        const [successVisible,setSuccessVisible] = React.useState(false)
+        const [successMessage,setSuccessMessage] = React.useState(null)
+
+    // getting profile image
+    React.useEffect(() => {
+
+        const getImage = async () => {
+            try {
+                const img = await viewProfileImage();
+                setProfilePic(baseURL + img.location)
+            }
+            catch (e) {
+                if (e.response.status == 403) {
+                    console.log('Refreshing Token Failed')
+                }
+                if (e.response.status == 400) {
+                    console.log('No Image is present')
+                    setProfilePic(null)
+                }
+                // console.error(e) // annoying
+                console.log(e)
+            }
+        }
+
+        getImage();
+    }, [])
+
+    // deleting profile pic
+    // delete address
+    const deleteProfilePic = async (id) => {
+        try {
+            await deleteProfileImage()
+            setProfilePic(defaultImage)
+        }
+        catch (e) {
+            throw e
+        }
+    }
 
     React.useEffect(() => {
         getProfileData()
-        },[])
+    }, [])
 
-        const getProfileData = async () => {
-            try {
-                const response = await getUserData()
-                setFirstName(response.firstName)
-                setLastName(response.lastName)
-                setEmail(response.email)
-            }
-            catch (e) {
-                throw e
-            }
+    const getProfileData = async () => {
+        try {
+            const response = await getUserData()
+            setFirstName(response.firstName)
+            setLastName(response.lastName)
+            setEmail(response.email)
         }
+        catch (e) {
+            throw e
+        }
+    }
+
+    // update personal info
+
+    // form validation 
+    const validateForm = () => {
+        if (!firstName || !lastName || !email) {
+            setErrorVisible(true)
+            setErrorMsg('Please fill out all fields');
+            return false;
+        }
+        return true
+    }
+    const handlePersonalInfo = async () => {
+        if (!validateForm()) {
+            return
+        }
+        const personalData = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email
+        }
+        try {
+            const response = await updatePersonalInfo(personalData)
+            if (response.status == 200) {
+                setSuccessMessage("Personal Info Updated Successfully!")
+                setSuccessVisible(true)
+                setErrorVisible(false)
+                localStorage.setItem("firstName", firstName)
+                localStorage.setItem("lastName", lastName)
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
     return (
         <div className="flex flex-col min-h-screen">
 
@@ -42,6 +122,16 @@ function MyDetailsScreen() {
                             <h3 className="text-2xl sm:text-4xl  font-bold font-sans">Personal Information</h3>
                             <p className=" font-sans text-base ">Edit your profile quickly</p>
                         </div>
+                        {errorVisible &&
+                            <p style={{ color: 'red', fontSize: 16, alignSelf: 'flex-start', paddingBottom: '2%' }}>
+                                {errorMsg}
+                            </p>
+                        }
+                        {successVisible &&
+                            <p style={{ color: 'green', fontSize: 16, alignSelf: 'flex-start', textAlign: 'center', paddingBottom: '2%' }}>
+                                {successMessage}
+                            </p>
+                        }
                         <div className="md:ml-auto md:text-right text-center">
                             <Link to='/delete_account'><button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete Account</button></Link>
                             <Link to='/change_password'><button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Change Password</button></Link>
@@ -86,21 +176,19 @@ function MyDetailsScreen() {
                         <hr class="border-3 border-gray-300 my-4" />
                         <div className="p-5">
                             <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                                <div style={{ width: 70, height: 70, borderRadius: 50, backgroundColor: "red", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                    <img src={require('../../../assets/images/UserProfiling/profilepic.png')} alt="logo" className='w-full h-full ' />
+                                <div style={{ width: 70, height: 70, borderRadius: 50, display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                    <img src={profilePic} alt="logo" className='w-full h-full ' />
                                 </div>
-                                <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20, marginLeft: 15 }}>Alliyan Waheed <span className="flex flex-row space-x-5" ><p className=" text-red-700 font-sans font-medium" >Delete</p> <p className="text-blue-700 font-sans font-medium" >Update</p></span>   </h2>
+                                <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20, marginLeft: 15 }}>{localStorage.getItem("firstName")} {localStorage.getItem("lastName")} <span className="flex flex-row space-x-5" ><p onClick={deleteProfilePic} className=" text-red-700 font-sans font-medium cursor-pointer" >Delete</p> <Link to='/upload_user_image'><p className="text-blue-700 font-sans font-medium" >Update</p></Link></span>   </h2>
                             </div>
-
-                            <Link to='/upload_user_image'><img src={require('../../../assets/images/UserProfiling/pfpdefault.png')} alt="logo" className='w-full h-full mt-5' /></Link>
 
                         </div>
                     </div>
 
                     <div className="w-full flex items-center justify-center">
-                        <Link to='/profile'><button type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
+                        <button onClick={handlePersonalInfo} type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
                         focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-10 dark:bg-gray-800 dark:hover:bg-gray-700
-                        dark:focus:ring-gray-700 dark:border-gray-700">Save</button></Link>
+                        dark:focus:ring-gray-700 dark:border-gray-700">Save</button>
                     </div>
                 </div>
             </div>

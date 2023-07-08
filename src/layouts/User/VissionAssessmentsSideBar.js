@@ -31,11 +31,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import { FaBold, FaSortDown } from "react-icons/fa";
-
 import Footer from './Footer';
 import { FaGlasses } from "react-icons/fa";
-import { logoutUser } from '../../api/authapi';
 import { useNavigate } from 'react-router-dom';
+import { logoutUser } from '../../api/authapi';
+import { viewProfileImage } from '../../api/userapi';
 
 
 // for navbar
@@ -135,6 +135,37 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function PersistentDrawerLeft(props) {
+  const [profilePic,setProfilePic] = React.useState(null)
+  const baseURL = 'http://localhost:3000'
+
+  // getting name from local storage
+  const firstName = localStorage.getItem("firstName")
+  const lastName = localStorage.getItem("lastName")
+  
+  // getting profile image
+  React.useEffect( ()=>{
+
+    const getImage = async () => {
+      try{        
+        const img = await viewProfileImage();
+        setProfilePic(baseURL+img.location)
+        }
+      catch (e){
+        if (e.response.status == 403){
+          console.log('Refreshing Token Failed')
+        }
+        if (e.response.status == 400){
+          console.log('No Image is present')
+          setProfilePic(null)
+        }
+        // console.error(e) // annoying
+        console.log(e)
+      }
+    }
+
+    getImage();
+  },[])
+
 
   const navigate = useNavigate();
 
@@ -341,8 +372,8 @@ export default function PersistentDrawerLeft(props) {
           <Box sx={{ flexGrow: 0, ml: 2, }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={require("../../assets/images/UserProfiling/Ellipse.png")} />
-                <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className=' font-semibold font-black '>Qasim Malik</p></p>
+                <Avatar alt="Remy Sharp" src={profilePic} />
+                <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className=' font-semibold font-black '>{firstName} {lastName}</p></p>
                 <image alt="user-profile-pic" src={require("../../assets/images/UserProfiling/Ellipse.png")} width={50} height={50}  />
               </IconButton>
             </Tooltip>
@@ -391,10 +422,10 @@ export default function PersistentDrawerLeft(props) {
         </DrawerHeader>
 
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <div style={{ width: 150, height: 150, borderRadius: 100, backgroundColor: "red", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <img src={require('../../assets/images/UserProfiling/profilepic.png')} alt="logo" className='w-full h-full ' />
+          <div style={{ width: 150, height: 150, borderRadius: 100, display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <img src={profilePic} alt="logo" className=' rounded-full w-full h-full ' />
           </div>
-          <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20 }}>Qasim Malik</h2>
+          <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20 }}>{firstName} {lastName}</h2>
         </div>
 
         <Divider />

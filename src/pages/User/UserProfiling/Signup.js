@@ -65,6 +65,8 @@ function Signup() {
             localStorage.setItem('user', JSON.stringify(user))
             localStorage.setItem('accessToken', accessToken)
             localStorage.setItem('refreshToken', refreshToken)
+            localStorage.setItem('firstName', firstName)
+            localStorage.setItem('lastName', lastName)
             
             console.log("testing handle signup")
             console.log(user)

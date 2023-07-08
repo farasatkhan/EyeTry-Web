@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 import { FaBookOpen } from "react-icons/fa";
+import { uploadTryOnImage } from '../../../api/userapi';
+import defaultImage from '../../../assets/images/UserProfiling/pfpdefault.png';
 
 
 export default function UploadTryonImages() {
@@ -10,6 +12,25 @@ export default function UploadTryonImages() {
 }
 
 function UploadTryonImagesScreen() {
+
+    // managing tryon image upload
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [uploadedImage, setUploadedImage] = useState(null); // State to store the uploaded image
+
+
+    const handleImageChange = (event) => {
+        const image = event.target.files[0];
+        setSelectedImage(image);
+        setUploadedImage(URL.createObjectURL(image)); // Use the "image" variable directly
+        console.log("file: ", selectedImage)
+    };
+
+
+
+    const handleDefaultImageClick = () => {
+        document.getElementById('image-input').click();
+    };
+
     // for radio buttons
     const [selectedOption, setSelectedOption] = useState('option1');
 
@@ -63,8 +84,8 @@ function UploadTryonImagesScreen() {
 
                     <span className="flex flex-row mt-3">
                         <input id='email' className="block w-full sm:w-[80%] lg:w-[50%] pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
-        focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
-        sm:text-sm transition duration-150 ease-in-out" placeholder="Enter your pupillary distance" type="number" />
+                        focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
+                            sm:text-sm transition duration-150 ease-in-out" placeholder="Enter your pupillary distance" type="number" />
                         <div class="ml-5">
                             <p class="text-sm mb-1">Don't know your Pupillary Distance (PD)?</p>
                             <button class="px-4 py-2 rounded inline-flex items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent">
@@ -94,15 +115,25 @@ function UploadTryonImagesScreen() {
                             <div className="absolute px-5 text-sm bg-white font-sans">OR</div>
                         </div>
                         <div className="p-5">
-                            <img src={require('../../../assets/images/UserProfiling/pfpdefault.png')} alt="logo" className='w-full h-full mt-5' />
+                            <div onClick={handleDefaultImageClick} className='w-full h-64 mt-5 flex justify-center cursor-pointer'>
+                                {selectedImage ? <img
+                                    className='max-w-full max-h-full '
+                                    src={uploadedImage} // Use the uploaded image if available, otherwise use the default image
+                                    alt="Preview" />
+                                    :
+                                    <img className='max-w-full max-h-full ' src={defaultImage} alt="preview" />
+                                }
+                            </div>
                         </div>
+                        <input className="invisible" id="image-input"
+                            type="file" accept="image/*" onChange={handleImageChange} />
                     </div>
 
 
                     <div className="w-full flex items-center justify-center">
-                        <Link to='/profile'><button type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
+                        <button onClick={() => uploadTryOnImage(selectedImage)} type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
                         focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-10 dark:bg-gray-800 dark:hover:bg-gray-700
-                        dark:focus:ring-gray-700 dark:border-gray-700">Save</button></Link>
+                        dark:focus:ring-gray-700 dark:border-gray-700">Save</button>
                     </div>
 
 

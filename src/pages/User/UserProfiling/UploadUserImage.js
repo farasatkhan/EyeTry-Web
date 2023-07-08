@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 import { FaBookOpen } from "react-icons/fa";
-import axios from 'axios'
-import { reGenerateAccessToken } from '../../../api/authapi';
+import {  uploadProfileImage } from '../../../api/userapi';
 import defaultImage from '../../../assets/images/UserProfiling/pfpdefault.png';
 
 
@@ -13,47 +12,20 @@ export default function UploadUserImage() {
 }
 
 function UploadUserImageScreen() {
-    const baseURL = 'http://localhost:3000'
 
     const [selectedImage, setSelectedImage] = useState(null);
     const [uploadedImage, setUploadedImage] = useState(null); // State to store the uploaded image
 
+
     const handleImageChange = (event) => {
-        setSelectedImage(event.target.files[0]);
+        const image = event.target.files[0];
+        setSelectedImage(image);
+        setUploadedImage(URL.createObjectURL(image)); // Use the "image" variable directly
+        console.log(image)
     };
+    
 
-    const handleUpload = async () => {
-        try {
-            const formData = new FormData();
-            formData.append('image', selectedImage);
-            const accessToken = await localStorage.getItem("accessToken")
-            const response = await axios.post(`${baseURL}/users/upload_image_server`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${accessToken}`
-                },
-            });
 
-            console.log(response.data.message);
-            // Store the uploaded image URL in state
-            setUploadedImage(URL.createObjectURL(selectedImage));
-            console.log(uploadedImage)
-        } catch (error) {
-            // Server is returning 403 for expired token
-            if (error.response && error.response.status == 403) {
-                try {
-                    console.log("Error uploading image")
-                    await reGenerateAccessToken()
-                    return handleUpload()
-                }
-                catch (e) {
-                    console.error("Error while refreshing token", e)
-                    throw e
-                }
-            }
-            throw error
-        }
-    }
     const handleDefaultImageClick = () => {
         document.getElementById('image-input').click();
     };
@@ -87,25 +59,28 @@ function UploadUserImageScreen() {
                             <div className="absolute px-5 text-sm bg-white font-sans">OR</div>
                         </div>
                         <div className="p-5">
-                            <img   onClick={handleDefaultImageClick} className='w-full h-full mt-5'
-                                src={uploadedImage || defaultImage} // Use the uploaded image if available, otherwise use the default image
-                                alt="Preview"
-                            // style={{ width: '200px', height: '200px' }}
-
-                            // src={require('../../../assets/images/UserProfiling/pfpdefault.png')} alt="logo" className='w-full h-full mt-5'
-                            />
+                            <div onClick={handleDefaultImageClick} className='w-full h-64 mt-5 flex justify-center cursor-pointer'>
+                                { selectedImage ? <img 
+                                    className='max-w-full max-h-full '  
+                                    src={uploadedImage} // Use the uploaded image if available, otherwise use the default image
+                                    alt="Preview" />
+                                    :
+                                    <img className='max-w-full max-h-full ' src={defaultImage} alt="preview" />
+                                }
+                            </div>
                         </div>
                     </div>
                     <div>
 
-                        <h2>Image Uploader</h2>
-                        <input id="image-input"
+                        <input className="invisible" id="image-input"
                             type="file" accept="image/*" onChange={handleImageChange} />
 
                     </div>
 
+                    {
+        }
                     <div className="w-full flex items-center justify-center">
-                        <button onClick={handleUpload} type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
+                        <button onClick={() => uploadProfileImage(selectedImage)} type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
                         focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-10 dark:bg-gray-800 dark:hover:bg-gray-700
                         dark:focus:ring-gray-700 dark:border-gray-700">Save</button>
                     </div>

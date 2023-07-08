@@ -1,7 +1,6 @@
 import {
   BrowserRouter as Router,
   Route,
-  Link,
   Routes
 } from "react-router-dom";
 import './App.css';
@@ -48,52 +47,65 @@ import ContrastSensitivityTest from "./pages/User/VisionAssessments/ContrastSens
 import AstigmatismTest from "./pages/User/VisionAssessments/AstigmatismTest";
 import TestHistory from "./pages/User/VisionAssessments/TestHistory";
 
+import PrivateRoute from "./utils/privateRoutes/PrivateRoute"
 
 function App() {
   return (
     <Router>
       <Routes>
+        
         {/* User Profiling Routes */}
-        {/* <Route path="/" element={<Home />} /> */}
+
         <Route path="/" element={<Signin />} />
         <Route path="signup" element={<Signup />} />
         <Route path="forgotpassword" element={<ForgotPassword />} />
         <Route path="emailsent" element={<EmailSent />} />
-        <Route path="profile" element={<ProfileHome />} />
-        <Route path="wish" element={<Wishlist />} />
-        <Route path="add_address" element={<AddAddress />} />
-        <Route path="edit_address/:id" element={<EditAddress />} />
-        <Route path="add_payment" element={<AddPayment />} />
-        <Route path="edit_payment/:id" element={<EditPayment />} />
-        <Route path="delete_account" element={<DeleteAccount />} />
-        <Route path="edit_prescription" element={<EditPrescriptions />} />
-        <Route path="my_details" element={<MyDetails />} />
-        <Route path="prescription_details" element={<PrescriptionDetails />} />
-        <Route path="add_prescription" element={<AddPrescription />} />
-        <Route path="giftcards" element={<GiftCards />} />
-        <Route path="change_password" element={<ChangePassword />} />
-        <Route path="upload_tryon_images" element={<UploadTryonImages />} />
-        <Route path="upload_user_image" element={<UploadUserImage />} />
+        <Route path="/profile" element={<PrivateRoute Component={ProfileHome} />} />
+        <Route path="/wish" element={<PrivateRoute Component={Wishlist} />} />
+        <Route path="/add_address" element={<PrivateRoute Component={AddAddress} />} />
+        <Route path="/edit_address/:id" element={<PrivateRoute Component={EditAddress} />} />
+        <Route path="/add_payment" element={<PrivateRoute Component={AddPayment} />} />
+        <Route path="/edit_payment/:id" element={<PrivateRoute Component={EditPayment} />} />
+        <Route path="/delete_account" element={<PrivateRoute Component={DeleteAccount} />} />
+        <Route path="/edit_prescription" element={<PrivateRoute Component={EditPrescriptions} />} />
+        <Route path="/prescription_details" element={<PrivateRoute Component={PrescriptionDetails} />} />
+        <Route path="/add_prescription" element={<PrivateRoute Component={AddPrescription} />} />
+        <Route path="/change_password" element={<PrivateRoute Component={ChangePassword} />} />
+        <Route path="/upload_tryon_images" element={<PrivateRoute Component={UploadTryonImages} />} />
+        <Route path="/upload_user_image" element={<PrivateRoute Component={UploadUserImage} />} />
+        <Route path="/giftcards" element={<PrivateRoute Component={GiftCards} />} />
+        <Route path="/my_details" element={<PrivateRoute Component={MyDetails} />} />
         
+
         {/* order management routes */}
-        <Route path="select_prescription_type" element={<SelectLensType />} />
-        <Route path="select_prescription_Option" element={<SelectPrescriptionOption />} />
-        <Route path="select_prescription_Type" element={<SelectPrescriptionType />} />
-        <Route path="select_prescription_Type" element={<SelectPrescriptionType />} />
-        <Route path="enter_prescription" element={<EnterPrescription />} />
+
+        <Route path="/select_prescription_type" element={<PrivateRoute Component={SelectLensType} />} />
+        <Route path="/select_prescription_Option" element={<PrivateRoute Component={SelectPrescriptionOption} />} />
+        <Route path="/select_prescription_Type" element={<PrivateRoute Component={SelectPrescriptionType} />} />
+        <Route path="/enter_prescription" element={<PrivateRoute Component={EnterPrescription} />} />
+
 
         {/* Admin Routes */}
-        <Route path="add_frames" element={<AddFrames />} />
-        <Route path="add_lens" element={<AddLens />} />
-        <Route path="add_glasses" element={<AddGlasses />} />
-        <Route path="*" element={<NoPage />} />
+
+        <Route path="/admin_signin" element={<PrivateRoute Component={AdminSignin} />} />
+        <Route path="/add_frames" element={<PrivateRoute Component={AddFrames} />} />
+        <Route path="/add_lens" element={<PrivateRoute Component={AddLens} />} />
+        <Route path="/add_glasses" element={<PrivateRoute Component={AddGlasses} />} />
+
 
         {/* Vission Assessments */}
+
         <Route path="color_blind_test" element={<ColorBlindTest />} />
         <Route path="vision_acuity_test" element={<VisionAcuityTest />} />
         <Route path="contrast_sensitivity_test" element={<ContrastSensitivityTest />} />
         <Route path="astigmatism_test" element={<AstigmatismTest />} />
         <Route path="test_history" element={<TestHistory />} />
+
+
+        {/* no page found */}
+
+        <Route path="*" element={<NoPage />} />
+
       </Routes>
     </Router>
   );

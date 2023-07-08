@@ -4,7 +4,6 @@ import { FiLock } from "react-icons/fi";
 import { Link, Navigate } from 'react-router-dom';
 import { signInUser } from '../../../api/authapi';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../../../api/getTokken';
 
 
 function Signin() {

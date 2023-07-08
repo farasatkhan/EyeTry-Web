@@ -202,7 +202,7 @@ export default function PersistentDrawerLeft(props) {
   const handleCloseUserMenu = (setting) => {
     if (setting == "Logout"){
       logout();
-      navigate("/signin")
+      navigate("/")
     }
     setAnchorElUser(null);
   };
@@ -444,7 +444,7 @@ export default function PersistentDrawerLeft(props) {
     { text: 'Payment Methods', path: '/add_payment' },
     { text: 'Try On Images', path: '/upload_tryon_images' },
     { text: 'Manage Giftcards', path: '/giftcards' },
-    { text: 'Log Out' , path: '/signin' }
+    { text: 'Log Out' , path: '/' }
   ].map(({ text, path }, index) => (
     <ListItem key={text} disablePadding>
       <ListItemButton

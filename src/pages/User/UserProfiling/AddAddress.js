@@ -1,5 +1,4 @@
 import React, {Alert, Text, } from "react";
-import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 import { FaAddressCard } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
 import { BsFilePostFill } from "react-icons/bs";
@@ -7,12 +6,8 @@ import { BsTelephonePlusFill } from "react-icons/bs";
 import {  FaUser } from "react-icons/fa";
 import {addAddress} from '../../../api/userapi'
 
-export default function AddAddress() {
 
-    return <Sidebar screenComponent={< AddAddressScreen />} />
-}
-
-function AddAddressScreen() {
+export default function AddAddressScreen() {
 
     const [fName,setFName] = React.useState('')
     const [lName,setLName] = React.useState('')

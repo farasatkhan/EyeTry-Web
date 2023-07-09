@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 // import Navbar from "../../components/ui/Navbar";
 import Footer from "../../../layouts/User/Footer";
-import Sidebar from "../../../layouts/User/UserProfilingSidebar";
+import Sidebar from "../../../layouts/User/UserProfilingNavbar";
 import { FaBookOpen } from "react-icons/fa";
 import { FaRegEnvelope, FaUser, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
 

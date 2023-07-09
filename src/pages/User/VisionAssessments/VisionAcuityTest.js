@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
 import Image from '../../../assets/images/visionAssessments/E.png';
-import Sidebar from '../../../layouts/User/VissionAssessmentsSideBar'
 import axios from 'axios'
 import { reGenerateAccessToken } from '../../../api/authapi';
-
-
-export default function TumblingETest() {
-
-  return <Sidebar screenComponent={< TumblingETestScreen />} />
-}
 
 
 const TumblingETestScreen = () => {
@@ -281,3 +274,4 @@ Before you start the online eye test, please remove any prescription glasses or 
 };
 
 
+export default TumblingETestScreen;

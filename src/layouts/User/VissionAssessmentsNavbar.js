@@ -21,7 +21,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import AdbIcon from '@mui/icons-material/Adb';
+
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -31,17 +31,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import { FaBold, FaSortDown } from "react-icons/fa";
-import { red } from '@mui/material/colors';
-import EmailSent from '../../pages/User/UserProfiling/EmailSent';
 import Footer from './Footer';
 import { FaGlasses } from "react-icons/fa";
-import { logoutUser } from '../../api/authapi';
 import { useNavigate } from 'react-router-dom';
-import { Navigation } from '@mui/icons-material';
+import { logoutUser } from '../../api/authapi';
 import { viewProfileImage } from '../../api/userapi';
-
-
-
 
 
 // for navbar
@@ -172,6 +166,7 @@ export default function PersistentDrawerLeft(props) {
     getImage();
   },[])
 
+
   const navigate = useNavigate();
 
   const ScreenComponent = props.screenComponent;
@@ -189,7 +184,7 @@ export default function PersistentDrawerLeft(props) {
   };
   const handleCloseNavMenu = (page) => {
     if (page == "Assessments"){
-      navigate("/color_blind_test")
+      navigate("/assessments/color_blind_test")
     }
     setAnchorElNav(null);
 
@@ -202,7 +197,7 @@ export default function PersistentDrawerLeft(props) {
   const handleCloseUserMenu = (setting) => {
     if (setting == "Logout"){
       logout();
-      navigate("/")
+      navigate("/signin")
     }
     setAnchorElUser(null);
   };
@@ -428,7 +423,7 @@ export default function PersistentDrawerLeft(props) {
 
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div style={{ width: 150, height: 150, borderRadius: 100, display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <img src={profilePic} alt="user-profile-pic" className='rounded-full w-full h-full ' />
+            <img src={profilePic} alt="logo" className=' rounded-full w-full h-full ' />
           </div>
           <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20 }}>{firstName} {lastName}</h2>
         </div>
@@ -437,14 +432,12 @@ export default function PersistentDrawerLeft(props) {
 
 <List>
   {[
-    { text: 'My Profile', path: '/profile' },
-    { text: 'Personal Details', path: '/my_details' },
-    { text: 'My Prescriptions', path: '/prescription_details' },
-    { text: 'Address Book', path: '/add_address' },
-    { text: 'Payment Methods', path: '/add_payment' },
-    { text: 'Try On Images', path: '/upload_tryon_images' },
-    { text: 'Manage Giftcards', path: '/giftcards' },
-    { text: 'Log Out' , path: '/' }
+    { text: 'My Profile', path: '/user/profile' },
+    { text: 'Color Blind Test', path: '/assessments/color_blind_test'},
+    { text: 'Vission Acutiy Test', path: '/assessments/vision_acuity_test'},
+    { text: 'Contrast Sensitivity Test', path: '/assessments/contrast_sensitivity_test'},
+    { text: 'Astigmatism Test', path: '/assessments/astigmatism_test'},
+    { text: 'Log Out' , path: '/signin' }
   ].map(({ text, path }, index) => (
     <ListItem key={text} disablePadding>
       <ListItemButton

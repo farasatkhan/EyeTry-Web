@@ -1,6 +1,5 @@
-import React, {Alert, Text, useEffect } from "react";
-import { Link , useParams } from "react-router-dom";
-import Sidebar from "../../../layouts/User/UserProfilingSidebar";
+import React, {Alert } from "react";
+import { useParams } from "react-router-dom";
 import { FaAddressCard } from "react-icons/fa";
 import { MdLocationOn } from "react-icons/md";
 import { BsFilePostFill } from "react-icons/bs";
@@ -8,12 +7,8 @@ import { BsTelephonePlusFill } from "react-icons/bs";
 import { FaUser, } from "react-icons/fa";
 import { updateAddress, getSpecificAddress} from '../../../api/userapi'
 
-export default function EditAddress() {
 
-    return <Sidebar screenComponent={< EditAddressScreen />} />
-}
-
-function EditAddressScreen() {
+export default function EditAddressScreen() {
 
     const {id} = useParams();
     const [address, setAddress] = React.useState([])

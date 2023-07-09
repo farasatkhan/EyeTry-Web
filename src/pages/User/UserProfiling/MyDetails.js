@@ -1,19 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 import { FaRegEnvelope, FaUser, } from "react-icons/fa";
 import { getUserData, updatePersonalInfo } from '../../../api/userapi';
 import { viewProfileImage, deleteProfileImage } from '../../../api/userapi';
 import defaultImage from '../../../assets/images/UserProfiling/pfpdefault.png';
 
 
-export default function MyDetails() {
-
-    return <Sidebar screenComponent={< MyDetailsScreen />} />
-}
-
-function MyDetailsScreen() {
+export default function MyDetailsScreen() {
     const [firstName, setFirstName] = React.useState('')
     const [lastName, setLastName] = React.useState('')
     const [email, setEmail] = React.useState('')
@@ -133,8 +126,8 @@ function MyDetailsScreen() {
                             </p>
                         }
                         <div className="md:ml-auto md:text-right text-center">
-                            <Link to='/delete_account'><button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete Account</button></Link>
-                            <Link to='/change_password'><button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Change Password</button></Link>
+                            <Link to='/user/delete_account'><button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete Account</button></Link>
+                            <Link to='/user/change_password'><button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Change Password</button></Link>
                         </div>
                     </div>
 
@@ -179,7 +172,7 @@ function MyDetailsScreen() {
                                 <div style={{ width: 70, height: 70, borderRadius: 50, display: "flex", justifyContent: "center", alignItems: "center" }}>
                                     <img src={profilePic} alt="logo" className='w-full h-full ' />
                                 </div>
-                                <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20, marginLeft: 15 }}>{localStorage.getItem("firstName")} {localStorage.getItem("lastName")} <span className="flex flex-row space-x-5" ><p onClick={deleteProfilePic} className=" text-red-700 font-sans font-medium cursor-pointer" >Delete</p> <Link to='/upload_user_image'><p className="text-blue-700 font-sans font-medium" >Update</p></Link></span>   </h2>
+                                <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20, marginLeft: 15 }}>{localStorage.getItem("firstName")} {localStorage.getItem("lastName")} <span className="flex flex-row space-x-5" ><p onClick={deleteProfilePic} className=" text-red-700 font-sans font-medium cursor-pointer" >Delete</p> <Link to='/user/upload_user_image'><p className="text-blue-700 font-sans font-medium" >Update</p></Link></span>   </h2>
                             </div>
 
                         </div>

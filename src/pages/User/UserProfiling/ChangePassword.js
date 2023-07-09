@@ -1,15 +1,9 @@
 import React from "react";
-import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 import { FiLock } from "react-icons/fi";
 import { changeUserPassword } from '../../../api/userapi';
 
 
-export default function ChangePassword() {
-
-    return <Sidebar screenComponent={< ChangePasswordScreen />} />
-}
-
-function ChangePasswordScreen() {
+export default function ChangePasswordScreen() {
     const [currentPassword, setCurrentPassword] = React.useState('')
     const [newPassword, setNewPassword] = React.useState('')
     const [confermPassword, setConfermPassword] = React.useState('')

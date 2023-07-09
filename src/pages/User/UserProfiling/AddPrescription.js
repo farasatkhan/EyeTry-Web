@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 import { FaUser,  } from "react-icons/fa";
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -10,12 +9,7 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 
 
-export default function AddPrescription() {
-
-    return <Sidebar screenComponent={< AddPrescriptionScreen />} />
-}
-
-function AddPrescriptionScreen() {
+export default function AddPrescriptionScreen() {
     // for radio buttons
     const [selectedOption, setSelectedOption] = useState('option1');
 
@@ -364,7 +358,7 @@ function AddPrescriptionScreen() {
                             <button type="button" class=" w-36 sm:w-56 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4
                          focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700
                           dark:focus:ring-red-900">Cancel</button>
-                            <Link to='/prescription_details'><button type="button" class="w-36 sm:w-56 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
+                            <Link to='/user/prescription_details'><button type="button" class="w-36 sm:w-56 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
                          focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700
                           dark:focus:ring-gray-700 dark:border-gray-700">Save</button></Link>
                         </div>

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Sidebar from "../../../layouts/User/UserProfilingSidebar";
+import Sidebar from "../../../layouts/User/UserProfilingNavbar";
 import { BiEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import { FaRegEnvelope, FaUser, } from "react-icons/fa";
 import { getUserData, deleteAddress, viewAllPayments, deletePaymentMethod } from '../../../api/userapi';
 
-export default function ProfileHome() {
+// export default function ProfileHome() {
 
-    return <Sidebar screenComponent={< ProfileHomeScreen />} />
-}
-function ProfileHomeScreen() {
+//     return <Sidebar screenComponent={< ProfileHomeScreen />} />
+// }
+export default function ProfileHomeScreen() {
     const [addresses, setAddresses] = React.useState([])
     const [firstName, setFirstName] = React.useState('')
     const [lastName, setLastName] = React.useState('')
@@ -97,7 +97,7 @@ function ProfileHomeScreen() {
                     </div>
                     <div class="flex items-center justify-between w-full">
                         <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Personal Information</h2>
-                        <Link to='/my_details'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                        <Link to='/user/my_details'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
                             <BiEdit size={20} class="mr-2" />
@@ -153,7 +153,7 @@ function ProfileHomeScreen() {
                     </div>
                     <div class="flex items-center justify-between w-full">
                         <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">My Prescriptions</h2>
-                        <Link to='/add_prescription'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                        <Link to='/user/add_prescription'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
                             <BiEdit size={20} class="mr-2" />
@@ -274,7 +274,7 @@ function ProfileHomeScreen() {
                     </div>
                     <div class="flex items-center justify-between w-full">
                         <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Address Book</h2>
-                        <Link to='/add_address'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                        <Link to='/user/add_address'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
                             <BiEdit size={20} class="mr-2" />
@@ -301,7 +301,7 @@ function ProfileHomeScreen() {
                                                 </p>
                                             </td>
                                             <td className="py-4 text-right">
-                                                <Link to={`/edit_address/${address._id}`}>
+                                                <Link to={`/user/edit_address/${address._id}`}>
                                                     <button className="py-1 px-4 rounded inline-flex items-center ml-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
                                                         <BiEdit size={20} className="mr-2" />
                                                         <span>Edit</span>
@@ -329,7 +329,7 @@ function ProfileHomeScreen() {
                     </div>
                     <div class="flex items-center justify-between w-full">
                         <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Payment Methods</h2>
-                        <Link to='/add_payment'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                        <Link to='/user/add_payment'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
                             <BiEdit size={20} class="mr-2" />
@@ -361,7 +361,7 @@ function ProfileHomeScreen() {
 
                                             </td>
                                             <td class=" py-4 text-right">
-                                            <Link to={`/edit_payment/${payment._id}`}> 
+                                            <Link to={`/user/edit_payment/${payment._id}`}> 
                                                 <button class="py-1 px-4 rounded inline-flex items-center ml-auto
                                                 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                                                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
@@ -395,7 +395,7 @@ function ProfileHomeScreen() {
                     </div>
                     <div class="flex items-center justify-between w-full">
                         <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Try On Images</h2>
-                        <Link to='/upload_tryon_images'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                        <Link to='/user/upload_tryon_images'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
                             <BiEdit size={20} class="mr-2" />
@@ -436,7 +436,7 @@ function ProfileHomeScreen() {
                     </div>
                     <div class="flex items-center justify-between w-full">
                         <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Giftcard / Store Credit</h2>
-                        <Link to='/giftcards'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                        <Link to='/user/giftcards'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
                             <BiEdit size={20} class="mr-2" />

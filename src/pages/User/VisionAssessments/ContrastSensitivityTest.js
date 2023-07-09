@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
-import Sidebar from '../../../layouts/User/VissionAssessmentsSideBar'
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
 import axios from 'axios'
 import { reGenerateAccessToken } from '../../../api/authapi';
-export default function ContrastSensitivityTest() {
-
-    return <Sidebar screenComponent={< ContrastSensitivityTestScreen />} />
-}
-
 
 
 const ContrastSensitivityTestScreen = () => {
@@ -205,3 +199,4 @@ const ContrastSensitivityTestScreen = () => {
     );
 };
 
+export default ContrastSensitivityTestScreen;

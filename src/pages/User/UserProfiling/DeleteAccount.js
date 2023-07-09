@@ -1,6 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 import { FiLock } from "react-icons/fi";
 
 // for modal
@@ -9,12 +7,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 
-export default function DeleteAccount() {
-
-  return <Sidebar screenComponent={< DeleteAccountScreen />} />
-}
-
-function DeleteAccountScreen() {
+export default function DeleteAccountScreen() {
 // for modal
     const [open, setOpen] = useState(false)
     const cancelButtonRef = useRef(null)

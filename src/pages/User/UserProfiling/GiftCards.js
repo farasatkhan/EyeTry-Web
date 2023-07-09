@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../../../layouts/User/Navbar";
-import Footer from "../../../layouts/User/Footer";
-import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 import { FaBookOpen } from "react-icons/fa";
 
 import Box from '@mui/material/Box';
@@ -11,12 +8,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function GiftCards() {
 
-    return <Sidebar screenComponent={< GiftCardsScreen />} />
-}
-
-function GiftCardsScreen() {
+export default function GiftCardsScreen() {
     // for dropdown
     const [age, setAge] = React.useState('');
 
@@ -161,7 +154,7 @@ function GiftCardsScreen() {
                     </div>
 
                     <div className="w-full flex items-center justify-center">
-                        <Link to='/profile'><button type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
+                        <Link to='/user/profile'><button type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
                         focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-10 dark:bg-gray-800 dark:hover:bg-gray-700
                         dark:focus:ring-gray-700 dark:border-gray-700">Save</button></Link>
                     </div>

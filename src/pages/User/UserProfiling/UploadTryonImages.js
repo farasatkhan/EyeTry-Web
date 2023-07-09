@@ -1,17 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 import { FaBookOpen } from "react-icons/fa";
 import { uploadTryOnImage } from '../../../api/userapi';
 import defaultImage from '../../../assets/images/UserProfiling/pfpdefault.png';
 
 
-export default function UploadTryonImages() {
-
-    return <Sidebar screenComponent={< UploadTryonImagesScreen />} />
-}
-
-function UploadTryonImagesScreen() {
+export default function UploadTryonImagesScreen() {
 
     // managing tryon image upload
     const [selectedImage, setSelectedImage] = useState(null);

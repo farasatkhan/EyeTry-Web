@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from "../../../layouts/User/VissionAssessmentsSideBar";
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
 import axios from 'axios'
 import { reGenerateAccessToken } from '../../../api/authapi';
@@ -18,15 +17,9 @@ import Image10 from '../../../assets/images/visionAssessments/colorblind-test-im
 import Image11 from '../../../assets/images/visionAssessments/colorblind-test-image11.webp';
 import Image12 from '../../../assets/images/visionAssessments/colorblind-test-image12.webp';
 
-export default function ColorBlindnessTest() {
-
-  return <Sidebar screenComponent={< ColorBlindnessTestScreen />} />
-}
 
 const ColorBlindnessTestScreen = () => {
 
-
-  // const [status, setStatus] = useState(true);
   let status;
   const baseURL = 'http://localhost:3000'
   
@@ -184,9 +177,7 @@ const ColorBlindnessTestScreen = () => {
 
   const getTotalIncorrectResults = () => {
         const incorrectNumbers = results.filter(result => !result.isCorrect).length;
-    // if (incorrectNumbers < 1){
-    //   setStatus(false)
-    // }
+
     incorrectNumbers == 0 ? status = true : status = false 
     return incorrectNumbers;
   };
@@ -315,10 +306,8 @@ const ColorBlindnessTestScreen = () => {
         </div>
 
       </div>
-
-
-
     </div>
   );
 };
 
+export default ColorBlindnessTestScreen;

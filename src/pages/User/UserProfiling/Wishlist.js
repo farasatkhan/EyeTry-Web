@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 
-
-export default function Wishlist() {
-
-    return <Sidebar screenComponent={< WishlistScreen />} />
-}
-
-function WishlistScreen() {
+export default function WishlistScreen() {
     return (
         <div className="flex flex-col min-h-screen">
 

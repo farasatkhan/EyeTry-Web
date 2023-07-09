@@ -5,12 +5,6 @@ import image3 from '../../../assets/images/visionAssessments/astigmatism3.gif'
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
 import axios from 'axios'
 import { reGenerateAccessToken } from '../../../api/authapi';
-import Sidebar from '../../../layouts/User/VissionAssessmentsSideBar'
-
-export default function AstigmatismTest() {
-
-    return <Sidebar screenComponent={< AstigmatismTestScreen />} />
-}
 
 
 const AstigmatismTestScreen = () => {
@@ -167,3 +161,4 @@ const AstigmatismTestScreen = () => {
     );
 };
 
+export default AstigmatismTestScreen;

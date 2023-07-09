@@ -1,17 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 import { FaBookOpen } from "react-icons/fa";
 import {  uploadProfileImage } from '../../../api/userapi';
 import defaultImage from '../../../assets/images/UserProfiling/pfpdefault.png';
 
 
-export default function UploadUserImage() {
-
-    return <Sidebar screenComponent={< UploadUserImageScreen />} />
-}
-
-function UploadUserImageScreen() {
+export default function UploadUserImageScreen() {
 
     const [selectedImage, setSelectedImage] = useState(null);
     const [uploadedImage, setUploadedImage] = useState(null); // State to store the uploaded image

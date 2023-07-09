@@ -1,6 +1,4 @@
 import React, { Alert } from "react";
-import { Link } from "react-router-dom";
-import Sidebar from "../../../layouts/User/UserProfilingSidebar";
 import { FaUser } from "react-icons/fa";
 import { addPayment } from '../../../api/userapi'
 
@@ -11,13 +9,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-export default function Wishlist() {
 
-    return <Sidebar screenComponent={< AddPaymentScreen />} />
-}
-
-
-function AddPaymentScreen() {
+export default function AddPaymentScreen() {
 
     const [paymentType, setPaymentType] = React.useState('Credit Card')
     const [nameOnCard, setNameOnCard] = React.useState('')

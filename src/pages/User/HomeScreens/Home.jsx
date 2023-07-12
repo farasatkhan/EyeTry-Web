@@ -15,7 +15,7 @@ export default function Home() {
           <div className="mx-auto" >
             <img src='https://content.pymnts.com/wp-content/uploads/2023/01/emea-smart-glasses.jpg' alt="logo" className='w-full h-full object-cover mt-8 rounded-full' />
           </div>
-          <p className='mx-auto font-sans text-sm xl:text-base w-[90%] text-center mt-12 text-justify'> 
+          <p className='mx-auto font-sans text-sm xl:text-base w-[90%] mt-12 text-justify'> 
           Home Page will be the default route with route path "/". 
           Home page is not completed yet so click on the continue button to start using the application. 
           If you are not logged in, It will redirect you to the login page.</p>

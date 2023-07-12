@@ -324,7 +324,7 @@ export default function PersistentDrawerLeft(props) {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src={ellipseImg} />
-                <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className=' font-semibold font-black '>Qasim Malik</p></p>
+                <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className=' font-black '>Qasim Malik</p></p>
                 <image alt="user-profile-pic" src={ellipseImg} width={50} height={50}  />
               </IconButton>
             </Tooltip>

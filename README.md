@@ -3,11 +3,11 @@ To get started with the project, follow these steps:
 
 ## Clone the repository:
 
-git clone https://github.com/farasatkhan/EyeTry-Web
+git clone https://github.com/farasatkhan/EyeTry-Web.git
 
 ## Change into the project directory:
 
-cd <project directory>
+cd project-directory
 
 ## Install the dependencies:
 

@@ -1,6 +1,15 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+// import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import './App.css';
+
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+  Routes
+} from "react-router-dom";
+import { Fragment } from "react";
 
 // user profiling imports 
 import Signin from './pages/User/UserProfiling/Signin';
@@ -47,91 +56,85 @@ import TestHistory from "./pages/User/VisionAssessments/TestHistory";
 import PrivateRoute from "./utils/privateRoutes/PrivateRoute"
 
 import UserProfilingNavbar from "./layouts/User/UserProfilingNavbar"
+import HomeNavbar from "./layouts/User/HomeNavbar"
 import VissionAssessmentsNavbar from "./layouts/User/VissionAssessmentsNavbar"
+
+const publicRoutes = (
+  <Route>
+    <Route index element={<Home />} />
+    <Route path="signin" element={<Signin />} />
+    <Route path="signup" element={<Signup />} />
+    <Route path="forgotpassword" element={<ForgotPassword />} />
+    <Route path="emailsent" element={<EmailSent />} />
+  </Route>
+);
+
+const privateRoutes = (
+  <>
+    {/* Profile Management Routes */}
+    <Route path="/user/*" element={<UserProfilingNavbar />}>
+      <Route path="profile" element={<PrivateRoute Component={ProfileHome} />} />
+      <Route path="wish" element={<PrivateRoute Component={Wishlist} />} />
+      <Route path="add_address" element={<PrivateRoute Component={AddAddress} />} />
+      <Route path="edit_address/:id" element={<PrivateRoute Component={EditAddress} />} />
+      <Route path="add_payment" element={<PrivateRoute Component={AddPayment} />} />
+      <Route path="edit_payment/:id" element={<PrivateRoute Component={EditPayment} />} />
+      <Route path="delete_account" element={<PrivateRoute Component={DeleteAccount} />} />
+      <Route path="edit_prescription" element={<PrivateRoute Component={EditPrescriptions} />} />
+      <Route path="prescription_details" element={<PrivateRoute Component={PrescriptionDetails} />} />
+      <Route path="add_prescription" element={<PrivateRoute Component={AddPrescription} />} />
+      <Route path="change_password" element={<PrivateRoute Component={ChangePassword} />} />
+      <Route path="upload_tryon_images" element={<PrivateRoute Component={UploadTryonImages} />} />
+      <Route path="upload_user_image" element={<PrivateRoute Component={UploadUserImage} />} />
+      <Route path="giftcards" element={<PrivateRoute Component={GiftCards} />} />
+      <Route path="my_details" element={<PrivateRoute Component={MyDetails} />} />
+    </Route>
+
+    {/* Order Management Routes */}
+    <Route path="/home/*" element={<UserProfilingNavbar />}>
+      <Route path="select_lens_type" element={<PrivateRoute Component={SelectLensType} />} />
+      <Route path="select_prescription_option" element={<PrivateRoute Component={SelectPrescriptionOption} />} />
+      <Route path="select_prescription_type" element={<PrivateRoute Component={SelectPrescriptionType} />} />
+      <Route path="enter_prescription" element={<PrivateRoute Component={EnterPrescription} />} />
+      {/* ... Other order management routes ... */}
+    </Route>
+
+    {/* Vision Assessments */}
+    <Route path="/vision_assessments/*" element={<VissionAssessmentsNavbar />}>
+      <Route path="color_blind_test" element={<PrivateRoute Component={ColorBlindTest} />} />
+      <Route path="vision_acuity_test" element={<PrivateRoute Component={VisionAcuityTest} />} />
+      <Route path="contrast_sensitivity_test" element={<PrivateRoute Component={ContrastSensitivityTest} />} />
+      <Route path="astigmatism_test" element={<PrivateRoute Component={AstigmatismTest} />} />
+      <Route path="test_history" element={<PrivateRoute Component={TestHistory} />} />
+    </Route>
+
+    {/* admin routes */}
+      <Route path="/admin_signin" element={<PrivateRoute Component={AdminSignin} />} />
+      <Route path="/add_frames" element={<PrivateRoute Component={AddFrames} />} />
+      <Route path="/add_lens" element={<PrivateRoute Component={AddLens} />} />
+      <Route path="/add_glasses" element={<PrivateRoute Component={AddGlasses} />} />
+  </>
+);
+
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+
+    <Fragment>
+      {publicRoutes}
+      {privateRoutes}
+    </Fragment>
+
+  )
+);
+
+
 
 function App() {
   return (
-    <Router>
-      <Routes>
-
-        {/* Public Routes */}
-        {/* User Profiling public routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/forgotpassword" element={<ForgotPassword />} />
-        <Route path="/emailsent" element={<EmailSent />} />
-
-        {/* Protected Routes */}
-        {/* Managing UserProfilingSidebar */}
-        <Route
-          path="/user/*"
-          element={
-            <div>
-              <UserProfilingNavbar screenComponent={
-                <Routes>
-
-                  {/* Profile Management Routes */}
-                  <Route path="/profile" element={<PrivateRoute Component={ProfileHome} />} />
-                  <Route path="/wish" element={<PrivateRoute Component={Wishlist} />} />
-                  <Route path="/add_address" element={<PrivateRoute Component={AddAddress} />} />
-                  <Route path="/edit_address/:id" element={<PrivateRoute Component={EditAddress} />} />
-                  <Route path="/add_payment" element={<PrivateRoute Component={AddPayment} />} />
-                  <Route path="/edit_payment/:id" element={<PrivateRoute Component={EditPayment} />} />
-                  <Route path="/delete_account" element={<PrivateRoute Component={DeleteAccount} />} />
-                  <Route path="/edit_prescription" element={<PrivateRoute Component={EditPrescriptions} />} />
-                  <Route path="/prescription_details" element={<PrivateRoute Component={PrescriptionDetails} />} />
-                  <Route path="/add_prescription" element={<PrivateRoute Component={AddPrescription} />} />
-                  <Route path="/change_password" element={<PrivateRoute Component={ChangePassword} />} />
-                  <Route path="/upload_tryon_images" element={<PrivateRoute Component={UploadTryonImages} />} />
-                  <Route path="/upload_user_image" element={<PrivateRoute Component={UploadUserImage} />} />
-                  <Route path="/giftcards" element={<PrivateRoute Component={GiftCards} />} />
-                  <Route path="/my_details" element={<PrivateRoute Component={MyDetails} />} />
-
-                  {/* order management routes */}
-                  <Route path="/select_prescription_type" element={<PrivateRoute Component={SelectLensType} />} />
-                  <Route path="/select_prescription_option" element={<PrivateRoute Component={SelectPrescriptionOption} />} />
-                  <Route path="/select_prescription_type" element={<PrivateRoute Component={SelectPrescriptionType} />} />
-                  <Route path="/enter_prescription" element={<PrivateRoute Component={EnterPrescription} />} />
-
-                </Routes>
-              } />
-            </div>
-          }
-        />
-        <Route
-          path="assessments/*"
-          element={
-            <div>
-              <VissionAssessmentsNavbar screenComponent={
-                <Routes>
-
-                  {/* Vision Assessments */}
-                  <Route path="/color_blind_test" element={<PrivateRoute Component={ColorBlindTest} />} />
-                  <Route path="/vision_acuity_test" element={<PrivateRoute Component={VisionAcuityTest} />} />
-                  <Route path="/contrast_sensitivity_test" element={<PrivateRoute Component={ContrastSensitivityTest} />} />
-                  <Route path="/astigmatism_test" element={<PrivateRoute Component={AstigmatismTest} />} />
-                  <Route path="/test_history" element={<PrivateRoute Component={TestHistory} />} />
-
-                </Routes>
-              } />
-            </div>
-          }
-        />
-
-        {/* admin routes */}
-        <Route path="/admin_signin" element={<PrivateRoute Component={AdminSignin} />} />
-        <Route path="/add_frames" element={<PrivateRoute Component={AddFrames} />} />
-        <Route path="/add_lens" element={<PrivateRoute Component={AddLens} />} />
-        <Route path="/add_glasses" element={<PrivateRoute Component={AddGlasses} />} />
-
-
-
-        {/* no page found */}
-        <Route path="*" element={<NoPage />} />
-
-      </Routes>
-    </Router>
+    <Fragment>
+      <RouterProvider router={router} />
+    </Fragment>
   );
 }
 

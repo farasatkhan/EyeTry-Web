@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import '../../../components/ui/User/SelectLensTypeComponent/SelectLensTypeComponent.css';
-import SelectLensTypeScreen from "../../../components/ui/User/SelectLensTypeComponent/SelectLensTypeComponent";
+import SelectLensTypeScreenComponent from "../../../components/ui/User/SelectLensTypeComponent/SelectLensTypeComponent";
 
 
 export function SelectLensTypeComponentProp() {
@@ -30,7 +30,7 @@ export default function SelectLensType() {
 
   return (
 
-    <SelectLensTypeScreen screenComponent={<SelectLensTypeComponentProp/>} name={name} price={price} description={description} />
+    <SelectLensTypeScreenComponent screenComponent={<SelectLensTypeComponentProp/>} name={name} price={price} description={description} />
 
   );
 }

@@ -1,17 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import HomeSidebar from "../../../../layouts/User/HomeSidebar";
 import yellowGlassesImg from "../../../../assets/images/UserProfiling/yellowglasses.png";
 
-
-export default function SelectLensTypeComponent(props) {
+  
+  export default  function SelectLensTypeScreen(props) {
     const Component = props.screenComponent;
-  
-    return <HomeSidebar screenComponent={<SelectLensTypeScreen name={props.name} description={props.description} price={props.price} Component={Component} />} />;
-  }
-  
-  function SelectLensTypeScreen(props) {
-    const Component = props.Component;
   
     return (
       <div className="h-screen">

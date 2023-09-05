@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Outlet} from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -141,7 +141,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function PersistentDrawerLeft(props) {
+export default function PersistentDrawerLeft() {
   const [profilePic,setProfilePic] = React.useState(null)
   const baseURL = 'http://localhost:3000'
 
@@ -175,7 +175,6 @@ export default function PersistentDrawerLeft(props) {
 
   const navigate = useNavigate();
 
-  const ScreenComponent = props.screenComponent;
 
   // for navbar
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -466,7 +465,7 @@ export default function PersistentDrawerLeft(props) {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        {ScreenComponent},
+        <Outlet />
         <Footer/>
       </Main>
     </Box>

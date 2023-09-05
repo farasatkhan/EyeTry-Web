@@ -14,69 +14,18 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 
 import SelectLensTypeScreen from "../../../components/ui/User/SelectLensTypeComponent/SelectLensTypeComponent";
-
+import PDComponent from "../../../components/ui/User/SelectLensTypeComponent/PDComponent";
 
 function SelectLensTypeComponentProp() {
-    // for radio buttons
-    const [selectedOption, setSelectedOption] = useState('option1');
 
-    const handleOptionChange = (event) => {
-        setSelectedOption(event.target.value);
-    };
-
-    // for dropdown
-    const [age, setAge] = React.useState('');
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
     return (
-        <div>
+        <div className="" >
+
+            <h1 className="font-sans md:mt-0 font-semibold text-3xl mx-auto mb-10 mt-12">Enter Prescription Details</h1>
             <p className="text-lg font-sans font-bold mt-10">Pupilary Distance</p>
-            <div className="text-lg font-sans font-semibold flex items-center ml-5 mt-2" >
-                <label class="flex items-center">
-                    <input
-                        type="radio"
-                        value="option1"
-                        checked={selectedOption === 'option1'}
-                        onChange={handleOptionChange}
-                        className="w-5 h-5 mr-2"
-                    />
-                    <span class="ml-2">Single Number</span>
-                </label>
 
-                <label class="flex items-center ml-4">
-                    <input
-                        type="radio"
-                        value="option2"
-                        checked={selectedOption === 'option2'}
-                        onChange={handleOptionChange}
-                        className="w-5 h-5 mr-2"
-                    />
-                    <span class="ml-2">Two Numbers</span>
-                </label>
-            </div>
-
-
-
-            <div className="w-72 mt-10 ">
-                <Box sx={{ minWidth: 120 }} className>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Enter Your Pupilary Distance</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={age}
-                            label="Select Prescription Type"
-                            onChange={handleChange}
-                        >
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Box>
-            </div>
+            {/* pd component */}
+            <PDComponent />
 
             <p className="text-lg font-sans font-bold mt-10 mb-5">Right Eye - OD</p>
             <Box
@@ -124,7 +73,7 @@ function SelectLensTypeComponentProp() {
                 </div>
             </Box>
 
-            <p className="text-lg font-sans font-bold mt-10 mb-5">Right Eye - OD</p>
+            <p className="text-lg font-sans font-bold mt-6 mb-5">Left Eye - OD</p>
             <Box
                 component="form"
                 sx={{
@@ -170,7 +119,13 @@ function SelectLensTypeComponentProp() {
                 </div>
             </Box>
 
-
+            <div class="flex justify-center mt-6">
+                <button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none 
+                focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm py-2.5 mb-2
+                 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 w-full">
+                    Next
+                </button>
+            </div>
 
         </div>
     )

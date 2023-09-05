@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {Link} from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -29,9 +30,17 @@ import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
-import { FaSortDown } from "react-icons/fa";
+import { FaBold, FaSortDown } from "react-icons/fa";
+import { red } from '@mui/material/colors';
+import EmailSent from '../../pages/User/UserProfiling/EmailSent';
+import Footer from './Footer';
 import { FaGlasses } from "react-icons/fa";
-import ellipseImg from '../../assets/images/UserProfiling/Ellipse.png'
+import { logoutUser } from '../../api/authapi';
+import { useNavigate } from 'react-router-dom';
+import { Navigation } from '@mui/icons-material';
+import { viewProfileImage } from '../../api/userapi';
+import ellipse from '../../assets/images/UserProfiling/Ellipse.png'
+
 
 
 
@@ -79,7 +88,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 
-const pages = ['Eyeglasses', 'Sunglasses', 'Categories', 'Brands', 'Accessories'];
+const pages = ['Eyeglasses', 'Sunglasses', 'Categories', 'Brands', 'Assessments'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
@@ -133,6 +142,38 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function PersistentDrawerLeft(props) {
+  const [profilePic,setProfilePic] = React.useState(null)
+  const baseURL = 'http://localhost:3000'
+
+  // getting name from local storage
+  const firstName = localStorage.getItem("firstName")
+  const lastName = localStorage.getItem("lastName")
+  
+  // getting profile image
+  React.useEffect( ()=>{
+
+    const getImage = async () => {
+      try{        
+        const img = await viewProfileImage();
+        setProfilePic(baseURL+img.location)
+        }
+      catch (e){
+        if (e.response.status == 403){
+          console.log('Refreshing Token Failed')
+        }
+        if (e.response.status == 400){
+          console.log('No Image is present')
+          setProfilePic(null)
+        }
+        // console.error(e) // annoying
+        console.log(e)
+      }
+    }
+
+    getImage();
+  },[])
+
+  const navigate = useNavigate();
 
   const ScreenComponent = props.screenComponent;
 
@@ -147,11 +188,23 @@ export default function PersistentDrawerLeft(props) {
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (page) => {
+    if (page == "Assessments"){
+      navigate("/assessments/color_blind_test")
+    }
     setAnchorElNav(null);
+
   };
 
-  const handleCloseUserMenu = () => {
+  const logout = async () =>{
+    await logoutUser()
+
+  }
+  const handleCloseUserMenu = (setting) => {
+    if (setting == "Logout"){
+      logout();
+      navigate("/signin")
+    }
     setAnchorElUser(null);
   };
 
@@ -186,7 +239,8 @@ export default function PersistentDrawerLeft(props) {
 
           {/* navbar */}
 
-
+          
+          {/* logo */}
           <FaGlasses size={30} sx={{ display: { xs: 'flex', sm: 'flex' }, mr: 1, ml: { xs: 0, sm: 2, md: 5, lg: 7, xl: 10 } }} />
           <Typography 
             variant="h5"
@@ -279,12 +333,13 @@ export default function PersistentDrawerLeft(props) {
             </Menu>
           </Box>
 
-
+          {/* pages brands , categories etc */}
+          {/* Accessories are removed temporarly */}
           <Box sx={{ ml: 5, flexGrow: 1, display: { xs: 'none', sm: 'none', md: 'none', lg:'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => handleCloseNavMenu(page)}
                 sx={{ my: 2, color: 'black', display: 'flex', fontWeight: { md: '700', lg: '700' }, fontSize: { md: '12px', lg: '12px' } }}
               >
                 {page}
@@ -323,9 +378,9 @@ export default function PersistentDrawerLeft(props) {
           <Box sx={{ flexGrow: 0, ml: 2, }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={ellipseImg} />
-                <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className=' font-black '>Qasim Malik</p></p>
-                <image alt="user-profile-pic" src={ellipseImg} width={50} height={50}  />
+                <Avatar alt="Remy Sharp" src={profilePic} />
+                <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className='font-black'>{firstName} {lastName}</p></p>
+                <image alt="user-profile-pic" src={ellipse} width={50} height={50}  />
               </IconButton>
             </Tooltip>
             <Menu
@@ -345,7 +400,7 @@ export default function PersistentDrawerLeft(props) {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
@@ -373,30 +428,46 @@ export default function PersistentDrawerLeft(props) {
         </DrawerHeader>
 
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <div style={{ width: 150, height: 150, borderRadius: 100, backgroundColor: "red", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <img src={require('../../assets/images/UserProfiling/profilepic.png')} alt="logo" className='w-full h-full ' />
+          <div style={{ width: 150, height: 150, borderRadius: 100, display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <img src={profilePic} alt="user-profile-pic" className='rounded-full w-full h-full ' />
           </div>
-          <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20 }}>Alliyan Waheed</h2>
+          <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20 }}>{firstName} {lastName}</h2>
         </div>
 
         <Divider />
-        <List>
-          {['My Orders', 'My Details', 'My Prescriptions', 'Address Book', 'Payment Methods', 'Try On Images', 'Log Out'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton >
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+
+<List>
+  {[
+    { text: 'My Profile', path: '/user/profile' },
+    { text: 'Personal Details', path: '/user/my_details' },
+    { text: 'My Prescriptions', path: '/user/prescription_details' },
+    { text: 'Address Book', path: '/user/add_address' },
+    { text: 'Payment Methods', path: '/user/add_payment' },
+    { text: 'Try On Images', path: '/user/upload_tryon_images' },
+    { text: 'Manage Giftcards', path: '/user/giftcards' },
+    { text: 'Log Out' , path: '/signin' }
+  ].map(({ text, path }, index) => (
+    <ListItem key={text} disablePadding>
+      <ListItemButton
+        component={Link}
+        to={path}
+        onClick={text === 'Log Out' ? logout : undefined}
+      >
+        <ListItemIcon>
+          {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+        </ListItemIcon>
+        <ListItemText primary={text} />
+      </ListItemButton>
+    </ListItem>
+  ))}
+</List>
+
 
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        {ScreenComponent}
+        {ScreenComponent},
+        <Footer/>
       </Main>
     </Box>
   );

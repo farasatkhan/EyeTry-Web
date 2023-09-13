@@ -21,6 +21,7 @@ import ForgotPassword from './pages/User/UserProfiling/ForgotPassword';
 import EmailSent from './pages/User/UserProfiling/EmailSent';
 import SetNewPass from './pages/User/UserProfiling/SetNewPass';
 import PasswordReset from './pages/User/UserProfiling/PasswordReset';
+import ProfileHome from "./pages/User/HomeScreens/ProfileHome";
 import Wishlist from './pages/User/UserProfiling/Wishlist';
 import AddAddress from './pages/User/UserProfiling/AddAddress';
 import EditAddress from './pages/User/UserProfiling/EditAddress';
@@ -35,11 +36,16 @@ import GiftCards from './pages/User/UserProfiling/GiftCards';
 import ChangePassword from './pages/User/UserProfiling/ChangePassword';
 import UploadTryonImages from './pages/User/UserProfiling/UploadTryonImages';
 import UploadUserImage from './pages/User/UserProfiling/UploadUserImage';
-import SelectLensType from './pages/User/HomeScreens/SelectLensType';
-import SelectPrescriptionOption from './pages/User/HomeScreens/SelectPrescriptionOption';
-import SelectPrescriptionType from './pages/User/HomeScreens/SelectPrescriptionType';
-import EnterPrescription from './pages/User/HomeScreens/EnterPrescription';
-import ProfileHome from "./pages/User/HomeScreens/ProfileHome";
+// import SelectPrescriptionOption from './components/ui/User/OrderComponets/SelectPrescriptionOption';
+// import SelectPrescriptionType from './pages/User/HomeScreens/SelectPrescriptionType';
+// import EnterPrescription from './pages/User/HomeScreens/EnterPrescription';
+// import SaveOrderPrescription from './pages/User/HomeScreens/SaveOrderPrescription';
+// import ChooseLensPackage from './pages/User/HomeScreens/ChooseLensPackage';
+// import SelectLensType from './pages/User/HomeScreens/SelectLensType';
+// import SelectGlassesType from './components/ui/User/OrderComponets/SelectGlassesType';
+// import AvailableCoatings from './pages/User/HomeScreens/AvailableCoatings';
+// import ReviewSelections from './pages/User/HomeScreens/ReviewSelections';
+// import SunglassesLensSelection from './pages/User/HomeScreens/SunglassesLensSelection';
 
 // admin imports
 import AddFrames from './pages/Admin/AddFrames';
@@ -59,13 +65,19 @@ import UserProfilingNavbar from "./layouts/User/UserProfilingNavbar"
 import HomeNavbar from "./layouts/User/HomeNavbar"
 import VissionAssessmentsNavbar from "./layouts/User/VissionAssessmentsNavbar"
 
+import SelectLensTypeComponent from "./components/ui/User/SelectLensTypeComponent/SelectLensTypeComponent"
+
+
+// import Test from "./components/ui/User/Test"
+
 const publicRoutes = (
   <Route>
-    <Route index element={<Home />} />
+    <Route index element={<PrivateRoute Component={Home} />} />
     <Route path="signin" element={<Signin />} />
     <Route path="signup" element={<Signup />} />
     <Route path="forgotpassword" element={<ForgotPassword />} />
     <Route path="emailsent" element={<EmailSent />} />
+    {/* <Route path="test" element={<Test />} /> */}
   </Route>
 );
 
@@ -91,16 +103,23 @@ const privateRoutes = (
     </Route>
 
     {/* Order Management Routes */}
-    <Route path="/home/*" element={<UserProfilingNavbar />}>
-      <Route path="select_lens_type" element={<PrivateRoute Component={SelectLensType} />} />
-      <Route path="select_prescription_option" element={<PrivateRoute Component={SelectPrescriptionOption} />} />
+    {/* <Route path="/home/*" element={<UserProfilingNavbar />}> */}
+    <Route path="/order/*" element={<PrivateRoute Component={UserProfilingNavbar} />} >
+      <Route path="select_lens" element={<PrivateRoute Component={SelectLensTypeComponent} />} />
+      {/* <Route path="select_prescription_option" element={<PrivateRoute Component={SelectPrescriptionOption} />} />
       <Route path="select_prescription_type" element={<PrivateRoute Component={SelectPrescriptionType} />} />
       <Route path="enter_prescription" element={<PrivateRoute Component={EnterPrescription} />} />
+      <Route path="save_order_prescription" element={<PrivateRoute Component={SaveOrderPrescription} />} />
+      <Route path="choose_lens_package" element={<PrivateRoute Component={ChooseLensPackage} />} />
+      <Route path="select_lens_type" element={<PrivateRoute Component={SelectLensType} />} />
+      <Route path="available_coatings" element={<PrivateRoute Component={AvailableCoatings} />} />
+      <Route path="review_selections" element={<PrivateRoute Component={ReviewSelections} />} />
+      <Route path="sunglasses_lens_selection" element={<PrivateRoute Component={SunglassesLensSelection} />} /> */}
       {/* ... Other order management routes ... */}
     </Route>
 
     {/* Vision Assessments */}
-    <Route path="/vision_assessments/*" element={<VissionAssessmentsNavbar />}>
+    <Route path="/assessments/*" element={<VissionAssessmentsNavbar />}>
       <Route path="color_blind_test" element={<PrivateRoute Component={ColorBlindTest} />} />
       <Route path="vision_acuity_test" element={<PrivateRoute Component={VisionAcuityTest} />} />
       <Route path="contrast_sensitivity_test" element={<PrivateRoute Component={ContrastSensitivityTest} />} />
@@ -127,7 +146,6 @@ const router = createBrowserRouter(
 
   )
 );
-
 
 
 function App() {

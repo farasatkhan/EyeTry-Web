@@ -1,11 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-// import Navbar from "../../components/ui/Navbar";
-import Footer from "../../../layouts/User/Footer";
-import Sidebar from "../../../layouts/User/UserProfilingNavbar";
-import { FaBookOpen } from "react-icons/fa";
-import { FaRegEnvelope, FaUser, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa";
-
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,10 +7,10 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 
-import SelectLensTypeScreen from "../../../components/ui/User/SelectLensTypeComponent/SelectLensTypeComponent";
-import PDComponent from "../../../components/ui/User/SelectLensTypeComponent/PDComponent";
+// import SelectLensTypeScreen from "../SelectLensTypeComponent/SelectLensTypeComponent";
+import PDComponent from "../SelectLensTypeComponent/PDComponent";
 
-function SelectLensTypeComponentProp() {
+export default function SelectLensTypeComponentProp() {
 
     return (
         <div className="" >
@@ -119,27 +113,29 @@ function SelectLensTypeComponentProp() {
                 </div>
             </Box>
 
+                <Link to="/order/save_order_prescription">
             <div class="flex justify-center mt-6">
-                <button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none 
+                    <button type="button" className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none 
                 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm py-2.5 mb-2
                  dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 w-full">
-                    Next
-                </button>
+                        Next
+                    </button>
             </div>
+                </Link>
 
         </div>
     )
 }
 
-export default function SelectLensType() {
-    const [name, setName] = useState("JACKSON");
-    const [description, setDescription] = useState("Cat Eye Eyeglasses");
-    const [price, Price] = useState("$149.00");
+// export default function SelectLensType() {
+//     const [name, setName] = useState("JACKSON");
+//     const [description, setDescription] = useState("Cat Eye Eyeglasses");
+//     const [price, Price] = useState("$149.00");
 
-    return (
+//     return (
 
-        <SelectLensTypeScreen screenComponent={<SelectLensTypeComponentProp />} name={name} price={price} description={description} />
+//         <SelectLensTypeScreen screenComponent={<SelectLensTypeComponentProp />} name={name} price={price} description={description} />
 
-    );
-}
+//     );
+// }
 

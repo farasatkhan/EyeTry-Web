@@ -23,15 +23,15 @@ export default function SelectLensTypeComponentProp({ onUpdate }) {
     };
 
     return (
-        <div>
-            <h1 className="font-sans md:mt-0 font-semibold text-3xl mx-auto mb-10 mt-12">Sunglasses Lens Selection</h1>
+        <div className="">
+            <h1 className="font-sans font-semibold text-3xl mx-auto mb-10 ">Sunglasses Lens Selection</h1>
             <Link to="">
-                <div className="flex flex-row fixed-div mb-3 bg-white border-4 border-gray-300 rounded-lg hover:border-gray-500">
+                <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:border-gray-400">
                     <div class="w-[60%] p-4">
                         <h2 class="text-xl font-bold mb-2">Polarized (+$99 +$49.50)</h2>
                         <p class=" text-sm font-sans">Reduce glare and haze for clearer vision</p>
                     </div>
-                    <div className="w-[40%] flex items-center bg-white  flow-row space-x-2">
+                    <div className="w-[40%] flex items-center bg-white rounded-lg flow-row space-x-2">
                         {/* <img className="h-[80px]" src={clear} alt="free silver package" /> */}
                         <div className={`${selectedColor === "Gray Polarized" ? "border-black rounded-full border-2" : ""}`}>
                             <div
@@ -50,12 +50,12 @@ export default function SelectLensTypeComponentProp({ onUpdate }) {
             </Link>
 
             <Link to="">
-                <div className="flex flex-row fixed-div mb-3 bg-white border-4 border-gray-300 rounded-lg hover:border-gray-500">
+                <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:border-gray-400">
                     <div class="w-[60%] p-4">
                         <h2 class="text-xl font-bold mb-2">Color Tint (+$29 +$14.50)</h2>
                         <p class=" text-sm font-sans">Sun protection basic lenses</p>
                     </div>
-                    <div className="w-[40%] flex items-center bg-white  flow-row space-x-2">
+                    <div className="w-[40%] flex items-center bg-white rounded-lg flow-row space-x-2 flex-wrap">
                         {/* <img className="h-[80px]" src={clear} alt="free silver package" /> */}
                         <div className={`${selectedColor === "Gray Tint" ? "border-black rounded-full border-2" : ""}`}>
                             <div
@@ -92,12 +92,12 @@ export default function SelectLensTypeComponentProp({ onUpdate }) {
             </Link>
 
             <Link to="">
-                <div className="flex flex-row fixed-div mb-3 bg-white border-4 border-gray-300 rounded-lg hover:border-gray-500">
+                <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:border-gray-400">
                     <div class="w-[60%] p-4">
                         <h2 class="text-xl font-bold mb-2">Mirrored (+$49 +$24.50)</h2>
                         <p class=" text-sm font-sans">High fashionable reflective color</p>
                     </div>
-                    <div className="w-[40%] flex items-center bg-white  flow-row space-x-2">
+                    <div className="w-[40%] flex items-center bg-white rounded-lg flow-row space-x-2 flex-wrap ">
                         {/* <img className="h-[80px]" src={clear} alt="free silver package" /> */}
                         <div className={`${selectedColor === "Red Mirrored" ? "border-black rounded-full border-2" : ""}`}>
                             <div
@@ -132,19 +132,15 @@ export default function SelectLensTypeComponentProp({ onUpdate }) {
                     </div>
                 </div>
             </Link>
+            <div class="flex justify-center mt-10">
+                    <button type="button" className="text-white bg-red-800 hover:bg-red-900 focus:outline-none 
+                focus:ring-4 focus:ring-red-300 font-semibold rounded-lg text-sm py-2.5 mb-2
+                 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700 w-full">
+                        Select
+                    </button>
+            </div>
         </div>
     )
 }
 
-// export default function SelectLensType() {
-//   const [name, setName] = useState("JACKSON");
-//   const [description, setDescription] = useState("Cat Eye Eyeglasses");
-//   const [price, Price] = useState("$149.00");
-
-//   return (
-
-//     <SelectLensTypeScreen screenComponent={<SelectLensTypeComponentProp/>} color={color} name={name} price={price} description={description} />
-
-//   );
-// }
 

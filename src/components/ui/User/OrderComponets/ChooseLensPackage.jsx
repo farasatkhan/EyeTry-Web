@@ -8,10 +8,10 @@ import diamnondLens from '../../../../assets/images/orders/diamond.png'
 export default function SelectLensTypeComponentProp() {
     return (
         <div className="">
-            <h1 className="font-sans md:mt-10 font-semibold text-3xl mx-auto mb-10 mt-12">Choose Lens Package</h1>
+            <h1 className="font-sans font-semibold text-3xl mx-auto mb-10 ">Choose Lens Package</h1>
             <Link to="/order/select_lens_type">
-                <div className="flex flex-row fixed-div mb-3 bg-white border-4 border-gray-300 rounded-lg hover:bg-gray-200">
-                    <div className="w-[25%] flex items-center bg-white">
+                <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-200">
+                    <div className="w-[25%] flex items-center bg-white rounded-l-lg">
                         <img className="h-200" src={silverLens} alt="free silver package" />
                     </div>
                     <div class="w-[75%] p-4">
@@ -22,8 +22,8 @@ export default function SelectLensTypeComponentProp() {
             </Link>
             
             <Link to="/order/select_lens_type">
-                <div className="flex flex-row fixed-div mb-3 bg-white border-4 border-gray-300 rounded-lg hover:bg-gray-200">
-                    <div className="w-[25%] flex items-center bg-white">
+                <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-200">
+                    <div className="w-[25%] flex items-center bg-white rounded-l-lg">
                         <img className="h-200" src={goldLens} alt="free silver package" />
                     </div>
                     <div class="w-[75%] p-4">
@@ -37,8 +37,8 @@ export default function SelectLensTypeComponentProp() {
             </Link>
             
             <Link to="/order/select_lens_type">
-                <div className="flex flex-row fixed-div mb-3 bg-white border-4 border-gray-300 rounded-lg hover:bg-gray-200">
-                    <div className="w-[25%] flex items-center bg-white">
+                <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-200">
+                    <div className="w-[25%] flex items-center bg-white rounded-l-lg">
                         <img className="h-200" src={platinumLens} alt="free silver package" />
                     </div>
                     <div class="w-[75%] p-4">
@@ -53,8 +53,8 @@ export default function SelectLensTypeComponentProp() {
             </Link>
             
             <Link to="/order/select_lens_type">
-                <div className="flex flex-row fixed-div mb-3 bg-white border-4 border-gray-300 rounded-lg hover:bg-gray-200">
-                    <div className="w-[25%] flex items-center bg-white ">
+                <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-200">
+                    <div className="w-[25%] flex items-center bg-white rounded-l-lg">
                         <img className="h-200" src={diamnondLens} alt="free silver package" />
                     </div>
                     <div class="w-[75%] p-4">

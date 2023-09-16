@@ -12,7 +12,8 @@ const PDComponent = () => {
   };
 
   return (
-    <div className="w-72 mt-5 ml-4">
+    <div className="w-[80%] mx-auto">
+      <p className="text-lg font-sans font-semibold mt-4">Pupilary Distance</p>
       <Box sx={{ minWidth: 120 }}>
         <FormControl component="fieldset">
           <RadioGroup row aria-label="pdType" name="pdType" value={pdType} onChange={handlePDTypeChange}>
@@ -23,7 +24,7 @@ const PDComponent = () => {
       </Box>
 
       {pdType === 'oneNumber' && (
-        <div className='mt-5' >
+        <div className='mt-5 mx-auto' >
           <FormControl fullWidth>
             <InputLabel id="pdOneNumber-label">Enter Your Pupillary Distance (One Number)</InputLabel>
             <Select

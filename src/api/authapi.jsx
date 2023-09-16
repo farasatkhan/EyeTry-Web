@@ -61,6 +61,9 @@ export const logoutUser = async () =>{
           token:refreshToken
       });
       console.log("Logging out",response)
+      // Clear tokens from local storage
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
       return response;
   }
   catch (error){

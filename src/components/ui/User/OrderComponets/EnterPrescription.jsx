@@ -10,27 +10,36 @@ import TextField from '@mui/material/TextField';
 // import SelectLensTypeScreen from "../SelectLensTypeComponent/SelectLensTypeComponent";
 import PDComponent from "../SelectLensTypeComponent/PDComponent";
 
-export default function SelectLensTypeComponentProp() {
+export default function SelectLensTypeComponentProp({onSelectedOptions, onNextStep}) {
+
+    const handleSelections = (type) =>{
+        onSelectedOptions(type)
+      }
+  
+      const handleNext = () => {
+        onNextStep();
+      }
 
     return (
-        <div className="" >
+        <div className="mx-auto" >
 
-            <h1 className="font-sans md:mt-0 font-semibold text-3xl mx-auto mb-10 mt-12">Enter Prescription Details</h1>
-            <p className="text-lg font-sans font-bold mt-10">Pupilary Distance</p>
+            <h1 className="font-sans font-semibold text-3xl mx-auto">Enter Prescription Details</h1>
 
-            {/* pd component */}
+            <div className="mx-auto ">
             <PDComponent />
 
-            <p className="text-lg font-sans font-bold mt-10 mb-5">Right Eye - OD</p>
+            <div className="flex-col flex justify-center items-center">
+            <div>
+            <p className="text-lg font-sans font-semibold mt-10 mb-3">Right Eye - OD</p>
             <Box
                 component="form"
                 sx={{
-                    '& .MuiTextField-root': { m: 1, width: '12ch' },
+                    '& .MuiTextField-root': { m: 1, width: '16ch' },
                 }}
                 noValidate
                 autoComplete="off"
             >
-                <div>
+                <div className="">
                     <TextField
                         id="outlined-number"
                         label="SPH"
@@ -66,17 +75,20 @@ export default function SelectLensTypeComponentProp() {
                     />
                 </div>
             </Box>
+            </div>
 
-            <p className="text-lg font-sans font-bold mt-6 mb-5">Left Eye - OD</p>
+            <div>
+            <p className="text-lg font-sans font-semibold mt-6 mb-3">Left Eye - OD</p>
+            
             <Box
                 component="form"
                 sx={{
-                    '& .MuiTextField-root': { m: 1, width: '12ch' },
+                    '& .MuiTextField-root': { m: 1, width: '16ch' },
                 }}
                 noValidate
                 autoComplete="off"
             >
-                <div>
+                <div className="">
                     <TextField
                         id="outlined-number"
                         label="SPH"
@@ -112,30 +124,26 @@ export default function SelectLensTypeComponentProp() {
                     />
                 </div>
             </Box>
+            </div>
+            </div>
 
-                <Link to="/order/save_order_prescription">
             <div class="flex justify-center mt-6">
-                    <button type="button" className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none 
+                    <button onClick={ () => { handleSelections({
+                        axis: "1",
+                        abc: "2",
+                        def: "3"
+                    }); handleNext() }} type="button" className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none 
                 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm py-2.5 mb-2
-                 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 w-full">
+                 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 w-[80%]">
                         Next
                     </button>
             </div>
-                </Link>
+  
+            </div>
+
 
         </div>
     )
 }
 
-// export default function SelectLensType() {
-//     const [name, setName] = useState("JACKSON");
-//     const [description, setDescription] = useState("Cat Eye Eyeglasses");
-//     const [price, Price] = useState("$149.00");
-
-//     return (
-
-//         <SelectLensTypeScreen screenComponent={<SelectLensTypeComponentProp />} name={name} price={price} description={description} />
-
-//     );
-// }
 

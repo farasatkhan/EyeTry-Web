@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
 
-<footer class="bg-gray-800 text-white">
-    <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+<footer class="bg-gray-800 text-white pl-16 pr-16 py-5">
+    <div class="mx-auto w-full max-w-screen-xl">
         <div class="md:flex md:justify-between">
           <div class="mb-6 md:mb-5 flex items-center ">
               <Link to="https://flowbite.com/" className="flex items-center ">
-                  <h1 className=" font-sans  text-6xl " ><span className="font-bold">EYE</span>TRY</h1>
+                  <h1 className=" font-sans  text-6xl mb-10 sm:mb-0" ><span className="font-bold">EYE</span>TRY</h1>
               </Link>
           </div>
           <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-4 text-white text-sm pl-[50px] pr-[100px] mt-[20px] md:h-[200px]" >

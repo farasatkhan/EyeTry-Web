@@ -4,15 +4,15 @@ import { Link } from "react-router-dom";
 export default function SelectLensTypeComponentProp() {
   return (
     <div>
-      <h1 className="font-sans md:mt-0 font-semibold text-3xl mx-auto mb-10 mt-12">Simplify your next purchase.</h1>
+      <h1 className="font-sans font-semibold text-3xl mx-auto mb-10">Simplify your next purchase.</h1>
       <Link to="/order/choose_lens_package">
-      <div class="fixed-div mb-3 bg-white border-4 border-gray-300 p-4 rounded-lg hover:bg-gray-200">
+      <div class="fixed-div mb-3 bg-white border-2 border-gray-300 p-4 rounded-lg hover:bg-gray-200">
         <h2 class="text-xl font-bold mb-2">Save Prescription</h2>
         <p class=" text-base font-sans">Get the next pair in no time by saving this prescription to your profile.</p>
       </div>
       </Link>
       <Link to="/order/choose_lens_package">
-      <div class="fixed-div mb-3 bg-white border-4 p-4 rounded-lg border-gray-300 hover:bg-gray-200">
+      <div class="fixed-div mb-3 bg-white border-2 p-4 rounded-lg border-gray-300 hover:bg-gray-200">
         <h2 class="text-xl font-bold mb-2">Skip Prescription</h2>
         <p class="text-base font-sans">Skip saving prescription this time.</p>
       </div>

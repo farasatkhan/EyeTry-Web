@@ -15,7 +15,7 @@ export default function SelectLensTypeComponentProp({ selectedOptions, onConfirm
 
     return (
         <div className="w-full">
-            <h1 className="font-sans font-semibold text-3xl mx-auto mb-2">Review Your Selections</h1>
+            <h1 className="font-sans font-semibold text-2xl mx-auto mb-2">Review Your Selections</h1>
             <p className="mb-10 text-base font-sans">You can select more than one.</p>
 
             {/* <div onClick={handleClickOtherElement} className="cursor-pointer hover:bg-gray-200 flex flex-row fixed-div mb-3 bg-white border-4 border-gray-300 rounded-lg hover:border-gray-300">

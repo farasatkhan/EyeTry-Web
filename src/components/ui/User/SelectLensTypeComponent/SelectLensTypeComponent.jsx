@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import yellowGlassesImg from "../../../../assets/images/UserProfiling/yellowglasses.png";
 import CustomizeProduct from '../CustomizeProduct/CustomizeProduct';
-import ProductView from '../ProductView/ProductView';
+import SunglassesLensPreview from '../OrderComponets/SunglassesLensPreview/SunglassesLensPreview';
+import TransitionLensPreview from '../OrderComponets/TransitionLensPreview/TransitionLensPreview';
 import SelectGlassesType from "../OrderComponets/SelectGlassesType";
 import SelectPrescriptionOption from "../OrderComponets/SelectPrescriptionOption";
 import SelectLensTypeComponent from "../OrderComponets/SelectPrescriptionType"
@@ -132,30 +133,37 @@ export default function SelectLensTypeScreen() {
     <>
       <div className="flex flex-col md:flex-row  sm:px-0 min-h-screen">
         {/* section 1 */}
-        <div className="w-full md:w-[55%] items-center mb-10 flex flex-col justify-center sm:justify-start">
+        <div className="w-full md:w-[55%] mb-10 justify-center sm:justify-start flex flex-col items-center">
           <div className="w-full sm:w-85">
             <div className="">
-              {currentStep !== 9 && (
+              {currentStep !== 9 && currentStep !== 8 && (
                 <>
-                  <div className='bg-gray-800 w-full flex flex-row text-white p-2'>
+                  <div className='bg-gray-700 w-full flex flex-row text-white p-2'>
                     <p className='w-[20%] text-sm justify-center flex items-center cursor-pointer mb-2 whitespace-nowrap'>&lt; Back to frame</p>
                     <p className='w-[60%] mx-auto text-lg justify-center flex mb-4'>Lens Preview</p>
                     <p className='w-[20%]'></p>
                   </div>
-                  <div className='p-8 bg-white mt-[-15px] rounded-xl'></div>
+                  <div className='p-8 bg-white mt-[-15px] rounded-md w-full'></div>
                   <div className={` justify-center items-center flex ${imageAnimationClass}`}>
                     <img src={yellowGlassesImg} alt="logo" className="w-[80%] h-[80%]" />
                   </div>
                 </>
               )}
 
-              {currentStep === 9 && (
+              {currentStep === 8 && (
                 <>
-                  <ProductView customization={customization} />
+                  <TransitionLensPreview customization={customization} />
                 </>
               )}
+
+              {currentStep === 9 && (
+                <>
+                  <SunglassesLensPreview customization={customization} />
+                </>
+              )}
+
             </div>
-            {currentStep !== 9 && (
+            {currentStep !== 8 && currentStep !== 9 && (
               <>
                 <div className={`px-20 flex flex-row mx-auto mt-4 sm:mt-10 ${textAnimationClass}`}>
                   <div>
@@ -166,8 +174,8 @@ export default function SelectLensTypeScreen() {
                     <h5 className="font-sans text-xl sm:text-3xl font-bold">$149.00</h5>
                   </div>
                 </div>
-                <div className={`bg-gray-100 rounded-lg p-2 px-4 sm:px-20 mr-8 ml-8 mb-8 transform ${textAnimationClass}`}>
-                  <h5 className="font-sans text-2xl font-bold mr-4 sm:mr-10">Gray Polarized Lens</h5>
+                <div className={`bg-gray-100 rounded-md p-2 sm:px-4 mr-8 ml-8 mb-8 transform ${textAnimationClass}`}>
+                  <h5 className="font-sans text-xl font-bold mr-4 sm:mr-10 mb-2">Gray Polarized Lens</h5>
                   <p className="font-sans text-base">
                     Gray polarized lenses reduce glare and provide clear vision in bright conditions while maintaining natural color perception. They are ideal for outdoor activities and offer UV protection.
                   </p>
@@ -188,7 +196,7 @@ export default function SelectLensTypeScreen() {
               &gt;
             </button>
           </div>
-          <div className="flex justify-between p-10 mt-[-15px] rounded-xl bg-[#f7f8f9] "></div>
+          <div className="flex justify-between p-10 mt-[-15px] rounded-md bg-[#f7f8f9] "></div>
           <div className=" flex flex-col w-[90%] mx-auto flex-1 mb-8">
             <div className="mx-auto w-full p-3">{rightSideComponent}</div>
           </div>

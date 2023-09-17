@@ -66,7 +66,7 @@ export default function SelectLensTypeComponentProp({ onSelectedOptions, onNextS
     return (
         <div className="mx-auto" >
 
-            <h1 className="font-sans font-semibold text-3xl mx-auto">Enter Prescription Details</h1>
+            <h1 className="font-sans font-semibold text-2xl mx-auto">Enter Prescription Details</h1>
 
             <div className="mx-auto ">
                 {/* IPD */}

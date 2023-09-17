@@ -28,11 +28,11 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep }) {
 
     return (
         <div className="">
-            <h1 className="font-sans font-semibold text-3xl mx-auto mb-10 ">Sunglasses Lens Selection</h1>
+            <h1 className="font-sans font-semibold text-2xl mx-auto mb-10 ">Sunglasses Lens Selection</h1>
 
-            <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:border-gray-400">
+            <div className="flex flex-row fixed-div mb-3  bg-white border-2 border-gray-300 rounded-md hover:border-gray-400">
                 <div class="w-[60%] p-4">
-                    <h2 class="text-xl font-bold mb-2">Polarized (+$99 +$49.50)</h2>
+                    <h2 class="text-lg font-bold mb-2">Polarized (+$99 +$49.50)</h2>
                     <p class=" text-sm font-sans">Reduce glare and haze for clearer vision</p>
                 </div>
                 <div className="w-[40%] flex items-center bg-white rounded-lg flow-row space-x-2">
@@ -52,9 +52,9 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep }) {
                 </div>
             </div>
 
-            <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:border-gray-400">
+            <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-md hover:border-gray-400">
                 <div class="w-[60%] p-4">
-                    <h2 class="text-xl font-bold mb-2">Color Tint (+$29 +$14.50)</h2>
+                    <h2 class="text-lg font-bold mb-2">Color Tint (+$29 +$14.50)</h2>
                     <p class=" text-sm font-sans">Sun protection basic lenses</p>
                 </div>
                 <div className="w-[40%] flex items-center bg-white rounded-lg flow-row space-x-2 flex-wrap">
@@ -92,9 +92,9 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep }) {
                 </div>
             </div>
 
-            <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:border-gray-400">
+            <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-md hover:border-gray-400">
                 <div class="w-[60%] p-4">
-                    <h2 class="text-xl font-bold mb-2">Mirrored (+$49 +$24.50)</h2>
+                    <h2 class="text-lg font-bold mb-2">Mirrored (+$49 +$24.50)</h2>
                     <p class=" text-sm font-sans">High fashionable reflective color</p>
                 </div>
                 <div className="w-[40%] flex items-center bg-white rounded-lg flow-row space-x-2 flex-wrap ">

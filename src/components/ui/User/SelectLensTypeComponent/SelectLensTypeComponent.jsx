@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import yellowGlassesImg from "../../../../assets/images/UserProfiling/yellowglasses.png";
 import CustomizeProduct from '../CustomizeProduct/CustomizeProduct';
 import ProductView from '../ProductView/ProductView';
-
 import SelectGlassesType from "../OrderComponets/SelectGlassesType";
 import SelectPrescriptionOption from "../OrderComponets/SelectPrescriptionOption";
 import SelectLensTypeComponent from "../OrderComponets/SelectPrescriptionType"
@@ -13,19 +12,19 @@ import SelectLensType from "../OrderComponets/SelectLensType"
 import AvailableCoatings from "../OrderComponets/AvailableCoatings"
 import ReviewSelections from "../OrderComponets/ReviewSelections"
 import SunglassesLensSelection from "../OrderComponets/SunglassesLensSelection"
-
-
+import TransitionLensSelection from "../OrderComponets/TransitionLensSelection"
 import graysvg from '/images/order/gray.svg'
+
+
 export default function SelectLensTypeScreen() {
-  const [selectedOptions, setSelectedOptions] = useState({});
+  const [selectedOptions, setSelectedOptions] = useState({ package: "", coatings: "" });
   // Define the handleGlassesTypeSelect function to update selectedOptions
   const handleSelectedOptions = (optionType, value) => {
-    setSelectedOptions({
-      ...selectedOptions,
+    setSelectedOptions((prevSelectedOptions) => ({
+      ...prevSelectedOptions,
       [optionType]: value
-    });
+    }));
   };
-
 
   // animation effect
   const [loaded, setLoaded] = useState(false);
@@ -47,21 +46,47 @@ export default function SelectLensTypeScreen() {
     setCustomization(newCustomization);
   };
 
-
   const [currentStep, setCurrentStep] = useState(1);
-
-  const handleNextStep = () => {
-    if (currentStep < 15) {
+  const [previousScreen, setPreviousScreen] = useState(null);
+  
+  const handleNextStep = (nextStep) => {
+    if (nextStep) {
+      setPreviousScreen(currentStep);
+      setCurrentStep(nextStep);
+    } else if (currentStep < 15) {
+      setPreviousScreen(currentStep);
       setCurrentStep(currentStep + 1);
     }
   };
+  
+  // managing previus states comming from child components
+  const handlePreviousState = (state) => {
+    setPreviousScreen(state)
+  }
 
   const handlePreviousStep = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
+      if (currentStep <= 8){
+        setCurrentStep(currentStep-1)
+      }
+      else if (currentStep === 8 || currentStep === 9) {
+        setCurrentStep(7);
+      }
+      else if (currentStep === 10 && previousScreen === 8) {
+        setCurrentStep(8);
+      }
+      else if (currentStep === 10 && previousScreen === 9) {
+        setCurrentStep(9);
+      }
+      else if (previousScreen === 10) {
+        setCurrentStep(7);
+      } 
+      else {
+        setCurrentStep(previousScreen);
+      }
     }
+    console.log("prev state: " + previousScreen)
   };
-
 
   let rightSideComponent;
 
@@ -76,35 +101,32 @@ export default function SelectLensTypeScreen() {
       rightSideComponent = <SelectLensTypeComponent onSelectedOptions={(value) => handleSelectedOptions("prescriptionType", value)} onNextStep={handleNextStep} />;
       break;
     case 4:
-      rightSideComponent = <EnterPrescription onSelectedOptions={(value) => handleSelectedOptions("Prescription", value)} onNextStep={handleNextStep} />;
+      rightSideComponent = <EnterPrescription onSelectedOptions={(value) => handleSelectedOptions("prescription", value)} onNextStep={handleNextStep} />;
       break;
     case 5:
       rightSideComponent = <SaveOrderPrescription onNextStep={handleNextStep} />;
       break;
     case 6:
-      rightSideComponent = <ChooseLensPackage onNextStep={handleNextStep} />;
+      rightSideComponent = <ChooseLensPackage onSelectedPackage={(value) => handleSelectedOptions("package", value)} onSelectedCoatings={(value) => handleSelectedOptions("coatings", value)} onNextStep={handleNextStep} />
       break;
     case 7:
       rightSideComponent = <SelectLensType onNextStep={handleNextStep} />;
       break;
     case 8:
-      rightSideComponent = <AvailableCoatings onNextStep={handleNextStep} />;
+      rightSideComponent = <TransitionLensSelection onPreviousState={handlePreviousState} onUpdate={handleCustomizationUpdate} onNextStep={handleNextStep} />;
       break;
-    case 9:
-      rightSideComponent = <SunglassesLensSelection onUpdate={handleCustomizationUpdate} onNextStep={handleNextStep} />;
+      case 9:
+        rightSideComponent = <SunglassesLensSelection onUpdate={handleCustomizationUpdate} onNextStep={handleNextStep} />;
+        break;
+        case 10:
+          rightSideComponent = <AvailableCoatings onNextStep={handleNextStep} />;
       break;
-    case 10:
+    case 11:
       rightSideComponent = <ReviewSelections selectedOptions={selectedOptions} />;
-      // case 9:
-      //   rightSideComponent = <SaveOrderPrescription />;
-      // case 9:
-      //   rightSideComponent = <SaveOrderPrescription />;
       break;
     default:
       rightSideComponent = null;
   }
-
-
 
   return (
     <>
@@ -158,22 +180,20 @@ export default function SelectLensTypeScreen() {
         {/* section 2 */}
         <div className="flex flex-col w-full md:w-[45%] shadow-lg shadow-left bg-[#f7f8f9] border-l-[#f1f1f1] border-l-2">
           <div className='bg-gray-200 w-full flex flex-row p-2 font-semibold'>
-            <button className="w-[20%] text-base font-normal mb-2 hover:text-blue-400  cursor-pointer" onClick={handlePreviousStep} disabled={currentStep === 1}>
+            <button className="w-[20%] text-base font-normal mb-2 hover:text-blue-400  cursor-pointer" onClick={() => handlePreviousStep()} disabled={currentStep === 1}>
               &lt; <span className="hover:underline">Back</span>
             </button>
             <p className='w-[60%] mx-auto text-lg justify-center flex mb-4'>Lens Selection</p>
-            <button className="w-[20%] text-base font-normal mb-2" onClick={handleNextStep} disabled={currentStep === 10}>
+            <button className="w-[20%] text-base font-normal mb-2" onClick={() => handleNextStep()} disabled={currentStep === 10}>
               &gt;
             </button>
           </div>
           <div className="flex justify-between p-10 mt-[-15px] rounded-xl bg-[#f7f8f9] "></div>
-          <div className="flex flex-col w-[90%] mx-auto flex-1 mb-8">
+          <div className=" flex flex-col w-[90%] mx-auto flex-1 mb-8">
             <div className="mx-auto w-full p-3">{rightSideComponent}</div>
           </div>
         </div>
       </div>
-
-
     </>
   );
 }

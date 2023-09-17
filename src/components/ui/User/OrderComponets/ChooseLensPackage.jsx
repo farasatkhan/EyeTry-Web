@@ -1,16 +1,36 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import silverLens from '../../../../assets/images/orders/silver.png'
 import goldLens from '../../../../assets/images/orders/gold.png'
 import platinumLens from '../../../../assets/images/orders/platinum.png'
 import diamnondLens from '../../../../assets/images/orders/diamond.png'
 
-export default function SelectLensTypeComponentProp() {
+export default function ChooseLensPackage({ onNextStep, onSelectedPackage, onSelectedCoatings }) {
+    const handlePackageSelect = (packageType) => {
+        // Call the onSelectedPackage function with the selected package
+        onSelectedPackage(packageType);
+    };
+
+    const handleCoatingsSelect = (coatingsType) => {
+        // Call the onSelectedCoatings function with the selected coatings
+        onSelectedCoatings(coatingsType);
+    };
+
+    // for navigation
+    const handleNext = () => {
+        // Call the parent's handleNextStep function when the element is clicked
+        onNextStep();
+    };
+
     return (
         <div className="">
-            <h1 className="font-sans font-semibold text-3xl mx-auto mb-10 ">Choose Lens Package</h1>
-            <Link to="/order/select_lens_type">
-                <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-200">
+            <h1 className="font-sans font-semibold text-3xl mx-auto mb-5">Choose Lens Package</h1>
+            <div className=" h-[450px] overflow-auto">
+                <div onClick={() => {
+                    handlePackageSelect("Silver");
+                    handleCoatingsSelect("1.5 index ClearViz©️ Lenses, Lens Protective");
+                    handleNext();
+                }}
+                    className="cursor-pointer flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-200">
                     <div className="w-[25%] flex items-center bg-white rounded-l-lg">
                         <img className="h-200" src={silverLens} alt="free silver package" />
                     </div>
@@ -19,10 +39,13 @@ export default function SelectLensTypeComponentProp() {
                         <p class=" text-sm font-sans">1.5 index ClearViz©️ Lenses</p>
                     </div>
                 </div>
-            </Link>
-            
-            <Link to="/order/select_lens_type">
-                <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-200">
+
+                <div onClick={() => {
+                        handlePackageSelect("Gold");
+                        handleCoatingsSelect("1.5 index ClearViz©️ Lenses, Anti-scratch coating, 100% UV-Block coating, Anti-reflective coating");
+                        handleNext();
+                    }}
+                    className="cursor-pointer flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-200">
                     <div className="w-[25%] flex items-center bg-white rounded-l-lg">
                         <img className="h-200" src={goldLens} alt="free silver package" />
                     </div>
@@ -34,10 +57,13 @@ export default function SelectLensTypeComponentProp() {
                         <p class=" text-sm font-sans">1.5 index ClearViz©️ Lenses, Anti-scratch coating, 100% UV-Block coating, Anti-reflective coating</p>
                     </div>
                 </div>
-            </Link>
-            
-            <Link to="/order/select_lens_type">
-                <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-200">
+
+                <div onClick={() => { 
+                        handlePackageSelect("Platinum");
+                        handleCoatingsSelect("1.61 index featherweight G-vision©️ Lenses, up to 30% thinner, Anti-scratch coating, 100% UV-block coating, Anti-reflective coating"); 
+                        handleNext();
+                    }}
+                    className="cursor-pointer flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-200">
                     <div className="w-[25%] flex items-center bg-white rounded-l-lg">
                         <img className="h-200" src={platinumLens} alt="free silver package" />
                     </div>
@@ -50,10 +76,12 @@ export default function SelectLensTypeComponentProp() {
                         <p class=" text-sm font-sans">1.61 index featherweight G-vision©️ Lenses, up to 30% thinner, Anti-scratch coating, 100% UV-block coating, Anti-reflective coating</p>
                     </div>
                 </div>
-            </Link>
-            
-            <Link to="/order/select_lens_type">
-                <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-200">
+
+                <div onClick={() => { 
+                        handlePackageSelect("Diamond");
+                        handleCoatingsSelect("1.67 index G-vision©️ ultra-thin lenses, up to 40% thinner, Anti-scratch coating, 100% UV-Block coating (UVA + UVB), Enhanced Anti-reflective coating"); 
+                        handleNext();
+                    }} className="cursor-pointer flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-200">
                     <div className="w-[25%] flex items-center bg-white rounded-l-lg">
                         <img className="h-200" src={diamnondLens} alt="free silver package" />
                     </div>
@@ -67,26 +95,8 @@ export default function SelectLensTypeComponentProp() {
                         <p class=" text-sm font-sans">1.67 index G-vision©️ ultra-thin lenses, up to 40% thinner, Anti-scratch coating, 100% UV-Block coating (UVA + UVB), Enhanced Anti-reflective coating, Free Prescription Card (15% off your next purchase)</p>
                     </div>
                 </div>
-            </Link>
+            </div>
         </div>
     )
 }
-
-export const Space = () => {
-    return(
-        <div className="h-100"></div>
-    )
-} 
-
-// export default function SelectLensType() {
-//     const [name, setName] = useState("JACKSON");
-//     const [description, setDescription] = useState("Cat Eye Eyeglasses");
-//     const [price, Price] = useState("$149.00");
-
-//     return (
-
-//         <SelectLensTypeScreenComponent screenComponent={<SelectLensTypeComponentProp />} spaceComponent={<Space />}  name={name} price={price} description={description} />
-
-//     );
-// }
 

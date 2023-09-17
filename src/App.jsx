@@ -67,6 +67,7 @@ import VissionAssessmentsNavbar from "./layouts/User/VissionAssessmentsNavbar"
 
 import SelectLensTypeComponent from "./components/ui/User/SelectLensTypeComponent/SelectLensTypeComponent"
 
+import Testsvg from "./components/ui/User/OrderComponets/Testsvg"
 
 // import Test from "./components/ui/User/Test"
 
@@ -77,6 +78,7 @@ const publicRoutes = (
     <Route path="signup" element={<Signup />} />
     <Route path="forgotpassword" element={<ForgotPassword />} />
     <Route path="emailsent" element={<EmailSent />} />
+    <Route path="test" element={<Testsvg />} />
     {/* <Route path="test" element={<Test />} /> */}
   </Route>
 );

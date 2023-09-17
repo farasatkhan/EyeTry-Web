@@ -12,8 +12,9 @@ import greenMirroredSvg from '/images/order/greenMirrored.svg'
 import SilverMirroredSvg from '/images/order/SilverMirrored.svg'
 
 
-export default function SelectLensTypeComponent({ onUpdate, onNextStep }) {
+export default function SelectLensTypeComponentProp({ onUpdate, onNextStep, onPreviousState }) {
     const [selectedColor, setSelectedColor] = useState("Gray Polarized");
+
 
     // Handle user input and update the product
     const handleFrameColorChange = (color) => {
@@ -21,14 +22,17 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep }) {
         setSelectedColor(color.name)
     };
 
-    // navigation
     const handleNext = (step) => {
         onNextStep(step)
     }
 
+    const handleChildToParentPrevState = (state) => {
+        onPreviousState(state)
+    }
+
     return (
         <div className="">
-            <h1 className="font-sans font-semibold text-3xl mx-auto mb-10 ">Sunglasses Lens Selection</h1>
+            <h1 className="font-sans font-semibold text-3xl mx-auto mb-10 ">Transition Lens Selection</h1>
 
             <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-lg hover:border-gray-400">
                 <div class="w-[60%] p-4">
@@ -133,7 +137,7 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep }) {
             </div>
 
             <div class="flex justify-center mt-10">
-                <button onClick={() => handleNext(10)} type="button" className="text-white bg-red-800 hover:bg-red-900 focus:outline-none 
+                <button onClick={() => {handleNext(10); handleChildToParentPrevState(8)}} type="button" className="text-white bg-red-800 hover:bg-red-900 focus:outline-none 
                 focus:ring-4 focus:ring-red-300 font-semibold rounded-lg text-sm py-2.5 mb-2
                  dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700 w-full">
                     Select

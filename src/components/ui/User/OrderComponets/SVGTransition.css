@@ -1,0 +1,6 @@
+.filter {
+  transition-property: filter;
+  transition-timing-function: ease-in-out;
+  /* transition-duration: 5000ms; Change this value to control the transition speed */
+
+}

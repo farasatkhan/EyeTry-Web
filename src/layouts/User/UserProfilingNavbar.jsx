@@ -311,16 +311,10 @@ export default function PersistentDrawerLeft() {
                 <MenuItem>
                   <IconButton
                     size="large"
-                    aria-label="show 17 new notifications"
                     color="inherit"
                   >
-                    {/* <Badge badgeContent={17} color="error">
-                      <NotificationsIcon />
-                    </Badge> */}
                   </IconButton>
-       
                   <Typography onClick={() => handleCloseNavMenu(page)} textAlign="center">{page}</Typography>
-       
                 </MenuItem>
 
               ))}

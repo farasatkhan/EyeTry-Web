@@ -33,13 +33,8 @@ function ProductView({ customization }) {
 
   return (
     <div className='flex flex-col'>
-      <div className='bg-gray-700 w-full flex flex-row text-white p-2'>
-        <p className='w-[20%] text-sm justify-center flex items-center cursor-pointer mb-2'>&lt; Back to frame</p>
-        <p className='w-[60%] mx-auto text-lg justify-center flex mb-4'>Lens Preview</p>
-        <p className='w-[20%]'></p>
-      </div>
-      <div className='p-8 bg-white mt-[-15px] rounded-md'></div>
-
+      <button className="ml-10  mt-10 w-[20%] text-base font-bold mb-2 hover:text-blue-400  cursor-pointer">
+        &lt; <span className="hover:underline">Back to frame</span></button>
       <div className={`flex flex-col items-center transform ${imageAnimationClass}`}>
         <img
           src={customization.image}
@@ -79,7 +74,7 @@ function ProductView({ customization }) {
         </div>
       </div>
       <div className={`mt-10 m-10 bg-gray-100 rounded-sm p-3 transform ${textAnimationClass}`}>
-        <h5 className="font-sans text-xl font-bold">Gray Polarized Lens</h5>
+        <h5 className="font-sans text-xl font-bold mb-2">Gray Polarized Lens</h5>
         <p className="font-sans text-base">
           Gray polarized lenses reduce glare and provide clear vision in bright conditions while maintaining natural color perception. They are ideal for outdoor activities and offer UV protection.
         </p>

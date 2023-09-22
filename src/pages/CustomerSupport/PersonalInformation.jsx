@@ -1,16 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaRegEnvelope, FaUser, } from "react-icons/fa";
-import { getUserData, updatePersonalInfo } from '../../../api/userapi';
-import { viewProfileImage, deleteProfileImage } from '../../../api/userapi';
-import defaultImage from '../../../assets/images/UserProfiling/pfpdefault.png';
+import profilePic from '../../assets/images/UserProfiling/profilepic.png'
 
 
 export default function MyDetailsScreen() {
     const [firstName, setFirstName] = React.useState('')
     const [lastName, setLastName] = React.useState('')
     const [email, setEmail] = React.useState('')
-    const [profilePic, setProfilePic] = React.useState(null)
     const baseURL = 'http://localhost:3000'
 
         // error messages
@@ -19,57 +16,6 @@ export default function MyDetailsScreen() {
         const [successVisible,setSuccessVisible] = React.useState(false)
         const [successMessage,setSuccessMessage] = React.useState(null)
 
-    // getting profile image
-    React.useEffect(() => {
-
-        const getImage = async () => {
-            try {
-                const img = await viewProfileImage();
-                setProfilePic(baseURL + img.location)
-            }
-            catch (e) {
-                if (e.response.status == 403) {
-                    console.log('Refreshing Token Failed')
-                }
-                if (e.response.status == 400) {
-                    console.log('No Image is present')
-                    setProfilePic(null)
-                }
-                // console.error(e) // annoying
-                console.log(e)
-            }
-        }
-
-        getImage();
-    }, [])
-
-    // deleting profile pic
-    // delete address
-    const deleteProfilePic = async (id) => {
-        try {
-            await deleteProfileImage()
-            setProfilePic(defaultImage)
-        }
-        catch (e) {
-            throw e
-        }
-    }
-
-    React.useEffect(() => {
-        getProfileData()
-    }, [])
-
-    const getProfileData = async () => {
-        try {
-            const response = await getUserData()
-            setFirstName(response.firstName)
-            setLastName(response.lastName)
-            setEmail(response.email)
-        }
-        catch (e) {
-            throw e
-        }
-    }
 
     // update personal info
 
@@ -109,10 +55,10 @@ export default function MyDetailsScreen() {
 
             <div className="p-5  bg-white border border-gray-200 rounded-lg shadow w-[90%] mx-auto mb-5">
 
-                <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10">
+                <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-8">
                     <div className="mb-10 flex flex-col md:flex-row md:items-center">
                         <div class="md:text-left text-center md:mb-0 mb-4">
-                            <h3 className="text-2xl sm:text-4xl  font-bold font-sans">Personal Information</h3>
+                            <h3 className="text-2xl sm:text-3xl  font-bold font-sans">Personal Information</h3>
                             <p className=" font-sans text-base ">Edit your profile quickly</p>
                         </div>
                         {errorVisible &&
@@ -142,7 +88,7 @@ export default function MyDetailsScreen() {
                             sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your First Name" type="text" />
                     </div>
 
-                    <label for="lastname" className="block text-sm mt-10 font-semibold text-gray-800 font-sans">Last Name</label>
+                    <label for="lastname" className="block text-sm mt-5 font-semibold text-gray-800 font-sans">Last Name</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <FaUser color='grey' />
@@ -152,7 +98,7 @@ export default function MyDetailsScreen() {
                             sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your Last Name" type="text" />
                     </div>
 
-                    <label for="email" className="block text-sm mt-10 font-semibold text-gray-800 font-sans">Email</label>
+                    <label for="email" className="block text-sm mt-5 font-semibold text-gray-800 font-sans">Email</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <FaRegEnvelope color='grey' />
@@ -162,7 +108,7 @@ export default function MyDetailsScreen() {
                             sm:text-sm transition duration-150 ease-in-out" placeholder="info@yourmai.com" type="email" />
                     </div>
 
-                    <div className=" bg-white border border-gray-200 rounded-lg shadow mt-10  mx-auto mb-10">
+                    <div className=" bg-white border border-gray-200 rounded-lg shadow mt-5  mx-auto mb-10">
                         <div className="flex flex-row mt-5">
                             <h4 class=" ml-5  text-lg font-bold tracking-tight text-gray-900 font-sans">Your Photo</h4>
                         </div>
@@ -172,7 +118,7 @@ export default function MyDetailsScreen() {
                                 <div style={{ width: 70, height: 70, borderRadius: 50, display: "flex", justifyContent: "center", alignItems: "center" }}>
                                     <img src={profilePic} alt="logo" className='w-full h-full ' />
                                 </div>
-                                <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20, marginLeft: 15 }}>{localStorage.getItem("firstName")} {localStorage.getItem("lastName")} <span className="flex flex-row space-x-5" ><p onClick={deleteProfilePic} className=" text-red-700 font-sans font-medium cursor-pointer" >Delete</p> <Link to='/user/upload_user_image'><p className="text-blue-700 font-sans font-medium" >Update</p></Link></span>   </h2>
+                                <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20, marginLeft: 15 }}>{localStorage.getItem("firstName")} {localStorage.getItem("lastName")} <span className="flex flex-row space-x-5" ><p className=" text-red-700 font-sans font-medium cursor-pointer" >Delete</p> <Link to='/support/upload_user_image'><p className="text-blue-700 font-sans font-medium" >Update</p></Link></span>   </h2>
                             </div>
 
                         </div>

@@ -135,7 +135,7 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep }) {
             <div class="flex justify-center mt-10">
                 <button onClick={() => handleNext(10)} type="button" className="text-white bg-red-800 hover:bg-red-900 focus:outline-none 
                 focus:ring-4 focus:ring-red-300 font-semibold rounded-lg text-sm py-2.5 mb-2
-                 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700 w-full">
+                 w-full">
                     Select
                 </button>
             </div>

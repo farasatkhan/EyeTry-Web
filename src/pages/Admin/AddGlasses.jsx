@@ -103,7 +103,7 @@ function AddFramesScreen() {
     return (
         <div className="flex flex-col min-h-screen">
 
-            <div className="p-5  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[90%] mx-auto mb-5">
+            <div className="p-5  bg-white border border-gray-200 rounded-lg shadow w-[90%] mx-auto mb-5">
 
                 <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10 ">
                     <div class=" text-center mb-12" >
@@ -368,7 +368,7 @@ function AddFramesScreen() {
 
 
                     <div className="flex justify-center mt-16">
-                        <button type="button" className="w-36 sm:w-56 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Add Product</button>
+                        <button type="button" className="w-36 sm:w-56 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Add Product</button>
                     </div>
 
 

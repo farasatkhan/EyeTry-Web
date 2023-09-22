@@ -26,7 +26,7 @@ export default function AddPrescriptionScreen() {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <div className="p-5  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[90%] mx-auto mb-5">
+            <div className="p-5  bg-white border border-gray-200 rounded-lg shadow w-[90%] mx-auto mb-5">
                 <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10 ">
                     <div class=" text-center mb-12" >
                         <h3 className="text-2xl sm:text-4xl  font-bold font-sans">Add Prescription</h3>
@@ -356,11 +356,9 @@ export default function AddPrescriptionScreen() {
 
                         <div className=" text-center mt-20 mb-10 ">
                             <button type="button" class=" w-36 sm:w-56 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4
-                         focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700
-                          dark:focus:ring-red-900">Cancel</button>
+                         focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Cancel</button>
                             <Link to='/user/prescription_details'><button type="button" class="w-36 sm:w-56 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
-                         focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700
-                          dark:focus:ring-gray-700 dark:border-gray-700">Save</button></Link>
+                         focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Save</button></Link>
                         </div>
 
 

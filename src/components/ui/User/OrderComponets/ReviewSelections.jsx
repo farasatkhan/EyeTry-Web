@@ -38,7 +38,7 @@ export default function SelectLensTypeComponentProp({ selectedOptions, onConfirm
     </div>
 
 
-            <button type="button" class="mt-12 w-[90%] block mx-auto text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5  mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Continue</button>
+            <button type="button" class="mt-12 w-[90%] block mx-auto text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5  mb-2">Continue</button>
 
         </div>
     )

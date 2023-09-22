@@ -42,9 +42,6 @@ import { viewProfileImage } from '../../api/userapi';
 import ellipse from '../../assets/images/UserProfiling/Ellipse.png'
 
 
-
-
-
 // for navbar
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -234,10 +231,6 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
-
-          {/* navbar */}
-
           
           {/* logo */}
           <FaGlasses size={30} sx={{ display: { xs: 'flex', sm: 'flex' }, mr: 1, ml: { xs: 0, sm: 2, md: 5, lg: 7, xl: 10 } }} />
@@ -321,11 +314,13 @@ export default function PersistentDrawerLeft() {
                     aria-label="show 17 new notifications"
                     color="inherit"
                   >
-                    <Badge badgeContent={17} color="error">
+                    {/* <Badge badgeContent={17} color="error">
                       <NotificationsIcon />
-                    </Badge>
+                    </Badge> */}
                   </IconButton>
-                  <p>Notifications</p>
+       
+                  <Typography onClick={() => handleCloseNavMenu(page)} textAlign="center">{page}</Typography>
+       
                 </MenuItem>
 
               ))}

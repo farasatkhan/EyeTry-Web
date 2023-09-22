@@ -4,8 +4,11 @@ import bluelight from '/images/order/bluelight.svg'
 import transition from '/images/order/transition.svg'
 import sunglasses from '/images/order/sunglasses.svg'
 
-export default function SelectLensTypeComponent({onNextStep}) {
+export default function SelectLensTypeComponent({onNextStep , onSelectedOptions}) {
     
+    const handleSelections = (value) => {
+        onSelectedOptions(value)
+    }
 
     // for navigation
     const handleNext = (step) => {
@@ -17,7 +20,7 @@ export default function SelectLensTypeComponent({onNextStep}) {
         <div>
             <h1 className="font-sans font-semibold text-2xl mx-auto mb-10 ">Select Glasses Type</h1>
             
-            <div onClick={()=>handleNext(10)} className="flex flex-row fixed-div mb-3 hover:border-gray-400 bg-white border-2 border-gray-300 hover:bg-gray-200 rounded-md ">
+            <div onClick={()=>{handleNext(10) , handleSelections("Clear")}} className="cursor-pointer flex flex-row fixed-div mb-3 hover:border-gray-400 bg-white border-2 border-gray-300 hover:bg-gray-200 rounded-md ">
                 <div className="w-[20%] flex items-center rounded-l-lg">
                     <img className="h-[60px] ml-5" src={clear} alt="free silver package" />
                 </div>
@@ -27,7 +30,7 @@ export default function SelectLensTypeComponent({onNextStep}) {
                 </div>
             </div>
 
-            <div onClick={()=>handleNext(10)} className="flex flex-row fixed-div mb-3 hover:border-gray-400 bg-white border-2 border-gray-300 rounded-md hover:bg-gray-200 ">
+            <div onClick={()=>{handleNext(10) , handleSelections("Blue Light Lensesear")}} className="cursor-pointer flex flex-row fixed-div mb-3 hover:border-gray-400 bg-white border-2 border-gray-300 rounded-md hover:bg-gray-200 ">
                 <div className="w-[20%] flex items-center rounded-l-lg">
                     <img className="h-[60px] ml-5" src={bluelight} alt="free silver package" />
                 </div>
@@ -37,7 +40,7 @@ export default function SelectLensTypeComponent({onNextStep}) {
                 </div>
             </div>
 
-            <div onClick={() => handleNext(8)} className="flex flex-row fixed-div mb-3 hover:border-gray-400 bg-white border-2 rounded-md border-gray-300 hover:bg-gray-200">
+            <div onClick={()=>{handleNext(8) , handleSelections("Transition / Photochromic")}} className="cursor-pointer flex flex-row fixed-div mb-3 hover:border-gray-400 bg-white border-2 rounded-md border-gray-300 hover:bg-gray-200">
                 <div className="w-[20%] flex items-center rounded-l-lg">
                     <img className="h-[60px] ml-2" src={transition} alt="free silver package" />
                 </div>
@@ -47,7 +50,7 @@ export default function SelectLensTypeComponent({onNextStep}) {
                 </div>
             </div>
 
-            <div onClick={() => handleNext(9)} className="flex flex-row fixed-div mb-3 hover:border-gray-400 bg-white border-2 rounded-md border-gray-300 hover:bg-gray-200">
+            <div onClick={()=>{handleNext(9) , handleSelections("Sunglasses")}} className="cursor-pointer flex flex-row fixed-div mb-3 hover:border-gray-400 bg-white border-2 rounded-md border-gray-300 hover:bg-gray-200">
                 <div className="w-[20%] flex items-center rounded-l-lg">
                     <img className="h-[60px] ml-5" src={sunglasses} alt="free silver package" />
                 </div>

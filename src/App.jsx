@@ -67,7 +67,15 @@ import VissionAssessmentsNavbar from "./layouts/User/VissionAssessmentsNavbar"
 
 import SelectLensTypeComponent from "./components/ui/User/SelectLensTypeComponent/SelectLensTypeComponent"
 
-// import Test from "./components/ui/User/Test"
+// Support Screens
+import CustomerSupportDashboard from "./pages/CustomerSupport/dashboard"
+import CustomerSupportNavbar from "./layouts/User/CustomerSupportNavbar"
+import SupportTicketDetails from "./pages/CustomerSupport/SupportTicketDetails";
+import PersonalInformation from "./pages/CustomerSupport/PersonalInformation";
+import CSUploadUserImage from "./pages/CustomerSupport/UploadUserImage";
+import ViewPersonalInfo from "./pages/CustomerSupport/ViewPersonalInfo";
+// import CreateSupportTicket from "./pages/CustomerSupport/CreateSupportTicket";
+
 
 const publicRoutes = (
   <Route>
@@ -126,10 +134,23 @@ const privateRoutes = (
     </Route>
 
     {/* admin routes */}
-      <Route path="/admin_signin" element={<PrivateRoute Component={AdminSignin} />} />
-      <Route path="/add_frames" element={<PrivateRoute Component={AddFrames} />} />
-      <Route path="/add_lens" element={<PrivateRoute Component={AddLens} />} />
-      <Route path="/add_glasses" element={<PrivateRoute Component={AddGlasses} />} />
+    <Route path="/admin_signin" element={<PrivateRoute Component={AdminSignin} />} />
+    <Route path="/add_frames" element={<PrivateRoute Component={AddFrames} />} />
+    <Route path="/add_lens" element={<PrivateRoute Component={AddLens} />} />
+    <Route path="/add_glasses" element={<PrivateRoute Component={AddGlasses} />} />
+
+
+
+    {/* Customer Support Routes */}
+    <Route path="/support/*" element={<CustomerSupportNavbar />}>
+      <Route index path="dashboard" element={<PrivateRoute Component={CustomerSupportDashboard} />} />
+      <Route path="ticket_details" element={<PrivateRoute Component={SupportTicketDetails} />} />
+      <Route path="personal_information" element={<PrivateRoute Component={PersonalInformation} />} />
+      <Route path="upload_user_image" element={<PrivateRoute Component={CSUploadUserImage} />} />
+      <Route path="view_personal_info" element={<PrivateRoute Component={ViewPersonalInfo} />} />
+      {/* <Route path="create_support_ticket" element={<PrivateRoute Component={CreateSupportTicket} />} /> */}
+
+    </Route>
   </>
 );
 

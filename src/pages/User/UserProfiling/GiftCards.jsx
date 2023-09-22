@@ -19,7 +19,7 @@ export default function GiftCardsScreen() {
     return (
         <div className="flex flex-col min-h-screen">
 
-            <div className="p-5  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[90%] mx-auto mb-5">
+            <div className="p-5  bg-white border border-gray-200 rounded-lg shadow  w-[90%] mx-auto mb-5">
 
                 <div className="w-[100%] md:w-[70%] lg:w-[70%] mx-auto mt-10">
                     <div class=" text-center md:mb-0 mb-4">
@@ -27,13 +27,13 @@ export default function GiftCardsScreen() {
                         <p className=" font-sans text-base mt-3">Manage Your Gift Cards</p>
                     </div>
 
-                    <div className=" bg-white border mt-20 border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%] mx-auto mb-10">
+                    <div className=" bg-white border mt-20 border-gray-200 rounded-lg shadow">
                         <div className="flex flex-row mt-5">
                             <div className="left-0 pl-3 flex items-center pointer-events-none">
                                 <FaBookOpen size={30} className="mr-5 pb-1" />
                             </div>
                             <div class="flex items-center justify-between w-full">
-                                <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Buy Giftcard</h2>
+                                <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 ">Buy Giftcard</h2>
 
                             </div>
                         </div>
@@ -89,13 +89,13 @@ export default function GiftCardsScreen() {
                     </div>
 
 
-                    <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%] mx-auto mb-10">
+                    <div className=" bg-white border border-gray-200 rounded-lg shadow w-[80%] mx-auto mb-10">
                         <div className="flex flex-row mt-5">
                             <div className="left-0 pl-3 flex items-center pointer-events-none">
                                 <FaBookOpen size={30} className="mr-5 pb-1" />
                             </div>
                             <div class="flex items-center justify-between w-full">
-                                <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Manage Gift Cards</h2>
+                                <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 ">Manage Gift Cards</h2>
                             </div>
                         </div>
                         <hr class="border-3 border-gray-300 my-4" />
@@ -103,8 +103,8 @@ export default function GiftCardsScreen() {
 
                             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                                 <div class="overflow-x-auto">
-                                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <table class="w-full text-sm text-left text-gray-500 ">
+                                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                                             <tr>
                                                 <th scope="col" class="px-6 py-3">
                                                     Gift Card Number
@@ -121,8 +121,8 @@ export default function GiftCardsScreen() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            <tr class="bg-white border-b  hover:bg-gray-50 ">
+                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                                                     gitfcard 1
                                                 </td>
                                                 <td class="px-6 py-4">
@@ -155,8 +155,7 @@ export default function GiftCardsScreen() {
 
                     <div className="w-full flex items-center justify-center">
                         <Link to='/user/profile'><button type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
-                        focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-10 dark:bg-gray-800 dark:hover:bg-gray-700
-                        dark:focus:ring-gray-700 dark:border-gray-700">Save</button></Link>
+                        focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-10">Save</button></Link>
                     </div>
 
                 </div>

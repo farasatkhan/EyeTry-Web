@@ -40,7 +40,7 @@ export default function UploadTryonImagesScreen() {
     return (
         <div className="flex flex-col min-h-screen">
 
-            <div className="p-5  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[90%] mx-auto mb-5">
+            <div className="p-5  bg-white border border-gray-200 rounded-lg shadow w-[90%] mx-auto mb-5">
 
                 <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10">
                     <div class=" text-center md:mb-0 mb-4">
@@ -92,9 +92,9 @@ export default function UploadTryonImagesScreen() {
 
 
 
-                    <div className="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mt-10 mx-auto mb-10">
+                    <div className="bg-white border border-gray-200 rounded-lg shadow mt-10 mx-auto mb-10">
                         <div class="flex flex-col items-center justify-between w-full p-5 pt-7 sm:flex-row sm:items-center">
-                            <h2 class="mr-auto text-base font-sans text-normal tracking-tight text-gray-900 dark:text-white  text-justify sm:w-auto sm:mr-5">Please make sure your face is straight and level
+                            <h2 class="mr-auto text-base font-sans text-normal tracking-tight text-gray-900 text-justify sm:w-auto sm:mr-5">Please make sure your face is straight and level
                                 Use a photo <p>without glasses.
                                     Don’t tilt your head or use sideview
                                 </p>
@@ -125,8 +125,7 @@ export default function UploadTryonImagesScreen() {
 
                     <div className="w-full flex items-center justify-center">
                         <button onClick={() => uploadTryOnImage(selectedImage)} type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
-                        focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-10 dark:bg-gray-800 dark:hover:bg-gray-700
-                        dark:focus:ring-gray-700 dark:border-gray-700">Save</button>
+                        focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-10">Save</button>
                     </div>
 
 

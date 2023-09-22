@@ -6,18 +6,8 @@ import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
@@ -29,13 +19,12 @@ import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
-import { FaBold, FaSortDown } from "react-icons/fa";
-import Footer from './Footer';
+import { FaSortDown } from "react-icons/fa";
 import { FaGlasses } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../api/authapi';
+import { useNavigate } from 'react-router-dom';
 import { viewProfileImage } from '../../api/userapi';
-import ellipseImg from '../../assets/images/UserProfiling/Ellipse.png';
+import ellipse from '../../assets/images/UserProfiling/Ellipse.png'
 
 
 // for navbar
@@ -81,12 +70,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 
-const pages = ['Eyeglasses', 'Sunglasses', 'Categories', 'Brands', 'Assessments'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Support Tickets', 'Chats', 'Settings'];
+const settings = ['Profile', 'Logout'];
 
 
 // for sidebar
-const drawerWidth = 240;
+// const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -97,7 +86,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: `-${drawerWidth}px`,
+    // marginLeft: `-${drawerWidth}px`,
     ...(open && {
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
@@ -116,8 +105,8 @@ const AppBar = styled(MuiAppBar, {
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
+    // width: `calc(100% - ${drawerWidth}px)`,
+    // marginLeft: `${drawerWidth}px`,
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
@@ -166,8 +155,8 @@ export default function PersistentDrawerLeft() {
     getImage();
   },[])
 
-
   const navigate = useNavigate();
+
 
   // for navbar
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -201,16 +190,16 @@ export default function PersistentDrawerLeft() {
   };
 
   // for sidebar
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+//   const theme = useTheme();
+//   const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+//   const handleDrawerOpen = () => {
+//     setOpen(true);
+//   };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+//   const handleDrawerClose = () => {
+//     setOpen(false);
+//   };
 
 
   return (
@@ -218,7 +207,7 @@ export default function PersistentDrawerLeft() {
       <CssBaseline />
       <AppBar position="fixed" style={{ color: "black", backgroundColor: "white", paddingRight: 20, paddingLeft: 20, display: "flex" }} open={open}>
         <Toolbar sx={{ flexGrow: 1 }}>
-          <IconButton 
+          {/* <IconButton 
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
@@ -226,11 +215,7 @@ export default function PersistentDrawerLeft() {
             sx={{ mr: 2, ...(open && { display: 'none' }) }}
           >
             <MenuIcon />
-          </IconButton>
-          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
-
-          {/* navbar */}
-
+          </IconButton> */}
           
           {/* logo */}
           <FaGlasses size={30} sx={{ display: { xs: 'flex', sm: 'flex' }, mr: 1, ml: { xs: 0, sm: 2, md: 5, lg: 7, xl: 10 } }} />
@@ -309,14 +294,17 @@ export default function PersistentDrawerLeft() {
                   <p>Messages</p>
                 </MenuItem>,
                 <MenuItem>
-                <IconButton
-                  size="large"
-                  aria-label="show 17 new notifications"
-                  color="inherit"
-                >
-                </IconButton>
-                <Typography onClick={() => handleCloseNavMenu(page)} textAlign="center">{page}</Typography>
-              </MenuItem>
+                  <IconButton
+                    size="large"
+                    aria-label="show 17 new notifications"
+                    color="inherit"
+                  >
+                    <Badge badgeContent={17} color="error">
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                  <p>Notifications</p>
+                </MenuItem>
 
               ))}
             </Menu>
@@ -355,7 +343,7 @@ export default function PersistentDrawerLeft() {
               <MailIcon />
             </Badge>
           </IconButton>
-          <IconButton
+          {/* <IconButton
             size="large"
             aria-label="show 17 new notifications"
             color="inherit"
@@ -363,13 +351,13 @@ export default function PersistentDrawerLeft() {
             <Badge badgeContent={17} color="error">
               <NotificationsIcon />
             </Badge>
-          </IconButton>
+          </IconButton> */}
           <Box sx={{ flexGrow: 0, ml: 2, }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src={profilePic} />
                 <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className='font-black'>{firstName} {lastName}</p></p>
-                <image alt="user-profile-pic" src={ellipseImg} width={50} height={50}  />
+                <image alt="user-profile-pic" src={ellipse} width={50} height={50}  />
               </IconButton>
             </Tooltip>
             <Menu
@@ -397,64 +385,10 @@ export default function PersistentDrawerLeft() {
           </Box>
         </Toolbar>
       </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
 
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <div style={{ width: 150, height: 150, borderRadius: 100, display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <img src={profilePic} alt="logo" className=' rounded-full w-full h-full ' />
-          </div>
-          <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20 }}>{firstName} {lastName}</h2>
-        </div>
-
-        <Divider />
-
-<List>
-  {[
-    { text: 'My Profile', path: '/user/profile' },
-    { text: 'Color Blind Test', path: '/assessments/color_blind_test'},
-    { text: 'Vission Acutiy Test', path: '/assessments/vision_acuity_test'},
-    { text: 'Contrast Sensitivity Test', path: '/assessments/contrast_sensitivity_test'},
-    { text: 'Astigmatism Test', path: '/assessments/astigmatism_test'},
-    { text: 'Log Out' , path: '/signin' }
-  ].map(({ text, path }, index) => (
-    <ListItem key={text} disablePadding>
-      <ListItemButton
-        component={Link}
-        to={path}
-        onClick={text === 'Log Out' ? logout : undefined}
-      >
-        <ListItemIcon>
-          {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-        </ListItemIcon>
-        <ListItemText primary={text} />
-      </ListItemButton>
-    </ListItem>
-  ))}
-</List>
-
-
-      </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <Outlet/>
-        <Footer/>
+        <Outlet />
       </Main>
     </Box>
   );

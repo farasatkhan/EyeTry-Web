@@ -18,14 +18,64 @@ import graysvg from '/images/order/gray.svg'
 
 
 export default function SelectLensTypeScreen() {
-  const [selectedOptions, setSelectedOptions] = useState({ package: "", coatings: "" });
+
+  const schema = {
+    lensProperties: {
+      lensType: "",
+      prescriptionType: "",
+      package: "",
+      coatings: "",
+      glassesType: "",
+      transitionLensType: {
+        transition: "",
+        color: ""
+      },
+      // Add more fields as needed
+    },
+    prescription: {
+      pdType: "",
+      pdOneNumber: null,
+      pdLeftNumber: null,
+      pdRightNumber: null,
+      rightEyeOD: {
+        SPH: "",
+        CYL: "",
+        Axis: "",
+        Prism: "",
+        Base: "",
+      },
+      leftEyeOS: {
+        SPH: "",
+        CYL: "",
+        Axis: "",
+        Prism: "",
+        Base: "",
+      },
+      birthYear: null,
+    },
+  };
+  
+  
+
+  const [selectedOptions, setSelectedOptions] = useState({ ...schema });
   // Define the handleGlassesTypeSelect function to update selectedOptions
   const handleSelectedOptions = (optionType, value) => {
-    setSelectedOptions((prevSelectedOptions) => ({
-      ...prevSelectedOptions,
-      [optionType]: value
-    }));
+    // Check if the optionType exists in the schema
+    if (schema.hasOwnProperty(optionType)) {
+      // Create a new object with the updated value
+      const updatedOptions = {
+        ...selectedOptions,
+        [optionType]: value,
+      };
+  
+      // Update the state with the new options
+      setSelectedOptions(updatedOptions);
+    } else {
+      // Handle the case where optionType is not in the schema
+      console.error(`Invalid optionType: ${optionType}`);
+    }
   };
+  
 
   // animation effect
   const [loaded, setLoaded] = useState(false);
@@ -111,10 +161,10 @@ export default function SelectLensTypeScreen() {
       rightSideComponent = <ChooseLensPackage onSelectedPackage={(value) => handleSelectedOptions("package", value)} onSelectedCoatings={(value) => handleSelectedOptions("coatings", value)} onNextStep={handleNextStep} />
       break;
     case 7:
-      rightSideComponent = <SelectLensType onNextStep={handleNextStep} />;
+      rightSideComponent = <SelectLensType onSelectedOptions={(value) => handleSelectedOptions("glassesType", value)} onNextStep={handleNextStep} />;
       break;
     case 8:
-      rightSideComponent = <TransitionLensSelection onPreviousState={handlePreviousState} onUpdate={handleCustomizationUpdate} onNextStep={handleNextStep} />;
+      rightSideComponent = <TransitionLensSelection onSelectedTransition={(value) => handleSelectedOptions("transition", value)} onSelectedTransitionColor={(value) => handleSelectedOptions("color", value)} onPreviousState={handlePreviousState} onUpdate={handleCustomizationUpdate} onNextStep={handleNextStep} />;
       break;
       case 9:
         rightSideComponent = <SunglassesLensSelection onUpdate={handleCustomizationUpdate} onNextStep={handleNextStep} />;
@@ -138,11 +188,13 @@ export default function SelectLensTypeScreen() {
             <div className="">
               {currentStep !== 9 && currentStep !== 8 && (
                 <>
-                  <div className='bg-gray-700 w-full flex flex-row text-white p-2'>
+                  {/* <div className='bg-gray-200 w-full flex flex-row text-white p-2'>
                     <p className='w-[20%] text-sm justify-center flex items-center cursor-pointer mb-2 whitespace-nowrap'>&lt; Back to frame</p>
                     <p className='w-[60%] mx-auto text-lg justify-center flex mb-4'>Lens Preview</p>
                     <p className='w-[20%]'></p>
-                  </div>
+                  </div> */}
+              <button className="ml-10 mt-10 w-[20%] text-base font-bold mb-2 hover:text-blue-400  cursor-pointer" onClick={() => handlePreviousStep()} disabled={currentStep === 1}>
+              &lt; <span className="hover:underline">Back to frame</span></button>
                   <div className='p-8 bg-white mt-[-15px] rounded-md w-full'></div>
                   <div className={` justify-center items-center flex ${imageAnimationClass}`}>
                     <img src={yellowGlassesImg} alt="logo" className="w-[80%] h-[80%]" />
@@ -167,11 +219,11 @@ export default function SelectLensTypeScreen() {
               <>
                 <div className={`px-20 flex flex-row mx-auto mt-4 sm:mt-10 ${textAnimationClass}`}>
                   <div>
-                    <h5 className="font-sans text-xl sm:text-3xl font-bold mr-4 sm:mr-10">JACKSON</h5>
+                    <h5 className="font-sans text-xl sm:text-2xl font-bold mr-4 sm:mr-10">JACKSON</h5>
                     <p className="font-sans text-md font-semibold mb-4 sm:mb-10">Cat Eye Eyeglasses</p>
                   </div>
                   <div className="ml-auto">
-                    <h5 className="font-sans text-xl sm:text-3xl font-bold">$149.00</h5>
+                    <h5 className="font-sans text-lg sm:text-2xl font-bold">$149.00</h5>
                   </div>
                 </div>
                 <div className={`bg-gray-100 rounded-md p-2 sm:px-4 mr-8 ml-8 mb-8 transform ${textAnimationClass}`}>
@@ -187,16 +239,14 @@ export default function SelectLensTypeScreen() {
 
         {/* section 2 */}
         <div className="flex flex-col w-full md:w-[45%] shadow-lg shadow-left bg-[#f7f8f9] border-l-[#f1f1f1] border-l-2">
-          <div className='bg-gray-200 w-full flex flex-row p-2 font-semibold'>
-            <button className="w-[20%] text-base font-normal mb-2 hover:text-blue-400  cursor-pointer" onClick={() => handlePreviousStep()} disabled={currentStep === 1}>
+          <div className="flex mt-10">
+          <button className="w-[20%] text-base mb-2 hover:text-blue-400  cursor-pointer" onClick={() => handlePreviousStep()} disabled={currentStep === 1}>
               &lt; <span className="hover:underline">Back</span>
             </button>
-            <p className='w-[60%] mx-auto text-lg justify-center flex mb-4'>Lens Selection</p>
             <button className="w-[20%] text-base font-normal mb-2" onClick={() => handleNextStep()} disabled={currentStep === 10}>
               &gt;
             </button>
           </div>
-          <div className="flex justify-between p-10 mt-[-15px] rounded-md bg-[#f7f8f9] "></div>
           <div className=" flex flex-col w-[90%] mx-auto flex-1 mb-8">
             <div className="mx-auto w-full p-3">{rightSideComponent}</div>
           </div>

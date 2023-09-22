@@ -43,7 +43,7 @@ export default function SelectLensTypeComponent({onNextStep}) {
 
 
 
-      <button onClick={() => handleNext(11)} type="button" class="mt-12 w-full block mx-auto text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5  mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Continue</button>
+      <button onClick={() => handleNext(11)} type="button" class="mt-12 w-full block mx-auto text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5  mb-2">Continue</button>
 
 
 

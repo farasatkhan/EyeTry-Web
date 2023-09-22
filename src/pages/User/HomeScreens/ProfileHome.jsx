@@ -77,13 +77,13 @@ export default function ProfileHomeScreen() {
                 <h3 className="text-2xl mt-10 sm:text-3xl  font-bold font-sans">Manage Profile Information</h3>
                 <p className=" font-sans text-base mt-3">Manage Your profile Information here</p>
             </div>
-            <div className=" bg-white border mt-10 border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%]  md:w-[65%] mx-auto mb-10">
+            <div className=" bg-white border mt-10 border-gray-200 rounded-lg shadow w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className=" left-0 pl-3 flex items-center pointer-events-none ">
                         <BiEdit size={30} className="mr-5 pb-1" />
                     </div>
 
-                    <h4 class=" text-xl font-bold tracking-tight text-gray-900 dark:text-white ">My Orders</h4>
+                    <h4 class=" text-xl font-bold tracking-tight text-gray-900">My Orders</h4>
                 </div>
                 <hr class="border-3 border-gray-300 my-4" />
                 <div className="p-5">
@@ -91,13 +91,13 @@ export default function ProfileHomeScreen() {
                 </div>
             </div>
 
-            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%]  md:w-[65%] mx-auto mb-10">
+            <div className=" bg-white border border-gray-200 rounded-lg shadow w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className="left-0 pl-3 flex items-center pointer-events-none">
                         <BiEdit size={30} className="mr-5 pb-1" />
                     </div>
                     <div class="flex items-center justify-between w-full">
-                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Personal Information</h2>
+                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900">Personal Information</h2>
                         <Link to='/user/my_details'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
@@ -147,13 +147,13 @@ export default function ProfileHomeScreen() {
             </div>
 
 
-            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%]  md:w-[65%] mx-auto mb-10">
+            <div className=" bg-white border border-gray-200 rounded-lg shadow w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className="left-0 pl-3 flex items-center pointer-events-none">
                         <BiEdit size={30} className="mr-5 pb-1" />
                     </div>
                     <div class="flex items-center justify-between w-full">
-                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">My Prescriptions</h2>
+                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900">My Prescriptions</h2>
                         <Link to='/user/add_prescription'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
@@ -166,8 +166,8 @@ export default function ProfileHomeScreen() {
                 <div className="p-5">
 
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
                                         Prescription Name
@@ -184,8 +184,8 @@ export default function ProfileHomeScreen() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                         Prescription 1
                                     </th>
                                     <td class="px-6 py-4">
@@ -209,8 +209,8 @@ export default function ProfileHomeScreen() {
                                         </button>
                                     </td>
                                 </tr>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <tr class="bg-white border-b">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                         Prescription 2
                                     </th>
                                     <td class="px-6 py-4">
@@ -234,8 +234,8 @@ export default function ProfileHomeScreen() {
                                         </button>
                                     </td>
                                 </tr>
-                                <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <tr class="bg-white">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                         Prescription 3
                                     </th>
                                     <td class="px-6 py-4">
@@ -268,13 +268,13 @@ export default function ProfileHomeScreen() {
             </div>
 
 
-            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%]  md:w-[65%] mx-auto mb-10">
+            <div className=" bg-white border border-gray-200 rounded-lg shadow w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className="left-0 pl-3 flex items-center pointer-events-none">
                         <BiEdit size={30} className="mr-5 pb-1" />
                     </div>
                     <div class="flex items-center justify-between w-full">
-                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Address Book</h2>
+                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900">Address Book</h2>
                         <Link to='/user/add_address'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
@@ -287,12 +287,12 @@ export default function ProfileHomeScreen() {
                 <div className="p-5">
 
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <table class="w-full text-sm text-left text-gray-500">
 
                             <tbody>
                                 {
                                     addresses.map((address) => (
-                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <tr className="bg-white border-b hover:bg-gray-50">
                                             <td className="px-6 py-4 text-base font-sans">
                                                 <h5 className="font-bold text-black mb-2">{address.firstName}</h5>
                                                 <p className="font-semibold text-base font-sans">This is your default delivery address</p>
@@ -323,13 +323,13 @@ export default function ProfileHomeScreen() {
                 </div>
             </div>
 
-            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%]  md:w-[65%] mx-auto mb-10">
+            <div className=" bg-white border border-gray-200 rounded-lg shadow w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className="left-0 pl-3 flex items-center pointer-events-none">
                         <BiEdit size={30} className="mr-5 pb-1" />
                     </div>
                     <div class="flex items-center justify-between w-full">
-                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Payment Methods</h2>
+                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900">Payment Methods</h2>
                         <Link to='/user/add_payment'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
@@ -342,12 +342,12 @@ export default function ProfileHomeScreen() {
                 <div className="p-5">
 
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <table class="w-full text-sm text-left text-gray-500">
 
                             <tbody>
                                 {
                                     payments.map((payment) => (
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <tr class="bg-white border-b">
 
                                             <td class="px-6 py-4 text-base">
                                                 <h5 className=" font-bold text-black">{payment.nameOnCard}</h5>
@@ -389,13 +389,13 @@ export default function ProfileHomeScreen() {
                 </div>
             </div>
 
-            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%]  md:w-[65%] mx-auto mb-10">
+            <div className=" bg-white border border-gray-200 rounded-lg shadow w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className="left-0 pl-3 flex items-center pointer-events-none">
                         <BiEdit size={30} className="mr-5 pb-1" />
                     </div>
                     <div class="flex items-center justify-between w-full">
-                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Try On Images</h2>
+                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900">Try On Images</h2>
                         <Link to='/user/upload_tryon_images'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
@@ -407,7 +407,7 @@ export default function ProfileHomeScreen() {
                 <hr className="border-3 border-gray-300 my-4" />
                 <div className="p-5">
 
-                    <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow">
                         <img src={tryonImg} alt="logo" className='w-full h-full' />
                         <div className="p-5 flex justify-center space-x-5">
                             <button class="py-1 px-4 rounded inline-flex items-center 
@@ -430,13 +430,13 @@ export default function ProfileHomeScreen() {
                 </div>
             </div>
 
-            <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[80%]  md:w-[65%] mx-auto mb-10">
+            <div className=" bg-white border border-gray-200 rounded-lg shadow w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className="left-0 pl-3 flex items-center pointer-events-none">
                         <BiEdit size={30} className="mr-5 pb-1" />
                     </div>
                     <div class="flex items-center justify-between w-full">
-                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Giftcard / Store Credit</h2>
+                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900">Giftcard / Store Credit</h2>
                         <Link to='/user/giftcards'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">

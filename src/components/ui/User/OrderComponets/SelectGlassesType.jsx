@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 export default function SelectGlassesType({ onSelectedOptions, onNextStep }) {
   const handleGlassesTypeSelect = (type) => {
     // Update the selectedOptions state
-    onSelectedOptions(type);
+    onSelectedOptions({
+      "lensType": type
+    });
   };
 
   // for navigation

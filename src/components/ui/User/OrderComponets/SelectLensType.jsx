@@ -7,7 +7,9 @@ import sunglasses from '/images/order/sunglasses.svg'
 export default function SelectLensTypeComponent({onNextStep , onSelectedOptions}) {
     
     const handleSelections = (value) => {
-        onSelectedOptions(value)
+        onSelectedOptions({
+            "glassesType":value
+        })
     }
 
     // for navigation
@@ -15,6 +17,8 @@ export default function SelectLensTypeComponent({onNextStep , onSelectedOptions}
         // Call the parent's handleNextStep function when the element is clicked
         onNextStep(step);
     };
+
+    
 
     return (
         <div>

@@ -12,7 +12,7 @@ import greenMirroredSvg from '/images/order/greenMirrored.svg'
 import SilverMirroredSvg from '/images/order/SilverMirrored.svg'
 
 
-export default function SelectLensTypeComponent({ onUpdate, onNextStep }) {
+export default function SelectLensTypeComponent({ onUpdate, onNextStep, onSelectedSunglasses }) {
     const [selectedColor, setSelectedColor] = useState("Gray Polarized");
 
     // Handle user input and update the product
@@ -24,6 +24,17 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep }) {
     // navigation
     const handleNext = (step) => {
         onNextStep(step)
+    }
+
+    // handling data, sending from child to parent
+    // handling sunglasses type
+    const handleSunglassesTypeAndColor = (sunglassesType, color) => {
+        onSelectedSunglasses({
+            "sunglassesLens":{
+                "sunglassesType": sunglassesType,
+                "color": color
+            }
+        });
     }
 
     return (
@@ -39,13 +50,19 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep }) {
                     {/* <img className="h-[80px]" src={clear} alt="free silver package" /> */}
                     <div className={`${selectedColor === "Gray Polarized" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: graysvg, name: "Gray Polarized" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: graysvg, name: "Gray Polarized" }); 
+                                handleSunglassesTypeAndColor("Polarized", "Gray");
+                             }}
                             className="h-7 w-7 rounded-full bg-gray-700 cursor-pointer border-white border-4 hover:bg-gray-800"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Blue Polarized" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: bluesvg, name: "Blue Polarized" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: bluesvg, name: "Blue Polarized" })
+                                handleSunglassesTypeAndColor("Polarized", "Blue");
+                            }}
                             className="h-7 w-7 rounded-full bg-blue-700 cursor-pointer border-white border-4 hover:bg-blue-800"
                         ></div>
                     </div>
@@ -61,31 +78,46 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep }) {
                     {/* <img className="h-[80px]" src={clear} alt="free silver package" /> */}
                     <div className={`${selectedColor === "Gray Tint" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: graysvg, name: "Gray Tint" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: graysvg, name: "Gray Tint" })
+                                handleSunglassesTypeAndColor("Tint", "Gray");
+                            }}
                             className="h-7 w-7 rounded-full bg-gray-700 cursor-pointer border-white border-4 hover:bg-gray-800"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Brown Tint" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: brownsvg, name: "Brown Tint" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: brownsvg, name: "Brown Tint" })
+                                handleSunglassesTypeAndColor("Tint", "Brown");
+                            }}
                             className="h-7 w-7 rounded-full bg-yellow-800 cursor-pointer border-white border-4 hover:bg-yellow-900"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Green Tint" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: greensvg, name: "Green Tint" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: greensvg, name: "Green Tint" })
+                                handleSunglassesTypeAndColor("Tint", "Green");
+                            }}
                             className="h-7 w-7 rounded-full bg-green-700 cursor-pointer border-white border-4 hover:bg-green-800"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Blue Tint" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: bluesvg, name: "Blue Tint" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: bluesvg, name: "Blue Tint" })
+                                handleSunglassesTypeAndColor("Tint", "Blue");
+                            }}
                             className="h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-4 hover:bg-blue-900"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Yellow Tint" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: yellowsvg, name: "Yellow Tint" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: yellowsvg, name: "Yellow Tint" })
+                                handleSunglassesTypeAndColor("Tint", "Yellow");
+                            }}
                             className="h-7 w-7 rounded-full bg-yellow-400 cursor-pointer border-white border-4 hover:bg-yellow-500"
                         ></div>
                     </div>
@@ -101,31 +133,46 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep }) {
                     {/* <img className="h-[80px]" src={clear} alt="free silver package" /> */}
                     <div className={`${selectedColor === "Red Mirrored" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: redMirroredSvg, name: "Red Mirrored" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: redMirroredSvg, name: "Red Mirrored" })
+                                handleSunglassesTypeAndColor("Mirrored", "Red");
+                            }}
                             className="h-7 w-7 rounded-full bg-red-700 cursor-pointer border-white border-4 hover:bg-red-800"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Blue Mirrored" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: blueMirroredSvg, name: "Blue Mirrored" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: blueMirroredSvg, name: "Blue Mirrored" })
+                                handleSunglassesTypeAndColor("Mirrored", "Blue");
+                            }}
                             className="h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-4 hover:bg-blue-900"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Gold Mirrored" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: goldMirroredSvg, name: "Gold Mirrored" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: goldMirroredSvg, name: "Gold Mirrored" })
+                                handleSunglassesTypeAndColor("Mirrored", "Gold");
+                            }}
                             className="h-7 w-7 rounded-full bg-yellow-700 cursor-pointer border-white border-4 hover:bg-yellow-800"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Green Mirrored" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: greenMirroredSvg, name: "Green Mirrored" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: greenMirroredSvg, name: "Green Mirrored" })
+                                handleSunglassesTypeAndColor("Mirrored", "Green");
+                            }}
                             className="h-7 w-7 rounded-full bg-green-800 cursor-pointer border-white border-4 hover:bg-green-900"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Silver Mirrored" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: SilverMirroredSvg, name: "Silver Mirrored" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: SilverMirroredSvg, name: "Silver Mirrored" })
+                                handleSunglassesTypeAndColor("Mirrored", "Silver");
+                            }}
                             className="h-7 w-7 rounded-full bg-gray-400 cursor-pointer border-white border-4 hover:bg-gray-500"
                         ></div>
                     </div>

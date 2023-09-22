@@ -3,7 +3,9 @@ import React, { useState } from "react";
 export default function SelectLensTypeComponent({onNextStep , onSelectedOptions}) {
 
     const handleSelections = (type) =>{
-      onSelectedOptions(type)
+      onSelectedOptions({
+        "prescriptionType":type
+      })
     }
 
     const handleNext = () => {

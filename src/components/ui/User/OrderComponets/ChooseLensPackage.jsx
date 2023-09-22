@@ -4,15 +4,13 @@ import goldLens from '../../../../assets/images/orders/gold.png'
 import platinumLens from '../../../../assets/images/orders/platinum.png'
 import diamnondLens from '../../../../assets/images/orders/diamond.png'
 
-export default function ChooseLensPackage({ onNextStep, onSelectedPackage, onSelectedCoatings }) {
-    const handlePackageSelect = (packageType) => {
+export default function ChooseLensPackage({ onNextStep, onSelectedPackageAndCoating }) {
+    const handlePackageAndCoatingsSelect = (packageType, coatingsType) => {
         // Call the onSelectedPackage function with the selected package
-        onSelectedPackage(packageType);
-    };
-
-    const handleCoatingsSelect = (coatingsType) => {
-        // Call the onSelectedCoatings function with the selected coatings
-        onSelectedCoatings(coatingsType);
+        onSelectedPackageAndCoating({
+            "package": packageType,
+            "coatings": coatingsType 
+        });
     };
 
     // for navigation
@@ -26,8 +24,7 @@ export default function ChooseLensPackage({ onNextStep, onSelectedPackage, onSel
             <h1 className="font-sans font-semibold text-2xl mx-auto mb-5">Choose Lens Package</h1>
             <div className=" h-[450px] overflow-auto">
                 <div onClick={() => {
-                    handlePackageSelect("Silver");
-                    handleCoatingsSelect("1.5 index ClearViz©️ Lenses, Lens Protective");
+                    handlePackageAndCoatingsSelect("Silver", "1.5 index ClearViz©️ Lenses, Lens Protective")
                     handleNext();
                 }}
                     className="cursor-pointer hover:border-gray-400 flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-md hover:bg-gray-200">
@@ -41,8 +38,7 @@ export default function ChooseLensPackage({ onNextStep, onSelectedPackage, onSel
                 </div>
 
                 <div onClick={() => {
-                        handlePackageSelect("Gold");
-                        handleCoatingsSelect("1.5 index ClearViz©️ Lenses, Anti-scratch coating, 100% UV-Block coating, Anti-reflective coating");
+                        handlePackageAndCoatingsSelect("Gold", "1.5 index ClearViz©️ Lenses, Anti-scratch coating, 100% UV-Block coating, Anti-reflective coating");
                         handleNext();
                     }}
                     className="cursor-pointer hover:border-gray-400 flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-md hover:bg-gray-200">
@@ -59,8 +55,7 @@ export default function ChooseLensPackage({ onNextStep, onSelectedPackage, onSel
                 </div>
 
                 <div onClick={() => { 
-                        handlePackageSelect("Platinum");
-                        handleCoatingsSelect("1.61 index featherweight G-vision©️ Lenses, up to 30% thinner, Anti-scratch coating, 100% UV-block coating, Anti-reflective coating"); 
+                        handlePackageAndCoatingsSelect("Platinum", "1.61 index featherweight G-vision©️ Lenses, up to 30% thinner, Anti-scratch coating, 100% UV-block coating, Anti-reflective coating");
                         handleNext();
                     }}
                     className="cursor-pointer hover:border-gray-400 flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-md hover:bg-gray-200">
@@ -78,8 +73,7 @@ export default function ChooseLensPackage({ onNextStep, onSelectedPackage, onSel
                 </div>
 
                 <div onClick={() => { 
-                        handlePackageSelect("Diamond");
-                        handleCoatingsSelect("1.67 index G-vision©️ ultra-thin lenses, up to 40% thinner, Anti-scratch coating, 100% UV-Block coating (UVA + UVB), Enhanced Anti-reflective coating"); 
+                        handlePackageAndCoatingsSelect("Diamond", "1.67 index G-vision©️ ultra-thin lenses, up to 40% thinner, Anti-scratch coating, 100% UV-Block coating (UVA + UVB), Enhanced Anti-reflective coating");
                         handleNext();
                     }} className="cursor-pointer hover:border-gray-400 flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-md hover:bg-gray-200">
                     <div className="w-[25%] flex items-center bg-white rounded-l-lg">

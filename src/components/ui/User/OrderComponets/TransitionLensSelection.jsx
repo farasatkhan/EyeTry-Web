@@ -12,16 +12,18 @@ import SilverMirroredSvg from '/images/order/SilverMirrored.svg'
 import transitionGray from '/images/order/transitionGray.svg'
 
 
-export default function SelectLensTypeComponent({ onUpdate, onNextStep, onPreviousState , onSelectedTransition, onSelectedTransitionColor }) {
+export default function SelectLensTypeComponent({ onUpdate, onNextStep, onPreviousState , onSelectedTransition }) {
     const [selectedColor, setSelectedColor] = useState("Gray");
 
-    const handleSelectedTransitionOption = (value) => {
-        onSelectedTransition(value);
+    const handleTransitionTypeAndColor = (transitionType, transitionColor) => {
+        onSelectedTransition({
+            "transitionLens":{
+                "transitionType": transitionType,
+                "transitionColor": transitionColor
+            }
+        });
     }
 
-    const handleSelectedTransitionColor = (value) => {
-        onSelectedTransitionColor(value);
-    }
     
     // Handle user input and update the product
     const handleFrameColorChange = (color) => {
@@ -54,13 +56,19 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep, onPrevio
                     {/* <img className="h-[80px]" src={clear} alt="free silver package" /> */}
                     <div className={`${selectedColor === "Transitions™ Signature® GEN 8™" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: transitionGray, color: "Gray", name: "Transitions™ Signature® GEN 8™" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: transitionGray, color: "Gray", name: "Transitions™ Signature® GEN 8™" })
+                                handleTransitionTypeAndColor("Transitions Signature Gen8", "Gray")
+                            }}
                             className="h-7 w-7 rounded-full bg-gray-700 cursor-pointer border-white border-4 hover:bg-gray-800"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Blue Polarized" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: bluesvg, name: "Blue Polarized" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: bluesvg, name: "Blue Polarized" })
+                                handleTransitionTypeAndColor("Transitions Signature Gen8", "Blue")
+                            }}
                             className="h-7 w-7 rounded-full bg-blue-700 cursor-pointer border-white border-4 hover:bg-blue-800"
                         ></div>
                     </div>
@@ -79,31 +87,46 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep, onPrevio
                     {/* <img className="h-[80px]" src={clear} alt="free silver package" /> */}
                     <div className={`${selectedColor === "Gray Tint" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: graysvg, name: "Gray Tint" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: graysvg, name: "Gray Tint" })
+                                handleTransitionTypeAndColor("Transitions Xtractive", "Gray")
+                        }}
                             className="h-7 w-7 rounded-full bg-gray-700 cursor-pointer border-white border-4 hover:bg-gray-800"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Brown Tint" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: brownsvg, name: "Brown Tint" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: brownsvg, name: "Brown Tint" })
+                                handleTransitionTypeAndColor("Transitions Xtractive", "Brown")
+                        }}
                             className="h-7 w-7 rounded-full bg-yellow-800 cursor-pointer border-white border-4 hover:bg-yellow-900"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Green Tint" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: greensvg, name: "Green Tint" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: greensvg, name: "Green Tint" })
+                                handleTransitionTypeAndColor("Transitions Xtractive", "Green")
+                        }}
                             className="h-7 w-7 rounded-full bg-green-700 cursor-pointer border-white border-4 hover:bg-green-800"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Blue Tint" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: bluesvg, name: "Blue Tint" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: bluesvg, name: "Blue Tint" })
+                                handleTransitionTypeAndColor("Transitions Xtractive", "Blue")
+                        }}
                             className="h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-4 hover:bg-blue-900"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Yellow Tint" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: yellowsvg, name: "Yellow Tint" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: yellowsvg, name: "Yellow Tint" })
+                                handleTransitionTypeAndColor("Transitions Xtractive", "Yellow")
+                        }}
                             className="h-7 w-7 rounded-full bg-yellow-400 cursor-pointer border-white border-4 hover:bg-yellow-500"
                         ></div>
                     </div>
@@ -123,31 +146,46 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep, onPrevio
                     {/* <img className="h-[80px]" src={clear} alt="free silver package" /> */}
                     <div className={`${selectedColor === "Red Mirrored" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: redMirroredSvg, name: "Red Mirrored" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: redMirroredSvg, name: "Red Mirrored" })
+                                handleTransitionTypeAndColor("Transitions Xtractive Polarized", "Red")
+                            }}
                             className="h-7 w-7 rounded-full bg-red-700 cursor-pointer border-white border-4 hover:bg-red-800"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Blue Mirrored" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: blueMirroredSvg, name: "Blue Mirrored" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: blueMirroredSvg, name: "Blue Mirrored" })
+                                handleTransitionTypeAndColor("Transitions Xtractive Polarized", "Blue")
+                            }}
                             className="h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-4 hover:bg-blue-900"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Gold Mirrored" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: goldMirroredSvg, name: "Gold Mirrored" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: goldMirroredSvg, name: "Gold Mirrored" })
+                                handleTransitionTypeAndColor("Transitions Xtractive Polarized", "Gold")
+                            }}
                             className="h-7 w-7 rounded-full bg-yellow-700 cursor-pointer border-white border-4 hover:bg-yellow-800"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Green Mirrored" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: greenMirroredSvg, name: "Green Mirrored" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: greenMirroredSvg, name: "Green Mirrored" })
+                                handleTransitionTypeAndColor("Transitions Xtractive Polarized", "Green")
+                            }}
                             className="h-7 w-7 rounded-full bg-green-800 cursor-pointer border-white border-4 hover:bg-green-900"
                         ></div>
                     </div>
                     <div className={`${selectedColor === "Silver Mirrored" ? "border-black rounded-full border-2" : ""}`}>
                         <div
-                            onClick={() => handleFrameColorChange({ image: SilverMirroredSvg, name: "Silver Mirrored" })}
+                            onClick={() => {
+                                handleFrameColorChange({ image: SilverMirroredSvg, name: "Silver Mirrored" })
+                                handleTransitionTypeAndColor("Transitions Xtractive Polarized", "Silver")
+                            }}
                             className="h-7 w-7 rounded-full bg-gray-400 cursor-pointer border-white border-4 hover:bg-gray-500"
                         ></div>
                     </div>

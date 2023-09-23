@@ -454,7 +454,9 @@ export default function PersistentDrawerLeft() {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
+        <div className='bg-gray-50'>
         <Outlet />
+        </div>
         <Footer/>
       </Main>
     </Box>

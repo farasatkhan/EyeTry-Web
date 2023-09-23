@@ -77,6 +77,9 @@ import ViewPersonalInfo from "./pages/CustomerSupport/ViewPersonalInfo";
 // import CreateSupportTicket from "./pages/CustomerSupport/CreateSupportTicket";
 
 
+// product pages
+import ProductDetails from './pages/User/OrderManagement/ProductDetails'
+
 const publicRoutes = (
   <Route>
     <Route index element={<PrivateRoute Component={Home} />} />
@@ -106,7 +109,11 @@ const privateRoutes = (
       <Route path="upload_user_image" element={<PrivateRoute Component={UploadUserImage} />} />
       <Route path="giftcards" element={<PrivateRoute Component={GiftCards} />} />
       <Route path="my_details" element={<PrivateRoute Component={MyDetails} />} />
+      
+      {/* product details */}
+      <Route path="product_details" element={<PrivateRoute Component={ProductDetails} />} />
     </Route>
+
 
     {/* Order Management Routes */}
     {/* <Route path="/home/*" element={<UserProfilingNavbar />}> */}

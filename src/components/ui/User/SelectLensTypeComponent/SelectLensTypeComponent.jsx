@@ -105,6 +105,7 @@ export default function SelectLensTypeScreen() {
 
   const imageAnimationClass = loaded ? 'translate-y-0 opacity-100 transition-transform ease-out duration-1000' : 'translate-y-20 opacity-0';
   const textAnimationClass = loaded ? 'translate-y-0 opacity-100 transition-transform ease-out duration-1000 delay-500' : 'translate-y-20 opacity-0';
+  const rightComponentAnimationClass = loaded ? 'translate-x-0 opacity-100 transition-transform ease-out duration-1000' : 'translate-x-20 opacity-0';
 
   const [customization, setCustomization] = useState({
     image: graysvg,
@@ -202,19 +203,14 @@ export default function SelectLensTypeScreen() {
     <>
       <div className="flex flex-col md:flex-row  sm:px-0 min-h-screen">
         {/* section 1 */}
-        <div className="w-full md:w-[55%] mb-10 justify-center sm:justify-start flex flex-col items-center">
+        <div className="w-full md:w-[55%] mb-10 justify-center sm:justify-start flex flex-col items-center bg-white">
           <div className="w-full sm:w-85">
             <div className="">
               {currentStep !== 9 && currentStep !== 8 && (
                 <>
-                  {/* <div className='bg-gray-200 w-full flex flex-row text-white p-2'>
-                    <p className='w-[20%] text-sm justify-center flex items-center cursor-pointer mb-2 whitespace-nowrap'>&lt; Back to frame</p>
-                    <p className='w-[60%] mx-auto text-lg justify-center flex mb-4'>Lens Preview</p>
-                    <p className='w-[20%]'></p>
-                  </div> */}
               <button className="ml-10 mt-10 w-[20%] text-base font-bold mb-2 hover:text-blue-400  cursor-pointer" onClick={() => handlePreviousStep()} disabled={currentStep === 1}>
               &lt; <span className="hover:underline">Back to frame</span></button>
-                  <div className='p-8 bg-white mt-[-15px] rounded-md w-full'></div>
+                  <div className='p-8 mt-[-15px] rounded-md w-full'></div>
                   <div className={` justify-center items-center flex ${imageAnimationClass}`}>
                     <img src={yellowGlassesImg} alt="logo" className="w-[80%] h-[80%]" />
                   </div>
@@ -245,7 +241,7 @@ export default function SelectLensTypeScreen() {
                     <h5 className="font-sans text-lg sm:text-2xl font-bold">$149.00</h5>
                   </div>
                 </div>
-                <div className={`bg-gray-100 rounded-md p-2 sm:px-4 mr-8 ml-8 mb-8 transform ${textAnimationClass}`}>
+                <div className={`bg-gray-50 rounded-md p-2 sm:px-4 mr-8 ml-8 mb-8 transform ${textAnimationClass}`}>
                   <h5 className="font-sans text-xl font-bold mr-4 sm:mr-10 mb-2">Gray Polarized Lens</h5>
                   <p className="font-sans text-base">
                     Gray polarized lenses reduce glare and provide clear vision in bright conditions while maintaining natural color perception. They are ideal for outdoor activities and offer UV protection.
@@ -257,7 +253,7 @@ export default function SelectLensTypeScreen() {
         </div>
 
         {/* section 2 */}
-        <div className="flex flex-col w-full md:w-[45%] shadow-lg shadow-left bg-[#f7f8f9] border-l-[#f1f1f1] border-l-2">
+        <div className={`flex flex-col w-full md:w-[45%] shadow-lg shadow-left bg-[#f7f8f9] border-l-[#f1f1f1] border-l-2 ${rightComponentAnimationClass} }`}>
           <div className="flex mt-10">
           <button className="w-[20%] text-base mb-2 hover:text-blue-400  cursor-pointer" onClick={() => handlePreviousStep()} disabled={currentStep === 1}>
               &lt; <span className="hover:underline">Back</span>

@@ -21,11 +21,12 @@ export default function SelectLensTypeScreen({ rating }) {
 
     // for images
     const [images, setImages] = useState({
-        img1: yellowGlassesImg,
-        img2: "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,b_rgb:f5f5f5/3396ee3c-08cc-4ada-baa9-655af12e3120/scarpa-da-running-su-strada-invincible-3-xk5gLh.png",
-        img3: "https://static.nike.com/a/images/f_auto,b_rgb:f5f5f5,w_440/e44d151a-e27a-4f7b-8650-68bc2e8cd37e/scarpa-da-running-su-strada-invincible-3-xk5gLh.png",
-        img4: "https://static.nike.com/a/images/f_auto,b_rgb:f5f5f5,w_440/44fc74b6-0553-4eef-a0cc-db4f815c9450/scarpa-da-running-su-strada-invincible-3-xk5gLh.png",
-        img5: "https://static.nike.com/a/images/f_auto,b_rgb:f5f5f5,w_440/d3eb254d-0901-4158-956a-4610180545e5/scarpa-da-running-su-strada-invincible-3-xk5gLh.png",
+        img1: "https://img.freepik.com/premium-photo/eyeglasses-isolated-white-background_33900-1477.jpg?w=2000",
+        img2: "https://i5.walmartimages.com/asr/ede8eae4-8e51-4029-aac6-59c692426861.20c4489bd3559f8dcfd027a34150bfd2.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF",
+        img3: "https://static5.lenskart.com/media/catalog/product/pro/1/thumbnail/480x480/9df78eab33525d08d6e5fb8d27136e95//l/i/matte-blue-full-rim-wayfarer-lenskart-air-essentials-la-e10592-l-c2-eyeglasses_lenskart-air-la-e10592-l-c2-eyeglasses_g_2972_27july23.jpg",
+        img4: "https://www.otticacenter.gr/image/cache/catalog/7th_street/7A056_003_4918_145-420x420w.jpg",
+        img5: "https://www.otticacenter.gr/image/cache/catalog/7th_street/7A056_003_4918_145-420x420w.jpg",
+        img6: "https://www.otticacenter.gr/image/cache/catalog/7th_street/7A056_003_4918_145-420x420w.jpg",
     })
 
     const [activeImg, setActiveImage] = useState(images.img1)
@@ -48,6 +49,15 @@ export default function SelectLensTypeScreen({ rating }) {
 
         return starIcons;
     };
+
+    //  table content 
+    const [activeTab, setActiveTab] = useState('description');
+
+    const handleTabClick = (tab) => {
+        setActiveTab(tab);
+    };
+
+
     return (
         <>
             <div className="bg-white">
@@ -59,15 +69,16 @@ export default function SelectLensTypeScreen({ rating }) {
                                 <button className="ml-10 mt-10 w-[20%] text-base font-semibold mb-2 hover:text-blue-400  cursor-pointer">
                                     &lt; <span className="hover:underline">Back</span></button>
                                 <div className='py-4 rounded-md w-full'></div>
-                                <div className={` justify-center items-center flex flex-wrap ${imageAnimationClass}`}>
+                                <div className={` justify-center items-center object-cover flex flex-wrap ${imageAnimationClass}`}>
                                     <div className="w-[600px] h-[400px]">
                                         <img src={activeImg} alt="" className='w-full h-full rounded-xl' />
                                         <div className={`mt-2 flex flex-row justify-between ${imageAnimationClass}`}>
-                                            <img src={images.img1} alt="" className='w-20 h-20 rounded-md cursor-pointer' onClick={() => setActiveImage(images.img1)} />
-                                            <img src={images.img2} alt="" className='w-20 h-20 rounded-md cursor-pointer' onClick={() => setActiveImage(images.img2)} />
-                                            <img src={images.img3} alt="" className='w-20 h-20 rounded-md cursor-pointer' onClick={() => setActiveImage(images.img3)} />
-                                            <img src={images.img4} alt="" className='w-20 h-20 rounded-md cursor-pointer' onClick={() => setActiveImage(images.img4)} />
-                                            <img src={images.img5} alt="" className='w-20 h-20 rounded-md cursor-pointer' onClick={() => setActiveImage(images.img5)} />
+                                            <img src={images.img1} alt="" className='w-20 h-20 border rounded-md cursor-pointer' onClick={() => setActiveImage(images.img1)} />
+                                            <img src={images.img2} alt="" className='w-20 h-20 border rounded-md cursor-pointer' onClick={() => setActiveImage(images.img2)} />
+                                            <img src={images.img3} alt="" className='w-20 h-20 border rounded-md cursor-pointer' onClick={() => setActiveImage(images.img3)} />
+                                            <img src={images.img4} alt="" className='w-20 h-20 border rounded-md cursor-pointer' onClick={() => setActiveImage(images.img4)} />
+                                            <img src={images.img5} alt="" className='w-20 h-20 border rounded-md cursor-pointer' onClick={() => setActiveImage(images.img5)} />
+                                            <img src={images.img6} alt="" className='w-20 h-20 border rounded-md cursor-pointer' onClick={() => setActiveImage(images.img6)} />
                                         </div>
                                     </div>
                                 </div>
@@ -104,26 +115,69 @@ export default function SelectLensTypeScreen({ rating }) {
                     </div>
                 </div>
 
-                <div className="bg-gray-200 p-4 md:p-10 pl-36 font-sans mb-10 rounded-sm mx-auto w-[95%]">
-                    <h1 className="text-2xl font-semibold">Description</h1>
-                    <p className="font-semibold mb-2 md:mb-8 text-base">SPECIFICATIONS</p>
-                    <table className="text-md font-semibold">
-                        <tr>
-                            <td class="px-2 md:px-5">PD Range: 56-72</td>
-                            <td class="px-2 md:px-10">Rim: Full Rim</td>
-                        </tr>
-                        <tr>
-                            <td class="px-2 md:px-5 py-3">Prescription Range: -20.00 ~ +12.00</td>
-                            <td class="px-2 md:px-10">Shape: Square</td>
-                        </tr>
-                        <tr>
-                            <td class="px-2 md:px-5 py-3">Frame size: Medium</td>
-                            <td class="px-2 md:px-10">Feature: Spring Hinges, Custom engraving</td>
-                        </tr>
-                    </table>
-                    <p className="mt-2 md:mt-8">Tags: Round Face Shape, Oval Face Shape, Diamond Face Shape, Triangle Face Shape, All Sunglasses</p>
-                </div>
+                {/* table tabs content */}
+                <div className="bg-gray-200 p-10 pl-36 font-sans mb-10 rounded-sm mx-auto w-[95%]">
+                    {/* Tab buttons */}
+                    <div className="flex mb-4 space-x-4">
+                        <button
+                            className={` text-lg tab-btn ${activeTab === 'description' ? 'text-blue-400 border-b-[3px] border-blue-500' : ''}`}
+                            onClick={() => handleTabClick('description')}
+                        >
+                            Description
+                        </button>
+                        <button
+                            className={`text-lg tab-btn ${activeTab === 'frame' ? 'text-blue-400 border-b-[3px] border-blue-500' : ''}`}
+                            onClick={() => handleTabClick('frame')}
+                        >
+                            Frame and Measurements
+                        </button>
+                        <button
+                            className={`text-lg tab-btn ${activeTab === 'shipping' ? 'text-blue-400 border-b-[3px] border-blue-500' : ''}`}
+                            onClick={() => handleTabClick('shipping')}
+                        >
+                            Shipping & Returns
+                        </button>
+                    </div>
 
+                    {/* Tab contents */}
+                    <div
+                        className="border p-4 h-[200px] overflow-y-auto"
+                        id="tab-content-container"
+                    >
+                        <div
+                            className={`tab-content ${activeTab === 'description' ? '' : 'hidden'}`}
+                            id="description-tab"
+                        >
+                            <p className="text-2xl font-semibold">SPECIFICATIONS</p>
+                            <div className="text-md">
+                                <p className="font-semibold mt-2">About Ray-Ban 5169 Black</p>
+                                <p>The Ray-Ban 5169 is a smart frame that exudes authority. Its stylish monel rim, bulky arms and spring hinges is the perfect balance between comfort and style.</p>
+                            <p className="mt-2 md:mt-8">
+                                Tags: Round Face Shape, Oval Face Shape, Diamond Face Shape, Triangle Face Shape, All Sunglasses</p>
+                            </div>
+                        </div>
+
+                        <div
+                            className={`tab-content ${activeTab === 'frame' ? '' : 'hidden'}`}
+                            id="frame-tab"
+                        >
+                            <h1 className="text-2xl font-semibold">Frame and Measurements</h1>
+                            <table className="text-md font-semibold">
+                                {/* Frame and Measurements Content */}
+                            </table>
+                        </div>
+
+                        <div
+                            className={`tab-content ${activeTab === 'shipping' ? '' : 'hidden'}`}
+                            id="shipping-tab"
+                        >
+                            <h1 className="text-2xl font-semibold">Shipping & Returns</h1>
+                            <p className="text-base">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac libero non orci dictum cursus. Nullam eget augue a velit suscipit eleifend. Vivamus vestibulum ipsum non dapibus. Sed vel vestibulum ex. Nullam bibendum pharetra quam vel pellentesque.
+                            </p>
+                        </div>
+                    </div>
+                </div>
                 <div className="w-[80%] mx-auto">
                     <h1 className="text-2xl font-semibold">Customer Reviews</h1>
                     <div className="flex justify-center items-center space-x-4 py-5 flex-wrap flex-col md:flex-row">

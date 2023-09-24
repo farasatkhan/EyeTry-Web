@@ -1,8 +1,15 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import superHydrophobic from '/superHydrophobic.svg'
+import { useSelector } from "react-redux";
 
 export default function SelectLensTypeComponentProp({ selectedOptions, onConfirmSelection }) {
+
+    // retrieving values from redux 
+    const orderSelections = useSelector((state) => state.selectedOptions);
+
+    const lens = orderSelections.selectedOptions.lensProperties;
+
     // Create a ref for the checkbox
     const checkboxRef = useRef(null);
 
@@ -13,7 +20,6 @@ export default function SelectLensTypeComponentProp({ selectedOptions, onConfirm
         }
     };
 
-    const lens = (selectedOptions.lensProperties)
     return (
         <div className="w-full">
             <h1 className="font-sans font-semibold text-2xl mx-auto mb-2">Review Your Selections</h1>
@@ -37,8 +43,8 @@ export default function SelectLensTypeComponentProp({ selectedOptions, onConfirm
                         <div className="rounded-r-sm w-[80%] p-5">
                             <h3 className="text-md font-semibold">Lens</h3>
                             <p className="text-sm font-sans">Prada PR 10YV, Brown / Tortoise, Medium (<span className="line-through">+$468</span> +$421)</p>
-                            {/* <p className="text-sm font-sans"> <span className="font-semibold">Package:</span> {lens.package}</p> */}
-                            {/* <p className="text-sm font-sans"> <span className="font-semibold">Coatings:</span> {lens.coatings} (+$48)</p> */}
+                            <p className="text-sm font-sans"> <span className="font-semibold">Package:</span> {lens.package}</p>
+                            <p className="text-sm font-sans"> <span className="font-semibold">Coatings:</span> {lens.coatings} (+$48)</p>
                         </div>
                     </div>
                     <hr></hr>
@@ -48,7 +54,7 @@ export default function SelectLensTypeComponentProp({ selectedOptions, onConfirm
                         <div className="rounded-r-sm w-[80%] h-full p-5">
                             <h3 className="text-md font-semibold">Upgrades</h3>
                             <p className="text-sm font-sans">Prada PR 10YV, Brown / Tortoise, Medium (<span className="line-through">+$468</span> +$421)</p>
-                            {/* <p className="text-sm font-sans"> <span className="font-semibold">Upgrades:</span> {lens.upgrades} (+$14)</p> */}
+                            <p className="text-sm font-sans"> <span className="font-semibold">Upgrades:</span> {lens.upgrades} (+$14)</p>
                         </div>
                     </div>
                 </div>

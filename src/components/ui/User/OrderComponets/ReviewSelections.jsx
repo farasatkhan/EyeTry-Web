@@ -37,8 +37,8 @@ export default function SelectLensTypeComponentProp({ selectedOptions, onConfirm
                         <div className="rounded-r-sm w-[80%] p-5">
                             <h3 className="text-md font-semibold">Lens</h3>
                             <p className="text-sm font-sans">Prada PR 10YV, Brown / Tortoise, Medium (<span className="line-through">+$468</span> +$421)</p>
-                            <p className="text-sm font-sans"> <span className="font-semibold">Package:</span> {lens.package}</p>
-                            <p className="text-sm font-sans"> <span className="font-semibold">Coatings:</span> {lens.coatings} (+$48)</p>
+                            {/* <p className="text-sm font-sans"> <span className="font-semibold">Package:</span> {lens.package}</p> */}
+                            {/* <p className="text-sm font-sans"> <span className="font-semibold">Coatings:</span> {lens.coatings} (+$48)</p> */}
                         </div>
                     </div>
                     <hr></hr>
@@ -48,14 +48,14 @@ export default function SelectLensTypeComponentProp({ selectedOptions, onConfirm
                         <div className="rounded-r-sm w-[80%] h-full p-5">
                             <h3 className="text-md font-semibold">Upgrades</h3>
                             <p className="text-sm font-sans">Prada PR 10YV, Brown / Tortoise, Medium (<span className="line-through">+$468</span> +$421)</p>
-                            <p className="text-sm font-sans"> <span className="font-semibold">Upgrades:</span> {lens.upgrades} (+$14)</p>
+                            {/* <p className="text-sm font-sans"> <span className="font-semibold">Upgrades:</span> {lens.upgrades} (+$14)</p> */}
                         </div>
                     </div>
                 </div>
 
                 <div className="flex w-[90%] mt-10 justify-center items-center">
-                    <button type="button" className="w-[50%] focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4
-                 focus:ring-red-300 font-medium rounded-lg text-sm px-8 py-2.5 mr-2 mb-2 ">Add To Cart</button>
+                    <Link to="/user/cart"><button type="button" className="w-[50%] focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4
+                 focus:ring-red-300 font-medium rounded-lg text-sm px-8 py-2.5 mr-2 mb-2 ">Add To Cart</button></Link>
                     <button type="button" className="w-[50%] text-white bg-gray-800 hover:bg-gray-900 focus:outline-none
                  focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5 mr-2 mb-2 ">Buy Now</button>
                 </div>

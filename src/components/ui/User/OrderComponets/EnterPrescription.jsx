@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select, Radio, RadioGroup, FormControlLabel, Box, TextField } from '@mui/material';
+import { useDispatch } from "react-redux";
+import { updateSelectedOptions } from "../../../../redux/actions/orderSelectionAction";
 
 export default function SelectLensTypeComponentProp({ onSelectedOptions, onNextStep }) {
     // radio button, IPD 1 , 2 numbers
@@ -46,17 +48,20 @@ export default function SelectLensTypeComponentProp({ onSelectedOptions, onNextS
         setPDType(event.target.value);
     };
 
+    const dispatch = useDispatch();
 
     const handleSelections = () => {
-        onSelectedOptions({
-            pdType: pdType,
-            pdOneNumber: pdOneNumber,
-            pdLeftNumber: pdLeftNumber,
-            pdRightNumber: pdRightNumber,
-            rightEye: rightEye,
-            leftEye: leftEye,
-            birthYear: birthYear
-        })
+        dispatch(updateSelectedOptions({
+            "prescription": {
+                pdType: pdType,
+                pdOneNumber: pdOneNumber,
+                pdLeftNumber: pdLeftNumber,
+                pdRightNumber: pdRightNumber,
+                rightEye: rightEye,
+                leftEye: leftEye,
+                birthYear: birthYear
+            }
+        }));
     }
 
     const handleNext = () => {
@@ -316,11 +321,7 @@ export default function SelectLensTypeComponentProp({ onSelectedOptions, onNextS
 
                 <div class="flex justify-center mt-6">
                     <button onClick={() => {
-                        handleSelections({
-                            axis: "1",
-                            abc: "2",
-                            def: "3"
-                        }); handleNext()
+                        handleSelections(); handleNext()
                     }} type="button" className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none 
                 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm py-2.5 mb-2
                  w-[80%]">

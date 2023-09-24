@@ -36,16 +36,7 @@ import GiftCards from './pages/User/UserProfiling/GiftCards';
 import ChangePassword from './pages/User/UserProfiling/ChangePassword';
 import UploadTryonImages from './pages/User/UserProfiling/UploadTryonImages';
 import UploadUserImage from './pages/User/UserProfiling/UploadUserImage';
-// import SelectPrescriptionOption from './components/ui/User/OrderComponets/SelectPrescriptionOption';
-// import SelectPrescriptionType from './pages/User/HomeScreens/SelectPrescriptionType';
-// import EnterPrescription from './pages/User/HomeScreens/EnterPrescription';
-// import SaveOrderPrescription from './pages/User/HomeScreens/SaveOrderPrescription';
-// import ChooseLensPackage from './pages/User/HomeScreens/ChooseLensPackage';
-// import SelectLensType from './pages/User/HomeScreens/SelectLensType';
-// import SelectGlassesType from './components/ui/User/OrderComponets/SelectGlassesType';
-// import AvailableCoatings from './pages/User/HomeScreens/AvailableCoatings';
-// import ReviewSelections from './pages/User/HomeScreens/ReviewSelections';
-// import SunglassesLensSelection from './pages/User/HomeScreens/SunglassesLensSelection';
+
 
 // admin imports
 import AddFrames from './pages/Admin/AddFrames';
@@ -67,6 +58,9 @@ import VissionAssessmentsNavbar from "./layouts/User/VissionAssessmentsNavbar"
 
 import SelectLensTypeComponent from "./components/ui/User/SelectLensTypeComponent/SelectLensTypeComponent"
 
+//cart
+import Cart from "./pages/User/OrderManagement/Cart";
+
 // Support Screens
 import CustomerSupportDashboard from "./pages/CustomerSupport/dashboard"
 import CustomerSupportNavbar from "./layouts/User/CustomerSupportNavbar"
@@ -78,11 +72,11 @@ import ViewPersonalInfo from "./pages/CustomerSupport/ViewPersonalInfo";
 
 
 // product pages
-import ProductDetails from './pages/User/OrderManagement/ProductDetails'
+import ProductDetails from './pages/User/OrderManagement/ProductDetails/ProductDetails'
+
 
 const publicRoutes = (
   <Route>
-    <Route index element={<PrivateRoute Component={Home} />} />
     <Route path="signin" element={<Signin />} />
     <Route path="signup" element={<Signup />} />
     <Route path="forgotpassword" element={<ForgotPassword />} />
@@ -92,6 +86,11 @@ const publicRoutes = (
 
 const privateRoutes = (
   <>
+    {/* Home Screens routes */}
+    <Route path="/" element={<PrivateRoute Component={UserProfilingNavbar} />} >
+      <Route index element={<PrivateRoute Component={Home} />} />
+    </Route>
+
     {/* Profile Management Routes */}
     <Route path="/user/*" element={<UserProfilingNavbar />}>
       <Route path="profile" element={<PrivateRoute Component={ProfileHome} />} />
@@ -109,27 +108,15 @@ const privateRoutes = (
       <Route path="upload_user_image" element={<PrivateRoute Component={UploadUserImage} />} />
       <Route path="giftcards" element={<PrivateRoute Component={GiftCards} />} />
       <Route path="my_details" element={<PrivateRoute Component={MyDetails} />} />
-      
       {/* product details */}
       <Route path="product_details" element={<PrivateRoute Component={ProductDetails} />} />
+      <Route path="cart" element={<PrivateRoute Component={Cart} />} />
     </Route>
 
-
-    {/* Order Management Routes */}
-    {/* <Route path="/home/*" element={<UserProfilingNavbar />}> */}
     <Route path="/order/*" element={<PrivateRoute Component={UserProfilingNavbar} />} >
       <Route path="select_lens" element={<PrivateRoute Component={SelectLensTypeComponent} />} />
-      {/* <Route path="select_prescription_option" element={<PrivateRoute Component={SelectPrescriptionOption} />} />
-      <Route path="select_prescription_type" element={<PrivateRoute Component={SelectPrescriptionType} />} />
-      <Route path="enter_prescription" element={<PrivateRoute Component={EnterPrescription} />} />
-      <Route path="save_order_prescription" element={<PrivateRoute Component={SaveOrderPrescription} />} />
-      <Route path="choose_lens_package" element={<PrivateRoute Component={ChooseLensPackage} />} />
-      <Route path="select_lens_type" element={<PrivateRoute Component={SelectLensType} />} />
-      <Route path="available_coatings" element={<PrivateRoute Component={AvailableCoatings} />} />
-      <Route path="review_selections" element={<PrivateRoute Component={ReviewSelections} />} />
-      <Route path="sunglasses_lens_selection" element={<PrivateRoute Component={SunglassesLensSelection} />} /> */}
-      {/* ... Other order management routes ... */}
     </Route>
+    
 
     {/* Vision Assessments */}
     <Route path="/assessments/*" element={<VissionAssessmentsNavbar />}>

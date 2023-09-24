@@ -1,9 +1,11 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import superHydrophobic from '/superHydrophobic.svg'
+import { useDispatch } from 'react-redux';
+import { updateSelectedOptions } from '../../../../redux/actions/orderSelectionAction';
 
 export default function SelectLensTypeComponent({onNextStep, onSelectedOptions}) {
-
+  
   const handleNext = (step) => {
     onNextStep(step);
   }
@@ -21,11 +23,17 @@ export default function SelectLensTypeComponent({onNextStep, onSelectedOptions})
   };
 
   // handling data and sending to parent component
+  const dispatch = useDispatch();
+
   const handleSelectedOptions = (upgrades) => {
-    onSelectedOptions({
-      "upgrades": upgrades
-    })
-  }
+    // Dispatch an action to update selected package and coatings
+    dispatch(updateSelectedOptions({
+      "lensProperties": {
+        "upgrades": upgrades
+      }
+    }));
+  };
+
 
   return (
     <div className="w-full">

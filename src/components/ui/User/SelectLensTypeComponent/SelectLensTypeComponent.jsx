@@ -15,9 +15,12 @@ import ReviewSelections from "../OrderComponets/ReviewSelections"
 import SunglassesLensSelection from "../OrderComponets/SunglassesLensSelection"
 import TransitionLensSelection from "../OrderComponets/TransitionLensSelection"
 import graysvg from '/images/order/gray.svg'
-
+import { useDispatch, useSelector } from 'react-redux';
+import { updateSelectedOptions } from '../../../../redux/actions/orderSelectionAction';
 
 export default function SelectLensTypeScreen() {
+  const dispatch = useDispatch();
+const selectedOptions = useSelector((state) => state.selectedOptions);
 
   const schema = {
     lensProperties: {
@@ -62,36 +65,9 @@ export default function SelectLensTypeScreen() {
   
   
 
-  const [selectedOptions, setSelectedOptions] = useState({ ...schema });
   // Define the handleGlassesTypeSelect function to update selectedOptions
-  const handleSelectedOptions = (optionType, value) => {
-    // Check if the optionType exists in the schema
-    if (schema.hasOwnProperty(optionType)) {
-      if (optionType === 'lensProperties') {
-        // If the optionType is 'lensProperties', we need to update all properties within it
-        const updatedOptions = {
-          ...selectedOptions,
-          lensProperties: {
-            ...selectedOptions.lensProperties,
-            ...value,
-          },
-        };
-        // Update the state with the new options
-        setSelectedOptions(updatedOptions);
-      } else {
-        // For other optionTypes, update them as usual
-        const updatedOptions = {
-          ...selectedOptions,
-          [optionType]: value,
-        };
-        // Update the state with the new options
-        setSelectedOptions(updatedOptions);
-      }
-    } else {
-      // Handle the case where optionType is not in the schema
-      console.error(`Invalid optionType: ${optionType}`);
-    }
-  };
+// Update handleSelectedOptions function to dispatch the action
+
   
 
   
@@ -163,34 +139,34 @@ export default function SelectLensTypeScreen() {
 
   switch (currentStep) {
     case 1:
-      rightSideComponent = <SelectGlassesType onSelectedOptions={(value) => handleSelectedOptions("lensProperties", value)} onNextStep={handleNextStep} />;
+      rightSideComponent = <SelectGlassesType onNextStep={handleNextStep} />;
       break;
     case 2:
       rightSideComponent = <SelectPrescriptionOption onNextStep={handleNextStep} />;
       break;
     case 3:
-      rightSideComponent = <SelectLensTypeComponent onSelectedOptions={(value) => handleSelectedOptions("lensProperties", value)} onNextStep={handleNextStep} />;
+      rightSideComponent = <SelectLensTypeComponent  onNextStep={handleNextStep} />;
       break;
     case 4:
-      rightSideComponent = <EnterPrescription onSelectedOptions={(value) => handleSelectedOptions("prescription", value)} onNextStep={handleNextStep} />;
+      rightSideComponent = <EnterPrescription  onNextStep={handleNextStep} />;
       break;
     case 5:
       rightSideComponent = <SaveOrderPrescription onNextStep={handleNextStep} />;
       break;
     case 6:
-      rightSideComponent = <ChooseLensPackage onSelectedPackageAndCoating={(value) => handleSelectedOptions("lensProperties", value)} onNextStep={handleNextStep} />
+      rightSideComponent = <ChooseLensPackage  onNextStep={handleNextStep} />
       break;
     case 7:
-      rightSideComponent = <SelectLensType onSelectedOptions={(value) => handleSelectedOptions("lensProperties", value)} onNextStep={handleNextStep} />;
+      rightSideComponent = <SelectLensType onNextStep={handleNextStep} />;
       break;
     case 8:
-      rightSideComponent = <TransitionLensSelection onSelectedTransition={(value) => handleSelectedOptions("lensProperties", value)} onPreviousState={handlePreviousState} onUpdate={handleCustomizationUpdate} onNextStep={handleNextStep} />;
+      rightSideComponent = <TransitionLensSelection onPreviousState={handlePreviousState} onUpdate={handleCustomizationUpdate} onNextStep={handleNextStep} />;
       break;
       case 9:
-        rightSideComponent = <SunglassesLensSelection onSelectedSunglasses={(value) => handleSelectedOptions("lensProperties", value)} onUpdate={handleCustomizationUpdate} onNextStep={handleNextStep} />;
+        rightSideComponent = <SunglassesLensSelection onUpdate={handleCustomizationUpdate} onNextStep={handleNextStep} />;
         break;
         case 10:
-          rightSideComponent = <AvailableCoatings onSelectedOptions={(value) => handleSelectedOptions("lensProperties", value)} onNextStep={handleNextStep} />;
+          rightSideComponent = <AvailableCoatings onNextStep={handleNextStep} />;
       break;
     case 11:
       rightSideComponent = <ReviewSelections selectedOptions={selectedOptions} />;

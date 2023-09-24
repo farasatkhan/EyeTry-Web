@@ -10,7 +10,8 @@ import blueMirroredSvg from '/images/order/blueMirrored.svg'
 import goldMirroredSvg from '/images/order/goldMirrored.svg'
 import greenMirroredSvg from '/images/order/greenMirrored.svg'
 import SilverMirroredSvg from '/images/order/SilverMirrored.svg'
-
+import { useDispatch } from 'react-redux';
+import { updateSelectedOptions } from '../../../../redux/actions/orderSelectionAction';
 
 export default function SelectLensTypeComponent({ onUpdate, onNextStep, onSelectedSunglasses }) {
     const [selectedColor, setSelectedColor] = useState("Gray Polarized");
@@ -28,14 +29,20 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep, onSelect
 
     // handling data, sending from child to parent
     // handling sunglasses type
+
+    const dispatch = useDispatch();
+
     const handleSunglassesTypeAndColor = (sunglassesType, color) => {
-        onSelectedSunglasses({
-            "sunglassesLens":{
-                "sunglassesType": sunglassesType,
-                "color": color
+        dispatch(updateSelectedOptions({
+            "lensProperties": {
+                "sunglassesLens": {
+                    "sunglassesType": sunglassesType,
+                    "color": color
+                }
             }
-        });
-    }
+        }));
+    };
+
 
     return (
         <div className="">
@@ -51,9 +58,9 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep, onSelect
                     <div className={`${selectedColor === "Gray Polarized" ? "border-black rounded-full border-2" : ""}`}>
                         <div
                             onClick={() => {
-                                handleFrameColorChange({ image: graysvg, name: "Gray Polarized" }); 
+                                handleFrameColorChange({ image: graysvg, name: "Gray Polarized" });
                                 handleSunglassesTypeAndColor("Polarized", "Gray");
-                             }}
+                            }}
                             className="h-7 w-7 rounded-full bg-gray-700 cursor-pointer border-white border-4 hover:bg-gray-800"
                         ></div>
                     </div>

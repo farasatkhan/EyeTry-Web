@@ -52,7 +52,7 @@ function Signin() {
             localStorage.setItem('user', JSON.stringify(user))
             localStorage.setItem('accessToken', accessToken)
             localStorage.setItem('refreshToken', refreshToken)
-            navigate('/user/profile'); // Replace '/' with the desired URL
+            navigate('/'); // Replace '/' with the desired URL
 
         }
         catch (error) {

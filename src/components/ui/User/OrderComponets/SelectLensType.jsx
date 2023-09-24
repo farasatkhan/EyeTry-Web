@@ -3,20 +3,28 @@ import clear from '/images/order/clear.svg'
 import bluelight from '/images/order/bluelight.svg'
 import transition from '/images/order/transition.svg'
 import sunglasses from '/images/order/sunglasses.svg'
+import { useDispatch } from 'react-redux';
+import { updateSelectedOptions } from '../../../../redux/actions/orderSelectionAction';
 
-export default function SelectLensTypeComponent({onNextStep , onSelectedOptions}) {
+export default function SelectLensTypeComponent({onNextStep}) {
     
-    const handleSelections = (value) => {
-        onSelectedOptions({
-            "glassesType":value
-        })
-    }
 
-    // for navigation
-    const handleNext = (step) => {
-        // Call the parent's handleNextStep function when the element is clicked
-        onNextStep(step);
+    const dispatch = useDispatch();
+  
+    const handleSelections = (value) => {
+      // Dispatch an action to update selected package and coatings
+      dispatch(updateSelectedOptions({
+        "lensProperties":{
+            "glassesType":value
+        }
+
+      }));
+  
     };
+
+    const handleNext = (step) => {
+        onNextStep(step)
+    }
 
     
 

@@ -1,16 +1,23 @@
 import React, { useState } from "react";
+import { useDispatch } from 'react-redux';
+import { updateSelectedOptions } from '../../../../redux/actions/orderSelectionAction';
 
 export default function SelectLensTypeComponent({onNextStep , onSelectedOptions}) {
 
-    const handleSelections = (type) =>{
-      onSelectedOptions({
-        "prescriptionType":type
-      })
-    }
+    const dispatch = useDispatch();
 
+    const handleSelections = (type) => {
+      // Dispatch an action to update the selectedOptions state in Redux
+      dispatch(updateSelectedOptions({
+        "lensProperties": {
+        "prescriptionType":type
+        }
+      }));
+    };
+  
     const handleNext = () => {
       onNextStep();
-    }
+    };
 
   return (
     <div>

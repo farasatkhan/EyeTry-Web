@@ -6,9 +6,14 @@ import { BsFilePostFill } from "react-icons/bs";
 import { BsTelephonePlusFill } from "react-icons/bs";
 import { FaUser, } from "react-icons/fa";
 import { updateAddress, getSpecificAddress} from '../../../api/userapi'
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 
 export default function EditAddressScreen() {
+
+    const navigate = useNavigate();
+    const location = useLocation();  // Check if the user came from the Order Screen
+    const cameFromOrderScreen = location.state && location.state.from === '/user/cart';
 
     const {id} = useParams();
     const [address, setAddress] = React.useState([])
@@ -81,11 +86,14 @@ export default function EditAddressScreen() {
             if(response.status == 200){
                 setSuccessMessage("Address Updated Successfully!")
                 setSuccessVisible(true)
-                
-                // setTimeout(() => {
-                //     navigation.navigate('AddressBook')
-                // }, 3000);
-                Alert("Information Saved!")    
+                // handling cart navigation
+                if (cameFromOrderScreen) {
+                    // Redirect to Order Screen
+                    navigate('/user/cart');
+                  } else {
+                    // Show an alert for payment method added during profile completion
+                    alert('Payment method added!');
+                  }    
             }
         }
         catch (e){

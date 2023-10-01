@@ -17,10 +17,34 @@ import TransitionLensSelection from "../OrderComponets/TransitionLensSelection"
 import graysvg from '/images/order/gray.svg'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateSelectedOptions } from '../../../../redux/actions/orderSelectionAction';
+import { useNavigate } from "react-router-dom";
+import { viewParticularProduct } from "../../../../api/productsApi";
+import { useParams } from "react-router-dom";
+import API_URL from "../../../../config/config";
+
 
 export default function SelectLensTypeScreen() {
+
+  const { id } = useParams();
+
+  const [product, setProduct] = useState({})
+
+  // fetching product data
+  useEffect(() => {
+    getData(id);
+  }, [])
+
+  const getData = async (id) => {
+    try {
+      const productData = await viewParticularProduct(id);
+      setProduct(productData)
+    } catch (error) {
+      throw error;
+    }
+  }
+  
   const dispatch = useDispatch();
-const selectedOptions = useSelector((state) => state.selectedOptions);
+  const selectedOptions = useSelector((state) => state.selectedOptions);
 
   const schema = {
     lensProperties: {
@@ -38,7 +62,7 @@ const selectedOptions = useSelector((state) => state.selectedOptions);
         sunglassesType: "",
         color: ""
       },
- 
+
     },
     prescription: {
       pdType: "",
@@ -62,15 +86,15 @@ const selectedOptions = useSelector((state) => state.selectedOptions);
       birthYear: null,
     },
   };
-  
-  
+
+
 
   // Define the handleGlassesTypeSelect function to update selectedOptions
-// Update handleSelectedOptions function to dispatch the action
+  // Update handleSelectedOptions function to dispatch the action
 
-  
 
-  
+
+
 
   // animation effect
   const [loaded, setLoaded] = useState(false);
@@ -95,7 +119,7 @@ const selectedOptions = useSelector((state) => state.selectedOptions);
 
   const [currentStep, setCurrentStep] = useState(1);
   const [previousScreen, setPreviousScreen] = useState(null);
-  
+
   const handleNextStep = (nextStep) => {
     if (nextStep) {
       setPreviousScreen(currentStep);
@@ -105,7 +129,7 @@ const selectedOptions = useSelector((state) => state.selectedOptions);
       setCurrentStep(currentStep + 1);
     }
   };
-  
+
   // managing previus states comming from child components
   const handlePreviousState = (state) => {
     setPreviousScreen(state)
@@ -113,8 +137,8 @@ const selectedOptions = useSelector((state) => state.selectedOptions);
 
   const handlePreviousStep = () => {
     if (currentStep > 1) {
-      if (currentStep <= 8){
-        setCurrentStep(currentStep-1)
+      if (currentStep <= 8) {
+        setCurrentStep(currentStep - 1)
       }
       else if (currentStep === 8 || currentStep === 9) {
         setCurrentStep(7);
@@ -127,7 +151,7 @@ const selectedOptions = useSelector((state) => state.selectedOptions);
       }
       else if (previousScreen === 10) {
         setCurrentStep(7);
-      } 
+      }
       else {
         setCurrentStep(previousScreen);
       }
@@ -145,16 +169,16 @@ const selectedOptions = useSelector((state) => state.selectedOptions);
       rightSideComponent = <SelectPrescriptionOption onNextStep={handleNextStep} />;
       break;
     case 3:
-      rightSideComponent = <SelectLensTypeComponent  onNextStep={handleNextStep} />;
+      rightSideComponent = <SelectLensTypeComponent onNextStep={handleNextStep} />;
       break;
     case 4:
-      rightSideComponent = <EnterPrescription  onNextStep={handleNextStep} />;
+      rightSideComponent = <EnterPrescription onNextStep={handleNextStep} />;
       break;
     case 5:
       rightSideComponent = <SaveOrderPrescription onNextStep={handleNextStep} />;
       break;
     case 6:
-      rightSideComponent = <ChooseLensPackage  onNextStep={handleNextStep} />
+      rightSideComponent = <ChooseLensPackage onNextStep={handleNextStep} />
       break;
     case 7:
       rightSideComponent = <SelectLensType onNextStep={handleNextStep} />;
@@ -162,11 +186,11 @@ const selectedOptions = useSelector((state) => state.selectedOptions);
     case 8:
       rightSideComponent = <TransitionLensSelection onPreviousState={handlePreviousState} onUpdate={handleCustomizationUpdate} onNextStep={handleNextStep} />;
       break;
-      case 9:
-        rightSideComponent = <SunglassesLensSelection onUpdate={handleCustomizationUpdate} onNextStep={handleNextStep} />;
-        break;
-        case 10:
-          rightSideComponent = <AvailableCoatings onNextStep={handleNextStep} />;
+    case 9:
+      rightSideComponent = <SunglassesLensSelection onUpdate={handleCustomizationUpdate} onNextStep={handleNextStep} />;
+      break;
+    case 10:
+      rightSideComponent = <AvailableCoatings onNextStep={handleNextStep} />;
       break;
     case 11:
       rightSideComponent = <ReviewSelections selectedOptions={selectedOptions} />;
@@ -174,6 +198,41 @@ const selectedOptions = useSelector((state) => state.selectedOptions);
     default:
       rightSideComponent = null;
   }
+
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1); // Go back to the previous page using useNavigate
+  };
+
+  // fetching product image
+// Modify your productImage function to include CSS styles for the image
+const productImage = (product) => {
+  if (
+    product &&
+    product.frame_information &&
+    product.frame_information.frame_variants &&
+    product.frame_information.frame_variants[0] &&
+    product.frame_information.frame_variants[0].images &&
+    product.frame_information.frame_variants[0].images[0]
+  ) {
+    const path = product.frame_information.frame_variants[0].images[0];
+
+    const completePath = API_URL + path;
+    console.log(completePath);
+
+    return (
+      <div className="">
+        <img
+          className="w-full object-contain h-[300px]" // Adjust the dimensions as needed
+          src={completePath}
+          alt="product"
+        />
+      </div>
+    );
+  }
+};
+
 
   return (
     <>
@@ -184,12 +243,15 @@ const selectedOptions = useSelector((state) => state.selectedOptions);
             <div className="">
               {currentStep !== 9 && currentStep !== 8 && (
                 <>
-              <button className="ml-10 mt-10 w-[20%] text-base font-bold mb-2 hover:text-blue-400  cursor-pointer" onClick={() => handlePreviousStep()} disabled={currentStep === 1}>
-              &lt; <span className="hover:underline">Back to frame</span></button>
+                  <button onClick={goBack} className="ml-10 mt-10 w-[20%] text-base font-bold mb-2 hover:text-blue-400  cursor-pointer" disabled={currentStep === 1}>
+                    &lt; <span className="hover:underline">Back to frame</span></button>
                   <div className='p-8 mt-[-15px] rounded-md w-full'></div>
-                  <div className={` justify-center items-center flex ${imageAnimationClass}`}>
-                    <img src={yellowGlassesImg} alt="logo" className="w-[80%] h-[80%]" />
+                  <div className={`object-contain justify-center items-center flex ${imageAnimationClass}`}>
+                    {
+                      productImage(product)
+                    }
                   </div>
+
                 </>
               )}
 
@@ -210,17 +272,24 @@ const selectedOptions = useSelector((state) => state.selectedOptions);
               <>
                 <div className={`px-20 flex flex-row mx-auto mt-4 sm:mt-10 ${textAnimationClass}`}>
                   <div>
-                    <h5 className="font-sans text-xl sm:text-2xl font-bold mr-4 sm:mr-10">JACKSON</h5>
-                    <p className="font-sans text-md font-semibold mb-4 sm:mb-10">Cat Eye Eyeglasses</p>
+                    <h5 className="font-sans text-xl sm:text-2xl font-bold mr-4 sm:mr-10">{product.name}</h5>
+                    <p className="font-sans text-md font-semibold mb-4 sm:mb-10">{product.manufacturer}</p>
                   </div>
                   <div className="ml-auto">
-                    <h5 className="font-sans text-lg sm:text-2xl font-bold">$149.00</h5>
+                    {product && product.priceInfo ? (
+                      <p className="font-sans text-lg sm:text-2xl font-bold">{product.priceInfo.price} {product.priceInfo.currency}</p>
+
+                    ) : (
+                      <p className="mt-5 text-blue-400 cursor-pointer">
+                        price (Loading...)
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className={`bg-gray-50 rounded-md p-2 sm:px-4 mr-8 ml-8 mb-8 transform ${textAnimationClass}`}>
-                  <h5 className="font-sans text-xl font-bold mr-4 sm:mr-10 mb-2">Gray Polarized Lens</h5>
+                  <h5 className="font-sans text-xl font-bold mr-4 sm:mr-10 mb-2">Frame Description</h5>
                   <p className="font-sans text-base">
-                    Gray polarized lenses reduce glare and provide clear vision in bright conditions while maintaining natural color perception. They are ideal for outdoor activities and offer UV protection.
+                    {product.description}
                   </p>
                 </div>
               </>
@@ -229,9 +298,9 @@ const selectedOptions = useSelector((state) => state.selectedOptions);
         </div>
 
         {/* section 2 */}
-        <div className={`flex flex-col w-full md:w-[45%] shadow-lg shadow-left bg-[#f7f8f9] border-l-[#f1f1f1] border-l-2 ${rightComponentAnimationClass} }`}>
+        <div className={`flex flex-col w-full md:w-[45%]  shadow-left bg-gray-100 border-l-[#f1f1f1] border-l-2 ${rightComponentAnimationClass} }`}>
           <div className="flex mt-10">
-          <button className="w-[20%] text-base mb-2 hover:text-blue-400  cursor-pointer" onClick={() => handlePreviousStep()} disabled={currentStep === 1}>
+            <button className="w-[20%] text-base mb-2 hover:text-blue-400  cursor-pointer" onClick={() => handlePreviousStep()} disabled={currentStep === 1}>
               &lt; <span className="hover:underline">Back</span>
             </button>
             <button className="w-[20%] text-base font-normal mb-2" onClick={() => handleNextStep()} disabled={currentStep === 10}>

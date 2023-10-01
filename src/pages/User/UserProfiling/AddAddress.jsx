@@ -5,9 +5,15 @@ import { BsFilePostFill } from "react-icons/bs";
 import { BsTelephonePlusFill } from "react-icons/bs";
 import {  FaUser } from "react-icons/fa";
 import {addAddress} from '../../../api/userapi'
+import { useNavigate, useLocation } from "react-router-dom";
 
 
 export default function AddAddressScreen() {
+
+    // handle cart navigation
+    const navigate = useNavigate();
+    const location = useLocation();  // Check if the user came from the Order Screen
+    const cameFromOrderScreen = location.state && location.state.from === '/user/cart';
 
     const [fName,setFName] = React.useState('')
     const [lName,setLName] = React.useState('')
@@ -56,8 +62,14 @@ export default function AddAddressScreen() {
             if(response.status == 200){
                 setSuccessMessage("Address Added Successfully!")
                 setSuccessVisible(true)
-                setErrorVisible(false)       
-                Alert("Information Saved!")    
+                setErrorVisible(false)        
+                if (cameFromOrderScreen) {
+                    // Redirect to Order Screen
+                    navigate('/user/cart');
+                  } else {
+                    // Show an alert for payment method added during profile completion
+                    alert('Payment method added!');
+                  }
             }
         }
         catch (e){

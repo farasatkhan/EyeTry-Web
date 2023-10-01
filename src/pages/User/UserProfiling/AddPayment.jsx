@@ -11,8 +11,13 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 export default function AddPaymentScreen() {
+
+    const navigate = useNavigate();
+    const location = useLocation();  // Check if the user came from the Order Screen
+    const cameFromOrderScreen = location.state && location.state.from === '/user/cart';
 
     const [paymentType, setPaymentType] = React.useState('Credit Card')
     const [nameOnCard, setNameOnCard] = React.useState('')
@@ -76,7 +81,13 @@ export default function AddPaymentScreen() {
                 setSuccessMessage("Payment Method Added Successfully!")
                 setSuccessVisible(true)
                 setErrorVisible(false)
-                Alert("Information Saved!")
+                if (cameFromOrderScreen) {
+                    // Redirect to Order Screen
+                    navigate('/user/cart');
+                  } else {
+                    // Show an alert for payment method added during profile completion
+                    alert('Payment method added!');
+                  }
             }
         }
         catch (e) {

@@ -1,5 +1,5 @@
 import React, { Alert } from "react";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { updatePaymentMethod, viewSpecificPaymentMethod } from '../../../api/userapi'
 import stripeImg from '../../../assets/images/UserProfiling/stripe.png'
@@ -11,10 +11,16 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 
 export default function AddPaymentScreen() {
-    const {id} = useParams();
+
+    const navigate = useNavigate();
+    const location = useLocation();  // Check if the user came from the Order Screen
+    const cameFromOrderScreen = location.state && location.state.from === '/user/cart';
+
+    const { id } = useParams();
     const [paymentType, setPaymentType] = React.useState('')
     const [nameOnCard, setNameOnCard] = React.useState('')
     const [cardNumber, setCardNumber] = React.useState('')
@@ -38,10 +44,10 @@ export default function AddPaymentScreen() {
     const [successMessage, setSuccessMessage] = React.useState(null)
 
     // Fetching Payment Data
-    React.useEffect(()=>{
-        const setData = async()=>{
+    React.useEffect(() => {
+        const setData = async () => {
             console.log("check useeffect")
-            try{
+            try {
                 const payment = await viewSpecificPaymentMethod(id);
                 setPaymentType(payment.paymentType)
                 setNameOnCard(payment.nameOnCard)
@@ -57,18 +63,18 @@ export default function AddPaymentScreen() {
                 setExpirationMonth(payment.expirationMonth.month)
                 setExpirationYear(payment.expirationYear.year)
             }
-            catch(e){
+            catch (e) {
                 throw e
             }
         }
         setData()
-    },[])
+    }, [])
 
 
     // form validation 
     const validateForm = () => {
         if (!country || !city || !zipCode || !firstName || !lastName || !address || !paymentType
-            || !nameOnCard || !cardNumber  || !cvv || !state) {
+            || !nameOnCard || !cardNumber || !cvv || !state) {
             setErrorVisible(true)
             setErrorMsg('Please fill out all fields');
             return false;
@@ -103,7 +109,15 @@ export default function AddPaymentScreen() {
                 setSuccessMessage("Payment Method Updated Successfully!")
                 setSuccessVisible(true)
                 setErrorVisible(false)
-                Alert("Information Saved!")
+
+                // handling cart navigation
+                if (cameFromOrderScreen) {
+                    // Redirect to Order Screen
+                    navigate('/user/cart');
+                } else {
+                    // Show an alert for payment method added during profile completion
+                    Alert("Information Saved!")
+                }
             }
         }
         catch (e) {

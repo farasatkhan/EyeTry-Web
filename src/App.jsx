@@ -89,6 +89,10 @@ const privateRoutes = (
     {/* Home Screens routes */}
     <Route path="/" element={<PrivateRoute Component={UserProfilingNavbar} />} >
       <Route index element={<PrivateRoute Component={Home} />} />
+      {/* product details */}
+      <Route path="product_details/:id" element={<PrivateRoute Component={ProductDetails} />} />
+      <Route path="select_lens/:id" element={<PrivateRoute Component={SelectLensTypeComponent} />} />
+      <Route path="cart" element={<PrivateRoute Component={Cart} />} />
     </Route>
 
     {/* Profile Management Routes */}
@@ -108,15 +112,13 @@ const privateRoutes = (
       <Route path="upload_user_image" element={<PrivateRoute Component={UploadUserImage} />} />
       <Route path="giftcards" element={<PrivateRoute Component={GiftCards} />} />
       <Route path="my_details" element={<PrivateRoute Component={MyDetails} />} />
-      {/* product details */}
-      <Route path="product_details" element={<PrivateRoute Component={ProductDetails} />} />
-      <Route path="cart" element={<PrivateRoute Component={Cart} />} />
     </Route>
 
-    <Route path="/order/*" element={<PrivateRoute Component={UserProfilingNavbar} />} >
-      <Route path="select_lens" element={<PrivateRoute Component={SelectLensTypeComponent} />} />
+    <Route path="/products/*" element={<PrivateRoute Component={UserProfilingNavbar} />}>
+
     </Route>
-    
+
+
 
     {/* Vision Assessments */}
     <Route path="/assessments/*" element={<VissionAssessmentsNavbar />}>

@@ -1,18 +1,30 @@
 import React, { useState, useEffect } from "react";
 import yellowGlassesImg from "../../../../assets/images/UserProfiling/yellowglasses.png";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaCheckCircle } from 'react-icons/fa';
 import { BiEdit } from "react-icons/bi";
 import pfp from '../../../../assets/images/UserProfiling/Ellipse.png'
 import { useParams } from "react-router-dom";
 import { viewParticularProduct } from "../../../../api/productsApi";
+import API_URL from "../../../../config/config";
+import { useDispatch } from 'react-redux';
+import { updateSelectedOptions } from '../../../../redux/actions/orderSelectionAction';
 
 export default function SelectLensTypeScreen({ rating }) {
 
 
-    const [product, setProduct] = useState({})
-    const [frameColors, setFrameColors] = useState([])
+    const [product, setProduct] = useState({});
+    // available frame colors
+    const [frameColors, setFrameColors] = useState([]);
+    const [activeImg, setActiveImg] = useState("");
     const { id } = useParams();
+    const [activeColor, setActiveColor] = useState(""); // Track the active color
+    const [activeImages, setActiveImages] = useState([]); // Initialize activeImages state
+    const [frameSize, setFrameSize] = useState('');
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+
 
     useEffect(() => {
         if (id) {
@@ -20,19 +32,63 @@ export default function SelectLensTypeScreen({ rating }) {
                 async function fetchData() {
                     const fetchedGlasses = await viewParticularProduct(id);
 
+                    // Get frame colors and set the first one as the default active color
                     const colors = fetchedGlasses.frame_information.frame_variants.map(
                         (variant) => variant.color
                     );
-                    setProduct(fetchedGlasses)
-                    setFrameColors(colors);
-                    console.log("frame colors: ", frameColors)
+                    if (colors.length > 0) { // Check if there are colors available
+                        setProduct(fetchedGlasses);
+                        setFrameColors(colors);
+
+                        // Set the default color and image on the first render
+                        const defaultColor = colors[0];
+                        const absoluteImages = getAbsoluteImageURL(defaultColor, fetchedGlasses);
+                        setActiveColor(defaultColor);
+                        setActiveImages(absoluteImages);
+                        setActiveImg(absoluteImages[0]);
+                        console.log("default activeColor" + activeColor)
+                    }
                 }
                 fetchData();
             } catch (error) {
-                console.log("error getting particular glasses.");
+                console.error("Error getting particular glasses.", error);
             }
         }
     }, [id]);
+
+
+
+    // Additional images click handler
+    const handleAdditionalImageClick = (imageURL) => {
+        setActiveImg(imageURL);
+    };
+
+    const getAbsoluteImageURL = (color, glasses) => {
+        if (glasses && glasses.frame_information && glasses.frame_information.frame_variants) {
+            const variant = glasses.frame_information.frame_variants.find((v) => v.color === color);
+            if (variant && variant.images && variant.images.length > 0) {
+                // Assuming the images are stored on a specific server or CDN
+                const baseURL = API_URL; // Replace with the actual base URL
+                return variant.images.map((image) => `${baseURL}${image}`);
+            }
+        }
+        return [];
+    };
+
+
+    const handleColorSelect = (color) => {
+        if (product && frameColors) {
+            const absoluteImages = getAbsoluteImageURL(color, product);
+
+            if (absoluteImages.length > 0) {
+                setActiveColor(color); // Set the active color
+                setActiveImages(absoluteImages); // Set activeImages for the selected color
+                setActiveImg(absoluteImages[0]); // Set the active image to the first image in the array
+                console.log("selected activecolor" + activeColor)
+
+            }
+        }
+    };
 
 
     // animation effect
@@ -46,17 +102,6 @@ export default function SelectLensTypeScreen({ rating }) {
     const rightComponentAnimationClass = loaded ? 'translate-x-0 opacity-100 transition-transform ease-out duration-1000' : 'translate-x-20 opacity-0';
     const textAnimationClass = loaded ? 'translate-y-0 opacity-100 transition-transform ease-out duration-1000 delay-500' : 'translate-y-20 opacity-0';
 
-    // for images
-    const [images, setImages] = useState({
-        img1: "https://img.freepik.com/premium-photo/eyeglasses-isolated-white-background_33900-1477.jpg?w=2000",
-        img2: "https://i5.walmartimages.com/asr/ede8eae4-8e51-4029-aac6-59c692426861.20c4489bd3559f8dcfd027a34150bfd2.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF",
-        img3: "https://static5.lenskart.com/media/catalog/product/pro/1/thumbnail/480x480/9df78eab33525d08d6e5fb8d27136e95//l/i/matte-blue-full-rim-wayfarer-lenskart-air-essentials-la-e10592-l-c2-eyeglasses_lenskart-air-la-e10592-l-c2-eyeglasses_g_2972_27july23.jpg",
-        img4: "https://www.otticacenter.gr/image/cache/catalog/7th_street/7A056_003_4918_145-420x420w.jpg",
-        img5: "https://www.otticacenter.gr/image/cache/catalog/7th_street/7A056_003_4918_145-420x420w.jpg",
-        img6: "https://www.otticacenter.gr/image/cache/catalog/7th_street/7A056_003_4918_145-420x420w.jpg",
-    })
-
-    const [activeImg, setActiveImage] = useState(images.img1)
 
     const [amount, setAmount] = useState(1);
 
@@ -84,6 +129,27 @@ export default function SelectLensTypeScreen({ rating }) {
         setActiveTab(tab);
     };
 
+    // adding frame size and color in redux - selectedOptions
+
+    const handleSelectLensClick = () => {
+        // Dispatch an action to update selected package and coatings
+        dispatch(updateSelectedOptions({
+            "frameProperties": {
+                "frameSize": frameSize,
+                "frameColor": activeColor
+            }
+
+        }));
+
+        navigate(`/select_lens/${id}`)
+
+    };
+
+    // handling frame size selection
+    const handleSizeSelect = (size) => {
+        setFrameSize(size);
+    }
+
     return (
         <>
             <div className="bg-white">
@@ -95,22 +161,22 @@ export default function SelectLensTypeScreen({ rating }) {
                                 <button className="ml-10 mt-10 w-[20%] text-base font-semibold mb-2 hover:text-blue-400  cursor-pointer">
                                     &lt; <span className="hover:underline">Back</span></button>
                                 <div className='py-4 rounded-md w-full'></div>
-                                <div className={` justify-center items-center object-cover flex flex-wrap ${imageAnimationClass}`}>
+                                {/* Display images based on selected color */}
+                                <div className={`justify-center items-center object-cover flex flex-wrap ${imageAnimationClass}`}>
                                     <div className="w-[600px] h-[400px]">
                                         <img src={activeImg} alt="" className='w-full h-full rounded-xl' />
-                                        <div className={`mt-2 flex flex-row justify-between ${imageAnimationClass}`}>
-                                            <img src={images.img1} alt=""
-                                                className='w-20 h-20 border rounded-md cursor-pointer' onClick={() => setActiveImage(images.img1)} />
-                                            <img src={images.img2} alt=""
-                                                className='w-20 h-20 border rounded-md cursor-pointer' onClick={() => setActiveImage(images.img2)} />
-                                            <img src={images.img3} alt=""
-                                                className='w-20 h-20 border rounded-md cursor-pointer' onClick={() => setActiveImage(images.img3)} />
-                                            <img src={images.img4} alt=""
-                                                className='w-20 h-20 border rounded-md cursor-pointer' onClick={() => setActiveImage(images.img4)} />
-                                            <img src={images.img5} alt=""
-                                                className='w-20 h-20 border rounded-md cursor-pointer' onClick={() => setActiveImage(images.img5)} />
-                                            <img src={images.img6} alt=""
-                                                className='w-20 h-20 border rounded-md cursor-pointer' onClick={() => setActiveImage(images.img6)} />
+                                        {/* Display additional images for the selected color */}
+                                        <div className={`mt-2 flex flex-row justify-center ${imageAnimationClass}`}>
+                                            {activeImages.map((image, index) => (
+                                                <div key={index} className="w-20 h-20 border rounded-md cursor-pointer">
+                                                    <img
+                                                        src={image}
+                                                        alt=""
+                                                        className='w-full h-full rounded-md'
+                                                        onClick={() => handleAdditionalImageClick(image)} // Handle click on additional images
+                                                    />
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -120,26 +186,62 @@ export default function SelectLensTypeScreen({ rating }) {
 
                     {/* section 2 */}
                     <div className={`flex flex-col w-full md:w-[40%]  ${rightComponentAnimationClass}`}>
-                        <div className="flex flex-col w-[90%] mx-auto bg-gray-100 m-10 flex-1 p-5 justify-center">
+                        <div className="flex flex-col w-[90%] mx-auto mt-[25px] bg-gray-100 m-10 flex-1 p-5 justify-center">
                             <h1 className="font-semibold font-sans text-4xl">{product.name}</h1>
                             <p className="font-sans mt-2 text-base">{product.manufacturer}</p>
                             <div className="product-rating font-bold text-2xl text-yellow-500">
                                 {renderStars()}
                                 <span className="rating">{rating}</span>
                             </div>
-                            <p className="font-sans mt-2 text-base">{product.type}</p>
+                            <p className="font-sans mt-1 text-base">{product.type}</p>
                             {/* displaying frame colors */}
-                            <div className="flex">
+                            <div className="flex mt-2">
                                 {product && frameColors ? (
                                     frameColors.map((color, index) => (
                                         <div
                                             key={index}
-                                            className={`rounded-full w-6 h-6 ${color && `bg-${color.toLowerCase()}-500 : bg-${color.toLowerCase()}`} m-2`}
+                                            className={`rounded-full w-6 h-6 cursor-pointer`}
+                                            style={{ backgroundColor: color, marginRight: 5 }}
+                                            onClick={() => handleColorSelect(color)}
                                         ></div>
                                     ))
                                 ) : (
-                                    <p className="mt-5 text-blue-400 cursor-pointer">colors (Loading...)</p>
+                                    <p className="mt-5 text-blue-400 cursor-pointer">Colors (Loading...)</p>
                                 )}
+                            </div>
+
+                            {/*  Frame size buttons */}
+                            <div>
+                                {/* <label for="framesize" className="block mb-2 text-base font-semibold text-gray-800 font-sans">Frame Size</label> */}
+                                <div className="flex justify-center h-5 mt-5 items-center">
+                                    <button
+                                        className={`mr-2 py-1 px-6 rounded-sm ${frameSize === 'small'
+                                            ? 'bg-red-700 text-white'
+                                            : 'bg-gray-300 text-gray-700 hover:bg-gray-400'
+                                            }`}
+                                        onClick={() => handleSizeSelect('small')}
+                                    >
+                                        S
+                                    </button>
+                                    <button
+                                        className={`mx-2 py-1 px-6 rounded-sm ${frameSize === 'medium'
+                                            ? 'bg-red-700 text-white'
+                                            : 'bg-gray-300 text-gray-700 hover:bg-gray-400'
+                                            }`}
+                                        onClick={() => handleSizeSelect('medium')}
+                                    >
+                                        M
+                                    </button>
+                                    <button
+                                        className={`ml-2 py-1 px-6 rounded-sm ${frameSize === 'large'
+                                            ? 'bg-red-700 text-white'
+                                            : 'bg-gray-300 text-gray-700 hover:bg-gray-400'
+                                            }`}
+                                        onClick={() => handleSizeSelect('large')}
+                                    >
+                                        L
+                                    </button>
+                                </div>
                             </div>
 
                             {product && product.reviewsInformation ? (
@@ -154,7 +256,7 @@ export default function SelectLensTypeScreen({ rating }) {
                             <div className="max-h-24 w-full mt-2 description-box overflow-hidden">
                                 <p className=" text-base overflow-hidden text-ellipsis">{product.description}</p>
                             </div>
-                            { product && product.priceInfo ? (
+                            {product && product.priceInfo ? (
                                 <p className="font-bold text-2xl mt-5 ">{product.priceInfo.price} {product.priceInfo.currency}</p>
 
                             ) : (
@@ -172,7 +274,7 @@ export default function SelectLensTypeScreen({ rating }) {
                             </span>
                             {/* buttons */}
                             <div className="flex justify-center items-center w-full flex-col text-center mt-10 mb-10">
-                                <Link to={`/select_lens/${id}`} type="button" className="w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Select Lens</Link>
+                                <button onClick={handleSelectLensClick} type="button" className="w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Select Lens</button>
                                 <button type="button" className="w-full focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Try-ON Virtually</button>
                             </div>
                         </div>
@@ -339,10 +441,10 @@ export default function SelectLensTypeScreen({ rating }) {
                     <h1 className="text-2xl font-semibold">Customer Reviews</h1>
                     <div className="flex justify-center items-center space-x-4 py-5 flex-wrap flex-col md:flex-row">
                         <p className="font-bold text-2xl">4.1</p><p className="font-bold text-2xl text-yellow-500 ">★★★★★</p>
-                        { product && product.reviewsInformation ? (
+                        {product && product.reviewsInformation ? (
                             <p className="text-sm ml-4 text-blue-400">Based on {product.reviewsInformation.total_reviews} Reviews</p>
                         ) : (
-                                    <p className="mt-5 text-blue-400 cursor-pointer">colors (Loading...)</p>
+                            <p className="mt-5 text-blue-400 cursor-pointer">colors (Loading...)</p>
 
                         )}
                         <button class=" py-1 px-4 rounded inline-flex items-center 

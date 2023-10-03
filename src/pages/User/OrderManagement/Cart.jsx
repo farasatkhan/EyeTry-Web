@@ -193,12 +193,27 @@ const Cart = () => {
           <div class="rounded-lg md:w-2/3">
             {cartItems.map((item, index) => (
               <div class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
+                
                 <img
                   className="w-full rounded-lg sm:w-40"
-                  src={API_URL + item.productData.frame_information.frame_variants[0].images[0]}
+                  src={
+                    API_URL 
+                    + item.productData
+                    .frame_information
+                    .frame_variants
+                    .find((v) => v
+                    .color 
+                    === 
+                    item
+                    .orderSelections
+                    .selectedOptions
+                    .frameProperties
+                    .frameColor)
+                    .images[0]
+                  }
                   alt={`Product ${index}`}
-
                 />
+
                 <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
                   <div class="mt-5 sm:mt-0">
                     <h2 class="text-lg font-bold text-gray-900">{item.productData.name}</h2>

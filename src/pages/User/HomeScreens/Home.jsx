@@ -55,9 +55,9 @@ const Home = () => {
   return (
     <>
       <p>Home Page</p>
-      <div className="h-200 mx-auto mb-20 mt-20 w-[20%]  bg-gray-300 cursor-pointer">
+      <div className="h-200 mx-auto mb-20 mt-20 bg-gray-300 flex cursor-pointer space-x-4">
         {productsList.map((product) => (
-          <div onClick={() => handleNavigation(product._id)} key={product._id} className=" justify-center items-center flex flex-col">
+          <div onClick={() => handleNavigation(product._id)} key={product._id} className=" justify-center border-2 border-black w-[250px] items-center flex flex-col">
             {/* Display product information */}
             <div className="h-400 w-[100%] overflow-hidden mr-2 shrink-0">
               {productImage(product)}

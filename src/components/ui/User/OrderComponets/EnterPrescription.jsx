@@ -11,6 +11,29 @@ export default function SelectLensTypeComponentProp({ onSelectedOptions, onNextS
     const [pdLeftNumber, setPDLeftNumber] = useState(null);
     const [pdRightNumber, setPDRightNumber] = useState(null);
     const [birthYear, setBirthYear] = useState(null);
+    // form validation
+    const [errorVisible, setErrorVisible] = React.useState(false)
+    const [errorMsg, setErrorMsg] = React.useState('')
+
+    const validateForm = () => {
+        // Validating user input
+        if ((pdType == 'oneNumber' && !pdOneNumber) 
+            || !birthYear || rightEye.SPH == "" || rightEye.CYL == "" || rightEye.Axis == ""
+            || rightEye.Prism == "" || rightEye.Base == "" || leftEye.SPH == "" || leftEye.CYL == ""
+            || leftEye.Axis == "" || leftEye.Prism == "" || leftEye.Base == "") {
+            setErrorVisible(true)
+            setErrorMsg('Please fill out all fields!');
+            return false;
+        }
+
+         if (pdType === 'twoNumbers' && (pdLeftNumber === null || pdRightNumber === null)) {
+                setErrorVisible(true);
+                setErrorMsg('Please fill out both Left and Right Pupillary Distance values!');
+                return false;
+            } 
+
+        return true
+    }
 
     const [rightEye, setRightEye] = useState({
         SPH: "",
@@ -72,8 +95,12 @@ export default function SelectLensTypeComponentProp({ onSelectedOptions, onNextS
         <div className="mx-auto" >
 
             <h1 className="font-sans font-semibold text-2xl mx-auto">Enter Prescription Details</h1>
-
-            <div className="mx-auto ">
+            {errorVisible &&
+                <p style={{ color: 'red', fontSize: 16, alignSelf: 'flex-start', marginTop:2 }}>
+                    {errorMsg}
+                </p>
+            }
+            <div className="mx-auto overflow-y-scroll h-[500px]">
                 {/* IPD */}
                 <div className="w-[85%] mx-auto">
                     <p className="text-lg font-sans font-semibold mt-4">Pupilary Distance</p>
@@ -321,7 +348,11 @@ export default function SelectLensTypeComponentProp({ onSelectedOptions, onNextS
 
                 <div class="flex justify-center mt-6">
                     <button onClick={() => {
-                        handleSelections(); handleNext()
+                        if (!validateForm()) {
+                            return
+                        } else {
+                            handleSelections(); handleNext()
+                        }
                     }} type="button" className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none 
                 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm py-2.5 mb-2
                  w-[80%]">

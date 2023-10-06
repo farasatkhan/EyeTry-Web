@@ -303,9 +303,9 @@ const productImage = (product) => {
             <button className="w-[20%] text-base mb-2 hover:text-blue-400  cursor-pointer" onClick={() => handlePreviousStep()} disabled={currentStep === 1}>
               &lt; <span className="hover:underline">Back</span>
             </button>
-            <button className="w-[20%] text-base font-normal mb-2" onClick={() => handleNextStep()} disabled={currentStep === 10}>
+            {/* <button className="w-[20%] text-base font-normal mb-2" onClick={() => handleNextStep()} disabled={currentStep === 10}>
               &gt;
-            </button>
+            </button> */}
           </div>
           <div className=" flex flex-col w-[90%] mx-auto flex-1 mb-8">
             <div className="mx-auto w-full p-3">{rightSideComponent}</div>

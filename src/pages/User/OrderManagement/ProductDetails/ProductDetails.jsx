@@ -186,24 +186,37 @@ export default function SelectLensTypeScreen({ rating }) {
 
                     {/* section 2 */}
                     <div className={`flex flex-col w-full md:w-[40%]  ${rightComponentAnimationClass}`}>
-                        <div className="flex flex-col w-[90%] mx-auto mt-[25px] bg-gray-100 m-10 flex-1 p-5 justify-center">
+                        <div className="flex flex-col w-[90%] mx-auto mt-[35px] bg-gray-100 m-10 flex-1 p-5 justify-center">
                             <h1 className="font-semibold font-sans text-4xl">{product.name}</h1>
                             <p className="font-sans mt-2 text-base">{product.manufacturer}</p>
+                            <div className="flex space-x-4 items-center">
                             <div className="product-rating font-bold text-2xl text-yellow-500">
                                 {renderStars()}
                                 <span className="rating">{rating}</span>
                             </div>
+                            {product && product.reviewsInformation ? (
+                                <p className=" text-blue-400 cursor-pointer">
+                                    Reviews ({product.reviewsInformation.total_reviews})
+                                </p>
+                            ) : (
+                                <p className=" text-blue-400 cursor-pointer">
+                                    Reviews (Loading...)
+                                </p>
+                            )}
+                            </div>
                             <p className="font-sans mt-1 text-base">{product.type}</p>
                             {/* displaying frame colors */}
-                            <div className="flex mt-2">
+                            <div className="flex mt-3">
                                 {product && frameColors ? (
                                     frameColors.map((color, index) => (
-                                        <div
+                                        <div className={`${activeColor === color ? 'border-black rounded-full border-2 mr-2' : "mr-2"} `}>
+                                        <div 
                                             key={index}
-                                            className={`rounded-full w-6 h-6 cursor-pointer`}
-                                            style={{ backgroundColor: color, marginRight: 5 }}
+                                            className={`h-8 w-8 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
+                                            style={{ backgroundColor: color,  }}
                                             onClick={() => handleColorSelect(color)}
                                         ></div>
+                                        </div>
                                     ))
                                 ) : (
                                     <p className="mt-5 text-blue-400 cursor-pointer">Colors (Loading...)</p>
@@ -213,7 +226,7 @@ export default function SelectLensTypeScreen({ rating }) {
                             {/*  Frame size buttons */}
                             <div>
                                 {/* <label for="framesize" className="block mb-2 text-base font-semibold text-gray-800 font-sans">Frame Size</label> */}
-                                <div className="flex justify-center h-5 mt-5 items-center">
+                                <div className="flex justify-center h-5 mt-5 items-center mb-5">
                                     <button
                                         className={`mr-2 py-1 px-6 rounded-sm ${frameSize === 'small'
                                             ? 'bg-red-700 text-white'
@@ -244,15 +257,7 @@ export default function SelectLensTypeScreen({ rating }) {
                                 </div>
                             </div>
 
-                            {product && product.reviewsInformation ? (
-                                <p className="mt-5 text-blue-400 cursor-pointer">
-                                    Reviews ({product.reviewsInformation.total_reviews})
-                                </p>
-                            ) : (
-                                <p className="mt-5 text-blue-400 cursor-pointer">
-                                    Reviews (Loading...)
-                                </p>
-                            )}
+
                             <div className="max-h-24 w-full mt-2 description-box overflow-hidden">
                                 <p className=" text-base overflow-hidden text-ellipsis">{product.description}</p>
                             </div>
@@ -266,7 +271,7 @@ export default function SelectLensTypeScreen({ rating }) {
                             )}
                             <span className="flex space-x-2 mt-4 cursor-pointer items-center">
                                 <FaCheckCircle size={15} color="green" />
-                                <p className="text-green-500">Free shipping & returns</p>
+                                <p className="text-green-500">Shipping & returns</p>
                             </span>
                             <span className="flex space-x-2 cursor-pointer items-center">
                                 <FaCheckCircle size={15} color="green" />

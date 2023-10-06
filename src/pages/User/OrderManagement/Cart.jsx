@@ -1,21 +1,14 @@
 // CartComponent.js
 
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getUserData, deleteAddress, viewAllPayments, deletePaymentMethod } from '../../../api/userapi';
 import { BiEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
-import { FaRegEnvelope, FaUser, } from "react-icons/fa";
 import API_URL from '../../../config/config';
 import { checkout } from '../../../api/productsApi';
 
 const Cart = () => {
-
-
-  const [totalPrice, setTotalPrice] = useState(0)
-
-  
 
   // getting payment and address data
   const [addresses, setAddresses] = React.useState([])
@@ -24,9 +17,14 @@ const Cart = () => {
   const [isDeleted, setDeleted] = useState(false)
   const [hasPaymentMethod, setHasPaymentMethod] = useState(false);
   const [hasShippingAddress, setHasShippingAddress] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [activeTab, setActiveTab] = useState('paymentMethod');
+  const [productQuantities, setProductQuantities] = useState({});
+  const [productData, setProductData] = useState({});
+
 
   // getting address book
-  React.useEffect(() => {
+  useEffect(() => {
     getProfileData()
     getPaymentData()
   }, [])
@@ -78,26 +76,18 @@ const Cart = () => {
     }
   }
 
-  //     //  table content 
-  const [activeTab, setActiveTab] = useState('paymentMethod');
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
-  const navigate = useNavigate();
-
-  // const selectedOptions = useSelector((state) => state.selectedOptions);
-
-  // // Convert the selectedOptions object to a JSON string with pretty formatting
-  // const selectedOptionsJSON = JSON.stringify(selectedOptions, null, 2);
 
   // getting localstorage cart items
-  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     getLocalStorageCartItems();
   }, []);
+
 
   const getLocalStorageCartItems = () => {
     const storedCartItems = JSON.parse(localStorage.getItem('cart'));
@@ -106,7 +96,6 @@ const Cart = () => {
 
   }
 
-  const [productQuantities, setProductQuantities] = useState({});
   useEffect(() => {
     const initialProductQuantities = {};
     for (const item of cartItems) {
@@ -120,9 +109,6 @@ const Cart = () => {
     }
     setProductQuantities(initialProductQuantities);
   }, [cartItems]);
-
-
-  const user = localStorage.getItem('user')
   
 
   const placeOrder = async () => {
@@ -206,7 +192,6 @@ const Cart = () => {
     }
   };
   
-  
 
   // managing payment method
   const paymentRoute = payments.length > 0 ? `/user/edit_payment/${payments[0]._id}` : '/user/add_payment';
@@ -222,7 +207,6 @@ const Cart = () => {
     setCounter(counter + 1)
   }
 
-  const [productData, setProductData] = useState({});
 
   useEffect(() => {
     const storedProductData = localStorage.getItem('productData');
@@ -231,14 +215,6 @@ const Cart = () => {
     }
     console.log("product data", JSON.stringify(productData, null, 2));
   }, []);
-
-
-  // handle decrement
-  const handleDecrement = () => {
-    if (counter > 0) {
-      setCounter(counter - 1)
-    }
-  }
 
 
   // Function to handle incrementing the quantity
@@ -307,7 +283,6 @@ const Cart = () => {
       }
     }
     
-    // setTotalPrice(totalCalculatedPrice);
     return totalCalculatedPrice;
   };
 
@@ -328,7 +303,6 @@ const Cart = () => {
     localStorage.setItem('cart', JSON.stringify(updatedCartItems));
   };
   
-
 
   return (
 
@@ -484,9 +458,9 @@ const Cart = () => {
                 <p className="text-sm text-gray-700">including VAT</p>
               </div>
             </div>
-            <button onClick={placeOrder} className=" cursor-pointer mt-6 w-full
-             rounded-md bg-blue-500 py-1.5 font-medium text-blue-50
-               hover:bg-blue-600">Check out</button>
+            <button onClick={placeOrder} disabled={(cartItems && cartItems.length < 1)} className={`cursor-pointer mt-6 w-full
+             rounded-md ${cartItems && cartItems.length < 1  ? 'bg-gray-500 hover:bg-gray-600' : 'bg-blue-500 hover:bg-blue-600'}  py-1.5 font-medium text-blue-50
+               `}>Check out</button>
           </div>
         </div>
 

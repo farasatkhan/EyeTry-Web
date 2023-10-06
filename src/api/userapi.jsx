@@ -75,7 +75,7 @@ export const updateUserData = async (updateData) => {
 export const changePassword = async (passwordData) => {
     const data = passwordData
     try {
-        const accessToken = await localStorage.getItem("accessToken")
+        const accessToken = localStorage.getItem("accessToken")
         const response = await axios.post(`${baseURL}/users/change_password`, data, {
             headers: {
                 Authorization: `Bearer ${accessToken}`

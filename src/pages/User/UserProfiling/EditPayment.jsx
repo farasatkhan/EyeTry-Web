@@ -1,4 +1,4 @@
-import React, { Alert } from "react";
+import React, { Alert, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { updatePaymentMethod, viewSpecificPaymentMethod } from '../../../api/userapi'
@@ -33,10 +33,13 @@ export default function AddPaymentScreen() {
     const [state, setState] = React.useState('')
     const [zipCode, setZipCode] = React.useState('')
     // for date picker
-    const [expirationMonth, setExpirationMonth] = React.useState(dayjs('01'));
-    const [expirationYear, setExpirationYear] = React.useState(dayjs('2023'));
+    const [expirationMonth, setExpirationMonth] = React.useState(dayjs().set('date', 1));
+    const [expirationYear, setExpirationYear] = React.useState(dayjs().set('year', dayjs().year()));
 
-
+    useEffect(() => {
+        console.log("expirationMonth " + expirationMonth.format("MMMM"))
+        console.log("expirationYear", expirationYear.format("YYYY"));
+    }, [expirationYear, expirationMonth])
 
     const [errorVisible, setErrorVisible] = React.useState(false)
     const [errorMsg, setErrorMsg] = React.useState('')
@@ -46,7 +49,8 @@ export default function AddPaymentScreen() {
     // Fetching Payment Data
     React.useEffect(() => {
         const setData = async () => {
-            console.log("check useeffect")
+
+
             try {
                 const payment = await viewSpecificPaymentMethod(id);
                 setPaymentType(payment.paymentType)
@@ -60,8 +64,13 @@ export default function AddPaymentScreen() {
                 setAddress(payment.billingInfo.address)
                 setZipCode(payment.billingInfo.zipCode)
                 setState(payment.billingInfo.state)
-                setExpirationMonth(payment.expirationMonth.month)
-                setExpirationYear(payment.expirationYear.year)
+                // Parse and set expirationMonth using dayjs
+                const parsedExpirationMonth = dayjs(payment.expirationMonth, "MMMM");
+                setExpirationMonth(parsedExpirationMonth);
+
+                // Parse and set expirationYear using dayjs
+                const parsedExpirationYear = dayjs(payment.expirationYear, "YYYY");
+                setExpirationYear(parsedExpirationYear);
             }
             catch (e) {
                 throw e
@@ -86,12 +95,18 @@ export default function AddPaymentScreen() {
         if (!validateForm()) {
             return
         }
+
+        const formattedExpirationMonth = expirationMonth.format("MMMM");
+        const formattedExpirationYear = expirationYear.format("YYYY");
+        console.log("inside funct formattedExpirationMonth " + typeof (formattedExpirationMonth))
+        console.log("inside funct formattedExpirationYear " + typeof (formattedExpirationYear))
+
         const paymentMethodData = {
             paymentType: paymentType,
             nameOnCard: nameOnCard,
             cardNumber: cardNumber,
-            expirationMonth: expirationMonth,
-            expirationYear: expirationYear,
+            expirationMonth: formattedExpirationMonth,
+            expirationYear: formattedExpirationYear,
             cvv: cvv,
             firstName: firstName,
             lastName: lastName,
@@ -113,7 +128,7 @@ export default function AddPaymentScreen() {
                 // handling cart navigation
                 if (cameFromOrderScreen) {
                     // Redirect to Order Screen
-                    navigate('/user/cart');
+                    navigate('/cart');
                 } else {
                     // Show an alert for payment method added during profile completion
                     Alert("Information Saved!")
@@ -211,30 +226,34 @@ export default function AddPaymentScreen() {
 
                         {/* Month picker */}
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={['DatePicker', 'DatePicker']}>
-                                {/* <DatePicker label="Uncontrolled picker" defaultValue={dayjs('2022-04-17')} /> */}
-                                <DatePicker
-                                    views={['month']}
-                                    label="Expiry Month"
-                                    value={expirationMonth}
-                                    onChange={(newValue) => setExpirationMonth(newValue)}
-                                />
-                            </DemoContainer>
-
+                            <DatePicker
+                                openTo="month" // Display only the month view
+                                views={['month']}
+                                label="Expiry Month"
+                                value={expirationMonth}
+                                onChange={(newValue) => setExpirationMonth(newValue)}
+                                renderInput={(params) => (
+                                    <input
+                                        {...params}
+                                    />
+                                )}
+                            />
                         </LocalizationProvider>
 
                         {/* date picker */}
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={['DatePicker', 'DatePicker']}>
-                                {/* <DatePicker label="Uncontrolled picker" defaultValue={dayjs('2022-04-17')} /> */}
-                                <DatePicker
-                                    views={['year']}
-                                    label="Expiry Year"
-                                    value={expirationYear}
-                                    onChange={(newValue) => setExpirationYear(newValue)}
-                                />
-                            </DemoContainer>
-
+                            <DatePicker
+                                openTo="year" // Display only the year view
+                                views={['year']}
+                                label="Expiry Month"
+                                value={expirationMonth}
+                                onChange={(newValue) => setExpirationMonth(newValue)}
+                                renderInput={(params) => (
+                                    <input
+                                        {...params}
+                                    />
+                                )}
+                            />
                         </LocalizationProvider>
                     </div>
 

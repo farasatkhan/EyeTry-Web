@@ -8,13 +8,23 @@ import { BiEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import { FaRegEnvelope, FaUser, } from "react-icons/fa";
 import API_URL from '../../../config/config';
+import { checkout } from '../../../api/productsApi';
 
 const Cart = () => {
+
+
+  const [totalPrice, setTotalPrice] = useState(0)
+
+  
 
   // getting payment and address data
   const [addresses, setAddresses] = React.useState([])
   const [payments, setPayments] = useState([])
+  const [uid, setUid] = useState(null)
   const [isDeleted, setDeleted] = useState(false)
+  const [hasPaymentMethod, setHasPaymentMethod] = useState(false);
+  const [hasShippingAddress, setHasShippingAddress] = useState(false);
+
   // getting address book
   React.useEffect(() => {
     getProfileData()
@@ -25,9 +35,9 @@ const Cart = () => {
     try {
       const response = await getUserData()
       setAddresses(response.addressBook)
-      // setFirstName(response.firstName)
-      // setLastName(response.lastName)
-      // setEmail(response.email)
+      setUid(response._id)
+      setHasShippingAddress(response.addressBook.length > 0);
+
     }
     catch (e) {
       throw e
@@ -50,6 +60,7 @@ const Cart = () => {
     try {
       const response = await viewAllPayments()
       setPayments(response)
+      setHasPaymentMethod(response.length > 0);
     }
     catch (e) {
       throw e
@@ -92,8 +103,110 @@ const Cart = () => {
     const storedCartItems = JSON.parse(localStorage.getItem('cart'));
     setCartItems(storedCartItems);
     console.log("cart screen data", storedCartItems);
+
   }
 
+  const [productQuantities, setProductQuantities] = useState({});
+  useEffect(() => {
+    const initialProductQuantities = {};
+    for (const item of cartItems) {
+      // Initialize the quantity based on the available quantity of the variant
+      const variantId = item.productData.frame_information.frame_variants.find(
+        (variant) =>
+          variant.color === item.orderSelections.selectedOptions.frameProperties.frameColor
+      )._id;
+
+      initialProductQuantities[`${item.productData._id}_${variantId}`] = 1;
+    }
+    setProductQuantities(initialProductQuantities);
+  }, [cartItems]);
+
+
+  const user = localStorage.getItem('user')
+  
+
+  const placeOrder = async () => {
+    if (hasPaymentMethod && hasShippingAddress) {
+      // Construct the items array by mapping over the cartItems
+      const items = cartItems.map((item, index) => {
+        return {
+          frame: item.productData._id,
+          quantity: Object.values(productQuantities)[index],
+          frameProperties: {
+            frameSize: item.orderSelections.selectedOptions.frameProperties.frameSize,
+            frameColor: item.orderSelections.selectedOptions.frameProperties.frameColor,
+          },
+          lensProperties: {
+            lensType: item.orderSelections.selectedOptions.lensProperties.lensType,
+            prescriptionType: item.orderSelections.selectedOptions.lensProperties.prescriptionType,
+            package: item.orderSelections.selectedOptions.lensProperties.package,
+            coatings: item.orderSelections.selectedOptions.lensProperties.coatings,
+            glassesType: item.orderSelections.selectedOptions.lensProperties.glassesType,
+            upgrades: item.orderSelections.selectedOptions.lensProperties.upgrades,
+            transitionLens: {
+              color: item.orderSelections.selectedOptions.lensProperties.sunglassesLens.color,
+              transitionType: item.orderSelections.selectedOptions.lensProperties.sunglassesLens.sunglassesType,
+            },
+            sunglassesLens: {
+              color: item.orderSelections.selectedOptions.lensProperties.sunglassesLens.color,
+              sunglassesType: item.orderSelections.selectedOptions.lensProperties.sunglassesLens.sunglassesType,
+            },
+          },
+          prescription: {
+            pdType: item.orderSelections.selectedOptions.prescription.pdType,
+            pdOneNumber: item.orderSelections.selectedOptions.prescription.pdOneNumber,
+            pdLeftNumber: item.orderSelections.selectedOptions.prescription.pdLeftNumber,
+            pdRightNumber: item.orderSelections.selectedOptions.prescription.pdRightNumber,
+            birthYear: item.orderSelections.selectedOptions.prescription.birthYear,
+            leftEyeOS: {
+              Axis: item.orderSelections.selectedOptions.prescription.leftEyeOS.Axis,
+              Base: item.orderSelections.selectedOptions.prescription.leftEyeOS.Base,
+              CYL: item.orderSelections.selectedOptions.prescription.leftEyeOS.CYL,
+              Prism: item.orderSelections.selectedOptions.prescription.leftEyeOS.Prism,
+              SPH: item.orderSelections.selectedOptions.prescription.leftEyeOS.SPH,
+            },
+            RightEyeOD: {
+              Axis: item.orderSelections.selectedOptions.prescription.rightEyeOD.Axis,
+              Base: item.orderSelections.selectedOptions.prescription.rightEyeOD.Base,
+              CYL: item.orderSelections.selectedOptions.prescription.rightEyeOD.CYL,
+              Prism: item.orderSelections.selectedOptions.prescription.rightEyeOD.Prism,
+              SPH: item.orderSelections.selectedOptions.prescription.rightEyeOD.SPH,
+            },
+          },
+        };
+      });
+  
+      // Create the order object with items and totalPrice
+      const order = {
+        user: uid,
+        items: items,
+        totalPrice: (calculateTotalPrice() + 4.99).toFixed(2),
+        paymentMethod: payments[0]._id,
+        shippingAddress: {
+          name: addresses[0].firstName,
+          phone: addresses[0].phone,
+          address: addresses[0].currentAddress,
+          city: addresses[0].city,
+          country: addresses[0].country,
+          zipCode: addresses[0].zipCode,
+        },
+      };
+  
+      console.log("OrderData: ", order);
+  
+      try {
+        const response = await checkout(order); // Sending the entire order as one request
+        console.log("Order Placed Successfully!");
+        alert("Order Placed Successfully!")
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      alert("Add Payment Method and Shipping Address First!");
+    }
+  };
+  
+  
 
   // managing payment method
   const paymentRoute = payments.length > 0 ? `/user/edit_payment/${payments[0]._id}` : '/user/add_payment';
@@ -128,133 +241,252 @@ const Cart = () => {
   }
 
 
-  // Define a state to store quantities for each product
-  const [productQuantities, setProductQuantities] = useState({});
-
-  // ... (other code)
-
   // Function to handle incrementing the quantity
-  const handleIncrementQuantity = (productId) => {
+  const handleIncrementQuantity = (productId, variantId) => {
     const updatedQuantities = { ...productQuantities };
-    if (updatedQuantities[productId] < availableQuantity) {
-      updatedQuantities[productId]++;
-    } else {
-      // Show an alert if quantity exceeds available quantity
-      alert('Quantity cannot exceed available quantity.');
-    }
-    setProductQuantities(updatedQuantities);
-  };
+    const product = cartItems.find(
+      (item) =>
+        item.productData._id === productId &&
+        item.productData.frame_information.frame_variants.some(
+          (variant) => variant._id === variantId
+        )
+    );
 
-  // Function to handle decrementing the quantity
-  const handleDecrementQuantity = (productId) => {
-    const updatedQuantities = { ...productQuantities };
-    if (updatedQuantities[productId] > 1) {
-      updatedQuantities[productId]--;
-    }
-    setProductQuantities(updatedQuantities);
-  };
+    if (product) {
+      const selectedVariant = product.productData.frame_information.frame_variants.find(
+        (variant) => variant._id === variantId
+      );
 
-  // Function to calculate the total price based on quantities
-  const calculateTotalPrice = () => {
-    let totalPrice = 0;
-    for (const productId in productQuantities) {
-      const productQuantity = productQuantities[productId];
-      const product = cartItems.find((item) => item.productData._id === productId);
-      if (product) {
-        const productPrice = product.productData.priceInfo.price;
-        totalPrice += productPrice * productQuantity;
+      if (selectedVariant) {
+        const availableQuantity = selectedVariant.quantity;
+
+        console.log(
+          `Product: ${productId}, Variant: ${variantId}, Available Quantity: ${availableQuantity}`
+        );
+
+        if (updatedQuantities[`${productId}_${variantId}`] < availableQuantity) {
+          updatedQuantities[`${productId}_${variantId}`]++;
+          setProductQuantities(updatedQuantities); // Update the state
+        } else {
+          // Show an alert if quantity exceeds available quantity
+          alert('Quantity cannot exceed available quantity.');
+        }
       }
     }
-    return totalPrice;
   };
+
+
+  // Function to handle decrementing the quantity
+  const handleDecrementQuantity = (productId, variantId) => {
+    const updatedQuantities = { ...productQuantities };
+    if (updatedQuantities[`${productId}_${variantId}`] > 1) {
+      updatedQuantities[`${productId}_${variantId}`]--;
+      setProductQuantities(updatedQuantities); // Update the state
+    }
+  };
+
+
+  const calculateTotalPrice = () => {
+    let totalCalculatedPrice = 0;
+
+    for (const productId in productQuantities) {
+      const keyParts = productId.split('_');
+      if (keyParts.length === 2) {
+        const product = cartItems.find(
+          (item) =>
+            item.productData._id === keyParts[0] &&
+            item.productData.frame_information.frame_variants.some(
+              (variant) => variant._id === keyParts[1]
+            )
+        );
+
+        if (product) {
+          const productPrice = product.productData.priceInfo.price;
+          totalCalculatedPrice = totalCalculatedPrice += productPrice * productQuantities[productId];
+        }
+      }
+    }
+    
+    // setTotalPrice(totalCalculatedPrice);
+    return totalCalculatedPrice;
+  };
+
+  const removeFromCart = (productId, variantId) => {
+    // Filter out the item to be removed from the cartItems state
+    const updatedCartItems = cartItems.filter((item) => {
+      const sameProductId = item.productData._id === productId;
+      const sameVariantId = item.productData.frame_information.frame_variants.some(
+        (variant) => variant._id === variantId
+      );
+      return !(sameProductId && sameVariantId);
+    });
+  
+    // Update the cartItems state
+    setCartItems(updatedCartItems);
+  
+    // Update the local storage to reflect the changes
+    localStorage.setItem('cart', JSON.stringify(updatedCartItems));
+  };
+  
 
 
   return (
 
     <div>
-      <div>
-        <div className="cart">
-          <h2>Your Cart</h2>
-          <div>
-            {/* Map through cartItems and render each item */}
-            {cartItems.map((item, index) => (
-              <div key={index} className="cart-item">
-                <p>Quantity: {item.orderSelections.selectedOptions.lensProperties.lensType}</p>
-                {/* Render other details from item.productData and item.orderSelections */}
-              </div>
-            ))}
-          </div>
-        </div>
-        {/* ... (other code) */}
-      </div>
-      <div class="min-h-screen bg-gray-100 pt-20">
-        <h1 class="mb-10 text-center text-2xl font-bold">Cart Items</h1>
-        <div class="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
-          <div class="rounded-lg md:w-2/3">
-            {cartItems.map((item, index) => (
-              <div class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
-                
-                <img
-                  className="w-full rounded-lg sm:w-40"
-                  src={
-                    API_URL 
-                    + item.productData
-                    .frame_information
-                    .frame_variants
-                    .find((v) => v
-                    .color 
-                    === 
-                    item
-                    .orderSelections
-                    .selectedOptions
-                    .frameProperties
-                    .frameColor)
-                    .images[0]
-                  }
-                  alt={`Product ${index}`}
-                />
 
-                <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-                  <div class="mt-5 sm:mt-0">
-                    <h2 class="text-lg font-bold text-gray-900">{item.productData.name}</h2>
-                    <p class="mt-1 text-xs text-gray-700">36EU - 4US</p>
-                  </div>
-                  <div class="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
-                    <div class="flex items-center border-gray-100">
-                      <span onClick={() => handleDecrementQuantity(item.productData._id)} class="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"> - </span>
-                      <input value={counter} class="h-8 w-8 border bg-white text-center text-xs outline-none" type="number" min="1" />
-                      <span onClick={() => handleIncrementQuantity(item.productData._id)} class="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"> + </span>
+      <div className="min-h-screen bg-gray-100 pt-20">
+        <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
+        <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
+          <div className="rounded-lg md:w-2/3">
+            {cartItems && cartItems.length > 0 ?
+              (
+                cartItems.map((item, index) => (
+                  <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
+
+                    <img
+                      className="w-full rounded-lg sm:w-40"
+                      src={
+                        API_URL
+                        + item
+                          .productData
+                          .frame_information
+                          .frame_variants
+                          .find((v) => v
+                            .color
+                            ===
+                            item
+                              .orderSelections
+                              .selectedOptions
+                              .frameProperties
+                              .frameColor)
+                          .images[0]
+                      }
+                      alt={`Product ${index}`}
+                    />
+
+                    <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
+                      <div className="mt-5 sm:mt-0">
+                        <h2 className="text-lg font-bold text-gray-900">{item.productData.name}</h2>
+                        <p className="mt-1 text-xs text-gray-700">36EU - 4US</p>
+                      </div>
+                      <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
+                        <div className="flex items-center border-gray-100">
+                          <button onClick={() => handleDecrementQuantity(item.productData._id,
+                            item
+                              .productData
+                              .frame_information
+                              .frame_variants
+                              .find((v) => v
+                                .color
+                                ===
+                                item
+                                  .orderSelections
+                                  .selectedOptions
+                                  .frameProperties
+                                  .frameColor)
+                              ._id)}
+                          >-
+                          </button>
+
+                          <span>{productQuantities[`${item.productData._id}_${item
+                            .productData
+                            .frame_information
+                            .frame_variants
+                            .find((v) => v
+                              .color
+                              ===
+                              item
+                                .orderSelections
+                                .selectedOptions
+                                .frameProperties
+                                .frameColor)
+                            ._id}`]}
+                          </span>
+
+                          <button onClick={
+                            () => handleIncrementQuantity(
+                              item
+                                .productData
+                                ._id
+                              ,
+                              item
+                                .productData
+                                .frame_information
+                                .frame_variants
+                                .find((v) => v
+                                  .color
+                                  ===
+                                  item
+                                    .orderSelections
+                                    .selectedOptions
+                                    .frameProperties
+                                    .frameColor)
+                                ._id
+                            )}
+                          >+</button>
+
+                        </div>
+                        <div className="flex items-center space-x-4">
+                          <p className="text-sm">{item.productData.priceInfo.price} - {item.productData.priceInfo.currency}</p>
+                          <div
+                            onClick={() =>
+                              removeFromCart(
+                                item.productData._id,
+                                item.productData.frame_information.frame_variants.find(
+                                  (v) =>
+                                    v.color ===
+                                    item.orderSelections.selectedOptions.frameProperties.frameColor
+                                )._id
+                              )
+                            }
+                            className='cross'
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              className="h-5 w-5 cursor-pointer duration-150 hover:text-red-500"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </div>
+
+                        </div>
+                      </div>
                     </div>
-                    <div class="flex items-center space-x-4">
-                      <p class="text-sm">{item.productData.priceInfo.price} - {item.productData.priceInfo.currency}</p>
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 cursor-pointer duration-150 hover:text-red-500">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                ))
+              ) : (
+                <div className="text-center">Cart is empty</div>
+              )}
           </div>
 
-          <div class="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
-            <div class="mb-2 flex justify-between">
-              <p class="text-gray-700">Subtotal</p>
-              <p class="text-gray-700">${calculateTotalPrice().toFixed(2)}</p>
+          <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
+            <div className="mb-2 flex justify-between">
+              <p className="text-gray-700">Subtotal</p>
+              <p className="text-gray-700">${calculateTotalPrice().toFixed(2)}</p>
             </div>
-            <div class="flex justify-between">
-              <p class="text-gray-700">Shipping</p>
-              <p class="text-gray-700">$4.99</p>
+            <div className="flex justify-between">
+              <p className="text-gray-700">Shipping</p>
+              <p className="text-gray-700">$4.99</p>
             </div>
-            <hr class="my-4" />
-            <div class="flex justify-between">
-              <p class="text-lg font-bold">Total</p>
-              <div class="">
-              <p class="mb-1 text-lg font-bold">${(calculateTotalPrice() + 4.99).toFixed(2)} USD</p>
-                <p class="text-sm text-gray-700">including VAT</p>
+            <hr className="my-4" />
+            <div className="flex justify-between">
+              <p className="text-lg font-bold">Total</p>
+              <div className="">
+                <p className="mb-1 text-lg font-bold">${(calculateTotalPrice() + 4.99).toFixed(2)} USD</p>
+                <p className="text-sm text-gray-700">including VAT</p>
               </div>
             </div>
-            <button class="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">Check out</button>
+            <button onClick={placeOrder} className=" cursor-pointer mt-6 w-full
+             rounded-md bg-blue-500 py-1.5 font-medium text-blue-50
+               hover:bg-blue-600">Check out</button>
           </div>
         </div>
 
@@ -309,20 +541,23 @@ const Cart = () => {
                 )}
               </p>
 
-              <div class=" py-4 text-right">
+              <div className=" py-4 text-right">
                 <Link to={paymentRoute} state={{ from: '/user/cart' }} >
-                  <button class="py-1 px-4 rounded inline-flex items-center ml-auto
-                                                bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
-                                                 hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                    <BiEdit size={20} class="mr-2" />
+                  <button className="py-1 px-4 rounded inline-flex items-center ml-auto
+                    bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
+                  hover:text-white border border-blue-500 hover:border-transparent 
+                  justify-end mr-5">
+                    <BiEdit size={20} className="mr-2" />
                     <span>{paymentBtnText}</span>
                   </button>
                 </Link>
                 {payments.length > 0 &&
-                  <button onClick={() => deleteSpecificPayment(payments[0]._id)} class="py-1 px-4 rounded inline-flex items-center ml-auto
-                                                bg-transparent hover:bg-red-500 text-red-700 font-semibold 
-                                                 hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                    <MdDelete size={20} class="mr-2" />
+                  <button onClick={() => deleteSpecificPayment(payments[0]._id)} 
+                    className="py-1 px-4 rounded inline-flex items-center ml-auto
+                    bg-transparent hover:bg-red-500 text-red-700 font-semibold 
+                    hover:text-white border border-red-500 hover:border-transparent 
+                    justify-end mr-5">
+                    <MdDelete size={20} className="mr-2" />
                     <span>Delete</span>
                   </button>
                 }
@@ -340,7 +575,7 @@ const Cart = () => {
               <p className="text-base font-sans">
                 {addresses.length > 0 ? (
                   <>
-                    <h5 className="font-semibold text-black mb-2">{addresses.firstName}</h5>
+                    <h5 className="font-semibold text-black mb-2">{addresses[0].firstName}</h5>
                     <p className="text-base font-sans">{addresses[0].currentAddress}, {addresses[0].city}, {addresses[0].zipCode},</p>
                     <p>{addresses[0].country},</p>
                     <p>{addresses[0].phone}</p>
@@ -350,20 +585,20 @@ const Cart = () => {
                   "No Shipping Address Added!"
                 )}
               </p>
-              <div class=" py-4 text-right">
+              <div className=" py-4 text-right">
                 <Link to={addressRoute} state={{ from: '/user/cart' }} >
-                  <button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                  <button className="py-1 px-4 rounded inline-flex items-center ml-auto
                                                 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                                                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                    <BiEdit size={20} class="mr-2" />
+                    <BiEdit size={20} className="mr-2" />
                     <span>{addressBtnText}</span>
                   </button>
                 </Link>
                 {addresses.length > 0 &&
-                  <button onClick={() => deleteSpecificAddress(addresses[0]._id)} class="py-1 px-4 rounded inline-flex items-center ml-auto
+                  <button onClick={() => deleteSpecificAddress(addresses[0]._id)} className="py-1 px-4 rounded inline-flex items-center ml-auto
                                                 bg-transparent hover:bg-red-500 text-red-700 font-semibold 
                                                  hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                    <MdDelete size={20} class="mr-2" />
+                    <MdDelete size={20} className="mr-2" />
                     <span>Delete</span>
                   </button>
                 }

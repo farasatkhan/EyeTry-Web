@@ -20,7 +20,7 @@ export default function SelectLensTypeScreen({ rating }) {
     const { id } = useParams();
     const [activeColor, setActiveColor] = useState(""); // Track the active color
     const [activeImages, setActiveImages] = useState([]); // Initialize activeImages state
-    const [frameSize, setFrameSize] = useState('');
+    const [frameSize, setFrameSize] = useState('medium');
     const navigate = useNavigate();
     const dispatch = useDispatch();
 

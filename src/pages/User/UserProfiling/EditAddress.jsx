@@ -89,7 +89,7 @@ export default function EditAddressScreen() {
                 // handling cart navigation
                 if (cameFromOrderScreen) {
                     // Redirect to Order Screen
-                    navigate('/user/cart');
+                    navigate('/cart');
                   } else {
                     // Show an alert for payment method added during profile completion
                     alert('Payment method added!');

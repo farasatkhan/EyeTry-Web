@@ -80,8 +80,8 @@ export default function SelectLensTypeComponentProp({ onSelectedOptions, onNextS
                 pdOneNumber: pdOneNumber,
                 pdLeftNumber: pdLeftNumber,
                 pdRightNumber: pdRightNumber,
-                rightEye: rightEye,
-                leftEye: leftEye,
+                leftEyeOS: leftEye,
+                rightEyeOD: rightEye,
                 birthYear: birthYear
             }
         }));

@@ -74,7 +74,6 @@ import ViewPersonalInfo from "./pages/CustomerSupport/ViewPersonalInfo";
 // product pages
 import ProductDetails from './pages/User/OrderManagement/ProductDetails/ProductDetails'
 
-
 const publicRoutes = (
   <Route>
     <Route path="signin" element={<Signin />} />

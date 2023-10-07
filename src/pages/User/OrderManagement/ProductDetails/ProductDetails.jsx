@@ -10,8 +10,14 @@ import API_URL from "../../../../config/config";
 import { useDispatch } from 'react-redux';
 import { updateSelectedOptions } from '../../../../redux/actions/orderSelectionAction';
 
-export default function SelectLensTypeScreen({ rating }) {
+// ratings
+import Rating from '@mui/material/Rating';
+import Box from '@mui/material/Box';
+import StarIcon from '@mui/icons-material/Star';
+import { addReview } from "../../../../api/productsApi";
+import { viewAllOrders } from "../../../../api/productsApi";
 
+export default function SelectLensTypeScreen({ rating }) {
 
     const [product, setProduct] = useState({});
     // available frame colors
@@ -23,7 +29,86 @@ export default function SelectLensTypeScreen({ rating }) {
     const [frameSize, setFrameSize] = useState('medium');
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    // review states
+    const [hideReviewBox, setHideReviewBox] = useState(true)
+    const [reviewTitle, setReviewTitle] = useState(null)
+    const [reviewDescription, setReviewDescription] = useState(null)
+    const [value, setValue] = React.useState(3);
+    const [hover, setHover] = React.useState(-1);
+    const [userHasOrderedProduct, setUserHasOrderedProduct] = useState(false)
+    const [orders, setOrders] = useState([])
+    const userString = localStorage.getItem('user')
 
+    const userData = JSON.parse(userString);
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const response = await viewAllOrders(userData._id);
+                console.log("Orders list retrieved Successfully!");
+                console.log("Order Data: ", response.data.orders);
+                setOrders(response.data.orders)
+            } catch (e) {
+                console.error(e);
+            }
+        };
+
+        fetchOrders();
+
+    }, []);
+
+    useEffect(() => {
+        // Check if the user has ordered the specified product
+        if (orders) {
+            const userHasOrdered = orders.some(order =>
+                order.items.some(item => item.frame === id)
+            );
+            setUserHasOrderedProduct(userHasOrdered);
+        } else {
+            // If productId is not set, reset the state
+            setUserHasOrderedProduct(false);
+        }
+    }, [orders, id]);
+
+    //ratings
+    const labels = {
+        0.5: 'Useless',
+        1: 'Useless+',
+        1.5: 'Poor',
+        2: 'Poor+',
+        2.5: 'Ok',
+        3: 'Ok+',
+        3.5: 'Good',
+        4: 'Good+',
+        4.5: 'Excellent',
+        5: 'Excellent+',
+    };
+
+    function getLabelText(value) {
+        return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
+    }
+
+
+
+    const submitReview = async () => {
+        console.log(userData._id)
+        const reviewData = {
+            user: userData._id,
+            order: "6521174182bbbf37669ca838",
+            product: id,
+            user_review_title: reviewTitle,
+            user_review_description: reviewDescription,
+            stars: value
+        }
+
+        try {
+            const response = await addReview(reviewData);
+            console.log("review added Successfully!");
+            console.log("Review Data: ", response.data);
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
 
     useEffect(() => {
@@ -190,19 +275,19 @@ export default function SelectLensTypeScreen({ rating }) {
                             <h1 className="font-semibold font-sans text-4xl">{product.name}</h1>
                             <p className="font-sans mt-2 text-base">{product.manufacturer}</p>
                             <div className="flex space-x-4 items-center">
-                            <div className="product-rating font-bold text-2xl text-yellow-500">
-                                {renderStars()}
-                                <span className="rating">{rating}</span>
-                            </div>
-                            {product && product.reviewsInformation ? (
-                                <p className=" text-blue-400 cursor-pointer">
-                                    Reviews ({product.reviewsInformation.total_reviews})
-                                </p>
-                            ) : (
-                                <p className=" text-blue-400 cursor-pointer">
-                                    Reviews (Loading...)
-                                </p>
-                            )}
+                                <div className="product-rating font-bold text-2xl text-yellow-500">
+                                    {renderStars()}
+                                    <span className="rating">{rating}</span>
+                                </div>
+                                {product && product.reviewsInformation ? (
+                                    <p className=" text-blue-400 cursor-pointer">
+                                        Reviews ({product.reviewsInformation.total_reviews})
+                                    </p>
+                                ) : (
+                                    <p className=" text-blue-400 cursor-pointer">
+                                        Reviews (Loading...)
+                                    </p>
+                                )}
                             </div>
                             <p className="font-sans mt-1 text-base">{product.type}</p>
                             {/* displaying frame colors */}
@@ -210,12 +295,12 @@ export default function SelectLensTypeScreen({ rating }) {
                                 {product && frameColors ? (
                                     frameColors.map((color, index) => (
                                         <div className={`${activeColor === color ? 'border-black rounded-full border-2 mr-2' : "mr-2"} `}>
-                                        <div 
-                                            key={index}
-                                            className={`h-8 w-8 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
-                                            style={{ backgroundColor: color,  }}
-                                            onClick={() => handleColorSelect(color)}
-                                        ></div>
+                                            <div
+                                                key={index}
+                                                className={`h-8 w-8 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
+                                                style={{ backgroundColor: color, }}
+                                                onClick={() => handleColorSelect(color)}
+                                            ></div>
                                         </div>
                                     ))
                                 ) : (
@@ -452,15 +537,77 @@ export default function SelectLensTypeScreen({ rating }) {
                             <p className="mt-5 text-blue-400 cursor-pointer">colors (Loading...)</p>
 
                         )}
-                        <button class=" py-1 px-4 rounded inline-flex items-center 
+                        <button onClick={() => {
+                            if (userHasOrderedProduct) {
+                                setHideReviewBox(!hideReviewBox)
+                            } else {
+                                alert("Place the Order First");
+                            }
+                        }}
+                            className=" py-1 px-4 rounded inline-flex items-center 
                                             bg-transparent hover:bg-gray-700 text-gray-700 font-semibold 
                                              hover:text-white border border-gray-500 hover:border-transparent ">
                             <BiEdit size={20} class="mr-2" />
                             <span>Write a Review</span>
                         </button>
                     </div>
+
+                    {/* reviews box */}
+                    <div className={` ${hideReviewBox ? 'hidden' : ''}`}>
+                        <div className="">
+                            <input value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)} id='reviewTitle' className="block w-full pl-5 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border-2 rounded-md
+                            focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
+                            sm:text-sm transition duration-150 ease-in-out" placeholder="Review Title" type="Text" />
+                        </div>
+                        <div>
+                            <textarea value={reviewDescription} onChange={(e) => setReviewDescription(e.target.value)} className="block w-full p-2 pr-3 borderblock px-4 py-2.5 mt-2  bg-white rounded-md
+                                    focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
+                                    sm:text-sm transition duration-150 ease-in-out border-2"
+                                placeholder="Write Your Review" id="w3review" name="w3review" rows="4" cols="50">
+                            </textarea>
+                        </div>
+                        <div className="flex flex-col justify-center items-center mt-6">
+                            {/* star rating input */}
+                            <Box
+                                sx={{
+                                    width: 200,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Rating
+                                    name="hover-feedback"
+                                    value={value}
+                                    precision={0.5}
+                                    getLabelText={getLabelText}
+                                    onChange={(event, newValue) => {
+                                        setValue(newValue);
+                                    }}
+                                    onChangeActive={(event, newHover) => {
+                                        setHover(newHover);
+                                    }}
+                                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                />
+                                {value !== null && (
+                                    <div className="ml-4 rounded-lg bg-blue-200 flex items-center justify-center w-30 h-8">
+                                        <Box sx={{ ml: 2, mr: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
+                                    </div>
+
+                                )}
+                            </Box>
+                            <button onClick={() => { userHasOrderedProduct ? submitReview : alert("Place the Order First") }} className="mt-10 py-1 px-4 rounded inline-flex items-center 
+                                            bg-transparent hover:bg-gray-700 text-gray-700 font-semibold 
+                                             hover:text-white border border-gray-500 hover:border-transparent ">
+                                <span>Submit</span>
+                            </button>
+
+                        </div>
+                    </div>
+
                     <hr className="mt-10"></hr>
                 </div>
+
+
 
                 {/* customers reviews */}
                 <div className="w-[80%] mx-auto mb-20">

@@ -151,7 +151,7 @@ const Cart = () => {
               Prism: item.orderSelections.selectedOptions.prescription.leftEyeOS.Prism,
               SPH: item.orderSelections.selectedOptions.prescription.leftEyeOS.SPH,
             },
-            RightEyeOD: {
+            rightEyeOD: {
               Axis: item.orderSelections.selectedOptions.prescription.rightEyeOD.Axis,
               Base: item.orderSelections.selectedOptions.prescription.rightEyeOD.Base,
               CYL: item.orderSelections.selectedOptions.prescription.rightEyeOD.CYL,
@@ -182,7 +182,7 @@ const Cart = () => {
   
       try {
         const response = await checkout(order); // Sending the entire order as one request
-        console.log("Order Placed Successfully!");
+        console.log("Order Placed Successfully!", response.data);
         alert("Order Placed Successfully!")
       } catch (e) {
         console.error(e);
@@ -437,7 +437,7 @@ const Cart = () => {
                   </div>
                 ))
               ) : (
-                <div className="text-center">Cart is empty</div>
+                <div className="text-center font-sans text-2xl">Cart is empty</div>
               )}
           </div>
 

@@ -42,6 +42,14 @@ export default function SelectLensTypeScreen({ rating }) {
 
     const [reviews, setReviews] = useState([])
     const [matchingOrderId, setMatchingOrderId] = useState(null)
+    const [visibleReviewsCount, setVisibleReviewsCount] = useState(5);
+
+    const handleLoadMore = () => {
+        console.log("loading more...")
+        // Increase the visibleReviewsCount by 5 to load the next batch
+        setVisibleReviewsCount(prevCount => prevCount + 5);
+    };
+
 
     // getting all reviews
     useEffect(() => {
@@ -60,7 +68,7 @@ export default function SelectLensTypeScreen({ rating }) {
 
         getReviews();
 
-    }, []);
+    }, [visibleReviewsCount,]);
 
 
     useEffect(() => {
@@ -645,7 +653,7 @@ export default function SelectLensTypeScreen({ rating }) {
 
                 {/* customers reviews */}
                 <div className="w-[80%] mx-auto mb-20">
-                    {reviews.map((review, index) => (
+                    {reviews.slice(0, visibleReviewsCount).map((review, index) => (
                         <div className="mt-5">
                             <div className="flex items-center space-x-3">
                                 <img src={API_URL + "/uploads/profile_images/" + review.user.profilePicture} alt="" className='w-[40px] h-[40px] rounded-xl' />
@@ -653,21 +661,33 @@ export default function SelectLensTypeScreen({ rating }) {
                             </div>
                             <div className="ml-12">
                                 <div className="product-rating font-bold text-xl text-yellow-500">
-                                    {renderStars()}
-                                    <span className="rating">{review.starts}</span>
+                                    <Rating
+                                        name="text-feedback"
+                                        value={review.stars}
+                                        readOnly
+                                        precision={0.5}
+                                        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                    />
+                                    {/* <Box sx={{ ml: 2 }}>{labels[review.stars]}</Box> */}
                                 </div>
                                 <h1 className="font-semibold">{review.user_review_title}</h1>
                                 <p className="text-base font-sans">
                                     {review.user_review_description}
                                 </p>
-                                <p className="text-sm text-blue-400 mt-2 mb-4">
-                                    {new Date(review.date).toLocaleDateString()} {/* Formats date to "MM/DD/YYYY" */}
+                                <p className="text-sm text-blue-400 mt-2 mb-4 flex justify-between">
+                                    <div>
+                                        {new Date(review.date).toLocaleDateString()}{" "}
+                                    </div>
+                                    <div>
+                                        {new Date(review.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
+                                    </div>
                                 </p>
                             </div>
                             <hr></hr>
                         </div>
                     ))}
-                    <div className="flex justify-center mt-10">
+                    <div onClick={handleLoadMore}
+                        className="flex justify-center mt-10">
                         <button class="py-1 px-4 rounded inline-flex items-center 
                         bg-transparent hover:bg-gray-700 text-gray-700 font-semibold 
                         hover:text-white border border-gray-500 hover:border-transparent ">

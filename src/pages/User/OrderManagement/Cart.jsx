@@ -341,7 +341,7 @@ const Cart = () => {
                     <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
                       <div className="mt-5 sm:mt-0">
                         <h2 className="text-lg font-bold text-gray-900">{item.productData.name}</h2>
-                        <p className="mt-1 text-xs text-gray-700">36EU - 4US</p>
+                        {/* <p className="mt-1 text-xs text-gray-700">Available Quantity: {item.productData.frame_information.frame_variants.quastity}</p> */}
                       </div>
                       <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                         <div className="flex items-center border-gray-100">
@@ -398,7 +398,6 @@ const Cart = () => {
                                 ._id
                             )}
                           >+</button>
-
                         </div>
                         <div className="flex items-center space-x-4">
                           <p className="text-sm">{item.productData.priceInfo.price} - {item.productData.priceInfo.currency}</p>

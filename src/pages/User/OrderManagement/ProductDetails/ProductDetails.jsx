@@ -43,6 +43,7 @@ export default function SelectLensTypeScreen({ rating }) {
     const [reviews, setReviews] = useState([])
     const [matchingOrderId, setMatchingOrderId] = useState(null)
     const [visibleReviewsCount, setVisibleReviewsCount] = useState(5);
+    const [avgReviews, setAvgReviews] = useState(0);
 
     const handleLoadMore = () => {
         console.log("loading more...")
@@ -51,24 +52,27 @@ export default function SelectLensTypeScreen({ rating }) {
     };
 
 
-    // getting all reviews
     useEffect(() => {
         const getReviews = async () => {
             try {
                 const response = await viewAllReviews();
-                // Use response.data directly to set reviews
                 setReviews(response.data);
-
-                // Now, you can log the reviews
                 console.log("reviewsData: ", response.data);
+
+                // Calculate average reviews
+                if (response.data && response.data.length > 0) {
+                    const sum = response.data.reduce((total, review) => total + review.stars, 0);
+                    const average = sum / response.data.length;
+                    setAvgReviews(average);
+                    console.log("avg reviews: " + avgReviews)
+                }
             } catch (e) {
                 console.error(e);
             }
         };
 
         getReviews();
-
-    }, [visibleReviewsCount,]);
+    }, [visibleReviewsCount]);
 
 
     useEffect(() => {
@@ -227,27 +231,7 @@ export default function SelectLensTypeScreen({ rating }) {
 
     const imageAnimationClass = loaded ? 'translate-y-0 opacity-100 transition-transform ease-out duration-1000' : 'translate-y-20 opacity-0';
     const rightComponentAnimationClass = loaded ? 'translate-x-0 opacity-100 transition-transform ease-out duration-1000' : 'translate-x-20 opacity-0';
-    const textAnimationClass = loaded ? 'translate-y-0 opacity-100 transition-transform ease-out duration-1000 delay-500' : 'translate-y-20 opacity-0';
-
-
-    const [amount, setAmount] = useState(1);
-
-    // start ratings 
-    const renderStars = () => {
-        const maxRating = 5; // Assuming a maximum rating of 5 stars
-        const starIcons = [];
-
-        for (let i = 1; i <= maxRating; i++) {
-            const starClass = i <= rating ? 'star-filled' : 'star-empty';
-            starIcons.push(
-                <span key={i} className={`star ${starClass}`}>
-                    ★
-                </span>
-            );
-        }
-
-        return starIcons;
-    };
+    // const textAnimationClass = loaded ? 'translate-y-0 opacity-100 transition-transform ease-out duration-1000 delay-500' : 'translate-y-20 opacity-0';
 
     //  table content 
     const [activeTab, setActiveTab] = useState('description');
@@ -316,11 +300,19 @@ export default function SelectLensTypeScreen({ rating }) {
                         <div className="flex flex-col w-[90%] mx-auto mt-[35px] bg-gray-100 m-10 flex-1 p-5 justify-center">
                             <h1 className="font-semibold font-sans text-4xl">{product.name}</h1>
                             <p className="font-sans mt-2 text-base">{product.manufacturer}</p>
-                            <div className="flex space-x-4 items-center">
-                                <div className="product-rating font-bold text-2xl text-yellow-500">
-                                    {renderStars()}
-                                    <span className="rating">{rating}</span>
+                            <div className="flex space-x-4 items-center mb-2 mt-2">
+                                <div className="product-rating font-bold text-2xl text-yellow-500 flex" >
+                                <Rating
+                                        name="text-feedback"
+                                        value={avgReviews}
+                                        readOnly
+                                        precision={0.1}
+                                        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                    />
+                                    {/* <span className="rating">{rating}</span> */}
                                 </div>
+                                <p className="font-bold text-orange-400 text-lg">{avgReviews}</p>
+                            </div>
                                 {product && product.reviewsInformation ? (
                                     <p className=" text-blue-400 cursor-pointer">
                                         Reviews ({product.reviewsInformation.total_reviews})
@@ -330,7 +322,6 @@ export default function SelectLensTypeScreen({ rating }) {
                                         Reviews (Loading...)
                                     </p>
                                 )}
-                            </div>
                             <p className="font-sans mt-1 text-base">{product.type}</p>
                             {/* displaying frame colors */}
                             <div className="flex mt-3">
@@ -389,7 +380,7 @@ export default function SelectLensTypeScreen({ rating }) {
                                 <p className=" text-base overflow-hidden text-ellipsis">{product.description}</p>
                             </div>
                             {product && product.priceInfo ? (
-                                <p className="font-bold text-2xl mt-5 ">{product.priceInfo.price} {product.priceInfo.currency}</p>
+                                <p className="font-bold text-2xl mt-5 ">${product.priceInfo.price} {product.priceInfo.currency}</p>
 
                             ) : (
                                 <p className="mt-5 text-blue-400 cursor-pointer">

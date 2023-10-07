@@ -90,6 +90,38 @@ export const checkout = async (orderData) => {
 };
 
 // add user review
+
+export const viewAllReviews = async () => {
+
+    try {
+        const accessToken = await localStorage.getItem("accessToken")
+        const response = await axios.get('products/v1/reviews/viewAllReviews', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+        });
+        // console.log("Response :", response)
+        return response;
+    }
+    catch (error) {
+        // Server is returning 403 for expired token
+        if (error.response && error.response.status == 403) {
+            try {
+                console.log("Error Catched")
+                await reGenerateAccessToken()
+                return viewAllReviews()
+            }
+            catch (e) {
+                console.error("Error while refreshing token", e)
+                throw e
+            }
+        }
+        throw error;
+    }
+};
+
+
+// add user review
 export const addReview = async (reviewData) => {
     const data = reviewData
     try {
@@ -108,7 +140,7 @@ export const addReview = async (reviewData) => {
             try {
                 console.log("Error Catched")
                 await reGenerateAccessToken()
-                return checkout(data)
+                return addReview(data)
             }
             catch (e) {
                 console.error("Error while refreshing token", e)

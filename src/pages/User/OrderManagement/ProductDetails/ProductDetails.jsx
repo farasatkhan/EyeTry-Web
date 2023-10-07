@@ -14,8 +14,7 @@ import { updateSelectedOptions } from '../../../../redux/actions/orderSelectionA
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
-import { addReview } from "../../../../api/productsApi";
-import { viewAllOrders } from "../../../../api/productsApi";
+import { viewAllOrders, viewAllReviews, addReview } from "../../../../api/productsApi";
 
 export default function SelectLensTypeScreen({ rating }) {
 
@@ -37,9 +36,32 @@ export default function SelectLensTypeScreen({ rating }) {
     const [hover, setHover] = React.useState(-1);
     const [userHasOrderedProduct, setUserHasOrderedProduct] = useState(false)
     const [orders, setOrders] = useState([])
+    // getting user ID from local storage
     const userString = localStorage.getItem('user')
-
     const userData = JSON.parse(userString);
+
+    const [reviews, setReviews] = useState([])
+    const [matchingOrderId, setMatchingOrderId] = useState(null)
+
+    // getting all reviews
+    useEffect(() => {
+        const getReviews = async () => {
+            try {
+                const response = await viewAllReviews();
+                // Use response.data directly to set reviews
+                setReviews(response.data);
+
+                // Now, you can log the reviews
+                console.log("reviewsData: ", response.data);
+            } catch (e) {
+                console.error(e);
+            }
+        };
+
+        getReviews();
+
+    }, []);
+
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -60,15 +82,26 @@ export default function SelectLensTypeScreen({ rating }) {
     useEffect(() => {
         // Check if the user has ordered the specified product
         if (orders) {
-            const userHasOrdered = orders.some(order =>
+            const matchingOrder = orders.find(order =>
                 order.items.some(item => item.frame === id)
             );
-            setUserHasOrderedProduct(userHasOrdered);
+
+            if (matchingOrder) {
+                // If a matching order is found, store its ID in a state variable
+                setMatchingOrderId(matchingOrder._id);
+                setUserHasOrderedProduct(true);
+            } else {
+                // If no matching order is found, reset the state
+                setMatchingOrderId(null);
+                setUserHasOrderedProduct(false);
+            }
         } else {
-            // If productId is not set, reset the state
+            // If orders is not set, reset the state
+            setMatchingOrderId(null);
             setUserHasOrderedProduct(false);
         }
     }, [orders, id]);
+
 
     //ratings
     const labels = {
@@ -92,9 +125,10 @@ export default function SelectLensTypeScreen({ rating }) {
 
     const submitReview = async () => {
         console.log(userData._id)
+        console.log("order ID " + matchingOrderId)
         const reviewData = {
             user: userData._id,
-            order: "6521174182bbbf37669ca838",
+            order: matchingOrderId,
             product: id,
             user_review_title: reviewTitle,
             user_review_description: reviewDescription,
@@ -595,7 +629,7 @@ export default function SelectLensTypeScreen({ rating }) {
 
                                 )}
                             </Box>
-                            <button onClick={() => { userHasOrderedProduct ? submitReview : alert("Place the Order First") }} className="mt-10 py-1 px-4 rounded inline-flex items-center 
+                            <button onClick={submitReview} className="mt-10 py-1 px-4 rounded inline-flex items-center 
                                             bg-transparent hover:bg-gray-700 text-gray-700 font-semibold 
                                              hover:text-white border border-gray-500 hover:border-transparent ">
                                 <span>Submit</span>
@@ -611,48 +645,28 @@ export default function SelectLensTypeScreen({ rating }) {
 
                 {/* customers reviews */}
                 <div className="w-[80%] mx-auto mb-20">
-                    <div className="mt-5">
-                        <div className="flex items-center space-x-3">
-                            <img src={pfp} alt="" className='w-[40px] h-[40px] rounded-xl' />
-                            <h3 className="font-semibold">Farasat Khan</h3>
-                        </div>
-                        <div className="ml-12">
-                            <div className="product-rating font-bold text-xl text-yellow-500">
-                                {renderStars()}
-                                <span className="rating">{rating}</span>
+                    {reviews.map((review, index) => (
+                        <div className="mt-5">
+                            <div className="flex items-center space-x-3">
+                                <img src={API_URL + "/uploads/profile_images/" + review.user.profilePicture} alt="" className='w-[40px] h-[40px] rounded-xl' />
+                                <h3 className="font-semibold">{review.user.firstName} {review.user.lastName}</h3>
                             </div>
-                            <h1 className="font-semibold">Well made and fits!</h1>
-                            <p className="text-base font-sans">
-                                I can’t believe how well these acetate frames fit my face! My eyes don’t sit right in
-                                the middle of the lenses though, maybe that’s because the frame width is so big? But
-                                I like the style. Maybe my nose is just too small? Regardless, I’m super happy with
-                                my purchase. Definitely recommend.
-                            </p>
-                            <p className="text-sm text-blue-400 mt-2 mb-4">04 Apr 2023</p>
-                        </div>
-                        <hr></hr>
-                    </div>
-                    <div className="mt-5">
-                        <div className="flex items-center space-x-3">
-                            <img src={pfp} alt="" className='w-[40px] h-[40px] rounded-xl' />
-                            <h3 className="font-semibold">Farasat Khan</h3>
-                        </div>
-                        <div className="ml-12">
-                            <div className="product-rating font-bold text-xl text-yellow-500">
-                                {renderStars()}
-                                <span className="rating">{rating}</span>
+                            <div className="ml-12">
+                                <div className="product-rating font-bold text-xl text-yellow-500">
+                                    {renderStars()}
+                                    <span className="rating">{review.starts}</span>
+                                </div>
+                                <h1 className="font-semibold">{review.user_review_title}</h1>
+                                <p className="text-base font-sans">
+                                    {review.user_review_description}
+                                </p>
+                                <p className="text-sm text-blue-400 mt-2 mb-4">
+                                    {new Date(review.date).toLocaleDateString()} {/* Formats date to "MM/DD/YYYY" */}
+                                </p>
                             </div>
-                            <h1 className="font-semibold">Well made and fits!</h1>
-                            <p className="text-base font-sans">
-                                I can’t believe how well these acetate frames fit my face! My eyes don’t sit right in
-                                the middle of the lenses though, maybe that’s because the frame width is so big? But
-                                I like the style. Maybe my nose is just too small? Regardless, I’m super happy with
-                                my purchase. Definitely recommend.
-                            </p>
-                            <p className="text-sm text-blue-400 mt-2 mb-4">04 Apr 2023</p>
+                            <hr></hr>
                         </div>
-                        <hr></hr>
-                    </div>
+                    ))}
                     <div className="flex justify-center mt-10">
                         <button class="py-1 px-4 rounded inline-flex items-center 
                         bg-transparent hover:bg-gray-700 text-gray-700 font-semibold 

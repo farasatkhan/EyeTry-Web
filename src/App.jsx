@@ -72,7 +72,7 @@ import ViewPersonalInfo from "./pages/CustomerSupport/ViewPersonalInfo";
 
 
 // product pages
-import ProductDetails from './pages/User/OrderManagement/ProductDetails/ProductDetails'
+import ProductDetails from './pages/User/OrderManagement/ProductDetails'
 
 const publicRoutes = (
   <Route>
@@ -86,7 +86,7 @@ const publicRoutes = (
 const privateRoutes = (
   <>
     {/* Home Screens routes */}
-    <Route path="/" element={<PrivateRoute Component={UserProfilingNavbar} />} >
+    <Route path="/" element={<PrivateRoute Component={HomeNavbar} />} >
       <Route index element={<PrivateRoute Component={Home} />} />
       {/* product details */}
       <Route path="product_details/:id" element={<PrivateRoute Component={ProductDetails} />} />

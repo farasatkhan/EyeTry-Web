@@ -109,7 +109,7 @@ const Cart = () => {
     }
     setProductQuantities(initialProductQuantities);
   }, [cartItems]);
-  
+
 
   const placeOrder = async () => {
     if (hasPaymentMethod && hasShippingAddress) {
@@ -130,12 +130,12 @@ const Cart = () => {
             glassesType: item.orderSelections.selectedOptions.lensProperties.glassesType,
             upgrades: item.orderSelections.selectedOptions.lensProperties.upgrades,
             transitionLens: {
-              color: item.orderSelections.selectedOptions.lensProperties.sunglassesLens.color,
-              transitionType: item.orderSelections.selectedOptions.lensProperties.sunglassesLens.sunglassesType,
+              transitionType: item.orderSelections.selectedOptions.lensProperties.transitionLens.transitionType,
+              color: item.orderSelections.selectedOptions.lensProperties.transitionLens.transitionColor,
             },
             sunglassesLens: {
-              color: item.orderSelections.selectedOptions.lensProperties.sunglassesLens.color,
               sunglassesType: item.orderSelections.selectedOptions.lensProperties.sunglassesLens.sunglassesType,
+              color: item.orderSelections.selectedOptions.lensProperties.sunglassesLens.color,
             },
           },
           prescription: {
@@ -161,7 +161,7 @@ const Cart = () => {
           },
         };
       });
-  
+
       // Create the order object with items and totalPrice
       const order = {
         user: uid,
@@ -177,9 +177,9 @@ const Cart = () => {
           zipCode: addresses[0].zipCode,
         },
       };
-  
-      console.log("OrderData: ", order);
-  
+
+      console.log("Order sent Data: ", order);
+
       try {
         const response = await checkout(order); // Sending the entire order as one request
         console.log("Order Placed Successfully!", response.data);
@@ -191,7 +191,7 @@ const Cart = () => {
       alert("Add Payment Method and Shipping Address First!");
     }
   };
-  
+
 
   // managing payment method
   const paymentRoute = payments.length > 0 ? `/user/edit_payment/${payments[0]._id}` : '/user/add_payment';
@@ -282,7 +282,7 @@ const Cart = () => {
         }
       }
     }
-    
+
     return totalCalculatedPrice;
   };
 
@@ -295,14 +295,14 @@ const Cart = () => {
       );
       return !(sameProductId && sameVariantId);
     });
-  
+
     // Update the cartItems state
     setCartItems(updatedCartItems);
-  
+
     // Update the local storage to reflect the changes
     localStorage.setItem('cart', JSON.stringify(updatedCartItems));
   };
-  
+
 
   return (
 
@@ -344,8 +344,15 @@ const Cart = () => {
                         {/* <p className="mt-1 text-xs text-gray-700">Available Quantity: {item.productData.frame_information.frame_variants.quastity}</p> */}
                       </div>
                       <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
+                        {/* <div class="flex items-center border-gray-100">
+                          <span class="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"> - </span>
+                          <input class="h-8 w-8 border bg-white text-center text-xs outline-none" type="number" value="2" min="1" />
+                          <span class="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"> + </span>
+                        </div> */}
+
                         <div className="flex items-center border-gray-100">
-                          <button onClick={() => handleDecrementQuantity(item.productData._id,
+                          <button className='cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50' 
+                          onClick={() => handleDecrementQuantity(item.productData._id,
                             item
                               .productData
                               .frame_information
@@ -362,22 +369,21 @@ const Cart = () => {
                           >-
                           </button>
 
-                          <span>{productQuantities[`${item.productData._id}_${item
-                            .productData
-                            .frame_information
-                            .frame_variants
-                            .find((v) => v
-                              .color
-                              ===
-                              item
-                                .orderSelections
-                                .selectedOptions
-                                .frameProperties
-                                .frameColor)
-                            ._id}`]}
-                          </span>
+                          <div className='h-8 border bg-white text-center text-xs outline-none' 
+                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <input 
+                              type="number"
+                              value={productQuantities[`${item.productData._id}_${item.productData.frame_information
+                                .frame_variants.find((v) => v.color === item.orderSelections.selectedOptions
+                                .frameProperties.frameColor)._id}`]}
+                              min="1"
+                              readOnly
+                              style={{ marginLeft: 12, border: 'none',width: 40, background: 'none', outline: 'none', textAlign: 'center', fontSize: '14px' }}
+                            />
+                          </div>
 
-                          <button onClick={
+
+                          <button className='cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50' onClick={
                             () => handleIncrementQuantity(
                               item
                                 .productData
@@ -458,7 +464,7 @@ const Cart = () => {
               </div>
             </div>
             <button onClick={placeOrder} disabled={(cartItems && cartItems.length < 1)} className={`cursor-pointer mt-6 w-full
-             rounded-md ${cartItems && cartItems.length < 1  ? 'bg-gray-500 hover:bg-gray-600' : 'bg-blue-500 hover:bg-blue-600'}  py-1.5 font-medium text-blue-50
+             rounded-md ${cartItems && cartItems.length < 1 ? 'bg-gray-500 hover:bg-gray-600' : 'bg-blue-500 hover:bg-blue-600'}  py-1.5 font-medium text-blue-50
                `}>Check out</button>
           </div>
         </div>
@@ -525,7 +531,7 @@ const Cart = () => {
                   </button>
                 </Link>
                 {payments.length > 0 &&
-                  <button onClick={() => deleteSpecificPayment(payments[0]._id)} 
+                  <button onClick={() => deleteSpecificPayment(payments[0]._id)}
                     className="py-1 px-4 rounded inline-flex items-center ml-auto
                     bg-transparent hover:bg-red-500 text-red-700 font-semibold 
                     hover:text-white border border-red-500 hover:border-transparent 

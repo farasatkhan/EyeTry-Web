@@ -91,11 +91,11 @@ export const checkout = async (orderData) => {
 
 // add user review
 
-export const viewAllReviews = async () => {
+export const viewAllReviews = async (productId) => {
 
     try {
         const accessToken = await localStorage.getItem("accessToken")
-        const response = await axios.get('products/v1/reviews/viewAllReviews', {
+        const response = await axios.get(`products/v1/reviews/viewAllReviews/${productId}`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`
             },

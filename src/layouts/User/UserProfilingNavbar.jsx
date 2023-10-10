@@ -40,7 +40,8 @@ import { useNavigate } from 'react-router-dom';
 import { Navigation } from '@mui/icons-material';
 import { viewProfileImage } from '../../api/userapi';
 import ellipse from '../../assets/images/UserProfiling/Ellipse.png'
-
+import logo from '../../assets/images/Logo/logo.png'
+import { FaCartShopping } from "react-icons/fa6";
 
 // for navbar
 const Search = styled('div')(({ theme }) => ({
@@ -233,8 +234,8 @@ export default function PersistentDrawerLeft() {
           </IconButton>
           
           {/* logo */}
-          <FaGlasses size={30} sx={{ display: { xs: 'flex', sm: 'flex' }, mr: 1, ml: { xs: 0, sm: 2, md: 5, lg: 7, xl: 10 } }} />
-          <Typography 
+          {/* <FaGlasses size={30} sx={{ display: { xs: 'flex', sm: 'flex' }, mr: 1, ml: { xs: 0, sm: 2, md: 5, lg: 7, xl: 10 } }} /> */}
+          {/* <Typography 
             variant="h5"
             noWrap
             component="a"
@@ -249,9 +250,10 @@ export default function PersistentDrawerLeft() {
               color: 'inherit',
               textDecoration: 'none',
             }}
-          >
-          <div style={{ fontWeight: "400", fontSize: "24px", marginLeft:10 }} ><span style={{ fontWeight: "800", fontSize: "24px" }}>EYE</span>TRY</div>
-          </Typography>
+          >/
+          </Typography> */}
+          <img className='w-[40px] h-[26px]' src={logo} alt="Logo" />
+          <div style={{ fontWeight: "400", fontSize: "22px", marginLeft:10, fontFamily: 'sans-serif' }} ><span style={{ fontWeight: "700", fontSize: "22px", fontFamily: 'sans-serif' }}>EYE</span>TRY</div>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' } }}>
             {/* <IconButton
@@ -349,9 +351,9 @@ export default function PersistentDrawerLeft() {
             </Search>
           </Box>
           
-          <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <IconButton onClick={() => navigate('cart')} size="large" aria-label="show 4 new mails" color="inherit">
             <Badge badgeContent={4} color="error">
-              <MailIcon />
+            <FaCartShopping className='h-[22px] w-[22px]'  />
             </Badge>
           </IconButton>
           <IconButton

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Link} from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -40,10 +40,12 @@ import { useNavigate } from 'react-router-dom';
 import { Navigation } from '@mui/icons-material';
 import { viewProfileImage } from '../../api/userapi';
 import ellipse from '../../assets/images/UserProfiling/Ellipse.png'
-
-
-
-
+import logo from '../../assets/images/Logo/logo.png'
+import { FaCartShopping } from "react-icons/fa6";
+import Hidden from '@mui/material/Hidden';
+import { Grid } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 
 // for navbar
 const Search = styled('div')(({ theme }) => ({
@@ -88,7 +90,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 
-const pages = ['Eyeglasses', 'Sunglasses', 'Categories', 'Brands', 'Assessments'];
+const pages = ['Eyeglasses', 'Categories', 'Brands', 'Assessments'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
@@ -141,27 +143,38 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function PersistentDrawerLeft(props) {
-  const [profilePic,setProfilePic] = React.useState(null)
+export default function PersistentDrawerLeft() {
+
+  const top100Films = [
+    { title: 'The Shawshank Redemption', year: 1994 },
+    { title: 'The Godfather', year: 1972 },
+    { title: 'The Godfather: Part II', year: 1974 },
+    { title: 'The Dark Knight', year: 2008 },
+    { title: '12 Angry Men', year: 1957 },
+    { title: "Schindler's List", year: 1993 },
+    { title: 'Pulp Fiction', year: 1994 },
+  ];
+
+  const [profilePic, setProfilePic] = React.useState(null)
   const baseURL = 'http://localhost:3000'
 
   // getting name from local storage
   const firstName = localStorage.getItem("firstName")
   const lastName = localStorage.getItem("lastName")
-  
+
   // getting profile image
-  React.useEffect( ()=>{
+  React.useEffect(() => {
 
     const getImage = async () => {
-      try{        
+      try {
         const img = await viewProfileImage();
-        setProfilePic(baseURL+img.location)
-        }
-      catch (e){
-        if (e.response.status == 403){
+        setProfilePic(baseURL + img.location)
+      }
+      catch (e) {
+        if (e.response.status == 403) {
           console.log('Refreshing Token Failed')
         }
-        if (e.response.status == 400){
+        if (e.response.status == 400) {
           console.log('No Image is present')
           setProfilePic(null)
         }
@@ -171,11 +184,10 @@ export default function PersistentDrawerLeft(props) {
     }
 
     getImage();
-  },[])
+  }, [])
 
   const navigate = useNavigate();
 
-  const ScreenComponent = props.screenComponent;
 
   // for navbar
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -184,24 +196,24 @@ export default function PersistentDrawerLeft(props) {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
   const handleCloseNavMenu = (page) => {
-    if (page == "Assessments"){
+    if (page == "Assessments") {
       navigate("/assessments/color_blind_test")
     }
     setAnchorElNav(null);
 
   };
 
-  const logout = async () =>{
+  const logout = async () => {
     await logoutUser()
 
   }
   const handleCloseUserMenu = (setting) => {
-    if (setting == "Logout"){
+    if (setting == "Logout") {
       logout();
       navigate("/signin")
     }
@@ -226,23 +238,24 @@ export default function PersistentDrawerLeft(props) {
       <CssBaseline />
       <AppBar position="fixed" style={{ color: "black", backgroundColor: "white", paddingRight: 20, paddingLeft: 20, display: "flex" }} open={open}>
         <Toolbar sx={{ flexGrow: 1 }}>
-          <IconButton 
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
+          <div>
+            {/* Display the IconButton only on small screens */}
+            <Hidden mdUp>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                sx={{ mr: 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Hidden>
+          </div>
 
-          {/* navbar */}
-
-          
           {/* logo */}
-          <FaGlasses size={30} sx={{ display: { xs: 'flex', sm: 'flex' }, mr: 1, ml: { xs: 0, sm: 2, md: 5, lg: 7, xl: 10 } }} />
-          <Typography 
+          {/* <FaGlasses size={30} sx={{ display: { xs: 'flex', sm: 'flex' }, mr: 1, ml: { xs: 0, sm: 2, md: 5, lg: 7, xl: 10 } }} /> */}
+          {/* <Typography 
             variant="h5"
             noWrap
             component="a"
@@ -257,155 +270,113 @@ export default function PersistentDrawerLeft(props) {
               color: 'inherit',
               textDecoration: 'none',
             }}
-          >
-          <div style={{ fontWeight: "400", fontSize: "24px", marginLeft:10 }} ><span style={{ fontWeight: "800", fontSize: "24px" }}>EYE</span>TRY</div>
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' } }}>
-            {/* <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton> */}
+          >/
+          </Typography> */}
+          <img className='w-[40px] h-[26px]' src={logo} alt="Logo" />
+          <div style={{ fontWeight: "400", fontSize: "22px", marginLeft: 10, fontFamily: 'sans-serif' }} ><span style={{ fontWeight: "700", fontSize: "22px", fontFamily: 'sans-serif' }}>EYE</span>TRY</div>
 
 
-            <IconButton
-              size="small"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <FaSortDown />
-            </IconButton>
-
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none'},
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>,
-
-                <MenuItem>
-                  <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="error">
-                      <MailIcon />
-                    </Badge>
-                  </IconButton>
-                  <p>Messages</p>
-                </MenuItem>,
-                <MenuItem>
-                  <IconButton
-                    size="large"
-                    aria-label="show 17 new notifications"
-                    color="inherit"
-                  >
-                    <Badge badgeContent={17} color="error">
-                      <NotificationsIcon />
-                    </Badge>
-                  </IconButton>
-                  <p>Notifications</p>
-                </MenuItem>
-
-              ))}
-            </Menu>
-          </Box>
 
           {/* pages brands , categories etc */}
-          {/* Accessories are removed temporarly */}
-          <Box sx={{ ml: 5, flexGrow: 1, display: { xs: 'none', sm: 'none', md: 'none', lg:'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={() => handleCloseNavMenu(page)}
-                sx={{ my: 2, color: 'black', display: 'flex', fontWeight: { md: '700', lg: '700' }, fontSize: { md: '12px', lg: '12px' } }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box >
+          <div>
+            <Hidden mdDown>
+              <Box sx={{ ml: 5, flexGrow: 1, display: 'flex' }}>
+                {pages.map((page) => (
+                  <Button
+                    key={page}
+                    onClick={() => handleCloseNavMenu(page)}
+                    sx={{ my: 2, color: 'black', display: 'flex', fontWeight: { md: '700', lg: '700' }, fontSize: { md: '12px', lg: '12px' } }}
+                  >
+                    {page}
+                  </Button>
+                ))}
+              </Box >
+            </Hidden>
+          </div>
 
-          <Box sx={{ display: 'flex', justifyContent: 'flex-start', flexGrow: 1 }}>
-            <Search>
-              <Search sx={{ flexGrow: 1 }} >
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ 'aria-label': 'search' }}
-                />
-              </Search>
-            </Search>
-          </Box>
-          
-          <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={4} color="error">
-              <MailIcon />
-            </Badge>
-          </IconButton>
-          <IconButton
-            size="large"
-            aria-label="show 17 new notifications"
-            color="inherit"
-          >
-            <Badge badgeContent={17} color="error">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <Box sx={{ flexGrow: 0, ml: 2, }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={profilePic} />
-                <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className='font-black'>{firstName} {lastName}</p></p>
-                <image alt="user-profile-pic" src={ellipse} width={50} height={50}  />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+          {/* <div className='flex space-x-4 ml-5'>
+            <p>Eyeglasses</p>
+            <p>Sunglasses</p>
+            <p>Categories</p>
+            <p>Brands</p>
+            <p>Vision Assessments</p>
+          </div> */}
+
+          <Autocomplete
+            className='w-[200px] mr-auto ml-5'
+            size='small'
+            freeSolo
+            id="free-solo-2-demo"
+            disableClearable
+            options={top100Films.map((option) => option.title)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder='Search...'
+                InputProps={{
+                  ...params.InputProps,
+                  type: 'search',
+                  startAdornment: (
+                    <SearchIcon
+                      style={{ marginRight: '8px', color: 'black' }} // Customize icon styles here
+                    />
+                  ),
+                  sx: {
+                    border: 'none', // Remove border
+                  },
+                }}
+              />
+            )}
+          />
+
+
+          <div className='ml-auto flex'>
+            <IconButton onClick={() => navigate('cart')} size="large" aria-label="cart items 4" color="inherit">
+              <Badge badgeContent={4} color="error">
+                <FaCartShopping className='h-[22px] w-[22px]' />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+              <Badge badgeContent={17} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <Box sx={{ flexGrow: 0, ml: 2, }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src={profilePic} />
+                  <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className='font-black'>{firstName} {lastName}</p></p>
+                  <image alt="user-profile-pic" src={ellipse} width={50} height={50} />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -427,47 +398,46 @@ export default function PersistentDrawerLeft(props) {
           </IconButton>
         </DrawerHeader>
 
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        {/* <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div style={{ width: 150, height: 150, borderRadius: 100, display: "flex", justifyContent: "center", alignItems: "center" }}>
             <img src={profilePic} alt="user-profile-pic" className='rounded-full w-full h-full ' />
           </div>
           <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20 }}>{firstName} {lastName}</h2>
-        </div>
+        </div> */}
 
         <Divider />
 
-<List>
-  {[
-    { text: 'My Profile', path: '/user/profile' },
-    { text: 'Personal Details', path: '/user/my_details' },
-    { text: 'My Prescriptions', path: '/user/prescription_details' },
-    { text: 'Address Book', path: '/user/add_address' },
-    { text: 'Payment Methods', path: '/user/add_payment' },
-    { text: 'Try On Images', path: '/user/upload_tryon_images' },
-    { text: 'Manage Giftcards', path: '/user/giftcards' },
-    { text: 'Log Out' , path: '/signin' }
-  ].map(({ text, path }, index) => (
-    <ListItem key={text} disablePadding>
-      <ListItemButton
-        component={Link}
-        to={path}
-        onClick={text === 'Log Out' ? logout : undefined}
-      >
-        <ListItemIcon>
-          {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-        </ListItemIcon>
-        <ListItemText primary={text} />
-      </ListItemButton>
-    </ListItem>
-  ))}
-</List>
-
+        <List>
+          {[
+            { text: 'Eyeglasses', path: '/user/profile' },
+            { text: 'Sunglasses', path: '/user/my_details' },
+            { text: 'Categories', path: '/user/prescription_details' },
+            { text: 'Brands', path: '/user/add_address' },
+            { text: 'Vission Assessments', path: '/user/add_payment' },
+            { text: 'Log Out', path: '/signin' }
+          ].map(({ text, path }, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton
+                component={Link}
+                to={path}
+                onClick={text === 'Log Out' ? logout : undefined}
+              >
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
 
       </Drawer>
-      <Main open={open}>
+      <Main open={open} className="flex flex-col min-h-screen">
         <DrawerHeader />
-        {ScreenComponent},
-        <Footer/>
+        <div className="flex-1 bg-gray-50">
+          <Outlet />
+        </div>
+        <Footer />
       </Main>
     </Box>
   );

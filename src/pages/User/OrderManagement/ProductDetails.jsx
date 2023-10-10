@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
-import yellowGlassesImg from "../../../../assets/images/UserProfiling/yellowglasses.png";
+import yellowGlassesImg from "../../../assets/images/UserProfiling/yellowglasses.png";
 import { useNavigate } from "react-router-dom";
 import { FaCheckCircle } from 'react-icons/fa';
 import { BiEdit } from "react-icons/bi";
-import pfp from '../../../../assets/images/UserProfiling/Ellipse.png'
+import pfp from '../../../assets/images/UserProfiling/Ellipse.png'
 import { useParams } from "react-router-dom";
-import { viewParticularProduct } from "../../../../api/productsApi";
-import API_URL from "../../../../config/config";
+import API_URL from "../../../config/config";
 import { useDispatch } from 'react-redux';
-import { updateSelectedOptions } from '../../../../redux/actions/orderSelectionAction';
+import { updateSelectedOptions } from '../../../redux/actions/orderSelectionAction';
 
 // ratings
-import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
-import { viewAllOrders, viewAllReviews, addReview } from "../../../../api/productsApi";
+import { viewAllOrders, viewAllReviews, addReview, viewParticularProduct } from "../../../api/productsApi";
 
 export default function SelectLensTypeScreen({ rating }) {
 
@@ -24,9 +23,9 @@ export default function SelectLensTypeScreen({ rating }) {
     const [activeImg, setActiveImg] = useState("");
     const { id } = useParams();
     // Track the active color
-    const [activeColor, setActiveColor] = useState(""); 
+    const [activeColor, setActiveColor] = useState("");
     // Initialize activeImages state
-    const [activeImages, setActiveImages] = useState([]); 
+    const [activeImages, setActiveImages] = useState([]);
     const [frameSize, setFrameSize] = useState('medium');
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -34,8 +33,8 @@ export default function SelectLensTypeScreen({ rating }) {
     const [hideReviewBox, setHideReviewBox] = useState(true)
     const [reviewTitle, setReviewTitle] = useState(null)
     const [reviewDescription, setReviewDescription] = useState(null)
-    const [value, setValue] = React.useState(3);
-    const [hover, setHover] = React.useState(-1);
+    const [value, setValue] = useState(3);
+    const [hover, setHover] = useState(-1);
     const [userHasOrderedProduct, setUserHasOrderedProduct] = useState(false)
     const [orders, setOrders] = useState([])
     // getting user ID from local storage
@@ -50,18 +49,23 @@ export default function SelectLensTypeScreen({ rating }) {
     const [messageType, setMessageType] = useState(''); // 'error' or 'submit'
     const [errorMsg, setErrorMsg] = useState('');
     const [submitMsg, setSubmitMsg] = useState('');
+    // animation effect
+    const [loaded, setLoaded] = useState(false);
+    //  table content 
+    const [activeTab, setActiveTab] = useState('description');
 
+    // submit form validation
     const validateForm = () => {
         // Validating user input
         if (!reviewTitle || !reviewDescription) {
             setErrorMsg('Please fill out all fields!');
             setMessageType('error');
 
-                        // Clearing the error message after 5 seconds
-                        setTimeout(() => {
-                            setErrorMsg('');
-                            setMessageType('');
-                        }, 4000);
+            // Clearing the error message after 5 seconds
+            setTimeout(() => {
+                setErrorMsg('');
+                setMessageType('');
+            }, 4000);
             return false;
         }
         return true
@@ -77,7 +81,7 @@ export default function SelectLensTypeScreen({ rating }) {
     useEffect(() => {
         const getReviews = async () => {
             try {
-                const response = await viewAllReviews();
+                const response = await viewAllReviews(id);
                 setReviews(response.data);
                 console.log("reviewsData: ", response.data);
 
@@ -179,11 +183,11 @@ export default function SelectLensTypeScreen({ rating }) {
             setSubmitMsg('Review Submitted!');
             setMessageType('submit');
 
-                        // Clearing the error message after 5 seconds
-                        setTimeout(() => {
-                            setErrorMsg('');
-                            setMessageType('');
-                        }, 4000);
+            // Clearing the error message after 5 seconds
+            setTimeout(() => {
+                setErrorMsg('');
+                setMessageType('');
+            }, 4000);
             // console.log("Review Data: ", response.data);
         } catch (e) {
             console.error(e);
@@ -256,8 +260,7 @@ export default function SelectLensTypeScreen({ rating }) {
     };
 
 
-    // animation effect
-    const [loaded, setLoaded] = useState(false);
+
     useEffect(() => {
         // Trigger the animation when the component is mounted
         setLoaded(true);
@@ -267,8 +270,7 @@ export default function SelectLensTypeScreen({ rating }) {
     const rightComponentAnimationClass = loaded ? 'translate-x-0 opacity-100 transition-transform ease-out duration-1000' : 'translate-x-20 opacity-0';
     // const textAnimationClass = loaded ? 'translate-y-0 opacity-100 transition-transform ease-out duration-1000 delay-500' : 'translate-y-20 opacity-0';
 
-    //  table content 
-    const [activeTab, setActiveTab] = useState('description');
+
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -305,10 +307,10 @@ export default function SelectLensTypeScreen({ rating }) {
                             <div className="">
                                 <button className="ml-10 mt-10 w-[20%] text-base font-semibold mb-2 hover:text-blue-400  cursor-pointer">
                                     &lt; <span className="hover:underline">Back</span></button>
-                                    <div className="flex items-center justify-center">
-                                <p className="font-sans text-2xl font-bold italic">{product.manufacturer}</p>
+                                <div className="flex items-center justify-center">
+                                    <p className="font-sans text-2xl font-bold italic">{product.manufacturer}</p>
 
-                                    </div>
+                                </div>
                                 <div className='py-2 rounded-md w-full'></div>
                                 {/* Display images based on selected color */}
                                 <div className={`justify-center items-center object-cover flex flex-wrap ${imageAnimationClass}`}>
@@ -339,7 +341,7 @@ export default function SelectLensTypeScreen({ rating }) {
                             <h1 className="font-semibold font-sans mt-[-30px] text-3xl">{product.name}</h1>
                             <div className="flex space-x-4 items-center mb-1 mt-2">
                                 <div className="product-rating font-bold text-2xl text-yellow-500 flex" >
-                                <Rating
+                                    <Rating
                                         name="text-feedback"
                                         value={avgReviews}
                                         readOnly
@@ -350,15 +352,15 @@ export default function SelectLensTypeScreen({ rating }) {
                                 </div>
                                 <p className="font-bold text-orange-400 text-lg">{avgReviews}</p>
                             </div>
-                                {product && product.reviewsInformation ? (
-                                    <p className=" text-blue-400 cursor-pointer">
-                                        Reviews ({product.reviewsInformation.total_reviews})
-                                    </p>
-                                ) : (
-                                    <p className=" text-blue-400 cursor-pointer">
-                                        Reviews (Loading...)
-                                    </p>
-                                )}
+                            {product && product.reviewsInformation ? (
+                                <p className=" text-blue-400 cursor-pointer">
+                                    Reviews ({product.reviewsInformation.total_reviews})
+                                </p>
+                            ) : (
+                                <p className=" text-blue-400 cursor-pointer">
+                                    Reviews (Loading...)
+                                </p>
+                            )}
                             {/* <p className="font-sans mt-1 text-base">{product.type}</p> */}
                             <p className="font-sans mt-2 text-base font-semibold">Frame Color</p>
                             {/* displaying frame colors */}
@@ -602,12 +604,12 @@ export default function SelectLensTypeScreen({ rating }) {
                     <h1 className="text-2xl font-semibold">Customer Reviews</h1>
                     <div className="flex justify-center items-center space-x-4 py-5 flex-wrap flex-col md:flex-row">
                         <p className="font-bold text-2xl">{avgReviews}</p><p className="font-bold text-2xl text-yellow-500 ">                                <Rating
-                                        name="text-feedback"
-                                        value={avgReviews}
-                                        readOnly
-                                        precision={0.1}
-                                        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                                    /></p>
+                            name="text-feedback"
+                            value={avgReviews}
+                            readOnly
+                            precision={0.1}
+                            emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                        /></p>
                         {product && product.reviewsInformation ? (
                             <p className="text-sm ml-4 text-blue-400">Based on {product.reviewsInformation.total_reviews} Reviews</p>
                         ) : (
@@ -628,19 +630,19 @@ export default function SelectLensTypeScreen({ rating }) {
                             <span>Write a Review</span>
                         </button>
                     </div>
-        <div>
-            {/* Your component JSX */}
-            {messageType === 'error' && (
-                <p style={{ color: 'red', fontSize: 16, alignSelf: 'flex-start', paddingBottom: '4px' }}>
-                    {errorMsg}
-                </p>
-            )}
-            {messageType === 'submit' && (
-                <p style={{ color: 'green', fontSize: 16, alignSelf: 'flex-start', paddingBottom: '4px' }}>
-                    {submitMsg}
-                </p>
-            )}
-        </div>
+                    <div>
+                        {/* Your component JSX */}
+                        {messageType === 'error' && (
+                            <p style={{ color: 'red', fontSize: 16, alignSelf: 'flex-start', paddingBottom: '4px' }}>
+                                {errorMsg}
+                            </p>
+                        )}
+                        {messageType === 'submit' && (
+                            <p style={{ color: 'green', fontSize: 16, alignSelf: 'flex-start', paddingBottom: '4px' }}>
+                                {submitMsg}
+                            </p>
+                        )}
+                    </div>
                     {/* reviews box */}
                     <div className={` ${hideReviewBox ? 'hidden' : ''}`}>
                         <div className="">

@@ -73,6 +73,8 @@ import ViewPersonalInfo from "./pages/CustomerSupport/ViewPersonalInfo";
 
 // product pages
 import ProductDetails from './pages/User/OrderManagement/ProductDetails'
+import Products from './pages/User/HomeScreens/products'
+import Filter from './pages/User/HomeScreens/filter'
 
 const publicRoutes = (
   <Route>
@@ -88,6 +90,8 @@ const privateRoutes = (
     {/* Home Screens routes */}
     <Route path="/" element={<PrivateRoute Component={HomeNavbar} />} >
       <Route index element={<PrivateRoute Component={Home} />} />
+      <Route path="products/:page" element={<PrivateRoute Component={Products} />} />
+      <Route path="filter" element={<PrivateRoute Component={Filter} />} />
       {/* product details */}
       <Route path="product_details/:id" element={<PrivateRoute Component={ProductDetails} />} />
       <Route path="select_lens/:id" element={<PrivateRoute Component={SelectLensTypeComponent} />} />

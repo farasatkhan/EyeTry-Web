@@ -21,6 +21,12 @@ import shopByStyle from '../../../assets/images/products/shopByStyle.jpg'
 import glassesColor from '../../../assets/images/products/glassesColor.jpg'
 import logo from '../../../assets/images/Logo/logo.png'
 
+import faceShapeAnalysis from '../../../assets/images/ExclusiveFeatures/faceShapeAnalysis.png'
+import ipdMeasurement from '../../../assets/images/ExclusiveFeatures/ipdMeasurement.png'
+import virtualTryOn from '../../../assets/images/ExclusiveFeatures/virtualTryOn.png'
+import vissionAssessments from '../../../assets/images/ExclusiveFeatures/vissionAssessments.png'
+import 'aos/dist/aos.css'; // Import the AOS CSS
+import AOS from 'aos';
 
 export default () => {
 
@@ -39,13 +45,54 @@ export default () => {
     },
   ];
 
+  const exclusiveFeatures = [
+    {
+      imageUrl:  faceShapeAnalysis,
+      text: 'Face Shape Analysis', // Add text for the first image
+      info: 'Our frame finder feature uses advanced facial recognition technology to analyze your unique facial features and suggest the best eyeglass frames for your face shape. By simply uploading a photo of yourself, our system can identify key features and recommend frames that will complement your unique facial structure. '
+    },
+    {
+      imageUrl: ipdMeasurement,
+      text: 'IPD Measurement', // Add text for the second image
+      info: 'Your IPD is a key factor in achieving optimal vision through your eyeglasses. An incorrect IPD measurement can lead to discomfort, headaches, and distorted vision. Our technology ensures that your IPD is taken into account, so the eyeglass frames we recommend aesthetically pleasing, functional and enhancing your visual experience.'
+    },
+    {
+      imageUrl: virtualTryOn,
+      text: 'Virtual Try-On', // Add text for the third image
+      info: 'Our visual assessment feature is designed to help you assess your vision and determine whether you need glasses or a new prescription. Using a series of simple and intuitive tests, our system measures your visual acuity, color vision, depth perception, and other key factors that contribute to good vision. '
+
+    },
+    {
+      imageUrl: vissionAssessments,
+      text: 'Vision Assessments', // Add text for the fourth image
+      info: 'Our visual assessment feature is designed to help you assess your vision and determine whether you need glasses or a new prescription. Using a series of simple and intuitive tests, our system measures your visual acuity, color vision, depth perception, and other key factors that contribute to good vision. '
+    },
+  ];
+
   const [productsList, setProductsList] = useState([]);
   // const [selectedColors, setSelectedColors] = useState({});
   const [productRatings, setProductRatings] = useState({}); // Store product ratings
   const [newArrivals, setNewArrivals] = useState([]);
   const [selectedColorsFeatured, setSelectedColorsFeatured] = useState({});
   const [selectedColorsNewArrivals, setSelectedColorsNewArrivals] = useState({});
-  
+  const [menSunglasses, setMenSunglasses] = useState([])
+  const [womenSunglasses, setWomenSunglasses] = useState([])
+
+
+  // // animation
+  // useEffect(() => {
+  //   AOS.init({
+  //     duration: 2000,
+  //     once: false, // Make sure "once" is set to false
+  //     // offset: 100,
+  //     delay: 1000,
+  //   });
+  // }, []);
+
+
+  // AOS.refresh(); // Refresh AOS when content changes
+
+
 
   useEffect(() => {
     fetchProductsList();
@@ -56,11 +103,23 @@ export default () => {
       const fetchedProductsList = await viewProductsList();
       setProductsList(fetchedProductsList);
 
+      // for new arrivals
       const oneHourAgo = new Date();
       oneHourAgo.setHours(oneHourAgo.getHours() - 1);
       const arrivals = fetchedProductsList.filter(product => new Date(product.createdAt) >= oneHourAgo);
-      console.log('new arrivals: ' + JSON.stringify(arrivals , null, 2));
+      console.log('new arrivals: ' + JSON.stringify(arrivals, null, 2));
       setNewArrivals(arrivals);
+
+      // for men sunglasses
+      const fetchMenSunglasses = fetchedProductsList.filter(product => product.type === "Sunglasses" && product.categories.includes("Men"));
+      setMenSunglasses(fetchMenSunglasses);
+      console.log('fetchMenSunglasses: ' + JSON.stringify(fetchMenSunglasses, null, 2));
+
+      // for men sunglasses
+      const fetchWomenSunglasses = fetchedProductsList.filter(product => product.type === "Sunglasses" && product.categories.includes("Women"));
+      setWomenSunglasses(fetchWomenSunglasses);
+      console.log('fetchWomenSunglasses: ' + JSON.stringify(fetchWomenSunglasses, null, 2));
+
 
       // Fetch and calculate product ratings for each product
       const productRatingsData = await Promise.all(
@@ -145,16 +204,13 @@ export default () => {
 
   };
 
-  // // new arrivals
-  // const newArrivalImage = (product, color) => {
+
+  // const sunglassesImage = (product) => {
   //   if (
-  //     product &&
-  //     product.frame_information &&
-  //     product.frame_information.frame_variants
+  //     product
   //   ) {
-  //     const variant = product.frame_information.frame_variants.find(
-  //       (variant) => variant.color === color
-  //     );
+  //     const variant = product.frame_information.frame_variants[0]
+
 
   //     if (variant && variant.images && variant.images[0]) {
   //       const path = variant.images[0];
@@ -164,7 +220,7 @@ export default () => {
   //           <img
   //             src={completePath}
   //             alt="product"
-  //             className="object-contain w-[300px] h-[200px]"
+  //             className="object-contain"
   //           />
   //         </div>
   //       );
@@ -173,37 +229,7 @@ export default () => {
 
   //   // Return a placeholder or handle the case where image data is missing
   //   return <div className="mt-2">Image not available</div>;
-
   // };
-
-
-
-
-  const sunglassesImage = (product) => {
-    if (
-      product
-    ) {
-      const variant = product.frame_information.frame_variants[0]
-
-
-      if (variant && variant.images && variant.images[0]) {
-        const path = variant.images[0];
-        const completePath = API_URL + path;
-        return (
-          <div className="">
-            <img
-              src={completePath}
-              alt="product"
-              className="object-contain"
-            />
-          </div>
-        );
-      }
-    }
-
-    // Return a placeholder or handle the case where image data is missing
-    return <div className="mt-2">Image not available</div>;
-  };
 
   const navigate = useNavigate();
   const handleNavigation = (id) => {
@@ -224,7 +250,11 @@ export default () => {
       });
     }
   };
-  
+
+  // handle navigations
+  const handleNavigate = (page) => {
+    navigate(`/products/${page}`)
+  }
 
 
   return (
@@ -232,14 +262,15 @@ export default () => {
       <Carousel>
         {items.map((item, i) => (
           <Paper key={i}>
-            <img className="w-full h-[550px]" src={item.imageUrl} alt={`Image ${i + 1}`} />
+            <img className="w-full h-[580px]" src={item.imageUrl} alt={`Image ${i + 1}`} />
           </Paper>
         ))}
       </Carousel>
       <div className="w-[80%] mx-auto">
+
         {/* featured products */}
         <div>
-          <div>
+          <div data-aos="fade-up">
             <h1 className="font-sans text-3xl text-gray-500 font-semibold mx-auto text-center mt-10">Featured Products</h1>
             <div class="h-1 w-full mt-2 mb-5 bg-blue-400 lg:w-1/3 mx-auto rounded-full"></div>
             <p className="font-sans text-sm mx-auto text-justify text-gray-500 font-semibold">The most excellent online eyeglasses and eyeglass frames are offered at Easy Sight, your one-stop
@@ -250,7 +281,7 @@ export default () => {
               everything you want, glasses from timelessly elegant designs to the newest techniques.</p>
           </div>
 
-          <Splide
+          <Splide data-aos="fade-up"
             className="mx-auto w-[420px] md:w-[680px] lg:w-[800px] xl:w-[100%]"
             options={{
               perPage: 4,
@@ -350,7 +381,7 @@ export default () => {
           </Splide>
 
           {/* view more button */}
-          <div
+          <div onClick={() => handleNavigate("featured_products")}
             className=" mx-auto flex justify-center mt-10">
             <button class="py-1 px-4 rounded inline-flex items-center 
                         bg-transparent hover:bg-gray-700 text-gray-700 font-semibold 
@@ -361,114 +392,76 @@ export default () => {
         </div>
 
         {/* categories */}
-        <div>
+        <div data-aos="fade-up">
           <div className="flex items-center justify-center mx-auto mt-10">
             <h1 className="font-sans text-3xl text-gray-500 font-semibold  text-center">Eyewear for everyone ™ </h1>
-            <img src={logo} className=" ml-1 w-[50px] h-[30px]" alt="" />
+            <img data-aos="zoom-in" src={logo} className=" ml-1 w-[50px] h-[30px]" alt="" />
           </div>
           <div class="h-1 w-full mt-2 mb-5 bg-blue-400 lg:w-[45%] mx-auto rounded-full shadow-lg"></div>
           <p className="font-sans text-sm mx-auto text-center text-gray-500 font-semibold">Get a complete pair of prescription glasses</p>
         </div>
-        <div className="flex flex-col space-y-2 mx-auto mt-10">
+        <div data-aos="fade-up" className="flex flex-col space-y-2 mx-auto mt-10">
           <div className="flex flex-wrap">
-            <div className="w-full md:w-1/3 px-1">
-              <img src={menGlasses} className="w-full h-[300px]" alt="" />
-
+            <div className="w-full md:w-1/3 px-1 relative group cursor-pointer">
+              <img data-aos="zoom-in" src={menGlasses} className="w-full h-[300px]" alt="" />
+              <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
+                <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
+              </div>
               <div className="flex items-center mt-5 mb-5 justify-between">
                 <p className="font-sans text-2xl text-[#0284c7] font-semibold">Men's Eyeglasses</p>
-                <div
-                  className="flex">
-                  <button class="py-1 px-4 rounded inline-flex items-center 
-                        bg-transparent hover:bg-[#0284c7] text-[#0284c7] font-semibold 
-                        hover:text-white border border-[#0284c7] hover:border-transparent ">
-                    <span>Shop Now &gt;</span>
-                  </button>
-                </div>
               </div>
-
             </div>
-            <div className="w-full md:w-1/3 px-1">
-              <img src={womenGlasses} className="w-full h-[300px]" alt="" />
+            <div className="w-full md:w-1/3 px-1 relative group cursor-pointer">
+              <img data-aos="zoom-in" src={womenGlasses} className="w-full h-[300px]" alt="" />
+              <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
+                <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
+              </div>
               <div className="flex items-center mt-5 mb-5 justify-between">
                 <p className="font-sans text-2xl text-[#0284c7] font-semibold">Women's Eyeglasses</p>
-                <div
-                  className="flex">
-                  <button class="py-1 px-4 rounded inline-flex items-center 
-                        bg-transparent hover:bg-[#0284c7] text-[#0284c7] font-semibold 
-                        hover:text-white border border-[#0284c7] hover:border-transparent ">
-                    <span>Shop Now &gt;</span>
-                  </button>
-                </div>
               </div>
             </div>
-            <div className="w-full md:w-1/3 px-1">
-              <img src={kidsGlasses} className="w-full h-[300px]" alt="" />
+            <div className="w-full md:w-1/3 px-1 relative group cursor-pointer">
+              <img data-aos="zoom-in" src={kidsGlasses} className="w-full h-[300px]" alt="" />
+              <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
+                <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
+              </div>
               <div className="flex items-center mt-5 mb-5 justify-between">
                 <p className="font-sans text-2xl text-[#0284c7] font-semibold">Kid's Eyeglasses</p>
-                <div
-                  className="flex">
-                  <button class="py-1 px-4 rounded inline-flex items-center 
-                        bg-transparent hover:bg-[#0284c7] text-[#0284c7] font-semibold 
-                        hover:text-white border border-[#0284c7] hover:border-transparent ">
-                    <span>Shop Now &gt;</span>
-                  </button>
-                </div>
               </div>
             </div>
-          </div>
-          <div className="flex flex-wrap">
-            <div className="w-full md:w-1/3 px-1">
-              <img src={glassesColor} className="w-full h-[300px]" alt="" />
+            <div className="w-full md:w-1/3 px-1 relative group cursor-pointer">
+              <img data-aos="zoom-in" src={glassesColor} className="w-full h-[300px]" alt="" />
+              <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
+                <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
+              </div>
               <div className="flex items-center mt-5 mb-5 justify-between">
                 <p className="font-sans text-2xl text-[#0284c7] font-semibold">Shop By Frame Color</p>
-                <div
-                  className="flex">
-                  <button class="py-1 px-4 rounded inline-flex items-center 
-                        bg-transparent hover:bg-[#0284c7] text-[#0284c7] font-semibold 
-                        hover:text-white border border-[#0284c7] hover:border-transparent ">
-                    <span>Shop Now &gt;</span>
-                  </button>
-                </div>
               </div>
             </div>
-            <div className="w-full md:w-1/3 px-1">
-              <img src={shopByFace} className="w-full h-[300px]" alt="" />
+            <div className="w-full md:w-1/3 px-1 relative group cursor-pointer">
+              <img data-aos="zoom-in" src={shopByFace} className="w-full h-[300px]" alt="" />
+              <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
+                <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
+              </div>
               <div className="flex items-center mt-5 mb-5 justify-between">
                 <p className="font-sans text-2xl text-[#0284c7] font-semibold">Shop By Face Shape</p>
-                <div
-                  className="flex">
-                  <button class="py-1 px-4 rounded inline-flex items-center 
-                        bg-transparent hover:bg-[#0284c7] text-[#0284c7] font-semibold 
-                        hover:text-white border border-[#0284c7] hover:border-transparent ">
-                    <span>Shop Now &gt;</span>
-                  </button>
-                </div>
               </div>
             </div>
-            <div className="w-full md:w-1/3 px-1">
-              <img src={shopByStyle} className="w-full h-[300px]" alt="" />
+            <div className="w-full md:w-1/3 px-1 relative group cursor-pointer">
+              <img data-aos="zoom-in" src={shopByStyle} className="w-full h-[300px]" alt="" />
+              <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
+                <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
+              </div>
               <div className="flex items-center mt-5 mb-5 justify-between">
                 <p className="font-sans text-2xl text-[#0284c7] font-semibold">Shop By Frame Shape</p>
-                <div
-                  className="flex">
-                  <button class="py-1 px-4 rounded inline-flex items-center 
-                        bg-transparent hover:bg-[#0284c7] text-[#0284c7] font-semibold 
-                        hover:text-white border border-[#0284c7] hover:border-transparent ">
-                    <span>Shop Now &gt;</span>
-                  </button>
-                </div>
               </div>
             </div>
           </div>
         </div>
 
-
-
-
-
         {/* New Arrival */}
         <div>
-          <div>
+          <div data-aos="fade-up">
             <h1 className="font-sans text-3xl text-gray-500 font-semibold mx-auto text-center mt-10">New Arrival</h1>
             <div class="h-1 w-full mt-2 mb-5 bg-blue-400 lg:w-1/3 mx-auto rounded-full shadow-lg"></div>
             <p className="font-sans text-sm mx-auto text-justify text-gray-500 font-semibold">Everyone should have access
@@ -480,7 +473,7 @@ export default () => {
               the greatest online eyeglass and frame purchasing at Easy Sight right now!</p>
           </div>
 
-          <Splide
+          <Splide data-aos="fade-up"
             className="mx-auto w-[420px] md:w-[680px] lg:w-[800px] xl:w-[100%]"
             options={{
               perPage: 4,
@@ -573,21 +566,38 @@ export default () => {
               </SplideSlide>
             ))}
           </Splide>
+          {/* view more button */}
+          <div
+            className=" mx-auto flex justify-center mt-10">
+            <button class="py-1 px-4 rounded inline-flex items-center 
+                        bg-transparent hover:bg-gray-700 text-gray-700 font-semibold 
+                        hover:text-white border border-gray-500 hover:border-transparent ">
+              <span>View All </span>
+            </button>
+          </div>
+
         </div>
+
 
         {/* Sunglasses & Fashion */}
 
-        <div>
+        <div data-aos="fade-up">
           <h1 className="font-sans text-3xl text-gray-500 font-semibold mx-auto text-center mt-10">Fashion & Prescription Sunglasses</h1>
           <div class="h-1 w-full mt-2 mb-5 bg-blue-400 lg:w-1/2 mx-auto rounded-full shadow-lg"></div>
           <p className="font-sans text-sm mx-auto  text-gray-500 font-semibold text-center">Sun rays and Style needs with and without power lens are extremely essential
             for each and every one. Enjoy all solutions at one place in an exclusive variety</p>
         </div>
 
+        {/* Men Sunglasses  */}
         <div className="flex space-x-3 justify-center items-center mx-auto mt-10 w-[420px] md:w-[680px] lg:w-[800px] xl:w-[1200px]">
           <div className="w-[50%]">
-            <img src={menSunglassesImage} className="w-full h-full" alt="" />
-            <Splide
+            <div class="relative group cursor-pointer">
+              <img data-aos="zoom-in" src={menSunglassesImage} class="w-full h-full" alt="" />
+              <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
+                <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">View All</button>
+              </div>
+            </div>
+            <Splide data-aos="fade-up"
               className=""
               options={{
                 perPage: 2,
@@ -609,7 +619,7 @@ export default () => {
               }}
               aria-label="My Favorite Images"
             >
-              {productsList.map((product) => (
+              {menSunglasses.map((product) => (
                 <SplideSlide className="" key={product._id}>
                   <div
                     className="items-center justify-center flex flex-col"
@@ -680,9 +690,16 @@ export default () => {
               ))}
             </Splide>
           </div>
+
+          {/* Women Sunglasses */}
           <div className="w-[50%]">
-            <img src={womenSunglassesImage} className="w-full h-full" alt="" />
-            <Splide
+            <div class="relative group cursor-pointer">
+              <img data-aos="zoom-in" src={womenSunglassesImage} class="w-full h-full" alt="" />
+              <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
+                <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">View All</button>
+              </div>
+            </div>
+            <Splide data-aos="fade-up"
               className=""
               options={{
                 perPage: 2,
@@ -704,7 +721,7 @@ export default () => {
               }}
               aria-label="My Favorite Images"
             >
-              {productsList.map((product) => (
+              {womenSunglasses.map((product) => (
                 <SplideSlide className="" key={product._id}>
                   <div
                     className="items-center justify-center flex flex-col"
@@ -779,23 +796,21 @@ export default () => {
         </div>
 
 
-
         {/* Exclusive Features */}
-        <div>
+        <div className="mb-20">
 
-          <div>
+          <div data-aos="fade-up">
             <h1 className="font-sans text-3xl text-gray-500 font-semibold mx-auto text-center mt-10">Enhance Your Experience With Our Outstanding Features
             </h1>
             <div class="h-1 w-full mt-2 mb-5 bg-blue-400 lg:w-[75%] mx-auto rounded-full shadow-lg"></div>
-            <p className="font-sans text-sm mx-auto text-justify text-gray-500 font-semibold">Sun rays and Style needs with and without power lens are extremely essential
+            <p className="mb-10 font-sans text-sm mx-auto text-center text-gray-500 font-semibold">Sun rays and Style needs with and without power lens are extremely essential
               for each and every one. Enjoy all solutions at one place in an exclusive variety</p>
           </div>
 
-          <Splide
-            className=""
+          <Splide data-aos="fade-up"
             options={{
-              // type: "loop",
-              // gap: "10px",
+              type: "loop",
+              gap: "5px",
               drag: "free",
               arrows: false,
               pagination: false,
@@ -803,71 +818,37 @@ export default () => {
               autoScroll: {
                 pauseOnHover: false,
                 pauseOnFocus: false,
-
                 speed: 1
               }
             }}
             extensions={{ AutoScroll }}
             aria-label="My Favorite Images"
           >
-            {productsList.map((product) => (
-              <SplideSlide className="" key={product._id}>
-                <div
-                  className="items-center justify-center flex flex-col"
-                >
-                  <div className="" onClick={() => handleNavigation(product._id)}>
-                    <div className="cursor-pointer items-center justify-center flex flex-col mx-auto shadow-xl">
-                      {sunglassesImage(
-                        product
-                      )}
+            {exclusiveFeatures.map((item, index) => (
+              <SplideSlide key={index}>
+                <div className="relative group cursor-pointer h-76">
+                  <img data-aos="zoom-in"
+                    src={item.imageUrl}
+                    alt={`Image ${index + 1}`}
+                    className="w-full h-76 object-cover opacity-100 hover:opacity-70 transition-opacity duration-300"
+                    style={{ height: '450px' }}
+                  />
+                  <div className="dark-overlay absolute inset-0 bg-black bg-opacity-20 hover:opacity-0 transition-opacity duration-300"></div>
+
+                  <div className="absolute inset-x-0 h-48 bottom-0 flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-60">
+                    <div className="text-white text-center p-4">
+                      <h2 className="text-2xl font-bold mb-2">{item.text}</h2>
+                      <p className="text-sm">{item.info}</p>
+                      <button className="bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg mt-2">Try Now</button>
                     </div>
-
                   </div>
-
                 </div>
               </SplideSlide>
             ))}
           </Splide>
 
-          {/* <Splide
-      options={{
-        type: "loop",
-        gap: "10px",
-        drag: "free",
-        arrows: false,
-        pagination: false,
-        perPage: 3,
-        autoScroll: {
-          pauseOnHover: false,
-          pauseOnFocus: false,
-          rewind: false,
-          speed: 1
-        }
-      }}
-      extensions={{ AutoScroll }}
-    >
-      <SplideSlide>
-        <img src="https://via.placeholder.com/150" alt="Image 1" />
-      </SplideSlide>
-      <SplideSlide>
-        <img src="https://via.placeholder.com/150" alt="Image 2" />
-      </SplideSlide>
-      <SplideSlide>
-        <img src="https://via.placeholder.com/150" alt="Image 2" />
-      </SplideSlide>
-      <SplideSlide>
-        <img src="https://via.placeholder.com/150" alt="Image 2" />
-      </SplideSlide>
-      <SplideSlide>
-        <img src="https://via.placeholder.com/150" alt="Image 2" />
-      </SplideSlide>
-      <SplideSlide>
-        <img src="https://via.placeholder.com/150" alt="Image 2" />
-      </SplideSlide>
-    </Splide> */}
         </div>
       </div>
-
     </div>
   );
 };

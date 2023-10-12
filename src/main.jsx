@@ -6,6 +6,17 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './redux/store/store'; // Import your Redux store
+import 'aos/dist/aos.css'; // Import the AOS CSS
+import AOS from 'aos';
+
+AOS.init({
+  // Global AOS settings
+  duration: 2000, // Animation duration in milliseconds
+  offset: 100,   // Offset (in pixels) from the top of the element when animation starts
+  easing: 'ease', // Easing function
+  once: false,     // Whether animations should only happen once
+  delay: 200
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

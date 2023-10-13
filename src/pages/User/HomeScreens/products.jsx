@@ -4,42 +4,36 @@ import { useNavigate, useParams } from "react-router-dom";
 import API_URL from "../../../config/config";
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
+import banner from '../../../assets/images/products/banner.jpg'
+import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import { filters } from '../../../components/ui/User/ProductComponents/Filters'
+import ColorsFilter from "../../../components/ui/User/ProductComponents/Colors";
+import FrameMaterial from "../../../components/ui/User/ProductComponents/FrameMaterial";
+import SizeFilter from "../../../components/ui/User/ProductComponents/FrameSize";
 
 const Products = () => {
-
     const [productsList, setProductsList] = useState([]);
-    const [productRatings, setProductRatings] = useState({}); // Store product ratings
+    const [productRatings, setProductRatings] = useState({});
     const [selectedColorsFeatured, setSelectedColorsFeatured] = useState({});
-
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [activeFilter, setActiveFilter] = useState(null);
+    const [filterColor, setFilterColor] = useState("All Colors");
+    const [filterMaterial, setFilterMaterial] = useState("All Materials");
+    const [selectedSize, setSelectedSize] = useState("All Size");
 
     useEffect(() => {
         fetchProductsList();
     }, []);
+
+    useEffect(() => {
+        setFilteredProducts(productsList);
+    }, [productsList]);
 
     const fetchProductsList = async () => {
         try {
             const fetchedProductsList = await viewProductsList();
             setProductsList(fetchedProductsList);
 
-            // for new arrivals
-            //   const oneHourAgo = new Date();
-            //   oneHourAgo.setHours(oneHourAgo.getHours() - 1);
-            //   const arrivals = fetchedProductsList.filter(product => new Date(product.createdAt) >= oneHourAgo);
-            //   console.log('new arrivals: ' + JSON.stringify(arrivals, null, 2));
-            //   setNewArrivals(arrivals);
-
-            //   // for men sunglasses
-            //   const fetchMenSunglasses = fetchedProductsList.filter(product => product.type === "Sunglasses" && product.categories.includes("Men"));
-            //   setMenSunglasses(fetchMenSunglasses);
-            //   console.log('fetchMenSunglasses: ' + JSON.stringify(fetchMenSunglasses, null, 2));
-
-            //   // for men sunglasses
-            //   const fetchWomenSunglasses = fetchedProductsList.filter(product => product.type === "Sunglasses" && product.categories.includes("Women"));
-            //   setWomenSunglasses(fetchWomenSunglasses);
-            //   console.log('fetchWomenSunglasses: ' + JSON.stringify(fetchWomenSunglasses, null, 2));
-
-
-            // Fetch and calculate product ratings for each product
             const productRatingsData = await Promise.all(
                 fetchedProductsList.map(async (product) => {
                     const response = await viewAllReviews(product._id);
@@ -50,7 +44,6 @@ const Products = () => {
                 })
             );
 
-            // Convert product ratings data to an object
             const ratingsObject = {};
             productRatingsData.forEach((item) => {
                 ratingsObject[item.productId] = item.rating;
@@ -93,146 +86,159 @@ const Products = () => {
 
     };
 
-
     const navigate = useNavigate();
     const handleNavigation = (id) => {
-        console.log(id)
         navigate(`/product_details/${id}`);
     };
 
-    const handleColorSelect = (productId, color, category) => {
-        if (category == "featured") {
-            setSelectedColorsFeatured({
-                ...selectedColorsFeatured,
-                [productId]: color,
-            });
-        }
-        // } else {
-        //   setSelectedColorsNewArrivals({
-        //     ...selectedColorsNewArrivals,
-        //     [productId]: color,
-        //   });
-        // }
-    };
-
-    const { page } = useParams()
-
-    // filters
-    const [activeFilter, setActiveFilter] = useState(null);
-
     const handleFilterHover = (filterName) => {
-      setActiveFilter(filterName);
+        setActiveFilter(filterName);
     };
-  
+
     const handleFilterLeave = () => {
-      setActiveFilter(null);
+        setActiveFilter(null);
     };
-  
-    const filters = [
-      {
-        name: 'Colors',
-        options: ['All Colors', 'Red', 'Blue'], // Add more color options here
-        settings: (
-            <div className="mt-4">
-            <label>Opacity</label>
-            <input type="range" min="0" max="100" step="10" />
-          </div>
-        )
 
 
-      },
-      {
-        name: 'Material',
-        options: ['Acetate', 'Metal', 'Stainless Steel', 'Titanium', 'TR90', 'Plastic'], // Add more material options here
-        settings: (
-          <div className="mt-4">
-            <label>Thickness</label>
-            <input type="range" min="0" max="10" step="1" />
-          </div>
-        )
-      }
-      // Add more filter categories here
-    ];
+    const handleFilter = ({ color, material, size }) => {
+        setFilterColor(color);
+        setFilterMaterial(material);
+        setSelectedSize(size);
 
+        console.log("Filters: " + color + " " + material + " " + size)
+
+        const filtered = productsList.filter((product) => {
+            if (color === "All Colors" && material === "All Materials" && size === "All Size") {
+                // Both filters are set to "All Colors" and "All Materials," return all products
+                return true;
+            }
+            const colorMatch =
+                color === "All Colors" ||
+                (product.frame_information &&
+                    product.frame_information.frame_variants &&
+                    product.frame_information.frame_variants.some(
+                        (variant) =>
+                            variant.colorName &&
+                            variant.colorName.toLowerCase() === color.toLowerCase()
+                    ));
+
+            const materialMatch =
+                material === "All Materials" ||
+                (product.frame_information &&
+                    product.frame_information.frame_variants &&
+                    product.frame_information.frame_material &&
+                    product.frame_information.frame_material.includes(material || material.toLowerCase()));
+            
+            const sizeMatch =
+                material === "All Size" ||
+                (product.frame_information &&
+                    product.frame_information.frame_size &&
+                    product.frame_information.frame_size &&
+                    product.frame_information.frame_size.includes(size || size.toLowerCase()));
+
+            return colorMatch && materialMatch && sizeMatch;
+        });
+
+        setFilteredProducts(filtered);
+    };
+
+    
+
+
+    const { page } = useParams();
 
     return (
         <>
-
-
-<div className="bg-gray-800 p-4 flex items-center space-x-4 whitespace-no-wrap">
-      {filters.map((filter) => (
-        <div
-          key={filter.name}
-          className="relative group cursor-pointer"
-          onMouseEnter={() => handleFilterHover(filter.name)}
-          onMouseLeave={handleFilterLeave}
-        >
-          <span className="text-white">{filter.name}</span>
-          {activeFilter === filter.name && (
-            <div className="absolute left-0 p-4 bg-white shadow-lg z-50">
-              <ul className="space-y-2">
-                {filter.options.map((option, index) => (
-                  <li key={index}>
-                    <span className="text-gray-700 hover:text-indigo-600">{option}</span>
-                  </li>
-                ))}
-              </ul>
-              {filter.settings}
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-
-
-
-
-            <div className="bg-gray-50 ">
-                <div className="mx-auto">
-                    <div class="text-center p-10">
-                        <h1 class="font-semibold font-sans text-4xl mb-4">{
-                            page === "featured_products" ? 'Featured Products' : 'Products'
-                        }</h1>
+            <div className="bg-gray-50">
+                <div className="relative">
+                    <img src={banner} className="w-full" alt="" />
+                    <div className="absolute inset-0 bg-black opacity-50"></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <h2 className="text-white text-3xl font-sans font-semibold ">
+                            {page === "featured_products" ? "Featured Products" : "Products"}
+                        </h2>
                     </div>
+                </div>
+                <div className="mx-auto">
+                    <div className="bg-white shadow-sm p-4 flex items-center space-x-4 whitespace-no-wrap w-full lg:w-[90%] xl:w-[89%] mx-auto justify-between">
+                        {filters.map((filter) => (
+                            <div
+                                key={filter.name}
+                                className="relative group cursor-pointer "
+                                onMouseEnter={() => handleFilterHover(filter.name)}
+                                onMouseLeave={handleFilterLeave}
+                            >
+                                <div className="flex items-center h-full transition duration-300 ease-in-out group-hover:text-blue-500">
+                                    <span className="group-hover:text-blue-500 text-black font-mono ">
+                                        {filter.name}
+                                    </span>
+                                    <span className="ml-2">
+                                        {activeFilter === filter.name ? <FaChevronUp /> : <FaChevronDown />}
+                                    </span>
+                                </div>
+                                {activeFilter === "Colors" && filter.name === "Colors" && (
+                                    <ColorsFilter
+                                        selectedColor={filterColor}
+                                        onColorSelect={(color) => handleFilter({ color, material: filterMaterial, size: selectedSize })}
+                                    />
+                                )}
 
 
+                                {activeFilter === "Material" && filter.name === "Material" && (
+                                    <FrameMaterial
+                                        selectedMaterial={filterMaterial}
+                                        onMaterialSelect={(material) => handleFilter({ color: filterColor, material, size: selectedSize })}
+                                    />
+                                )}
 
 
-                    <section id="Projects"
+                                {activeFilter === "Size" && filter.name === "Size" && (
+                                    <SizeFilter
+                                        selectedSize={selectedSize}
+                                        onSizeSelect={(size) => handleFilter({ color: filterColor, material: filterMaterial, size })}
+                                    />
+                                )}
+
+                            </div>
+                        ))}
+                    </div>
+                    <section
+                        id="Projects"
                         data-aos="fade-up"
                         data-aos-duration="1000"
-                        // className="w-full mx-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 justify-items-center justify-center gap-y-20 gap-x-5 mt-10 mb-5">
-                        className="p-1 flex flex-wrap items-center justify-center mt-500">
-                        {productsList && productsList.map((product) => (
-
-                            <div class="flex-shrink-0 m-6 relative overflow-hidden rounded-lg max-w-xs shadow-lg bg-white">
-
-                                {productImage(
-                                    product,
-                                    selectedColorsFeatured[product._id] ||
-                                    (product.frame_information &&
-                                        product.frame_information.frame_variants[0].color)
-                                )}
+                        className="p-1 flex flex-wrap items-center justify-center mb-[500px]"
+                    >
+                        {filteredProducts.map((product) => (
+                            <div class="flex-shrink-0 m-6 relative overflow-hidden rounded-lg max-w-xs shadow-sm bg-white cursor-pointer">
+                                <div onClick={() => handleNavigation(product._id)}>
+                                    {productImage(
+                                        product,
+                                        selectedColorsFeatured[product._id] ||
+                                        (product.frame_information &&
+                                            product.frame_information.frame_variants[0].color)
+                                    )}
+                                </div>
                                 {/* product details section */}
                                 <div className="px-4">
-                                    {/* color palet */}
+                                    {/* color palette */}
                                     <div className="">
                                         {product.frame_information &&
                                             product.frame_information.frame_variants ? (
                                             <>
-                                                <div className="flex mt-2">
+                                                <div className="flex mt-2 h-6 items-center">
                                                     {product.frame_information.frame_variants.map((variant) => (
                                                         <div
-                                                            className={`border-grey rounded-full mr-1 ${selectedColorsFeatured[product._id] === variant.color
-                                                                ? 'border-[2px] bg-blue-900'
-                                                                : ''
+                                                            className={`border-gray-300 rounded-full mr-1 ${selectedColorsFeatured[product._id] === variant.color
+                                                                ? "border-[2px] bg-blue-900"
+                                                                : ""
                                                                 }`}
                                                         >
                                                             <div
-                                                                className={`h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
+                                                                className={`h-6 w-6 rounded-full bg-blue-800 cursor-pointer border-white border-[3px] hover:bg-blue-900`}
                                                                 style={{ backgroundColor: variant.color }}
-                                                                onClick={() => handleColorSelect(product._id, variant.color, "featured")}
-
+                                                                onClick={() =>
+                                                                    handleColorSelect(product._id, variant.color, "featured")
+                                                                }
                                                             ></div>
                                                         </div>
                                                     ))}
@@ -244,10 +250,10 @@ const Products = () => {
                                             </>
                                         )}
                                     </div>
-                                    <div className="product-rating font-bold text-base text-yellow-500 justify-between flex mx-auto mt-[3px]">
+                                    <div onClick={() => handleNavigation(product._id)} className="product-rating font-bold text-base text-yellow-500 justify-between flex mx-auto mt-[4px]">
                                         <Rating
                                             name={`rating-${product._id}`}
-                                            value={productRatings[product._id] || 0} // Use the calculated average rating
+                                            value={productRatings[product._id] || 0}
                                             readOnly
                                             precision={0.1}
                                             emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
@@ -264,19 +270,17 @@ const Products = () => {
                                             <del>
                                                 <p class="text-sm text-gray-600 cursor-auto ml-2">$199</p>
                                             </del>
-                                            <div class="ml-auto"><p className=" font-sans text-base font-bold text-red-600" >{product.discount}% off</p>
-                                            </div>
+                                            <div class="ml-auto"><p className=" font-sans text-base font-bold text-red-600">{product.discount}% off</p></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        ))
-                        }
+                        ))}
                     </section>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default Products;

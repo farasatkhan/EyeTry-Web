@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -46,6 +46,7 @@ import Hidden from '@mui/material/Hidden';
 import { Grid } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import { getUserData } from '../../api/userapi';
 
 // for navbar
 const Search = styled('div')(({ theme }) => ({
@@ -145,6 +146,23 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft() {
 
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+
+  useEffect(() => {
+    const getUserName = async () => {
+      const { firstName, lastName } = await getUserData();
+      // Update the state with user data
+      setFirstName(firstName);
+      setLastName(lastName);
+    };
+    getUserName();
+  }, []);
+
+  const handleNavigate = (page) => {
+    navigate(page)
+  }
+
   const top100Films = [
     { title: 'The Shawshank Redemption', year: 1994 },
     { title: 'The Godfather', year: 1972 },
@@ -159,8 +177,8 @@ export default function PersistentDrawerLeft() {
   const baseURL = 'http://localhost:3000'
 
   // getting name from local storage
-  const firstName = localStorage.getItem("firstName")
-  const lastName = localStorage.getItem("lastName")
+  // const firstName = localStorage.getItem("firstName")
+  // const lastName = localStorage.getItem("lastName")
 
   // getting profile image
   React.useEffect(() => {
@@ -187,7 +205,6 @@ export default function PersistentDrawerLeft() {
   }, [])
 
   const navigate = useNavigate();
-
 
   // for navbar
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -236,7 +253,7 @@ export default function PersistentDrawerLeft() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" style={{ color: "black", backgroundColor: "white", paddingRight: 20, paddingLeft: 20, display: "flex" }} open={open}>
+      <AppBar className='pl-0 pr-0 md:pr-5 md:pl-5 lg:pr-10 lg:pl-10' position="fixed" style={{ color: "black", backgroundColor: "white", display: "flex" }} open={open}>
         <Toolbar sx={{ flexGrow: 1 }}>
           <div>
             {/* Display the IconButton only on small screens */}
@@ -272,8 +289,13 @@ export default function PersistentDrawerLeft() {
             }}
           >/
           </Typography> */}
+
+          {/* Logo */}
+          <div onClick={() => handleNavigate('/')} className='flex items-center cursor-pointer hidden sm:flex sm:block'>
           <img className='w-[40px] h-[26px]' src={logo} alt="Logo" />
-          <div style={{ fontWeight: "400", fontSize: "22px", marginLeft: 10, fontFamily: 'sans-serif' }} ><span style={{ fontWeight: "700", fontSize: "22px", fontFamily: 'sans-serif' }}>EYE</span>TRY</div>
+          <div  style={{ fontWeight: "400", fontSize: "22px", marginLeft: 10, fontFamily: 'sans-serif' }} >
+            <span style={{ fontWeight: "700", fontSize: "22px", fontFamily: 'sans-serif' }}>EYE</span>TRY</div>
+          </div>
 
 
 
@@ -349,7 +371,7 @@ export default function PersistentDrawerLeft() {
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src={profilePic} />
-                  <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className='font-black'>{firstName} {lastName}</p></p>
+                  <p className='text-sm ml-2 whitespace-nowrap hidden sm:inline-block'>Hi, Welcome<p className='font-black'>{firstName} {lastName}</p></p>
                   <image alt="user-profile-pic" src={ellipse} width={50} height={50} />
                 </IconButton>
               </Tooltip>

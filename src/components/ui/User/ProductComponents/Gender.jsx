@@ -15,12 +15,12 @@ const genderFilter = ({ selectedGender, onGenderSelect }) => {
 
     return (
         <>
-            <div className="absolute left-0 p-2 bg-white shadow-lg z-50 w-[300px] cursor-pointer">
+            <div className="absolute left-0 p-2 bg-white shadow-lg rounded-md z-50 w-[300px] cursor-pointer">
                 <ul className="space-y-2 cursor-pointer">
                     {sizeOptions.map((gender, index) => (
                         <li
                             key={index}
-                            className={` rounded-sm py-1 px-1 transition duration-200 ease-in-out
+                            className={` rounded-sm py-1 px-1 transition duration-100 ease-in-out
                             ${selectedGender === gender ? 'bg-gray-700 hover:bg-gray-700' : 'hover:bg-gray-100'}`}
                         >
                             <div  onClick={() => handleGenderClick(gender)} className="cursor-pointer flex items-center">

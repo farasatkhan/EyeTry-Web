@@ -11,7 +11,7 @@ const ColorsFilter = ({ selectedColor, onColorSelect }) => {
 
   return (
     <>
-      <div className="absolute left-0 p-2 bg-white shadow-lg z-50 w-[300px]">
+      <div className="absolute left-0 p-2 bg-white rounded-md shadow-lg z-50 w-[300px]">
         <ul className="space-y-2">
           {colorOptions.map((color, index) => (
             <li

@@ -381,7 +381,7 @@ export default () => {
           </Splide>
 
           {/* view more button */}
-          <div onClick={() => handleNavigate("featured_products")}
+          <div data-aos="fade-up" onClick={() => handleNavigate("featured_products")}
             className=" mx-auto flex justify-center mt-10">
             <button class="py-1 px-4 rounded inline-flex items-center 
                         bg-transparent hover:bg-gray-700 text-gray-700 font-semibold 
@@ -402,7 +402,7 @@ export default () => {
         </div>
         <div data-aos="fade-up" className="flex flex-col space-y-2 mx-auto mt-10">
           <div className="flex flex-wrap">
-            <div className="w-full md:w-1/3 px-1 relative group cursor-pointer">
+            <div onClick={() => handleNavigate('men_glasses')} className="w-full md:w-1/3 px-1 relative group cursor-pointer">
               <img data-aos="zoom-in" src={menGlasses} className="w-full h-[300px]" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
@@ -411,7 +411,7 @@ export default () => {
                 <p className="font-sans text-2xl text-[#0284c7] font-semibold">Men's Eyeglasses</p>
               </div>
             </div>
-            <div className="w-full md:w-1/3 px-1 relative group cursor-pointer">
+            <div onClick={() => handleNavigate('women_glasses')} className="w-full md:w-1/3 px-1 relative group cursor-pointer">
               <img data-aos="zoom-in" src={womenGlasses} className="w-full h-[300px]" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
@@ -420,7 +420,7 @@ export default () => {
                 <p className="font-sans text-2xl text-[#0284c7] font-semibold">Women's Eyeglasses</p>
               </div>
             </div>
-            <div className="w-full md:w-1/3 px-1 relative group cursor-pointer">
+            <div onClick={() => handleNavigate('kids_glasses')} className="w-full md:w-1/3 px-1 relative group cursor-pointer">
               <img data-aos="zoom-in" src={kidsGlasses} className="w-full h-[300px]" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
@@ -429,7 +429,7 @@ export default () => {
                 <p className="font-sans text-2xl text-[#0284c7] font-semibold">Kid's Eyeglasses</p>
               </div>
             </div>
-            <div className="w-full md:w-1/3 px-1 relative group cursor-pointer">
+            <div onClick={() => handleNavigate('shop_by_frame_color')} className="w-full md:w-1/3 px-1 relative group cursor-pointer">
               <img data-aos="zoom-in" src={glassesColor} className="w-full h-[300px]" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
@@ -438,7 +438,7 @@ export default () => {
                 <p className="font-sans text-2xl text-[#0284c7] font-semibold">Shop By Frame Color</p>
               </div>
             </div>
-            <div className="w-full md:w-1/3 px-1 relative group cursor-pointer">
+            <div onClick={() => handleNavigate('shop_by_face_shape')} className="w-full md:w-1/3 px-1 relative group cursor-pointer">
               <img data-aos="zoom-in" src={shopByFace} className="w-full h-[300px]" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
@@ -447,7 +447,7 @@ export default () => {
                 <p className="font-sans text-2xl text-[#0284c7] font-semibold">Shop By Face Shape</p>
               </div>
             </div>
-            <div className="w-full md:w-1/3 px-1 relative group cursor-pointer">
+            <div onClick={() => handleNavigate('shop_by_frame_shape')} className="w-full md:w-1/3 px-1 relative group cursor-pointer">
               <img data-aos="zoom-in" src={shopByStyle} className="w-full h-[300px]" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
@@ -567,9 +567,9 @@ export default () => {
             ))}
           </Splide>
           {/* view more button */}
-          <div
+          <div data-aos="fade-up"
             className=" mx-auto flex justify-center mt-10">
-            <button class="py-1 px-4 rounded inline-flex items-center 
+            <button onClick={() => handleNavigate('new_arrival')} class="py-1 px-4 rounded inline-flex items-center 
                         bg-transparent hover:bg-gray-700 text-gray-700 font-semibold 
                         hover:text-white border border-gray-500 hover:border-transparent ">
               <span>View All </span>
@@ -591,7 +591,7 @@ export default () => {
         {/* Men Sunglasses  */}
         <div className="flex space-x-3 justify-center items-center mx-auto mt-10 w-[420px] md:w-[680px] lg:w-[800px] xl:w-[1200px]">
           <div className="w-[50%]">
-            <div class="relative group cursor-pointer">
+            <div onClick={() => handleNavigate('men_sunglasses')} class="relative group cursor-pointer">
               <img data-aos="zoom-in" src={menSunglassesImage} class="w-full h-full" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">View All</button>
@@ -693,7 +693,7 @@ export default () => {
 
           {/* Women Sunglasses */}
           <div className="w-[50%]">
-            <div class="relative group cursor-pointer">
+            <div onClick={() => handleNavigate('women_sunglasses')}  class="relative group cursor-pointer">
               <img data-aos="zoom-in" src={womenSunglassesImage} class="w-full h-full" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">View All</button>

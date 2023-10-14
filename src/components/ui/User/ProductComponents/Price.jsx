@@ -11,7 +11,7 @@ const PriceFilter = ({ minPrice, maxPrice, onPriceChange }) => {
 
     return (
         <>
-            <div className="absolute left-0 p-2 bg-white shadow-lg z-50 w-[300px]">
+            <div className="absolute left-0 p-2 bg-white rounded-md shadow-lg z-50 w-[300px]">
                 <div className="space-y-2">
                     <div className="rounded-sm py-1 px-1">
                         <div className="cursor-pointer flex items-center">

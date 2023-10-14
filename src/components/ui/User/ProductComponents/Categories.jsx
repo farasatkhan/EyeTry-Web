@@ -17,12 +17,12 @@ const CategoryFilter = ({ selectedCategory, onCategorySelect }) => {
 
     return (
         <>
-            <div className="absolute left-0 p-2 bg-white shadow-lg z-50 w-[300px] cursor-pointer">
+            <div className="absolute left-0 p-2 rounded-md bg-white shadow-lg z-50 w-[300px] cursor-pointer">
                 <ul className="space-y-2 cursor-pointer">
                     {sizeOptions.map((category, index) => (
                         <li
                             key={index}
-                            className={` rounded-sm py-1 px-1 transition duration-200 ease-in-out
+                            className={` rounded-sm py-1 px-1 transition duration-100 ease-in-out
                             ${selectedCategory === category ? 'bg-gray-700 hover:bg-gray-700' : 'hover:bg-gray-100'}`}
                         >
                             <div  onClick={() => handleCategoryClick(category)} className="cursor-pointer flex items-center">

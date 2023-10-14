@@ -1,0 +1,14 @@
+/* Default styles for larger screens */
+@media (max-width: 768px) {
+    .filter-container {
+        flex-direction: column; 
+    }
+    
+    .filter-item {
+        margin: 0.5rem 0; 
+    }
+    
+    .filter-item span {
+        font-size: 14px; 
+    }
+}

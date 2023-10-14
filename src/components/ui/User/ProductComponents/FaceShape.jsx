@@ -42,12 +42,12 @@ const shapeFilter = ({ selectedShape, onShapeSelect }) => {
 
     return (
         <>
-            <div className="absolute left-0 p-2 bg-white shadow-lg z-50 w-[300px] cursor-pointer">
+            <div className="absolute left-0 p-2 bg-white rounded-md shadow-lg z-50 w-[300px] cursor-pointer">
                 <ul className="space-y-2 cursor-pointer">
                     {sizeOptions.map((shape, index) => (
                         <li
                             key={index}
-                            className={` rounded-sm py-1 px-1 transition duration-200 ease-in-out
+                            className={` rounded-sm py-1 px-1 transition duration-100 ease-in-out
                             ${selectedShape === shape ? 'bg-gray-700 hover:bg-gray-700' : 'hover:bg-gray-100'}`}
                         >
                             <div onClick={() => handleShapeClick(shape)} className="cursor-pointer flex items-center">

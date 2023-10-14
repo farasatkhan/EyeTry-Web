@@ -18,12 +18,12 @@ const MaterialFilter = ({ selectedMaterial, onMaterialSelect }) => {
 
     return (
         <>
-            <div className="absolute left-0 p-2 bg-white shadow-lg z-50 w-[300px] cursor-pointer">
+            <div className="absolute left-0 p-2 bg-white rounded-md shadow-lg z-50 w-[300px] cursor-pointer">
                 <ul className="space-y-2 cursor-pointer">
                     {materialOptions.map((material, index) => (
                         <li
                             key={index}
-                            className={` rounded-sm py-1 px-3 transition duration-200 ease-in-out
+                            className={` rounded-sm py-1 px-3 transition duration-100 ease-in-out
                             ${selectedMaterial === material ? 'bg-gray-700 hover:bg-gray-700' : 'hover:bg-gray-100'}`}
                         >
                             <div  onClick={() => handleMaterialClick(material)} className="cursor-pointer flex items-center">

@@ -30,7 +30,12 @@ const Products = () => {
     const [selectedFaceShape, setSelectedFaceShape] = useState("All Shapes");
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(5000);
-    const [selectedCategory , setSelectedCategory] = useState("All Categories");
+    const [selectedCategory, setSelectedCategory] = useState("All Categories");
+    const [newArrivals, setNewArrivals] = useState([]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         fetchProductsList();
@@ -40,11 +45,55 @@ const Products = () => {
         setFilteredProducts(productsList);
     }, [productsList]);
 
+    const { page } = useParams();
+
     const fetchProductsList = async () => {
         try {
             const fetchedProductsList = await viewProductsList();
-            setProductsList(fetchedProductsList);
+            if (page === "featured_products") {
+                setProductsList(fetchedProductsList);
+            } else if (page === "men_glasses") {
+                // Filtering the products based on gender
+                setProductsList(fetchedProductsList.filter(product => {
+                    return product.person_information.genders.includes("Male");
+                }));
+            } else if (page === "women_glasses") {
+                // Filtering the products based on gender
+                setProductsList(fetchedProductsList.filter(product => {
+                    return product.person_information.genders.includes("Female");
+                }));
+            } else if (page === "kids_glasses") {
+                // Filtering the products based on gender
+                setProductsList(fetchedProductsList.filter(product => {
+                    return product.person_information.genders.includes("Kids");
+                }));
+            } else if (page === "shop_by_frame_color") {
+                setProductsList(fetchedProductsList);
+            } else if (page === "shop_by_face_shape") {
+                setProductsList(fetchedProductsList);
+            } else if (page === "shop_by_frame_shape") {
+                setProductsList(fetchedProductsList);
+            } else if (page === "men_sunglasses") {
+                // Filtering the products based on gender
+                setProductsList(fetchedProductsList.filter(product => {
+                    return product.person_information.genders.includes("Male") && product.type === "Sunglasses";
+                }));
+            } else if (page === "women_sunglasses") {
+                // Filtering the products based on gender
+                setProductsList(fetchedProductsList.filter(product => {
+                    return product.person_information.genders.includes("Female") && product.type === "Sunglasses";
+                }));
+            }
+            else if (page === "new_arrival") {
+                // for new arrivals
+                const oneHourAgo = new Date();
+                oneHourAgo.setHours(oneHourAgo.getHours() - 1);
+                const arrivals = fetchedProductsList.filter(product => new Date(product.createdAt) >= oneHourAgo);
+                console.log('new arrivals: ' + JSON.stringify(arrivals, null, 2));
+                setProductsList(arrivals);
+            }
 
+            console.log(productsList)
             const productRatingsData = await Promise.all(
                 fetchedProductsList.map(async (product) => {
                     const response = await viewAllReviews(product._id);
@@ -162,11 +211,11 @@ const Products = () => {
             const shapeMatch =
                 shape === "All Shapes" ||
                 (product && product.categories.includes(shape || shape.toLowerCase()));
-            
-                const categoryMatch =
+
+            const categoryMatch =
                 category === "All Categories" ||
                 (product && (product.categories.includes(category) || product.type.includes(category)));
-            
+
 
 
             return colorMatch && materialMatch && sizeMatch && genderMatch && shapeMatch && product.priceInfo.price >= minPrice && // Price filtering
@@ -176,8 +225,28 @@ const Products = () => {
         setFilteredProducts(filtered);
     };
 
+    // setting page tiles
+    const pageTitles = {
+        featured_products: "Featured Products",
+        men_glasses: "Men's Eyeglasses",
+        women_glasses: "Women's Eyeglasses",
+        kids_glasses: "Kid's Eyeglasses",
+        shop_by_frame_color: "Shop By Frame Color",
+        shop_by_frame_shape: "Shop By Frame Shape",
+        shop_by_face_shape: "Shop By Face Shape",
+        men_sunglasses: "Men's Sunglasses",
+        women_sunglasses: "Women's Sunglasses",
+    };
 
-    const { page } = useParams();
+    // handling color selection
+    const handleColorSelect = (productId, color) => {
+        setSelectedColorsFeatured({
+            ...selectedColorsFeatured,
+            [productId]: color,
+        });
+    }
+
+
 
     return (
         <>
@@ -187,12 +256,13 @@ const Products = () => {
                     <div className="absolute inset-0 bg-black opacity-50"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
                         <h2 className="text-white text-3xl font-sans font-semibold ">
-                            {page === "featured_products" ? "Featured Products" : "Products"}
+                            {pageTitles[page] || "Products"}
                         </h2>
                     </div>
                 </div>
                 <div className="mx-auto">
-                    <div className="bg-white shadow-sm p-4 flex items-center space-x-4 whitespace-no-wrap w-full lg:w-[90%] xl:w-[89%] mx-auto justify-between">
+                    {/* filter bar */}
+                    <div className="bg-white shadow-sm p-4 flex items-center space-x-4 flex-wrap w-full mx-auto justify-evenly">
                         {filters.map((filter) => (
                             <div
                                 key={filter.name}
@@ -275,7 +345,7 @@ const Products = () => {
 
                                 {activeFilter === "Category" && filter.name === "Category" && (
                                     <CategoryFilter
-                                    selectedCategory={selectedCategory}
+                                        selectedCategory={selectedCategory}
                                         onCategorySelect={(category) => handleFilter({ color: filterColor, material: filterMaterial, size: selectedSize, gender: selectedGender, shape: selectedShape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category })}
                                     />
                                 )}
@@ -318,7 +388,7 @@ const Products = () => {
                                                                 className={`h-6 w-6 rounded-full bg-blue-800 cursor-pointer border-white border-[3px] hover:bg-blue-900`}
                                                                 style={{ backgroundColor: variant.color }}
                                                                 onClick={() =>
-                                                                    handleColorSelect(product._id, variant.color, "featured")
+                                                                    handleColorSelect(product._id, variant.color)
                                                                 }
                                                             ></div>
                                                         </div>

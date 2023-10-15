@@ -25,7 +25,7 @@ export const runDetector = async (video, canvas, setFaceShape, setLoaded) => {
       
     } catch (error) {
       setLoaded(false);
-      console.log("Custom Error from tensorflow: ", error);
+      // console.log("Custom Error from tensorflow: ", error);
     }
   };
   detect(detector);

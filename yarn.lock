@@ -2160,6 +2160,11 @@ isexe@^2.0.0:
   resolved "https://registry.npmjs.org/isexe/-/isexe-2.0.0.tgz"
   integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
 
+jeelizvtowidget@^4.3.5:
+  version "4.3.5"
+  resolved "https://registry.npmjs.org/jeelizvtowidget/-/jeelizvtowidget-4.3.5.tgz"
+  integrity sha512-0BrRBvpcKVg+H4u8epknmvL43CUO6koKG4pRIQ6Wc7jVlv0O1c9nsqP173Xbt++EDEkuq6LHDnYZ9LVdlGhlhg==
+
 jest-diff@^29.6.1:
   version "29.6.1"
   resolved "https://registry.npmjs.org/jest-diff/-/jest-diff-29.6.1.tgz"

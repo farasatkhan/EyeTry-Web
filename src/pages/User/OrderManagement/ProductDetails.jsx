@@ -14,6 +14,7 @@ import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import { viewAllOrders, viewAllReviews, addReview, viewParticularProduct } from "../../../api/productsApi";
+import Tryon from './Tryon'
 
 export default function SelectLensTypeScreen({ rating }) {
 
@@ -297,12 +298,39 @@ export default function SelectLensTypeScreen({ rating }) {
         setFrameSize(size);
     }
 
+    // handleTryonNavigate
+    const handleTryonNavigate = () => {
+        navigate('/tryon')
+    }
+
+
+    const [isTryonOpen, setIsTryonOpen] = useState(false);
+
+    const handleTryonClose = () => {
+        setIsTryonOpen(false)
+    }
+ 
+
+
     return (
         <>
             <div className="bg-white">
                 <div className="flex flex-col md:flex-row min-h-screen">
                     {/* section 1 */}
                     <div className="w-full mb-20 md:mb-0 md:w-[60%] justify-center sm:justify-start flex flex-col items-center">
+                    
+                    {/* conditional rendering */}
+                    {isTryonOpen && 
+                        <div className="w-full sm:w-85">
+                                <div className="flex items-center justify-center py-[18px]">
+                                    <p className="font-sans text-2xl font-bold italic"></p>
+
+                                </div>
+                            <Tryon onClose={handleTryonClose} />
+                            </div>
+                    }
+                    { !isTryonOpen &&
+                        
                         <div className="w-full sm:w-85">
                             <div className="">
                                 <button className="ml-10 mt-10 w-[20%] text-base font-semibold mb-2 hover:text-blue-400  cursor-pointer">
@@ -316,6 +344,7 @@ export default function SelectLensTypeScreen({ rating }) {
                                 <div className={`justify-center items-center object-cover flex flex-wrap ${imageAnimationClass}`}>
                                     <div className="w-[600px] h-[400px]">
                                         <img src={activeImg} alt="" className='w-full h-full rounded-xl' />
+
                                         {/* Display additional images for the selected color */}
                                         <div className={`mt-2 flex flex-row justify-center ${imageAnimationClass}`}>
                                             {activeImages.map((image, index) => (
@@ -333,6 +362,7 @@ export default function SelectLensTypeScreen({ rating }) {
                                 </div>
                             </div>
                         </div>
+                    }
                     </div>
 
                     {/* section 2 */}
@@ -437,8 +467,8 @@ export default function SelectLensTypeScreen({ rating }) {
                             </span>
                             {/* buttons */}
                             <div className="flex justify-center items-center w-full flex-col text-center mt-8">
-                                <button onClick={handleSelectLensClick} type="button" className="w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Select Lens</button>
-                                <button type="button" className="w-full focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Try-ON Virtually</button>
+                                <button onClick={handleTryonNavigate} type="button" className="w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Select Lens</button>
+                                <button onClick={() => setIsTryonOpen(true)} type="button" className="w-full focus:outline-none text-white bg-red-700 hover:bg-red-800  font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Try-ON Virtually</button>
                             </div>
                         </div>
                     </div>

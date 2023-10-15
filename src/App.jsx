@@ -75,7 +75,7 @@ import ViewPersonalInfo from "./pages/CustomerSupport/ViewPersonalInfo";
 import ProductDetails from './pages/User/OrderManagement/ProductDetails'
 import Products from './pages/User/HomeScreens/products'
 import Filter from './pages/User/HomeScreens/filter'
-
+import Tryon from './pages/User/OrderManagement/Tryon'
 const publicRoutes = (
   <Route>
     <Route path="signin" element={<Signin />} />
@@ -96,6 +96,7 @@ const privateRoutes = (
       <Route path="product_details/:id" element={<PrivateRoute Component={ProductDetails} />} />
       <Route path="select_lens/:id" element={<PrivateRoute Component={SelectLensTypeComponent} />} />
       <Route path="cart" element={<PrivateRoute Component={Cart} />} />
+      <Route path="tryon" element={<PrivateRoute Component={Tryon} />} />
     </Route>
 
     {/* Profile Management Routes */}

@@ -28,6 +28,7 @@
     "color-blind": "^0.1.3",
     "dayjs": "^1.11.7",
     "glidejs": "^2.1.0",
+    "jeelizvtowidget": "^4.3.5",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

@@ -24,6 +24,8 @@ import React from "react";
 //     "Square": square,
 // };
 
+import FaceDetection from "../../../../pages/User/FaceDetection/FaceDetection";
+
 const shapeFilter = ({ selectedShape, onShapeSelect }) => {
     const sizeOptions = [
         "All Shapes",
@@ -38,6 +40,7 @@ const shapeFilter = ({ selectedShape, onShapeSelect }) => {
     const handleShapeClick = (shape) => {
         // Update the selected shape when a shape is clicked
         onShapeSelect(shape);
+        console.log("selected face shape in shapeFilter page: " + shape)
     };
 
     return (
@@ -71,6 +74,9 @@ const shapeFilter = ({ selectedShape, onShapeSelect }) => {
                             </div>
                         </li>
                     ))}
+                    <div className="rounded-sm py-2 px-4 transition duration-100 ease-in-out text-blue-400 bg-gray-200 hover:bg-gray-100 flex justify-center">
+                    <FaceDetection onFaceShapeChange={handleShapeClick} />
+                    </div>
                 </ul>
             </div>
         </>

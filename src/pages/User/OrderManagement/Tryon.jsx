@@ -8,7 +8,7 @@ import searchImage from '../../../assets/images/ExclusiveFeatures/target.png'
 
 import './Tryon.css'
 
-function init_VTOWidget(placeHolder, canvas, toggle_loading){
+function init_VTOWidget(placeHolder, canvas, toggle_loading, sku_model){
   JEELIZVTOWIDGET.start({
     placeHolder,
     canvas,
@@ -18,7 +18,7 @@ function init_VTOWidget(placeHolder, canvas, toggle_loading){
       LOADING_START: toggle_loading.bind(null, true),
       LOADING_END: toggle_loading.bind(null, false)
     },
-    sku: 'rayban_aviator_or_vertFlash', // SKU loadded at the beginning
+    sku: `${sku_model}`, // SKU loadded at the beginning
     // image displayed when face is not found:
     searchImageMask: searchImage, //'https://appstatic.jeeliz.com/jeewidget/images/target.png',
     searchImageColor: 0xeeeeee, // color of loading (face not found) animation
@@ -53,7 +53,7 @@ function init_VTOWidget(placeHolder, canvas, toggle_loading){
 }
 
 
-function AppCanvas({ onClose }){
+function AppCanvas({ onClose, sku_model }){
   const refPlaceHolder = useRef()
   const refCanvas = useRef()
   const refAdjustEnter = useRef()
@@ -86,12 +86,12 @@ function AppCanvas({ onClose }){
   useEffect(() => {
     const placeHolder = refPlaceHolder.current
     const canvas = refCanvas.current
-    init_VTOWidget(placeHolder, canvas, toggle_loading)
+    init_VTOWidget(placeHolder, canvas, toggle_loading, sku_model)
 
     return () => {
       //JEELIZVTOWIDGET.destroy()
     }
-  }, [])
+  }, [sku_model])
 
   const closeCameraOrCanvas = () => {
     // Destroy the JEELIZVTOWIDGET instance

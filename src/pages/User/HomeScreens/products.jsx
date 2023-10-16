@@ -15,6 +15,7 @@ import ShapeFilter from "../../../components/ui/User/ProductComponents/FrameShap
 import FaceShapeFilter from "../../../components/ui/User/ProductComponents/FaceShape"
 import PriceFilter from "../../../components/ui/User/ProductComponents/Price"
 import CategoryFilter from "../../../components/ui/User/ProductComponents/Categories"
+import RimFilter from "../../../components/ui/User/ProductComponents/FrameRim"
 
 const Products = () => {
     const [productsList, setProductsList] = useState([]);
@@ -31,6 +32,7 @@ const Products = () => {
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(5000);
     const [selectedCategory , setSelectedCategory] = useState("All Categories");
+    const [selectedRim , setSelectedRim] = useState("All Rims");
 
     useEffect(() => {
         fetchProductsList();
@@ -111,7 +113,7 @@ const Products = () => {
     };
 
 
-    const handleFilter = ({ color, material, size, gender, shape, faceShape ,minPrice, maxPrice, category }) => {   // face shape remaining
+    const handleFilter = ({ color, material, size, gender, shape, faceShape ,minPrice, maxPrice, category, rim }) => {   // face shape remaining
         setFilterColor(color);
         setFilterMaterial(material);
         setSelectedSize(size);
@@ -121,15 +123,19 @@ const Products = () => {
         setMinPrice(minPrice);
         setMaxPrice(maxPrice);
         setSelectedCategory(category);
+        setSelectedRim(rim);
 
-        console.log("Filters: " + color + ", " + material + ", " + size + ", " + gender + ", " + shape + ", " + faceShape + ", " + minPrice + ", " + maxPrice + ", " + category)
+        console.log("Filters: " + color + ", " + material + ", " + size + ", " + gender + ", " + shape +
+         ", " + faceShape + ", " + minPrice + ", " + maxPrice + ", " + category + ", " + rim )
 
         const filtered = productsList.filter((product) => {
             if (color === "All Colors" && material === "All Materials"
-                && size === "All Size" && gender === "All Genders" && shape === "All Shapes" && faceShape === "All Shapes" && category === "All Categories" && 
+                && size === "All Size" && gender === "All Genders" && 
+                shape === "All Shapes" && faceShape === "All Shapes" && 
+                category === "All Categories" && rim === "All Rims" &&
                 (product.priceInfo.price >= minPrice && // Price filtering
                 product.priceInfo.price <= maxPrice)) {
-                // Both filters are set to "All Colors" and "All Materials," return all products
+
                 return true;
             }
             const colorMatch =
@@ -162,7 +168,7 @@ const Products = () => {
 
             const shapeMatch =
                 shape === "All Shapes" ||
-                (product && product.categories.includes(shape || shape.toLowerCase()));
+                (product && (product.frame_shape === shape || product.frame_shape === shape.toLowerCase()));
 
             const faceShapeMatch =
                 faceShape === "All Shapes" ||
@@ -172,9 +178,12 @@ const Products = () => {
                 category === "All Categories" ||
                 (product && (product.categories.includes(category) || product.type.includes(category)));
             
+                const rimMatch =
+                category === "All Rims" ||
+                (product && (product.rim_shape === rim || product.rim_shape === rim.toLowerCase()));
+            
 
-
-            return colorMatch && materialMatch && sizeMatch && genderMatch && shapeMatch && faceShapeMatch && categoryMatch &&
+            return colorMatch && materialMatch && sizeMatch && genderMatch && shapeMatch && faceShapeMatch && categoryMatch && rimMatch &&
                 (product.priceInfo.price >= minPrice && // Price filtering
                 product.priceInfo.price <= maxPrice) 
         });
@@ -227,7 +236,7 @@ const Products = () => {
                                 {activeFilter === "Colors" && filter.name === "Colors" && (
                                     <ColorsFilter
                                         selectedColor={filterColor}
-                                        onColorSelect={(color) => handleFilter({ color, material: filterMaterial, size: selectedSize, gender: selectedGender, shape: selectedShape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category: selectedCategory })}
+                                        onColorSelect={(color) => handleFilter({ color, material: filterMaterial, size: selectedSize, gender: selectedGender, shape: selectedShape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category: selectedCategory, rim: selectedRim })}
                                     />
                                 )}
 
@@ -235,7 +244,7 @@ const Products = () => {
                                 {activeFilter === "Material" && filter.name === "Material" && (
                                     <FrameMaterial
                                         selectedMaterial={filterMaterial}
-                                        onMaterialSelect={(material) => handleFilter({ color: filterColor, material, size: selectedSize, gender: selectedGender, shape: selectedShape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category: selectedCategory })}
+                                        onMaterialSelect={(material) => handleFilter({ color: filterColor, material, size: selectedSize, gender: selectedGender, shape: selectedShape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category: selectedCategory, rim: selectedRim })}
                                     />
                                 )}
 
@@ -243,28 +252,28 @@ const Products = () => {
                                 {activeFilter === "Size" && filter.name === "Size" && (
                                     <SizeFilter
                                         selectedSize={selectedSize}
-                                        onSizeSelect={(size) => handleFilter({ color: filterColor, material: filterMaterial, size, gender: selectedGender, shape: selectedShape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category: selectedCategory })}
+                                        onSizeSelect={(size) => handleFilter({ color: filterColor, material: filterMaterial, size, gender: selectedGender, shape: selectedShape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category: selectedCategory, rim: selectedRim })}
                                     />
                                 )}
 
                                 {activeFilter === "Gender" && filter.name === "Gender" && (
                                     <GenderFilter
                                         selectedGender={selectedGender}
-                                        onGenderSelect={(gender) => handleFilter({ color: filterColor, material: filterMaterial, size: selectedSize, gender, shape: selectedShape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category: selectedCategory })}
+                                        onGenderSelect={(gender) => handleFilter({ color: filterColor, material: filterMaterial, size: selectedSize, gender, shape: selectedShape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category: selectedCategory, rim: selectedRim })}
                                     />
                                 )}
 
                                 {activeFilter === "Frame Shape" && filter.name === "Frame Shape" && (
                                     <ShapeFilter
                                         selectedShape={selectedShape}
-                                        onShapeSelect={(shape) => handleFilter({ color: filterColor, material: filterMaterial, size: selectedSize, gender: selectedGender, shape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category: selectedCategory })}
+                                        onShapeSelect={(shape) => handleFilter({ color: filterColor, material: filterMaterial, size: selectedSize, gender: selectedGender, shape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category: selectedCategory, rim: selectedRim })}
                                     />
                                 )}
 
                                 {activeFilter === "Face Shape" && filter.name === "Face Shape" && (
                                     <FaceShapeFilter
                                         selectedShape={selectedFaceShape}
-                                        onShapeSelect={(faceShape) => handleFilter({ color: filterColor, material: filterMaterial, size: selectedSize, gender: selectedGender, shape: selectedShape, faceShape, minPrice: minPrice, maxPrice: maxPrice, category: selectedCategory })}
+                                        onShapeSelect={(faceShape) => handleFilter({ color: filterColor, material: filterMaterial, size: selectedSize, gender: selectedGender, shape: selectedShape, faceShape, minPrice: minPrice, maxPrice: maxPrice, category: selectedCategory, rim: selectedRim })}
                                     />
                                 )}
 
@@ -284,7 +293,8 @@ const Products = () => {
                                                 faceShape: selectedFaceShape,
                                                 minPrice: newMinPrice,
                                                 maxPrice: newMaxPrice,
-                                                category: selectedCategory
+                                                category: selectedCategory,
+                                                rim: selectedRim
                                             });
                                         }}
                                     />
@@ -293,7 +303,14 @@ const Products = () => {
                                 {activeFilter === "Category" && filter.name === "Category" && (
                                     <CategoryFilter
                                     selectedCategory={selectedCategory}
-                                        onCategorySelect={(category) => handleFilter({ color: filterColor, material: filterMaterial, size: selectedSize, gender: selectedGender, shape: selectedShape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category })}
+                                        onCategorySelect={(category) => handleFilter({ color: filterColor, material: filterMaterial, size: selectedSize, gender: selectedGender, shape: selectedShape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category, rim: selectedRim })}
+                                    />
+                                )}
+                                
+                                {activeFilter === "Rim" && filter.name === "Rim" && (
+                                    <RimFilter
+                                    selectedRim={selectedRim}
+                                        onRimSelect={(rim) => handleFilter({ color: filterColor, material: filterMaterial, size: selectedSize, gender: selectedGender, shape: selectedShape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category: selectedCategory, rim })}
                                     />
                                 )}
                             </div>

@@ -54,6 +54,7 @@ export default function SelectLensTypeScreen({ rating }) {
     const [loaded, setLoaded] = useState(false);
     //  table content 
     const [activeTab, setActiveTab] = useState('description');
+    const [sku_model, setSkuModel] = useState('')
 
     // submit form validation
     const validateForm = () => {
@@ -218,6 +219,10 @@ export default function SelectLensTypeScreen({ rating }) {
                         setActiveImg(absoluteImages[0]);
                         console.log("default activeColor" + activeColor)
                     }
+
+                    // try on 
+                    setSkuModel(fetchedGlasses.sku_model)
+                    console.log("product sku: " + typeof(`${fetchedGlasses.sku_model}`))
                 }
                 fetchData();
             } catch (error) {
@@ -325,7 +330,7 @@ export default function SelectLensTypeScreen({ rating }) {
                                     <p className="font-sans text-2xl font-bold italic"></p>
 
                                 </div>
-                            <Tryon onClose={handleTryonClose} />
+                            <Tryon sku_model={sku_model} onClose={handleTryonClose} />
                             </div>
                     }
                     { !isTryonOpen &&

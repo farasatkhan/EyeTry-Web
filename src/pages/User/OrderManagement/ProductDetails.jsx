@@ -347,7 +347,7 @@ export default function SelectLensTypeScreen({ rating }) {
                                 {/* Display images based on selected color */}
                                 <div className={`justify-center items-center object-cover flex flex-wrap ${imageAnimationClass}`}>
                                     <div className="w-[600px] h-[400px]">
-                                        <img src={activeImg} alt="" className='w-full h-full rounded-xl' />
+                                        <img src={activeImg} alt="" className='w-full h-full rounded-xl object-contain' />
 
                                         {/* Display additional images for the selected color */}
                                         <div className={`mt-2 flex flex-row justify-center ${imageAnimationClass}`}>
@@ -356,7 +356,7 @@ export default function SelectLensTypeScreen({ rating }) {
                                                     <img
                                                         src={image}
                                                         alt=""
-                                                        className='w-full h-full rounded-md'
+                                                        className='w-full h-full rounded-md object-contain'
                                                         onClick={() => handleAdditionalImageClick(image)} // Handle click on additional images
                                                     />
                                                 </div>

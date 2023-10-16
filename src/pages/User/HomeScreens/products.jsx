@@ -178,12 +178,12 @@ const Products = () => {
                 category === "All Categories" ||
                 (product && (product.categories.includes(category) || product.type.includes(category)));
             
-                const rimMatch =
-                category === "All Rims" ||
-                (product && (product.rim_shape === rim || product.rim_shape === rim.toLowerCase()));
+                // const rimMatch =
+                // category === "All Rims" ||
+                // (product && (product.rim_shape === rim || product.rim_shape === rim.toLowerCase()));
             
 
-            return colorMatch && materialMatch && sizeMatch && genderMatch && shapeMatch && faceShapeMatch && categoryMatch && rimMatch &&
+            return colorMatch && materialMatch && sizeMatch && genderMatch && shapeMatch && faceShapeMatch && categoryMatch &&
                 (product.priceInfo.price >= minPrice && // Price filtering
                 product.priceInfo.price <= maxPrice) 
         });

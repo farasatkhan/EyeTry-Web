@@ -11,37 +11,32 @@ import StarIcon from '@mui/icons-material/Star';
 import { viewAllReviews, viewProductsList } from "../../../api/productsApi";
 import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
 import "@splidejs/splide/dist/css/splide.min.css";
-import menSunglassesImage from '../../../assets/images/products/menSunglassesImage.jpg'
-import womenSunglassesImage from '../../../assets/images/products/womenSunglassesImage.jpg'
-import kidsGlasses from '../../../assets/images/products/kidsGlasses.jpg'
+import menSunglassesImage from '../../../assets/images/products/menSunglasses.jpg'
+import womenSunglassesImage from '../../../assets/images/products/womenSunglasses.jpg'
+import kidsGlasses from '../../../assets/images/products/kidsGlasses.png'
 import menGlasses from '../../../assets/images/products/menGlasses.jpg'
-import womenGlasses from '../../../assets/images/products/womenGlasses.jpg'
+import womenGlasses from '../../../assets/images/products/womenGlasses.png'
 import shopByFace from '../../../assets/images/products/shopByFace.jpg'
 import shopByStyle from '../../../assets/images/products/shopByStyle.jpg'
 import glassesColor from '../../../assets/images/products/glassesColor.jpg'
 import logo from '../../../assets/images/Logo/logo.png'
 
-import faceShapeAnalysis from '../../../assets/images/ExclusiveFeatures/faceShapeAnalysis.png'
+import faceShapeAnalysis from '../../../assets/images/ExclusiveFeatures/faceShapeAnalysis.jpg'
 import ipdMeasurement from '../../../assets/images/ExclusiveFeatures/ipdMeasurement.png'
 import virtualTryOn from '../../../assets/images/ExclusiveFeatures/virtualTryOn.png'
-import vissionAssessments from '../../../assets/images/ExclusiveFeatures/vissionAssessments.png'
+import vissionAssessments from '../../../assets/images/ExclusiveFeatures/visionAcuity.jpg'
 import 'aos/dist/aos.css'; // Import the AOS CSS
-import AOS from 'aos';
+import banner1 from '../../../assets/images/products/banner1.jpg'
+import banner2 from '../../../assets/images/products/banner2.jpg'
 
 export default () => {
 
   const items = [
     {
-      imageUrl: 'https://optimaxweb.glassesusa.com/image/upload/f_auto,q_auto/modern/desktopImg/PBHB_banner_medium_5a68f886c00219f93600.png',
+      imageUrl: banner1,
     },
     {
-      imageUrl: 'https://easysight.pk/wp-content/uploads/2022/11/web-banner-2-1-2048x778.jpg',
-    },
-    {
-      imageUrl: 'https://optimaxweb.glassesusa.com/image/upload/f_auto,q_auto/media/wysiwyg/lp23/amazon-prime-d.png',
-    },
-    {
-      imageUrl: 'https://optimaxweb.glassesusa.com/image/upload/f_auto,q_auto/media/wysiwyg/lp23/hp-d-martin.png',
+      imageUrl: banner2,
     },
   ];
 
@@ -262,7 +257,7 @@ export default () => {
       <Carousel>
         {items.map((item, i) => (
           <Paper key={i}>
-            <img className="w-full h-[580px]" src={item.imageUrl} alt={`Image ${i + 1}`} />
+            <img className="w-full h-[300px] md:h-[450px] lg:h-[500px] xl:h-[600px] object-fit" src={item.imageUrl} alt={`Image ${i + 1}`} />
           </Paper>
         ))}
       </Carousel>
@@ -395,7 +390,7 @@ export default () => {
         <div data-aos="fade-up">
           <div className="flex items-center justify-center mx-auto mt-10">
             <h1 className="font-sans text-3xl text-gray-500 font-semibold  text-center">Eyewear for everyone ™ </h1>
-            <img data-aos="zoom-in" src={logo} className=" ml-1 w-[50px] h-[30px]" alt="" />
+            <img data-aos="zoom-in" src={logo} className=" ml-1 w-[50px] h-[30px] object-contain" alt="" />
           </div>
           <div class="h-1 w-full mt-2 mb-5 bg-blue-400 lg:w-[45%] mx-auto rounded-full shadow-lg"></div>
           <p className="font-sans text-sm mx-auto text-center text-gray-500 font-semibold">Get a complete pair of prescription glasses</p>
@@ -403,57 +398,57 @@ export default () => {
         <div data-aos="fade-up" className="flex flex-col space-y-2 mx-auto mt-10">
           <div className="flex flex-wrap">
             <div onClick={() => handleNavigate('men_glasses')} className="w-full md:w-1/3 px-1 relative group cursor-pointer">
-              <img data-aos="zoom-in" src={menGlasses} className="w-full h-[300px]" alt="" />
+              <img data-aos="zoom-in" src={menGlasses} className="w-full h-[300px] object-cover" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
               </div>
               <div className="flex items-center mt-5 mb-5 justify-between">
-                <p className="font-sans text-2xl text-[#0284c7] font-semibold">Men's Eyeglasses</p>
+                <p className="font-sans text-2xl text-gray-700 font-semibold">Men's Eyeglasses</p>
               </div>
             </div>
             <div onClick={() => handleNavigate('women_glasses')} className="w-full md:w-1/3 px-1 relative group cursor-pointer">
-              <img data-aos="zoom-in" src={womenGlasses} className="w-full h-[300px]" alt="" />
+              <img data-aos="zoom-in" src={womenGlasses} className="w-full h-[300px] object-cover" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
               </div>
               <div className="flex items-center mt-5 mb-5 justify-between">
-                <p className="font-sans text-2xl text-[#0284c7] font-semibold">Women's Eyeglasses</p>
+                <p className="font-sans text-2xl text-gray-700 font-semibold">Women's Eyeglasses</p>
               </div>
             </div>
             <div onClick={() => handleNavigate('kids_glasses')} className="w-full md:w-1/3 px-1 relative group cursor-pointer">
-              <img data-aos="zoom-in" src={kidsGlasses} className="w-full h-[300px]" alt="" />
+              <img data-aos="zoom-in" src={kidsGlasses} className="w-full h-[300px] object-cover" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
               </div>
               <div className="flex items-center mt-5 mb-5 justify-between">
-                <p className="font-sans text-2xl text-[#0284c7] font-semibold">Kid's Eyeglasses</p>
+                <p className="font-sans text-2xl text-gray-700 font-semibold">Kid's Eyeglasses</p>
               </div>
             </div>
             <div onClick={() => handleNavigate('shop_by_frame_color')} className="w-full md:w-1/3 px-1 relative group cursor-pointer">
-              <img data-aos="zoom-in" src={glassesColor} className="w-full h-[300px]" alt="" />
+              <img data-aos="zoom-in" src={glassesColor} className="w-full h-[300px] object-cover" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
               </div>
               <div className="flex items-center mt-5 mb-5 justify-between">
-                <p className="font-sans text-2xl text-[#0284c7] font-semibold">Shop By Frame Color</p>
+                <p className="font-sans text-2xl text-gray-700 font-semibold">Shop By Frame Color</p>
               </div>
             </div>
             <div onClick={() => handleNavigate('shop_by_face_shape')} className="w-full md:w-1/3 px-1 relative group cursor-pointer">
-              <img data-aos="zoom-in" src={shopByFace} className="w-full h-[300px]" alt="" />
+              <img data-aos="zoom-in" src={shopByFace} className="w-full h-[300px] object-cover" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
               </div>
               <div className="flex items-center mt-5 mb-5 justify-between">
-                <p className="font-sans text-2xl text-[#0284c7] font-semibold">Shop By Face Shape</p>
+                <p className="font-sans text-2xl text-gray-700 font-semibold">Shop By Face Shape</p>
               </div>
             </div>
             <div onClick={() => handleNavigate('shop_by_frame_shape')} className="w-full md:w-1/3 px-1 relative group cursor-pointer">
-              <img data-aos="zoom-in" src={shopByStyle} className="w-full h-[300px]" alt="" />
+              <img data-aos="zoom-in" src={shopByStyle} className="w-full h-[300px] object-cover" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">Shop Now</button>
               </div>
               <div className="flex items-center mt-5 mb-5 justify-between">
-                <p className="font-sans text-2xl text-[#0284c7] font-semibold">Shop By Frame Shape</p>
+                <p className="font-sans text-2xl text-gray-700 font-semibold">Shop By Frame Shape</p>
               </div>
             </div>
           </div>
@@ -592,7 +587,7 @@ export default () => {
         <div className="flex space-x-3 justify-center items-center mx-auto mt-10 w-[420px] md:w-[680px] lg:w-[800px] xl:w-[1200px]">
           <div className="w-[50%]">
             <div onClick={() => handleNavigate('men_sunglasses')} class="relative group cursor-pointer">
-              <img data-aos="zoom-in" src={menSunglassesImage} class="w-full h-full" alt="" />
+              <img data-aos="zoom-in" src={menSunglassesImage} class="w-full object-cover h-[345px]" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">View All</button>
               </div>
@@ -694,7 +689,7 @@ export default () => {
           {/* Women Sunglasses */}
           <div className="w-[50%]">
             <div onClick={() => handleNavigate('women_sunglasses')}  class="relative group cursor-pointer">
-              <img data-aos="zoom-in" src={womenSunglassesImage} class="w-full h-full" alt="" />
+              <img data-aos="zoom-in" src={womenSunglassesImage} class="w-full object-cover h-[345px]" alt="" />
               <div class="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity">
                 <button class="bg-black bg-opacity-50 text-white py-2 px-4 rounded-lg">View All</button>
               </div>
@@ -819,7 +814,13 @@ export default () => {
                 pauseOnHover: false,
                 pauseOnFocus: false,
                 speed: 1
-              }
+              },
+              breakpoints: {
+                800: {
+                  perPage: 1, // For screens with a width of 768px or greater
+                },
+
+              },
             }}
             extensions={{ AutoScroll }}
             aria-label="My Favorite Images"

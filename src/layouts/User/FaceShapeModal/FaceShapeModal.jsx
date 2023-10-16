@@ -57,11 +57,11 @@ const FaceShapeModal = ({ setShape, onChangeModal }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="fixed inset-0 shadow-sm bg-black bg-opacity-50 flex justify-center items-center">
       <div
         id="face_detect"
-        className={`bg-white rounded-lg shadow-md h-5/6 w-3/4 sm:w-2/4`}
       >
+        <div className="bg-white py-2 rounded-md mt-15">
         <div className="flex justify-between mx-5 my-4">
           <div className="">
             <p>
@@ -74,22 +74,22 @@ const FaceShapeModal = ({ setShape, onChangeModal }) => {
             <BsXLg size={25} />
           </div>
         </div>
-        <div style={{ height: height - height * 0.13, width: width }}>
+        <div >
           {/* <div> */}
           <Recommendation
-            modalWidth={width}
-            modalHeight={height}
+            modalWidth={600}
+            modalHeight={400}
             setFaceShape={setFaceShape}
           />
         </div>
-        <div className="mx-5 mb-5">
+        <div className="mx-5 mb-4 mt-4">
           <div className="flex items-end justify-end gap-4">
             <button
               onClick={onChangeModal}
-              className="text-white font-bold px-2 py-1 sm:py-2 sm:px-4 rounded border"
+              className="text-white font-bold px-2 py-1 sm:py-2 sm:px-4 rounded border-2"
               style={{ zIndex: 1 }}
             >
-              <p className="text-white text-sm font-light">Cancel</p>
+              <p className="font-semibold text-sm text-black">Cancel</p>
             </button>
             {faceShape ? (
               <button
@@ -109,12 +109,13 @@ const FaceShapeModal = ({ setShape, onChangeModal }) => {
                 className={`bg-blue-200 text-white font-bold px-2 py-1 sm:py-2 sm:px-4 rounded cursor-pointer`}
                 style={{ zIndex: 1 }}
               >
-                <p className="text-white text-sm font-light">
+                <p className="text-white text-sm font-semibold">
                   Recommend Glasses
                 </p>
               </button>
             )}
           </div>
+        </div>
         </div>
       </div>
     </div>

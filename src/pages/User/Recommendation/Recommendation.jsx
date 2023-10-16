@@ -45,25 +45,26 @@ function Recommendation({ modalWidth, modalHeight, setFaceShape }) {
   };
 
   return (
-    <div className="relative">
-      <Webcam
-        width={inputResolution.width}
-        height={inputResolution.height}
-        style={{
-          position: "absolute",
-        }}
-        videoConstraints={videoConstraints}
-        onLoadedData={handleVideoLoad}
-        onResize={handleVideoLoad}
-      />
-      <canvas
-        ref={canvasRef}
-        width={inputResolution.width}
-        height={inputResolution.height}
-        style={{
-          position: "absolute",
-        }}
-      />
+    <div className="flex items-center justify-center">
+      <div style={{ position: "relative" }}>
+        <Webcam
+          width={inputResolution.width}
+          height={inputResolution.height}
+          videoConstraints={videoConstraints}
+          onLoadedData={handleVideoLoad}
+          onResize={handleVideoLoad}
+        />
+        <canvas
+          ref={canvasRef}
+          width={inputResolution.width}
+          height={inputResolution.height}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+          }}
+        />
+      </div>
       {loaded ? <></> : <header>Loading...</header>}
     </div>
   );

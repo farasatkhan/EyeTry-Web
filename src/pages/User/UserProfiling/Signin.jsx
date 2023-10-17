@@ -49,7 +49,7 @@ function Signin() {
             const { user, accessToken, refreshToken } = response.data
             console.log("Access Token", accessToken)
             console.log("Refresf Token", refreshToken)
-            localStorage.setItem('user', JSON.stringify(user))
+            localStorage.setItem('userID', JSON.stringify(user._id))
             localStorage.setItem('accessToken', accessToken)
             localStorage.setItem('refreshToken', refreshToken)
             navigate('/'); // Replace '/' with the desired URL

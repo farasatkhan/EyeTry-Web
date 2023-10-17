@@ -201,6 +201,7 @@ export default function PersistentDrawerLeft() {
     if (setting == "Logout"){
       logout();
       navigate("/signin")
+      
     }
     setAnchorElUser(null);
   };

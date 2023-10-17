@@ -144,8 +144,8 @@ const Products = () => {
                     product.frame_information.frame_variants &&
                     product.frame_information.frame_variants.some(
                         (variant) =>
-                            variant.colorName &&
-                            variant.colorName.toLowerCase() === color.toLowerCase()
+                            variant.color &&
+                            variant.color.toLowerCase() === color.toLowerCase()
                     ));
 
             const materialMatch =
@@ -342,7 +342,7 @@ const Products = () => {
                                                 <div className="flex mt-2 h-6 items-center">
                                                     {product.frame_information.frame_variants.map((variant) => (
                                                         <div
-                                                            className={`border-gray-300 rounded-full mr-1 ${selectedColorsFeatured[product._id] === variant.color
+                                                            className={`border-gray-300 rounded-full mr-1 ${selectedColorsFeatured[product._id] === variant.color_code
                                                                 ? "border-[2px] bg-blue-900"
                                                                 : ""
                                                                 }`}
@@ -377,7 +377,7 @@ const Products = () => {
                                     <div>
                                         <div className="flex justify-between items-center">
                                             <p class="text-lg font-sans text-black truncate block capitalize">{product.name}</p>
-                                            <span class="text-gray-400 font-sans uppercase text-xs">{product.manufacturer}</span>
+                                            <span class="text-gray-400 font-sans uppercase text-xs whitespace-nowrap ">{product.manufacturer}</span>
                                         </div>
                                         <div class="flex items-center mb-2">
                                             <p class="text-lg font-semibold text-black cursor-auto">${product.priceInfo.price}</p>

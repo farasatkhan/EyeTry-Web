@@ -91,7 +91,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 
-const pages = ['Eyeglasses', 'Categories', 'Brands', 'Assessments'];
+const pages = ['Eyeglasses', 'Suglasses', 'Vision Assessments'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
@@ -302,7 +302,7 @@ export default function PersistentDrawerLeft() {
           {/* pages brands , categories etc */}
           <div>
             <Hidden mdDown>
-              <Box sx={{ ml: 5, flexGrow: 1, display: 'flex' }}>
+              <Box className="whitespace-nowrap" sx={{ ml: 5, flexGrow: 1, display: 'flex' }}>
                 {pages.map((page) => (
                   <Button
                     key={page}
@@ -431,11 +431,11 @@ export default function PersistentDrawerLeft() {
 
         <List>
           {[
-            { text: 'Eyeglasses', path: '/user/profile' },
-            { text: 'Sunglasses', path: '/user/my_details' },
-            { text: 'Categories', path: '/user/prescription_details' },
-            { text: 'Brands', path: '/user/add_address' },
-            { text: 'Vission Assessments', path: '/user/add_payment' },
+            { text: 'Eyeglasses', path: '/products/featured_products' },
+            { text: 'Sunglasses', path: '/products/men_sunglasses' },
+            { text: 'Categories', path: '/products/featured_products' },
+            { text: 'Brands', path: '/products/featured_products' },
+            { text: 'Vission Assessments', path: '/assessments/color_blind_test' },
             { text: 'Log Out', path: '/signin' }
           ].map(({ text, path }, index) => (
             <ListItem key={text} disablePadding>

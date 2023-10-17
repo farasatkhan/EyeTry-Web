@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const ColorsFilter = ({ selectedColor, onColorSelect }) => {
     const colorOptions = ['All Colors', 'Black', 'Blue', 'Brown', 'Green', 'Red', 'Yellow', 
-    'Purple', 'Orange', 'White', 'Transparent', 'Silver'];
+    'Purple', 'Orange', 'White', 'Transparent', 'Silver', 'Gray', 'Gold', 'Pink'];
 
   const handleColorClick = (color) => {
     // Update the selected color when a color is clicked

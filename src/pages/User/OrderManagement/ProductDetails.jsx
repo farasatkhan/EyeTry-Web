@@ -38,10 +38,6 @@ export default function SelectLensTypeScreen({ rating }) {
     const [hover, setHover] = useState(-1);
     const [userHasOrderedProduct, setUserHasOrderedProduct] = useState(false)
     const [orders, setOrders] = useState([])
-    // getting user ID from local storage
-    const userString = localStorage.getItem('user')
-    const userData = JSON.parse(userString);
-
     const [reviews, setReviews] = useState([])
     const [matchingOrderId, setMatchingOrderId] = useState(null)
     const [visibleReviewsCount, setVisibleReviewsCount] = useState(5);
@@ -103,10 +99,16 @@ export default function SelectLensTypeScreen({ rating }) {
     }, [visibleReviewsCount]);
 
 
+    // getting user ID from local storage
+    const userString = localStorage.getItem('userID')
+    const userID = JSON.parse(userString)
+    console.log("userID: " + userID)
+
     useEffect(() => {
+
         const fetchOrders = async () => {
             try {
-                const response = await viewAllOrders(userData._id);
+                const response = await viewAllOrders(userID);
                 console.log("Orders list retrieved Successfully!");
                 console.log("Order Data: ", response.data.orders);
                 setOrders(response.data.orders)
@@ -171,7 +173,7 @@ export default function SelectLensTypeScreen({ rating }) {
         // console.log(userData._id)
         // console.log("order ID " + matchingOrderId)
         const reviewData = {
-            user: userData._id,
+            user: userID,
             order: matchingOrderId,
             product: id,
             user_review_title: reviewTitle,
@@ -222,7 +224,7 @@ export default function SelectLensTypeScreen({ rating }) {
 
                     // try on 
                     setSkuModel(fetchedGlasses.sku_model)
-                    console.log("product sku: " + typeof(`${fetchedGlasses.sku_model}`))
+                    console.log("product sku: " + typeof (`${fetchedGlasses.sku_model}`))
                 }
                 fetchData();
             } catch (error) {
@@ -314,7 +316,7 @@ export default function SelectLensTypeScreen({ rating }) {
     const handleTryonClose = () => {
         setIsTryonOpen(false)
     }
- 
+
 
     return (
         <>
@@ -322,51 +324,51 @@ export default function SelectLensTypeScreen({ rating }) {
                 <div className="flex flex-col md:flex-row min-h-screen">
                     {/* section 1 */}
                     <div className="w-full mb-20 md:mb-0 md:w-[60%] justify-center sm:justify-start flex flex-col items-center">
-                    
-                    {/* conditional rendering */}
-                    {isTryonOpen && 
-                        <div className="w-full sm:w-85">
+
+                        {/* conditional rendering */}
+                        {isTryonOpen &&
+                            <div className="w-full sm:w-85">
                                 <div className="flex items-center justify-center py-[18px]">
                                     <p className="font-sans text-2xl font-bold italic"></p>
 
                                 </div>
-                            <Tryon sku_model={sku_model} onClose={handleTryonClose} />
+                                <Tryon sku_model={sku_model} onClose={handleTryonClose} />
                             </div>
-                    }
-                    { !isTryonOpen &&
-                        
-                        <div className="w-full sm:w-85">
-                            <div className="">
-                                <button className="ml-10 mt-10 w-[20%] text-base font-semibold mb-2 hover:text-blue-400  cursor-pointer">
-                                    &lt; <span className="hover:underline">Back</span></button>
-                                <div className="flex items-center justify-center">
-                                    <p className="font-sans text-2xl font-bold italic">{product.manufacturer}</p>
+                        }
+                        {!isTryonOpen &&
 
-                                </div>
-                                <div className='py-2 rounded-md w-full'></div>
-                                {/* Display images based on selected color */}
-                                <div className={`justify-center items-center object-cover flex flex-wrap ${imageAnimationClass}`}>
-                                    <div className="w-[600px] h-[400px]">
-                                        <img src={activeImg} alt="" className='w-full h-full rounded-xl object-contain' />
+                            <div className="w-full sm:w-85">
+                                <div className="">
+                                    <button onClick={() => navigate('/')} className="ml-10 mt-10 w-[20%] text-base font-semibold mb-2 hover:text-blue-400  cursor-pointer">
+                                        &lt; <span className="hover:underline">Back</span></button>
+                                    <div className="flex items-center justify-center">
+                                        <p className="font-sans text-2xl font-bold italic">{product.manufacturer}</p>
 
-                                        {/* Display additional images for the selected color */}
-                                        <div className={`mt-2 flex flex-row justify-center ${imageAnimationClass}`}>
-                                            {activeImages.map((image, index) => (
-                                                <div key={index} className="w-20 h-20 border rounded-md cursor-pointer">
-                                                    <img
-                                                        src={image}
-                                                        alt=""
-                                                        className='w-full h-full rounded-md object-contain'
-                                                        onClick={() => handleAdditionalImageClick(image)} // Handle click on additional images
-                                                    />
-                                                </div>
-                                            ))}
+                                    </div>
+                                    <div className='py-2 rounded-md w-full'></div>
+                                    {/* Display images based on selected color */}
+                                    <div className={`justify-center items-center object-cover flex flex-wrap ${imageAnimationClass}`}>
+                                        <div className="w-[600px] h-[400px]">
+                                            <img src={activeImg} alt="" className='w-full h-full rounded-xl object-contain' />
+
+                                            {/* Display additional images for the selected color */}
+                                            <div className={`mt-2 flex flex-row justify-center space-x-2 ${imageAnimationClass}`}>
+                                                {activeImages.map((image, index) => (
+                                                    <div key={index} className="w-20 h-20 border rounded-md cursor-pointer p-1">
+                                                        <img
+                                                            src={image}
+                                                            alt=""
+                                                            className='w-full h-full rounded-md object-contain'
+                                                            onClick={() => handleAdditionalImageClick(image)} // Handle click on additional images
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    }
+                        }
                     </div>
 
                     {/* section 2 */}

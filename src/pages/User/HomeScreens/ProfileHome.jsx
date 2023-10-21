@@ -4,7 +4,7 @@ import Sidebar from "../../../layouts/User/UserProfilingNavbar";
 import { BiEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import { FaRegEnvelope, FaUser, } from "react-icons/fa";
-import { getUserData, deleteAddress, viewAllPayments, deletePaymentMethod } from '../../../api/userapi';
+import { getUserData, deleteAddress, viewAllPayments, deletePaymentMethod, viewAllPrescriptions } from '../../../api/userapi';
 import tryonImg from '../../../assets/images/UserProfiling/tryon.png'
 
 // export default function ProfileHome() {
@@ -17,11 +17,13 @@ export default function ProfileHomeScreen() {
     const [lastName, setLastName] = React.useState('')
     const [email, setEmail] = React.useState('')
     const [payments, setPayments] = useState([])
+    const [prescriptions, setPrescriptions] = useState([])
     const [isDeleted, setDeleted] = useState(false)
     // getting address book
     React.useEffect(() => {
         getProfileData()
         getPaymentData()
+        getPrescriptionsData()
     }, [])
 
     const getProfileData = async () => {
@@ -64,6 +66,18 @@ export default function ProfileHomeScreen() {
         try {
             await deletePaymentMethod(id)
             getPaymentData()
+        }
+        catch (e) {
+            throw e
+        }
+    }
+
+    // managing prescriptions
+    const getPrescriptionsData = async () => {
+        try {
+            const response = await viewAllPrescriptions()
+            setPrescriptions(response)
+            console.log("prescriptions: " + prescriptions)
         }
         catch (e) {
             throw e
@@ -147,6 +161,9 @@ export default function ProfileHomeScreen() {
             </div>
 
 
+
+
+
             <div className=" bg-white border border-gray-200 rounded-lg shadow w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className="left-0 pl-3 flex items-center pointer-events-none">
@@ -164,106 +181,57 @@ export default function ProfileHomeScreen() {
                 </div>
                 <hr class="border-3 border-gray-300 my-4" />
                 <div className="p-5">
-
-                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Prescription Name
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Date
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Type
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        <span class="sr-only">Edit</span>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        Prescription 1
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        23 May 2023
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        Single Vision
-                                    </td>
-                                    <td class=" py-4 text-right">
-                                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                    {
+                        prescriptions.map((prescription, index) => (
+                            <div key={index} class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                <table class="w-full text-sm text-left text-gray-500">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">
+                                                {prescription.prescriptionName}
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                {prescription.dateOfPrescription}
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                {prescription.prescriptionType}
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                <span class="sr-only">Edit</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bg-white border-b hover:bg-gray-50">
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                {prescription.prescriptionName}
+                                            </th>
+                                            <td class="px-6 py-4">
+                                                {prescription.dateOfPrescription}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {prescription.prescriptionType}
+                                            </td>
+                                            <td class=" py-4 text-right">
+                                                <button class="py-1 px-4 rounded inline-flex items-center ml-auto
                                             bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                                              hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                                            <BiEdit size={20} class="mr-2" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                                                    <BiEdit size={20} class="mr-2" />
+                                                    <span>Edit</span>
+                                                </button>
+                                                <button class="py-1 px-4 rounded inline-flex items-center ml-auto
                                             bg-transparent hover:bg-red-500 text-red-700 font-semibold 
                                              hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                                            <MdDelete size={20} class="mr-2" />
-                                            <span>Delete</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white border-b">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        Prescription 2
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        23 May 2023
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        Progressive
-                                    </td>
-                                    <td class=" py-4 text-right">
-                                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
-                                            bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
-                                             hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                                            <BiEdit size={20} class="mr-2" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
-                                            bg-transparent hover:bg-red-500 text-red-700 font-semibold 
-                                             hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                                            <MdDelete size={20} class="mr-2" />
-                                            <span>Delete</span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="bg-white">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        Prescription 3
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        23 May 2023
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        Bifocal
-                                    </td>
-                                    <td class=" py-4 text-right">
-                                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
-                                            bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
-                                             hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                                            <BiEdit size={20} class="mr-2" />
-                                            <span>Edit</span>
-                                        </button>
-                                        <button class="py-1 px-4 rounded inline-flex items-center ml-auto
-                                            bg-transparent hover:bg-red-500 text-red-700 font-semibold 
-                                             hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                                            <MdDelete size={20} class="mr-2" />
-                                            <span>Delete</span>
-                                        </button>
-                                    </td>
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
+                                                    <MdDelete size={20} class="mr-2" />
+                                                    <span>Delete</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
 
@@ -354,22 +322,22 @@ export default function ProfileHomeScreen() {
                                                 <p className="text-base font-sans">
                                                     VISA&nbsp;&nbsp;
                                                     {payment.paymentType}&nbsp;&nbsp;
-                                                    <br/>
+                                                    <br />
                                                     Expiration Date: {payment.expirationMonth}/{payment.expirationYear}&nbsp;&nbsp;
-                                                    <br/>
+                                                    <br />
                                                     Address: {payment.billingInfo.address}
                                                 </p>
 
                                             </td>
                                             <td class=" py-4 text-right">
-                                            <Link to={`/user/edit_payment/${payment._id}`}> 
-                                                <button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                                                <Link to={`/user/edit_payment/${payment._id}`}>
+                                                    <button class="py-1 px-4 rounded inline-flex items-center ml-auto
                                                 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                                                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                                                    <BiEdit size={20} class="mr-2" />
-                                                    <span>Edit</span>
-                                                </button>
-                                            </Link>
+                                                        <BiEdit size={20} class="mr-2" />
+                                                        <span>Edit</span>
+                                                    </button>
+                                                </Link>
                                                 <button onClick={() => deleteSpecificPayment(payment._id)} class="py-1 px-4 rounded inline-flex items-center ml-auto
                                                 bg-transparent hover:bg-red-500 text-red-700 font-semibold 
                                                  hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
@@ -424,8 +392,6 @@ export default function ProfileHomeScreen() {
                             </button>
                         </div>
                     </div>
-
-
 
                 </div>
             </div>

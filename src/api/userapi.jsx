@@ -272,6 +272,8 @@ export const deleteAddress = async (id) => {
 };
 
 // Manageing Prescriptions
+
+// add Prescription
 export const addPrescription = async (prescriptionData) => {
     const data = prescriptionData
     try {
@@ -291,6 +293,37 @@ export const addPrescription = async (prescriptionData) => {
                 console.log("Error Catched")
                 await reGenerateAccessToken()
                 return addPrescription(data)
+            }
+            catch (e) {
+                console.error("Error while refreshing token", e)
+                throw e
+            }
+        }
+        throw error;
+    }
+};
+
+// View All Prescriptions
+
+export const viewAllPrescriptions = async () => {
+    try {
+        const accessToken = await localStorage.getItem("accessToken")
+        const response = await axios.get(`${baseURL}/users/view_prescriptions`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+        });
+        console.log("All Prescriptions ", response?.data)
+        return response?.data; // incase server return 304 
+    }
+    catch (error) {
+        // Server is returning 403 for expired token
+        console.log("Access Token Expired ... Renewing")
+        if (error.response && error.response.status == 403) {
+            try {
+                console.log("Error Catched")
+                await reGenerateAccessToken()
+                return viewAllPrescriptions()
             }
             catch (e) {
                 console.error("Error while refreshing token", e)

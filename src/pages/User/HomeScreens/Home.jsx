@@ -11,23 +11,23 @@ import StarIcon from '@mui/icons-material/Star';
 import { viewAllReviews, viewProductsList } from "../../../api/productsApi";
 import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
 import "@splidejs/splide/dist/css/splide.min.css";
-import menSunglassesImage from '../../../assets/images/products/menSunglasses.jpg'
+import menSunglassesImage from '../../../assets/images/products/menSunglasses.webp'
 import womenSunglassesImage from '../../../assets/images/products/womenSunglasses.jpg'
-import kidsGlasses from '../../../assets/images/products/kidsGlasses.png'
-import menGlasses from '../../../assets/images/products/menGlasses.jpg'
+import kidsGlasses from '../../../assets/images/products/kidsGlasses.webp'
+import menGlasses from '../../../assets/images/products/menGlasses.webp'
 import womenGlasses from '../../../assets/images/products/womenGlasses.png'
 import shopByFace from '../../../assets/images/products/shopByFace.jpg'
 import shopByStyle from '../../../assets/images/products/shopByStyle.jpg'
 import glassesColor from '../../../assets/images/products/glassesColor.jpg'
 import logo from '../../../assets/images/Logo/logo.png'
 
-import faceShapeAnalysis from '../../../assets/images/ExclusiveFeatures/faceShapeAnalysis.jpg'
-import ipdMeasurement from '../../../assets/images/ExclusiveFeatures/ipdMeasurement.png'
-import virtualTryOn from '../../../assets/images/ExclusiveFeatures/virtualTryOn.png'
-import vissionAssessments from '../../../assets/images/ExclusiveFeatures/visionAcuity.jpg'
+import faceShapeAnalysis from '../../../assets/images/ExclusiveFeatures/faceShapeAnalysis.webp'
+import ipdMeasurement from '../../../assets/images/ExclusiveFeatures/ipdMeasurement.webp'
+import virtualTryOn from '../../../assets/images/ExclusiveFeatures/virtualTryOn.webp'
+import vissionAssessments from '../../../assets/images/ExclusiveFeatures/visionAcuity.webp'
 import 'aos/dist/aos.css'; // Import the AOS CSS
-import banner1 from '../../../assets/images/products/banner1.jpg'
-import banner2 from '../../../assets/images/products/banner2.jpg'
+import banner1 from '../../../assets/images/products/banner1.webp'
+import banner2 from '../../../assets/images/products/banner2.webp'
 import HashLoader from "react-spinners/HashLoader";
 
 export default () => {

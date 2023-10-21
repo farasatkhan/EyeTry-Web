@@ -107,13 +107,18 @@ const ColorBlindnessTestScreen = () => {
   };
 
   const handleSubmit = () => {
-    const currentImage = images[currentImageIndex];
-    const isCorrect = parseInt(userInput, 10) === currentImage.number;
-    setResults((prevResults) => [
-      ...prevResults,
-      { imageId: currentImage.id, isCorrect },
-    ]);
-    handleNext();
+    if(userInput === '') {
+      alert('Please Enter the value')
+    }
+    else {
+      const currentImage = images[currentImageIndex];
+      const isCorrect = parseInt(userInput, 10) === currentImage.number;
+      setResults((prevResults) => [
+        ...prevResults,
+        { imageId: currentImage.id, isCorrect },
+      ]);
+      handleNext();
+    }
   };
 
   const renderImage = () => {

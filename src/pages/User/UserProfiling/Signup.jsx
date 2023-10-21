@@ -62,8 +62,10 @@ function Signup() {
             
             const { user, accessToken, refreshToken } = response.data
             
+            const cart = [];
             // Saving to local storage
             localStorage.setItem('userID', JSON.stringify(user._id))
+            localStorage.setItem('cart', JSON.stringify(cart))
             localStorage.setItem('accessToken', accessToken)
             localStorage.setItem('refreshToken', refreshToken)
             

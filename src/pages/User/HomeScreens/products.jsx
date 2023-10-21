@@ -33,7 +33,8 @@ const Products = () => {
     const [maxPrice, setMaxPrice] = useState(5000);
     const [selectedCategory , setSelectedCategory] = useState("All Categories");
     const [selectedRim , setSelectedRim] = useState("All Rims");
-
+    const { page } = useParams();
+    
     useEffect(() => {
         fetchProductsList();
     }, []);
@@ -108,8 +109,10 @@ const Products = () => {
         setActiveFilter(filterName);
     };
 
-    const handleFilterLeave = () => {
-        setActiveFilter(null);
+    const handleFilterLeave = (filterName) => {
+        if (filterName === "Face Shape")
+        setActiveFilter(filterName);
+        else setActiveFilter(null)
     };
 
 
@@ -202,7 +205,7 @@ const Products = () => {
       };
 
 
-    const { page } = useParams();
+
 
     return (
         <>
@@ -223,7 +226,7 @@ const Products = () => {
                                 key={filter.name}
                                 className="relative group cursor-pointer "
                                 onMouseEnter={() => handleFilterHover(filter.name)}
-                                onMouseLeave={handleFilterLeave}
+                                onMouseLeave={() => handleFilterLeave(filter.name)}
                             >
                                 <div className="flex items-center h-full transition duration-300 ease-in-out group-hover:text-blue-400">
                                     <span className="group-hover:text-blue-400 text-black font-mono ">
@@ -324,7 +327,7 @@ const Products = () => {
                     >
                         {filteredProducts.map((product) => (
                             <div class="flex-shrink-0 m-6 relative overflow-hidden rounded-lg max-w-xs shadow-sm bg-white cursor-pointer">
-                                <div onClick={() => handleNavigation(product._id)}>
+                                <div className="justify-center flex" onClick={() => handleNavigation(product._id)}>
                                     {productImage(
                                         product,
                                         selectedColorsFeatured[product._id] ||

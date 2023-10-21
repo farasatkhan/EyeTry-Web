@@ -65,6 +65,15 @@ export default () => {
     },
   ];
 
+  const handleExclusiveClick = (item) => {
+    if (item.text === 'Vision Assessments'){
+      navigate('/assessments/color_blind_test')
+    }
+    else {
+      navigate('/products/exclusive_features')
+    }
+  }
+
   const [productsList, setProductsList] = useState([]);
   // const [selectedColors, setSelectedColors] = useState({});
   const [productRatings, setProductRatings] = useState({}); // Store product ratings
@@ -257,10 +266,10 @@ export default () => {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(false)
     setTimeout(() => {
       setLoading(false)
-    }, 2000);
+    }, 2500);
   }, [])
 
 
@@ -302,7 +311,7 @@ export default () => {
                 <div>
                   <div data-aos="fade-up">
                     <h1 className="font-sans text-3xl text-gray-500 font-semibold mx-auto text-center mt-10">Featured Products</h1>
-                    <div class="h-1 w-full mt-2 mb-5 bg-blue-400 lg:w-1/3 mx-auto rounded-full"></div>
+                    <div className="h-1 w-full mt-2 mb-5 bg-blue-400 lg:w-1/3 mx-auto rounded-full"></div>
                     <p className="font-sans text-sm mx-auto text-justify text-gray-500 font-semibold">The most excellent online eyeglasses and eyeglass frames are offered at Easy Sight, your one-stop
                       online store. We offer a wide range of high-quality items because we know how important it is for
                       you to access stylish and affordable eyewear. We provide options for everyone, whether you need
@@ -312,11 +321,12 @@ export default () => {
                   </div>
 
                   <Splide data-aos="fade-up"
-                    className="mx-auto w-[420px] md:w-[680px] lg:w-[700px] xl:w-[1350px]"
+                    className="mx-auto w-[420px] md:w-[680px] lg:w-[900px] xl:w-[1100px]"
                     options={{
                       perPage: 4,
                       gap: '2rem',
                       perMove: 1,
+                      type: "loop",
                       cover: true,
                       lazyLoad: 'nearby',
                       pagination: false,
@@ -391,7 +401,7 @@ export default () => {
                                   precision={0.1}
                                   emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                                 />
-                                <p className="text-base">{productRatings[product._id]}</p>
+                                <p className="text-base">{productRatings[product._id] === 0 ? "No Reviews" : productRatings[product._id]}</p>
                               </div>
                               <div className="">
                                 <div className="flex justify-between items-center">
@@ -510,10 +520,11 @@ export default () => {
                   </div>
 
                   <Splide data-aos="fade-up"
-                    className="mx-auto w-[420px] md:w-[680px] lg:w-[800px] xl:w-[1350px]"
+                    className="mx-auto w-[420px] md:w-[680px] lg:w-[900px] xl:w-[1100px]"
                     options={{
                       perPage: 4,
                       gap: '2rem',
+                      type: "loop",
                       perMove: 1,
                       cover: true,
                       lazyLoad: 'nearby',
@@ -651,6 +662,7 @@ export default () => {
                       options={{
                         perPage: 2,
                         gap: '2rem',
+                        type: "loop",
                         perMove: 1,
                         cover: true,
                         lazyLoad: 'nearby',
@@ -767,6 +779,7 @@ export default () => {
                         gap: '2rem',
                         perMove: 1,
                         cover: true,
+                        type: "loop",
                         lazyLoad: 'nearby',
                         pagination: false,
                         arrows: false,
@@ -873,7 +886,7 @@ export default () => {
                 <div className="mb-20">
 
                   <div data-aos="fade-up">
-                    <h1 className="font-sans text-3xl text-gray-500 font-semibold mx-auto text-center mt-10">Enhance Your Experience With Our Outstanding Features
+                    <h1 className="font-sans text-3xl text-gray-500 font-semibold mx-auto text-center mt-20">Enhance Your Experience With Our Outstanding Features
                     </h1>
                     <div class="h-1 w-full mt-2 mb-5 bg-blue-400 lg:w-[75%] mx-auto rounded-full shadow-lg"></div>
                     <p className="mb-10 font-sans text-sm mx-auto text-center text-gray-500 font-semibold">Sun rays and Style needs with and without power lens are extremely essential
@@ -905,7 +918,7 @@ export default () => {
                   >
                     {exclusiveFeatures.map((item, index) => (
                       <SplideSlide key={index}>
-                        <div className="relative group cursor-pointer h-76">
+                        <div onClick={() => handleExclusiveClick(item)} className="relative group cursor-pointer h-76">
                           <img data-aos="zoom-in"
                             src={item.imageUrl}
                             alt={`Image ${index + 1}`}

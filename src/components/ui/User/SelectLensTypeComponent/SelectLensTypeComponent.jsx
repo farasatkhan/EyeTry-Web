@@ -224,7 +224,7 @@ const productImage = (product) => {
     return (
       <div className="">
         <img
-          className="w-full object-contain h-[300px]" // Adjust the dimensions as needed
+          className="w-[80%] mx-auto object-contain h-[300px]" // Adjust the dimensions as needed
           src={completePath}
           alt="product"
         />

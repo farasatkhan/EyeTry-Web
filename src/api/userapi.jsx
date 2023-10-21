@@ -271,7 +271,35 @@ export const deleteAddress = async (id) => {
     }
 };
 
-
+// Manageing Prescriptions
+export const addPrescription = async (prescriptionData) => {
+    const data = prescriptionData
+    try {
+        const accessToken = await localStorage.getItem("accessToken")
+        const response = await axios.post(`${baseURL}/users/add_prescription`, data, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+        });
+        console.log("Response :", response)
+        return response;
+    }
+    catch (error) {
+        // Server is returning 403 for expired token
+        if (error.response && error.response.status == 403) {
+            try {
+                console.log("Error Catched")
+                await reGenerateAccessToken()
+                return addPrescription(data)
+            }
+            catch (e) {
+                console.error("Error while refreshing token", e)
+                throw e
+            }
+        }
+        throw error;
+    }
+};
 
 // Adding Payment
 export const addPayment = async (paymentMethodData) => {

@@ -172,7 +172,10 @@ export default function MyDetailsScreen() {
                                 <div style={{ width: 70, height: 70, borderRadius: 50, display: "flex", justifyContent: "center", alignItems: "center" }}>
                                     <img src={profilePic} alt="logo" className='w-full h-full ' />
                                 </div>
-                                <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20, marginLeft: 15 }}>{localStorage.getItem("firstName")} {localStorage.getItem("lastName")} <span className="flex flex-row space-x-5" ><p onClick={deleteProfilePic} className=" text-red-700 font-sans font-medium cursor-pointer" >Delete</p> <Link to='/user/upload_user_image'><p className="text-blue-700 font-sans font-medium" >Update</p></Link></span>   </h2>
+                                <h2 style={{ fontWeight: 700, fontSize: 18, marginTop: 10, marginBottom: 20, marginLeft: 15 }}>{localStorage.getItem("firstName")}
+                                 {localStorage.getItem("lastName")} <span className="flex flex-row space-x-5" ><p onClick={deleteProfilePic} 
+                                 className=" text-red-700 font-sans font-medium cursor-pointer" >Delete</p> <Link to='/user/upload_user_image'><p 
+                                 className="text-blue-700 font-sans font-medium" >Update</p></Link></span>   </h2>
                             </div>
 
                         </div>

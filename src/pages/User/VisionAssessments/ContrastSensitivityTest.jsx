@@ -66,20 +66,24 @@ const ContrastSensitivityTestScreen = () => {
 
     const handleNextLetter = (event) => {
         event.preventDefault();
-
-        const letter = imageLetters.flat()[currentLetterIndex];
-        const result = {
-            letter,
-            userInput,
-            correct: userInput === letter,
-        };
-
-        setTestResults((prevResults) => [...prevResults, result]);
-        setCurrentLetterIndex((prevIndex) => prevIndex + 1);
-        setUserInput('');
-
-        if (currentLetterIndex === imageLetters.flat().length - 1) {
-            setTestCompleted(true);
+        if (userInput === '') {
+            alert('Please enter the letter!')
+        } else {
+    
+            const letter = imageLetters.flat()[currentLetterIndex];
+            const result = {
+                letter,
+                userInput,
+                correct: userInput === letter,
+            };
+    
+            setTestResults((prevResults) => [...prevResults, result]);
+            setCurrentLetterIndex((prevIndex) => prevIndex + 1);
+            setUserInput('');
+    
+            if (currentLetterIndex === imageLetters.flat().length - 1) {
+                setTestCompleted(true);
+            }
         }
     };
 

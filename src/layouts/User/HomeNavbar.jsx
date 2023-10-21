@@ -91,8 +91,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 
-const pages = ['Eyeglasses', 'Suglasses', 'Vision Assessments'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Eyeglasses', 'Sunglasses', 'Vision Assessments'];
+const settings = ['Profile', 'Logout'];
 
 
 // for sidebar
@@ -218,8 +218,14 @@ export default function PersistentDrawerLeft() {
     setAnchorElUser(event.currentTarget);
   };
   const handleCloseNavMenu = (page) => {
-    if (page == "Assessments") {
+    if (page == "Vision Assessments") {
       navigate("/assessments/color_blind_test")
+    }
+    else if (page == "Eyeglasses") {
+      navigate("/products/Eyeglasses")
+    }
+    else if (page == "Sunglasses") {
+      navigate("/products/Sunglasses")
     }
     setAnchorElNav(null);
 
@@ -431,10 +437,10 @@ export default function PersistentDrawerLeft() {
 
         <List>
           {[
-            { text: 'Eyeglasses', path: '/products/featured_products' },
-            { text: 'Sunglasses', path: '/products/men_sunglasses' },
-            { text: 'Categories', path: '/products/featured_products' },
-            { text: 'Brands', path: '/products/featured_products' },
+            { text: 'Eyeglasses', path: '/products/Eyeglasses' },
+            { text: 'Sunglasses', path: '/products/Sunglasses' },
+            { text: 'Categories', path: '/products/Categories' },
+            { text: 'Brands', path: '/products/Brands' },
             { text: 'Vission Assessments', path: '/assessments/color_blind_test' },
             { text: 'Log Out', path: '/signin' }
           ].map(({ text, path }, index) => (

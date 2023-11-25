@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import superHydrophobic from '/superHydrophobic.svg'
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from 'react-redux';
 import { updateSelectedOptions } from '../../../../redux/actions/orderSelectionAction';
@@ -13,16 +12,6 @@ export default function SelectLensTypeComponentProp({ selectedOptions, onConfirm
 
     const lens = orderSelections.selectedOptions.lensProperties;
 
-    // Create a ref for the checkbox
-    const checkboxRef = useRef(null);
-
-    // Function to programmatically click the checkbox
-    const handleClickOtherElement = () => {
-        if (checkboxRef.current) {
-            checkboxRef.current.click();
-        }
-    };
-
     const { id } = useParams();
 
     // handling data and sending to parent component
@@ -33,7 +22,7 @@ export default function SelectLensTypeComponentProp({ selectedOptions, onConfirm
 
     const handleAddToCart = async () => {
       dispatch(updateSelectedOptions({
-        "id": id
+        "id": id,
       }));
     
       try {

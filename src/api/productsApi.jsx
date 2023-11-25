@@ -208,3 +208,61 @@ export const viewAllOrders = async (userId) => {
     }
 };
 
+
+// get stripe key
+export const getStripeApiKey = async () => {
+    try {
+        const accessToken = await localStorage.getItem("accessToken")
+        const response = await axios.get('payment/stripe_api_key', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+        });
+        console.log("Response :", response.data)
+        return response;
+    }
+    catch (error) {
+        // Server is returning 403 for expired token
+        if (error.response && error.response.status == 403) {
+            try {
+                console.log("Error Catched")
+                await reGenerateAccessToken()
+                return getStripeApiKey()
+            }
+            catch (e) {
+                console.error("Error while refreshing token", e)
+                throw e
+            }
+        }
+        throw error;
+    }
+};
+// 
+export const processPayment = async () => {
+    try {
+        const accessToken = await localStorage.getItem("accessToken")
+        const response = await axios.post('payment/process_payment', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+        });
+        console.log("Response :", response.data)
+        return response;
+    }
+    catch (error) {
+        // Server is returning 403 for expired token
+        if (error.response && error.response.status == 403) {
+            try {
+                console.log("Error Catched")
+                await reGenerateAccessToken()
+                return processPayment()
+            }
+            catch (e) {
+                console.error("Error while refreshing token", e)
+                throw e
+            }
+        }
+        throw error;
+    }
+};
+

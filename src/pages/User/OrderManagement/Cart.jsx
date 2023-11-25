@@ -7,8 +7,32 @@ import { BiEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import API_URL from '../../../config/config';
 import { checkout } from '../../../api/productsApi';
+import { processPayment } from '../../../api/productsApi';
+import axios from '../../../api/axiosConfig';
+
+import {
+  CardNumberElement,
+  CardCvcElement,
+  CardExpiryElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+
+
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import EventIcon from "@mui/icons-material/Event";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import axiosConfig from '../../../api/axiosConfig';
 
 const Cart = () => {
+
+  const stripe = useStripe();
+  const elements = useElements();
+
+  // const handleSubmit = async (event) => {
+
+  // };
+
 
   // getting payment and address data
   const [addresses, setAddresses] = React.useState([])
@@ -105,13 +129,58 @@ const Cart = () => {
           variant.color === item.orderSelections.selectedOptions.frameProperties.frameColor
       )._id;
 
-      initialProductQuantities[`${item.productData._id}_${variantId}`] = 1;
+      initialProductQuantities[`${item.productData._id}_${variantId}_${item.orderSelections.selectedOptions.cartItemId}`] = 1;
     }
     setProductQuantities(initialProductQuantities);
   }, [cartItems]);
 
 
-  const placeOrder = async () => {
+  const placeOrder = async (event) => {
+
+    // Handling payment
+    event.preventDefault();
+
+    // Assuming 'stripe' and 'elements' are properly set up
+
+    if (!stripe || !elements) {
+      // Stripe not yet loaded
+      return;
+    }
+
+    try {
+      const { data } = await axios.post(
+        "payment/process_payment",
+        {
+          amount: (calculateTotalPrice() + 4.99).toFixed(2),
+          // Add any other required data here
+        }
+      );
+
+      const client_secret = data.client_secret;
+
+      const result = await stripe.confirmCardPayment(client_secret, {
+        payment_method: {
+          card: elements.getElement(CardNumberElement),
+          // You can add additional payment method details here if needed
+        },
+      });
+
+      if (result.error) {
+        // Handle payment error
+        console.error(result.error.message);
+        return;
+
+      } else {
+        // Payment successful, you can send the paymentMethod to your server if necessary
+        const paymentMethod = result.paymentIntent.payment_method;
+        console.log("Payment Successful! " + " amount: " + calculateTotalPrice())
+      }
+    } catch (error) {
+      console.error(error);
+      alert("payment Unseccessful!")
+      return;
+    }
+
     if (hasPaymentMethod && hasShippingAddress) {
       // Construct the items array by mapping over the cartItems
       const items = cartItems.map((item, index) => {
@@ -218,7 +287,7 @@ const Cart = () => {
 
 
   // Function to handle incrementing the quantity
-  const handleIncrementQuantity = (productId, variantId) => {
+  const handleIncrementQuantity = (productId, variantId, cartItemId) => {
     const updatedQuantities = { ...productQuantities };
     const product = cartItems.find(
       (item) =>
@@ -237,11 +306,11 @@ const Cart = () => {
         const availableQuantity = selectedVariant.quantity;
 
         console.log(
-          `Product: ${productId}, Variant: ${variantId}, Available Quantity: ${availableQuantity}`
+          `Product: ${productId}, Variant: ${variantId}, cartItemId: ${cartItemId}, Available Quantity: ${availableQuantity}`
         );
 
-        if (updatedQuantities[`${productId}_${variantId}`] < availableQuantity) {
-          updatedQuantities[`${productId}_${variantId}`]++;
+        if (updatedQuantities[`${productId}_${variantId}_${cartItemId}`] < availableQuantity) {
+          updatedQuantities[`${productId}_${variantId}_${cartItemId}`]++;
           setProductQuantities(updatedQuantities); // Update the state
         } else {
           // Show an alert if quantity exceeds available quantity
@@ -253,10 +322,10 @@ const Cart = () => {
 
 
   // Function to handle decrementing the quantity
-  const handleDecrementQuantity = (productId, variantId) => {
+  const handleDecrementQuantity = (productId, variantId, cartItemId) => {
     const updatedQuantities = { ...productQuantities };
-    if (updatedQuantities[`${productId}_${variantId}`] > 1) {
-      updatedQuantities[`${productId}_${variantId}`]--;
+    if (updatedQuantities[`${productId}_${variantId}_${cartItemId}`] > 1) {
+      updatedQuantities[`${productId}_${variantId}_${cartItemId}`]--;
       setProductQuantities(updatedQuantities); // Update the state
     }
   };
@@ -267,13 +336,14 @@ const Cart = () => {
 
     for (const productId in productQuantities) {
       const keyParts = productId.split('_');
-      if (keyParts.length === 2) {
+      if (keyParts.length === 3) {
         const product = cartItems.find(
           (item) =>
             item.productData._id === keyParts[0] &&
             item.productData.frame_information.frame_variants.some(
               (variant) => variant._id === keyParts[1]
-            )
+            ) &&
+            item.orderSelections.selectedOptions.cartItemId == keyParts[2]
         );
 
         if (product) {
@@ -286,14 +356,15 @@ const Cart = () => {
     return totalCalculatedPrice;
   };
 
-  const removeFromCart = (productId, variantId) => {
+  const removeFromCart = (productId, variantId, cartItemId) => {
     // Filter out the item to be removed from the cartItems state
     const updatedCartItems = cartItems.filter((item) => {
       const sameProductId = item.productData._id === productId;
+      const sameCartItemId = item.orderSelections.selectedOptions.cartItemId === cartItemId;
       const sameVariantId = item.productData.frame_information.frame_variants.some(
         (variant) => variant._id === variantId
       );
-      return !(sameProductId && sameVariantId);
+      return !(sameProductId && sameVariantId && sameCartItemId);
     });
 
     // Update the cartItems state
@@ -303,11 +374,9 @@ const Cart = () => {
     localStorage.setItem('cart', JSON.stringify(updatedCartItems));
   };
 
-
   return (
 
     <div>
-
       <div className="min-h-screen bg-gray-100 pt-20">
         <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
@@ -351,34 +420,38 @@ const Cart = () => {
                         </div> */}
 
                         <div className="flex items-center border-gray-100">
-                          <button className='cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50' 
-                          onClick={() => handleDecrementQuantity(item.productData._id,
-                            item
-                              .productData
-                              .frame_information
-                              .frame_variants
-                              .find((v) => v
-                                .color
-                                ===
-                                item
-                                  .orderSelections
-                                  .selectedOptions
-                                  .frameProperties
-                                  .frameColor)
-                              ._id)}
+                          <button className='cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50'
+                            onClick={() => handleDecrementQuantity(
+                              item.productData._id,
+                              item
+                                .productData
+                                .frame_information
+                                .frame_variants
+                                .find((v) => v
+                                  .color
+                                  ===
+                                  item
+                                    .orderSelections
+                                    .selectedOptions
+                                    .frameProperties
+                                    .frameColor)
+                                ._id ,                                 
+                                item.orderSelections.selectedOptions.cartItemId
+                                )
+                              }
                           >-
                           </button>
 
-                          <div className='h-8 border bg-white text-center text-xs outline-none' 
+                          <div className='h-8 border bg-white text-center text-xs outline-none'
                             style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <input 
+                            <input
                               type="number"
                               value={productQuantities[`${item.productData._id}_${item.productData.frame_information
                                 .frame_variants.find((v) => v.color === item.orderSelections.selectedOptions
-                                .frameProperties.frameColor)._id}`]}
+                                  .frameProperties.frameColor)._id}_${item.orderSelections.selectedOptions.cartItemId}`]}
                               min="1"
                               readOnly
-                              style={{ marginLeft: 12, border: 'none',width: 40, background: 'none', outline: 'none', textAlign: 'center', fontSize: '14px' }}
+                              style={{ marginLeft: 12, border: 'none', width: 40, background: 'none', outline: 'none', textAlign: 'center', fontSize: '14px' }}
                             />
                           </div>
 
@@ -401,7 +474,8 @@ const Cart = () => {
                                     .selectedOptions
                                     .frameProperties
                                     .frameColor)
-                                ._id
+                                ._id,
+                                item.orderSelections.selectedOptions.cartItemId
                             )}
                           >+</button>
                         </div>
@@ -415,7 +489,8 @@ const Cart = () => {
                                   (v) =>
                                     v.color ===
                                     item.orderSelections.selectedOptions.frameProperties.frameColor
-                                )._id
+                                )._id,
+                                item.orderSelections.selectedOptions.cartItemId
                               )
                             }
                             className='cross'
@@ -507,9 +582,14 @@ const Cart = () => {
                 {payments.length > 0 ? payments[0].nameOnCard : "No Payment Method"}
               </h5>
               <p className="text-base font-sans">
-                {payments.length > 0 ? (
+                <CardNumberElement />
+                <CardExpiryElement />
+                <CardCvcElement />
+                {/* {payments.length > 0 ? (
                   <>
                     VISA&nbsp;&nbsp;{payments[0].paymentType}&nbsp;&nbsp;
+                    <br />
+                    Card No: {payments[0].cardNumber}&nbsp;&nbsp;
                     <br />
                     Expiration Date: {payments[0].expirationMonth}/{payments[0].expirationYear}&nbsp;&nbsp;
                     <br />
@@ -517,7 +597,7 @@ const Cart = () => {
                   </>
                 ) : (
                   "No Payment Method added!"
-                )}
+                )} */}
               </p>
 
               <div className=" py-4 text-right">

@@ -9,7 +9,7 @@ import {
   RouterProvider,
   Routes,
 } from "react-router-dom";
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 
 // user profiling imports
 import Signin from "./pages/User/UserProfiling/Signin";
@@ -76,6 +76,26 @@ import Products from './pages/User/HomeScreens/products'
 import Filter from './pages/User/HomeScreens/filter'
 import Tryon from './pages/User/OrderManagement/Tryon'
 
+import { getStripeApiKey } from "./api/productsApi";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+
+
+
+function App() {
+
+  const [stripeApiKey, setStripeApiKey] = useState('')
+
+  useEffect(() => {
+    getStripeApiKeyData()
+  }, [])
+
+  const getStripeApiKeyData = async () => {
+    const { data } = await getStripeApiKey()
+    setStripeApiKey(data.stripeApiKey)
+    console.log(data.stripeApiKey)
+  }
+
 
 const publicRoutes = (
   <Route>
@@ -89,6 +109,7 @@ const publicRoutes = (
 
 const privateRoutes = (
   <>
+
     {/* Home Screens routes */}
     <Route path="/" element={<PrivateRoute Component={HomeNavbar} />} >
       <Route index element={<PrivateRoute Component={Home} />} />
@@ -97,7 +118,18 @@ const privateRoutes = (
       {/* product details */}
       <Route path="product_details/:id" element={<PrivateRoute Component={ProductDetails} />} />
       <Route path="select_lens/:id" element={<PrivateRoute Component={SelectLensTypeComponent} />} />
-      <Route path="cart" element={<PrivateRoute Component={Cart} />} />
+      
+      <Route
+              path="cart"
+              element={
+                stripeApiKey && (
+                  <Elements stripe={loadStripe(stripeApiKey)}>
+                    <PrivateRoute Component={Cart} />
+                  </Elements>
+                ) 
+              }
+            />
+
       <Route path="tryon" element={<PrivateRoute Component={Tryon} />} />
     </Route>
 
@@ -216,7 +248,6 @@ const router = createBrowserRouter(
   )
 );
 
-function App() {
   return (
     <Fragment>
       <RouterProvider router={router} />

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import API_URL from "../../../config/config";
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
-import banner from '../../../assets/images/products/banner.jpg'
+import banner from '../../../assets/images/products/banner.webp'
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { filters } from '../../../components/ui/User/ProductComponents/Filters'
 import ColorsFilter from "../../../components/ui/User/ProductComponents/Colors";

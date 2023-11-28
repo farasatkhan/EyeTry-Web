@@ -47,6 +47,7 @@ import { Grid } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { getUserData } from '../../api/userapi';
+import { viewProductsList } from '../../api/productsApi';
 
 // for navbar
 const Search = styled('div')(({ theme }) => ({
@@ -149,6 +150,9 @@ export default function PersistentDrawerLeft() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
+  // products list 
+  const [productsList, setPrductsList] = useState([]) 
+
   useEffect(() => {
     const getUserName = async () => {
       const { firstName, lastName } = await getUserData();
@@ -163,15 +167,37 @@ export default function PersistentDrawerLeft() {
     navigate(page)
   }
 
-  const top100Films = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
-    { title: 'The Dark Knight', year: 2008 },
-    { title: '12 Angry Men', year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: 'Pulp Fiction', year: 1994 },
-  ];
+  // Fetching product list for search data 
+
+  useEffect (() => {
+    fetchProductsList();
+  }, [])
+
+  const fetchProductsList =  async () => {
+    try {
+      const products = await viewProductsList();
+      const simplifiedProducts = products.map(product => ({
+        id: product._id,
+        name: product.name
+      }));
+      setPrductsList(simplifiedProducts)
+      console.log("fetched product list: ", simplifiedProducts)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // handling navigation on search options
+  const handleSearchOptionClick = (event, value) => {
+    if (value.id === undefined) {
+      alert("No Results Found!")
+    }
+    if (value && value.id !== undefined) {
+      console.log("value :" ,value)
+      navigate(`/product_details/${value.id}`);
+    }
+  };
+ 
 
   const [profilePic, setProfilePic] = React.useState(null)
   const baseURL = 'http://localhost:3000'
@@ -336,7 +362,10 @@ export default function PersistentDrawerLeft() {
             freeSolo
             id="free-solo-2-demo"
             disableClearable
-            options={top100Films.map((option) => option.title)}
+            options={productsList}
+            getOptionLabel={(option) => option.name}
+            getOptionSelected={(option, value) => option.id === value.id}
+            onChange={handleSearchOptionClick}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -346,11 +375,11 @@ export default function PersistentDrawerLeft() {
                   type: 'search',
                   startAdornment: (
                     <SearchIcon
-                      style={{ marginRight: '8px', color: 'black' }} // Customize icon styles here
+                      style={{ marginRight: '8px', color: 'black' }} 
                     />
                   ),
                   sx: {
-                    border: 'none', // Remove border
+                    border: 'none', 
                   },
                 }}
               />

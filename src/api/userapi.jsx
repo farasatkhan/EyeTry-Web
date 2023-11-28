@@ -333,6 +333,36 @@ export const viewAllPrescriptions = async () => {
         throw error;
     }
 };
+// View specific Prescriptions
+
+export const viewSpecificPrescriptions = async (pid = "6533a2faee4abf7a63153253") => {
+    try {
+        const accessToken = await localStorage.getItem("accessToken")
+        const response = await axios.get(`${baseURL}/users/view_prescription/${pid}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+        });
+        console.log("All Prescriptions ", response?.data)
+        return response?.data; // incase server return 304 
+    }
+    catch (error) {
+        // Server is returning 403 for expired token
+        console.log("Access Token Expired ... Renewing")
+        if (error.response && error.response.status == 403) {
+            try {
+                console.log("Error Catched")
+                await reGenerateAccessToken()
+                return viewSpecificPrescriptions()
+            }
+            catch (e) {
+                console.error("Error while refreshing token", e)
+                throw e
+            }
+        }
+        throw error;
+    }
+};
 
 // Adding Payment
 export const addPayment = async (paymentMethodData) => {

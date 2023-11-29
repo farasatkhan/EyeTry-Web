@@ -304,10 +304,9 @@ export const addPrescription = async (prescriptionData) => {
 };
 
 // View All Prescriptions
-
 export const viewAllPrescriptions = async () => {
     try {
-        const accessToken = await localStorage.getItem("accessToken")
+        const accessToken = localStorage.getItem("accessToken")
         const response = await axios.get(`${baseURL}/users/view_prescriptions`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`
@@ -333,6 +332,7 @@ export const viewAllPrescriptions = async () => {
         throw error;
     }
 };
+
 // View specific Prescriptions
 
 export const viewSpecificPrescriptions = async (pid = "6533a2faee4abf7a63153253") => {

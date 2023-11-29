@@ -14,8 +14,19 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useNavigate } from "react-router-dom";
+import SuccessAlert from "../../../components/ui/User/Alerts/SuccessAlert";
 
 export default function AddPrescriptionScreen() {
+
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+    const handleSuccess = () => {
+        setShowSuccessMessage(true);
+        setTimeout(() => {
+          setShowSuccessMessage(false);
+        }, 3000); 
+      };
 
     // radio button, IPD 1 , 2 numbers
     const [pdType, setPDType] = useState('oneNumber');
@@ -109,20 +120,32 @@ export default function AddPrescriptionScreen() {
         try {
             const SendPrescription = await addPrescription(prescriptionData)
             console.log(SendPrescription)
-            alert("Prescription Added Successfully!")
+            SuccessAlert()
         }
         catch (error) {
             console.log(error)
         }
     };
 
+    const navigate = useNavigate();
+
+        const HandleFindIpd = () => {
+            navigate("/user/measure_ipd")
+        }
+
+        const SuccessAlert = () => {
+            return(
+                <SuccessAlert  showMessage={showSuccessMessage} onClose={() => setShowSuccessMessage(false)} />
+            )
+        }
+
 
     return (
         <div className="flex flex-col min-h-screen">
-            <div className="p-5  bg-white border border-gray-200 rounded-lg shadow w-[90%] mx-auto mb-5">
+            <div className="p-5 mt-10  bg-white border border-gray-200 rounded-lg shadow w-[90%] mx-auto mb-10">
                 <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10 ">
                     <div class=" text-center mb-12" >
-                        <h3 className="text-2xl sm:text-4xl  font-bold font-sans">Add Prescription</h3>
+                        <h3 className="text-2xl sm:text-3xl  font-semibold font-sans">Add Prescription</h3>
                     </div>
                     <label for="firstname" className="block text-base font-semibold text-gray-800 font-sans">Precription Name</label>
                     <div className="relative">
@@ -259,7 +282,7 @@ export default function AddPrescriptionScreen() {
                             </div>
                             <div class="ml-5 mt-10">
                                 <p class="text-sm mb-1">Don't know your Pupillary Distance (PD)?</p>
-                                <button class="px-4 py-2 rounded inline-flex items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent">
+                                <button onClick={() => HandleFindIpd()} class="px-4 py-2 rounded inline-flex items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent">
                                     <span>Find your IPD</span>
                                 </button>
                             </div>

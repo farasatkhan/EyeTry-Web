@@ -200,13 +200,13 @@ export default function ProfileHomeScreen() {
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                         <tr>
                                             <th scope="col" class="px-6 py-3">
-                                                {prescription.prescriptionName}
+                                                Name
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                {prescription.dateOfPrescription}
+                                                Date
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                {prescription.prescriptionType}
+                                                Type
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 <span class="sr-only">Edit</span>

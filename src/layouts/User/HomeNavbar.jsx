@@ -181,7 +181,7 @@ export default function PersistentDrawerLeft() {
         name: product.name
       }));
       setPrductsList(simplifiedProducts)
-      console.log("fetched product list: ", simplifiedProducts)
+      // console.log("fetched product list: ", simplifiedProducts)
     } catch (error) {
       console.log(error)
     }
@@ -193,7 +193,7 @@ export default function PersistentDrawerLeft() {
       alert("No Results Found!")
     }
     if (value && value.id !== undefined) {
-      console.log("value :" ,value)
+      // console.log("value :" ,value)
       navigate(`/product_details/${value.id}`);
     }
   };

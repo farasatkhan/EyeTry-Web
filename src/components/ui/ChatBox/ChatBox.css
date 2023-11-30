@@ -1,0 +1,146 @@
+.ChatBox-container {
+    background: var(--cardColor);
+    border-radius: 1rem;
+    display: grid;
+    grid-template-rows: 14vh 70vh 13vh;
+}
+
+.chat-header {
+    padding: 1rem 1rem 0rem 1rem;
+    display: flex;
+}
+
+.chat-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    overflow-x: hidden;
+    overflow-y:scroll;
+
+}
+
+.message {
+  background: var(--buttonBg);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  max-width: 70%;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+}
+
+.message>span:nth-child(2){
+    font-size: 0.7rem;
+    color: var(--textColor);
+    align-self: end;
+}
+
+.own {
+  align-self: flex-end;
+  border-radius: 0.5rem;
+  background: linear-gradient(98.63deg, #24e4f0 0%, #358ff9 100%);
+}
+
+.other{
+  align-self: flex-start;
+  border-radius: 0.5rem;
+  background: linear-gradient(98.63deg, #0c2d30 0%, #358ff9 100%);
+}
+
+
+
+.chat-sender {
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    height: 3.5rem;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem;
+    border-radius: 1rem;
+    align-self: end;
+    overflow:hidden
+    
+}
+
+  
+.follower{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .follower>div{
+    display: flex;
+    gap: 10px;
+  }
+  
+  
+  .name{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  
+  .name>span:nth-of-type(1){
+    font-weight: bold;
+  }
+  
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+
+
+/* .chat-sender>div:nth-of-type(1)
+{
+    background: rgb(233, 233, 233);
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer
+} */
+.chat-sender>div{
+    padding: 0px 15px 0px 15px;
+}
+
+  
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 10px;
+    border-radius: 0.5rem;
+    background: var(--buttonBg);
+    transition: all 100ms ease-out;
+  }
+  
+  .button:hover {
+    color: var(--orange);
+    border: 2px solid var(--orange);
+    cursor: pointer;
+    background: transparent;
+  }

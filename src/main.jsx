@@ -14,7 +14,7 @@ AOS.init({
   duration: 2000, // Animation duration in milliseconds
   offset: 100,   // Offset (in pixels) from the top of the element when animation starts
   easing: 'ease', // Easing function
-  once: false,     // Whether animations should only happen once
+  once: true,     // Whether animations should only happen once
   // delay: 200
 });
 

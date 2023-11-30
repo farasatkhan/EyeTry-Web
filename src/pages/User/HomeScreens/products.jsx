@@ -224,6 +224,10 @@ const Products = () => {
         // }
     }, [page]);
 
+    // cut price calculation
+    const cutPrice = (price, discount) => {
+        return (price - (price * discount) / 100).toFixed()
+    }
 
     return (
         <>
@@ -429,7 +433,7 @@ const Products = () => {
                                         <div class="flex items-center mb-2">
                                             <p class="text-lg font-semibold text-black cursor-auto">${product.priceInfo.price}</p>
                                             <del>
-                                                <p class="text-sm text-gray-600 cursor-auto ml-2">$199</p>
+                                            <p className="text-sm text-gray-600 cursor-auto ml-2">${cutPrice(product.priceInfo.price, product.discount)}</p>
                                             </del>
                                             <div class="ml-auto"><p className=" font-sans text-base font-bold text-red-600">{product.discount}% off</p></div>
                                         </div>

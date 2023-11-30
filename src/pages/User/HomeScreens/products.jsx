@@ -174,7 +174,7 @@ const Products = () => {
                 (product && (product.frame_shape === shape || product.frame_shape === shape.toLowerCase()));
 
             const faceShapeMatch =
-                faceShape === "All Shapes" ||
+                faceShape === "All" ||
                 (product && product.person_information.face_shape.includes(faceShape || faceShape.toLowerCase()));
 
             const categoryMatch =

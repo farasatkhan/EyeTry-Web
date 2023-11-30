@@ -4,7 +4,7 @@ function FaceDetectionImages() {
   return (
     <div className="flex">
       <div>
-        <button>Find Your Face Shape</button>
+        <button>Upload Image</button>
       </div>
     </div>
   );

@@ -63,7 +63,7 @@ const shapeFilter = ({ selectedShape, onShapeSelect }) => {
             <FaceDetection onFaceShapeChange={handleShapeClick} />
           </div>
           <div className="rounded-sm py-2 px-4 transition duration-100 ease-in-out text-blue-400 bg-gray-200 hover:bg-gray-100 flex justify-center">
-            <FaceDetectionImages />
+            <FaceDetectionImages onFaceShapeChange={handleShapeClick} />
           </div>
         </ul>
       </div>

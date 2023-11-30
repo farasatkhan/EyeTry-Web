@@ -15,6 +15,7 @@ import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import { viewAllOrders, viewAllReviews, addReview, viewParticularProduct } from "../../../api/productsApi";
 import Tryon from './Tryon'
+import reviewUserDefaultPic from '../../../assets/images/UserProfiling/defaultUser.png'
 
 export default function SelectLensTypeScreen({ rating }) {
 
@@ -376,7 +377,7 @@ export default function SelectLensTypeScreen({ rating }) {
                         <div className="flex flex-col w-[90%] mx-auto mt-[35px] bg-gray-100 m-10 flex-1 p-7 justify-center">
                             <h1 className="font-semibold font-sans mt-[-30px] text-3xl">{product.name}</h1>
                             <div className="flex space-x-4 items-center mb-1 mt-2">
-                                <div className="product-rating font-bold text-2xl text-yellow-500 flex" >
+                                <div className="product-rating font-bold text-2xl text-[#FAAF00] flex" >
                                     <Rating
                                         name="text-feedback"
                                         value={avgReviews}
@@ -386,17 +387,19 @@ export default function SelectLensTypeScreen({ rating }) {
                                     />
                                     {/* <span className="rating">{rating}</span> */}
                                 </div>
-                                <p className="font-bold text-orange-400 text-lg">{avgReviews}</p>
+                                <p className="font-bold text-[#FAAF00] text-xl">{avgReviews}</p>
                             </div>
-                            {product && product.reviewsInformation ? (
-                                <p className=" text-blue-400 cursor-pointer">
-                                    Reviews ({product.reviewsInformation.total_reviews})
-                                </p>
-                            ) : (
-                                <p className=" text-blue-400 cursor-pointer">
-                                    Reviews (Loading...)
-                                </p>
-                            )}
+                            <div className="mb-5">
+                                {product && product.reviewsInformation ? (
+                                    <p className=" text-blue-400 cursor-pointer ml-1">
+                                        Reviews ({product.reviewsInformation.total_reviews})
+                                    </p>
+                                ) : (
+                                    <p className=" text-blue-400 cursor-pointer">
+                                        Reviews (Loading...)
+                                    </p>
+                                )}
+                            </div>
                             {/* <p className="font-sans mt-1 text-base">{product.type}</p> */}
                             <p className="font-sans mt-2 text-base font-semibold">Frame Color</p>
                             {/* displaying frame colors */}
@@ -741,7 +744,25 @@ export default function SelectLensTypeScreen({ rating }) {
                     {reviews.slice(0, visibleReviewsCount).map((review, index) => (
                         <div className="mt-5">
                             <div className="flex items-center space-x-3">
-                                <img src={API_URL + "/uploads/profile_images/" + review.user.profilePicture} alt="" className='w-[40px] h-[40px] rounded-xl' />
+                                {
+                                    review.user.profilePicture ?
+                                        (
+                                            <img
+                                            className='w-[40px] h-[40px] rounded-full'
+                                                src={API_URL + "/uploads/profile_images/" + review.user.profilePicture}
+                                                alt="user"
+                                            />
+                                        )
+                                        :
+                                        (
+                                            <img
+                                            className='w-[40px] h-[40px] rounded-xl-full'
+                                                src={reviewUserDefaultPic}
+                                                alt="default"
+                                            />
+                                        )
+                                }
+
                                 <h3 className="font-semibold">{review.user.firstName} {review.user.lastName}</h3>
                             </div>
                             <div className="ml-12">

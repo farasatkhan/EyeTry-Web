@@ -429,7 +429,7 @@ const Products = () => {
                                             precision={0.1}
                                             emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                                         />
-                                        <p className={`${productRatings[product._id] === "No Reviews" ? 'text-sm text-gray-400' : 'text-base'} `}>{productRatings[product._id]}</p>
+                                        <p className={`${productRatings[product._id] === "No Reviews" ? 'text-sm text-gray-400' : 'text-xl'} `}>{productRatings[product._id]}</p>
                                     </div>
                                     <div>
 

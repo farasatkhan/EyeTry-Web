@@ -15,7 +15,7 @@ AOS.init({
   offset: 100,   // Offset (in pixels) from the top of the element when animation starts
   easing: 'ease', // Easing function
   once: false,     // Whether animations should only happen once
-  delay: 200
+  // delay: 200
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

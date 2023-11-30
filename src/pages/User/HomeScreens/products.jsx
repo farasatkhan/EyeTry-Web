@@ -31,10 +31,10 @@ const Products = () => {
     const [selectedFaceShape, setSelectedFaceShape] = useState("All Shapes");
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(5000);
-    const [selectedCategory , setSelectedCategory] = useState("All Categories");
-    const [selectedRim , setSelectedRim] = useState("All Rims");
+    const [selectedCategory, setSelectedCategory] = useState("All Categories");
+    const [selectedRim, setSelectedRim] = useState("All Rims");
     const { page } = useParams();
-    
+
     useEffect(() => {
         fetchProductsList();
     }, []);
@@ -111,12 +111,12 @@ const Products = () => {
 
     const handleFilterLeave = (filterName) => {
         if (filterName === "Face Shape")
-        setActiveFilter(filterName);
+            setActiveFilter(filterName);
         else setActiveFilter(null)
     };
 
 
-    const handleFilter = ({ color, material, size, gender, shape, faceShape ,minPrice, maxPrice, category, rim }) => {   // face shape remaining
+    const handleFilter = ({ color, material, size, gender, shape, faceShape, minPrice, maxPrice, category, rim }) => {   // face shape remaining
         setFilterColor(color);
         setFilterMaterial(material);
         setSelectedSize(size);
@@ -129,15 +129,15 @@ const Products = () => {
         setSelectedRim(rim);
 
         console.log("Filters: " + color + ", " + material + ", " + size + ", " + gender + ", " + shape +
-         ", " + faceShape + ", " + minPrice + ", " + maxPrice + ", " + category + ", " + rim )
+            ", " + faceShape + ", " + minPrice + ", " + maxPrice + ", " + category + ", " + rim)
 
         const filtered = productsList.filter((product) => {
             if (color === "All Colors" && material === "All Materials"
-                && size === "All Size" && gender === "All Genders" && 
-                shape === "All Shapes" && faceShape === "All Shapes" && 
+                && size === "All Size" && gender === "All Genders" &&
+                shape === "All Shapes" && faceShape === "All Shapes" &&
                 category === "All Categories" && rim === "All Rims" &&
                 (product.priceInfo.price >= minPrice && // Price filtering
-                product.priceInfo.price <= maxPrice)) {
+                    product.priceInfo.price <= maxPrice)) {
 
                 return true;
             }
@@ -176,19 +176,19 @@ const Products = () => {
             const faceShapeMatch =
                 faceShape === "All Shapes" ||
                 (product && product.person_information.face_shape.includes(faceShape || faceShape.toLowerCase()));
-            
+
             const categoryMatch =
                 category === "All Categories" ||
                 (product && (product.categories.includes(category) || product.type.includes(category)));
-            
-                // const rimMatch =
-                // category === "All Rims" ||
-                // (product && (product.rim_shape === rim || product.rim_shape === rim.toLowerCase()));
-            
+
+            // const rimMatch =
+            // category === "All Rims" ||
+            // (product && (product.rim_shape === rim || product.rim_shape === rim.toLowerCase()));
+
 
             return colorMatch && materialMatch && sizeMatch && genderMatch && shapeMatch && faceShapeMatch && categoryMatch &&
                 (product.priceInfo.price >= minPrice && // Price filtering
-                product.priceInfo.price <= maxPrice) 
+                    product.priceInfo.price <= maxPrice)
         });
 
         setFilteredProducts(filtered);
@@ -197,14 +197,32 @@ const Products = () => {
 
     // products colors handling:
     const handleColorSelect = (productId, color, category) => {
-          setSelectedColorsFeatured({
+        setSelectedColorsFeatured({
             ...selectedColorsFeatured,
             [productId]: color,
-          });
+        });
 
-      };
+    };
 
+    // handling Men eyeglasses category 
+    useEffect(() => {
+        fetchProductsList();
 
+        // Setting initial value based on the page
+        if (page === "men_glasses" || page === "men_sunglasses") {
+            setSelectedGender("Male");
+        }
+        if (page === "women_glasses" || page === "women_sunglasses") {
+            setSelectedGender("Female");
+        }
+        if (page === "kids_glasses") {
+            setSelectedGender("Kids");
+        }
+        
+        // else {
+        //     setSelectedGender("All Genders");
+        // }
+    }, [page]);
 
 
     return (
@@ -215,7 +233,33 @@ const Products = () => {
                     <div className="absolute inset-0 bg-black opacity-50"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
                         <h2 className="text-white text-3xl font-sans font-semibold ">
-                            {page === "featured_products" ? "Featured Products" : "Products"}
+                            {page === "featured_products" ? "Featured Products"
+                                : page === "new_arrival" ? "New Arrival"
+                                : page === "men_sunglasses" ? "Men Sunglasses"
+                                : page === "women_sunglasses" ? "Women Sunglasses"
+                                : page === "men_glasses" ? "Men's Eyeglasses"
+                                : page === "women_glasses" ? "Women's Eyeglasses"
+                                : page === "kids_glasses" ? "Kids Eyeglasses"
+                                : page === "shop_by_face_shape" ? (
+                                    <div className="text-center">
+                                      <p className="mx-auto">Shop By Face Shape</p>
+                                      <p className="mx-auto font-mono text-lg">Select face shape filter to get recommendations on the basis of facial feature</p>
+                                    </div>
+                                  )                             
+                                : page === "shop_by_frame_shape" ? (
+                                    <div className="text-center">
+                                      <p className="mx-auto">Shop By Frame Shape</p>
+                                      <p className="mx-auto font-mono text-lg">Select frame shape filter to get the results based on selected frame shape</p>
+                                    </div>
+                                  )                             
+                                  : page === "shop_by_frame_color" ? (
+                                    <div className="text-center">
+                                      <p className="mx-auto">Shop By Frame Color</p>
+                                      <p className="mx-auto font-mono text-lg">Select frame color filter to get the results based on selected color</p>
+                                    </div>
+                                  ) : "All Products"}
+                                                              
+
                         </h2>
                     </div>
                 </div>
@@ -305,14 +349,14 @@ const Products = () => {
 
                                 {activeFilter === "Category" && filter.name === "Category" && (
                                     <CategoryFilter
-                                    selectedCategory={selectedCategory}
+                                        selectedCategory={selectedCategory}
                                         onCategorySelect={(category) => handleFilter({ color: filterColor, material: filterMaterial, size: selectedSize, gender: selectedGender, shape: selectedShape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category, rim: selectedRim })}
                                     />
                                 )}
-                                
+
                                 {activeFilter === "Rim" && filter.name === "Rim" && (
                                     <RimFilter
-                                    selectedRim={selectedRim}
+                                        selectedRim={selectedRim}
                                         onRimSelect={(rim) => handleFilter({ color: filterColor, material: filterMaterial, size: selectedSize, gender: selectedGender, shape: selectedShape, faceShape: selectedFaceShape, minPrice: minPrice, maxPrice: maxPrice, category: selectedCategory, rim })}
                                     />
                                 )}

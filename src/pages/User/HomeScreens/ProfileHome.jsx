@@ -4,7 +4,7 @@ import Sidebar from "../../../layouts/User/UserProfilingNavbar";
 import { BiEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import { FaRegEnvelope, FaUser, } from "react-icons/fa";
-import { getUserData, deleteAddress, viewAllPayments, deletePaymentMethod, viewAllPrescriptions } from '../../../api/userapi';
+import { getUserData, deleteAddress, viewAllPayments, deletePaymentMethod, viewAllPrescriptions, viewSpecificPrescriptions } from '../../../api/userapi';
 import tryonImg from '../../../assets/images/UserProfiling/tryon.png'
 
 // export default function ProfileHome() {
@@ -24,6 +24,7 @@ export default function ProfileHomeScreen() {
         getProfileData()
         getPaymentData()
         getPrescriptionsData()
+        getSpecificPrescriptionsData()
     }, [])
 
     const getProfileData = async () => {
@@ -78,6 +79,17 @@ export default function ProfileHomeScreen() {
             const response = await viewAllPrescriptions()
             setPrescriptions(response)
             console.log("prescriptions: " + prescriptions)
+        }
+        catch (e) {
+            throw e
+        }
+    }
+    // managing prescriptions
+    const getSpecificPrescriptionsData = async () => {
+        try {
+            const response = await viewSpecificPrescriptions()
+            // setPrescriptions(response)
+            console.log("Specific prescriptions: " + response)
         }
         catch (e) {
             throw e
@@ -188,13 +200,13 @@ export default function ProfileHomeScreen() {
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                         <tr>
                                             <th scope="col" class="px-6 py-3">
-                                                {prescription.prescriptionName}
+                                                Name
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                {prescription.dateOfPrescription}
+                                                Date
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                {prescription.prescriptionType}
+                                                Type
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 <span class="sr-only">Edit</span>

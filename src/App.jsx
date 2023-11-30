@@ -38,6 +38,9 @@ import UploadTryonImages from "./pages/User/UserProfiling/UploadTryonImages";
 import UploadUserImage from "./pages/User/UserProfiling/UploadUserImage";
 import FaceDetection from "./pages/User/FaceDetection/FaceDetection";
 
+// Chat
+import Chat from "./pages/User/Chat";
+
 // admin imports
 import AddFrames from "./pages/Admin/AddFrames";
 import AddLens from "./pages/Admin/AddLens";
@@ -75,6 +78,7 @@ import ProductDetails from './pages/User/OrderManagement/ProductDetails'
 import Products from './pages/User/HomeScreens/products'
 import Filter from './pages/User/HomeScreens/filter'
 import Tryon from './pages/User/OrderManagement/Tryon'
+
 
 import { getStripeApiKey } from "./api/productsApi";
 import { loadStripe } from "@stripe/stripe-js";
@@ -195,6 +199,11 @@ const privateRoutes = (
         element={<PrivateRoute Component={TestHistory} />}
       />
     </Route>
+
+    {/* Chat Route  */}
+    <Route path="/chat" element={<PrivateRoute Component={Chat} />} />
+
+    {/* Password Reset Routes */}
 
     {/* admin routes */}
     <Route

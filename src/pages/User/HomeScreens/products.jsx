@@ -28,12 +28,13 @@ const Products = () => {
     const [selectedSize, setSelectedSize] = useState("All Size");
     const [selectedGender, setSelectedGender] = useState("All Genders");
     const [selectedShape, setSelectedShape] = useState("All Shapes");
-    const [selectedFaceShape, setSelectedFaceShape] = useState("All Shapes");
+    const [selectedFaceShape, setSelectedFaceShape] = useState("All");
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(5000);
     const [selectedCategory, setSelectedCategory] = useState("All Categories");
     const [selectedRim, setSelectedRim] = useState("All Rims");
     const { page } = useParams();
+
 
     useEffect(() => {
         fetchProductsList();
@@ -42,6 +43,12 @@ const Products = () => {
     useEffect(() => {
         setFilteredProducts(productsList);
     }, [productsList]);
+
+    useEffect(() => {
+        pageFilter();
+    }, [productsList, page]);
+
+
 
     const fetchProductsList = async () => {
         try {
@@ -94,7 +101,7 @@ const Products = () => {
                         <img
                             src={completePath}
                             alt="product"
-                            className="object-contain w-[300px] h-[200px]"
+                            className="object-contain w-[300px] h-[200px] p-5"
                         />
                     </div>
                 );
@@ -122,10 +129,11 @@ const Products = () => {
     };
 
 
-    const handleFilter = ({ color, material, size, gender, shape, faceShape, minPrice, maxPrice, category, rim }) => {   // face shape remaining
+    const handleFilter = ({ color, material, size, gender, shape, faceShape, minPrice, maxPrice, category, rim }) => {
         setFilterColor(color);
         setFilterMaterial(material);
         setSelectedSize(size);
+        console.log("Gender Selected from page A", gender)
         setSelectedGender(gender);
         setSelectedShape(shape);
         setSelectedFaceShape(faceShape);
@@ -137,67 +145,81 @@ const Products = () => {
         console.log("Filters: " + color + ", " + material + ", " + size + ", " + gender + ", " + shape +
             ", " + faceShape + ", " + minPrice + ", " + maxPrice + ", " + category + ", " + rim)
 
-        const filtered = productsList.filter((product) => {
-            if (color === "All Colors" && material === "All Materials"
-                && size === "All Size" && gender === "All Genders" &&
-                shape === "All Shapes" && faceShape === "All Shapes" &&
-                category === "All Categories" && rim === "All Rims" &&
-                (product.priceInfo.price >= minPrice && // Price filtering
-                    product.priceInfo.price <= maxPrice)) {
+        console.log("first product list: ", productsList)
+        if (productsList) {
+            const filtered = productsList.filter((product) => {
+                if (color === "All Colors" && material === "All Materials"
+                    && size === "All Size" && gender === "All Genders" &&
+                    shape === "All Shapes" && faceShape === "All Shapes" &&
+                    category === "All Categories" && rim === "All Rims" &&
+                    (product.priceInfo.price >= minPrice && // Price filtering
+                        product.priceInfo.price <= maxPrice)) {
 
-                return true;
+                    return true;
+                }
+                const colorMatch =
+                    color === "All Colors" ||
+                    (product.frame_information &&
+                        product.frame_information.frame_variants &&
+                        product.frame_information.frame_variants.some(
+                            (variant) =>
+                                variant.color &&
+                                variant.color.toLowerCase() === color.toLowerCase()
+                        ));
+
+                const materialMatch =
+                    material === "All Materials" ||
+                    (product.frame_information &&
+                        product.frame_information.frame_variants &&
+                        product.frame_information.frame_material &&
+                        product.frame_information.frame_material.includes(material || material.toLowerCase()));
+
+                const sizeMatch =
+                    size === "All Size" ||
+                    (product.frame_information &&
+                        product.frame_information.frame_size &&
+                        product.frame_information.frame_size &&
+                        product.frame_information.frame_size.includes(size || size.toLowerCase()));
+
+                const genderMatch =
+                    gender === "All Genders" ||
+                    (product && product.person_information.genders.includes(gender || gender.toLowerCase()));
+
+                const shapeMatch =
+                    shape === "All Shapes" ||
+                    (product && (product.frame_shape === shape || product.frame_shape === shape.toLowerCase()));
+
+                const faceShapeMatch =
+                    faceShape === "All" ||
+                    (product && product.person_information.face_shape.includes(faceShape || faceShape.toLowerCase()));
+
+                const categoryMatch =
+                    category === "All Categories" ||
+                    (product && (product.categories.includes(category) || product.type.includes(category)));
+                // const rimMatch =
+                // category === "All Rims" ||
+                // (product && (product.rim_shape === rim || product.rim_shape === rim.toLowerCase()));
+
+                return (
+                    colorMatch &&
+                    materialMatch &&
+                    sizeMatch &&
+                    genderMatch &&
+                    shapeMatch &&
+                    faceShapeMatch &&
+                    categoryMatch &&
+                    (product.priceInfo.price >= minPrice &&
+                        product.priceInfo.price <= maxPrice)
+                );
+
+
             }
-            const colorMatch =
-                color === "All Colors" ||
-                (product.frame_information &&
-                    product.frame_information.frame_variants &&
-                    product.frame_information.frame_variants.some(
-                        (variant) =>
-                            variant.color &&
-                            variant.color.toLowerCase() === color.toLowerCase()
-                    ));
+            )
+            setFilteredProducts(filtered);
+            console.log("page filtered products: ", filtered);
 
-            const materialMatch =
-                material === "All Materials" ||
-                (product.frame_information &&
-                    product.frame_information.frame_variants &&
-                    product.frame_information.frame_material &&
-                    product.frame_information.frame_material.includes(material || material.toLowerCase()));
+        };
 
-            const sizeMatch =
-                size === "All Size" ||
-                (product.frame_information &&
-                    product.frame_information.frame_size &&
-                    product.frame_information.frame_size &&
-                    product.frame_information.frame_size.includes(size || size.toLowerCase()));
-
-            const genderMatch =
-                gender === "All Genders" ||
-                (product && product.person_information.genders.includes(gender || gender.toLowerCase()));
-
-            const shapeMatch =
-                shape === "All Shapes" ||
-                (product && (product.frame_shape === shape || product.frame_shape === shape.toLowerCase()));
-
-            const faceShapeMatch =
-                faceShape === "All" ||
-                (product && product.person_information.face_shape.includes(faceShape || faceShape.toLowerCase()));
-
-            const categoryMatch =
-                category === "All Categories" ||
-                (product && (product.categories.includes(category) || product.type.includes(category)));
-
-            // const rimMatch =
-            // category === "All Rims" ||
-            // (product && (product.rim_shape === rim || product.rim_shape === rim.toLowerCase()));
-
-
-            return colorMatch && materialMatch && sizeMatch && genderMatch && shapeMatch && faceShapeMatch && categoryMatch &&
-                (product.priceInfo.price >= minPrice && // Price filtering
-                    product.priceInfo.price <= maxPrice)
-        });
-
-        setFilteredProducts(filtered);
     };
 
 
@@ -211,24 +233,94 @@ const Products = () => {
     };
 
     // handling Men eyeglasses category 
-    useEffect(() => {
-        fetchProductsList();
 
-        // Setting initial value based on the page
-        if (page === "men_glasses" || page === "men_sunglasses") {
-            setSelectedGender("Male");
-        }
-        if (page === "women_glasses" || page === "women_sunglasses") {
-            setSelectedGender("Female");
-        }
-        if (page === "kids_glasses") {
-            setSelectedGender("Kids");
+
+    const pageFilter = () => {
+
+        switch (page) {
+            case "men_glasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: "Male",
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Men",
+                    rim: selectedRim
+                });
+                break;
+            case "women_glasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: "Female",
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Women",
+                    rim: selectedRim
+                });
+                break;
+            case "kids_glasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: "Kids",
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Kids",
+                    rim: selectedRim
+                });
+                break;
+            case "Sunglasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: selectedGender,
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Sunglasses",
+                    rim: selectedRim
+                });
+                break;
+            case "Eyeglasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: selectedGender,
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Eyeglasses",
+                    rim: selectedRim
+                });
+                break;
+
+            default:
+                break;
         }
 
-        // else {
-        //     setSelectedGender("All Genders");
-        // }
-    }, [page]);
+    }
+
+
+
+
+    // handleFilter(filterParams);
+
+
 
     // cut price calculation
     const cutPrice = (price, discount) => {
@@ -250,6 +342,8 @@ const Products = () => {
                                             : page === "men_glasses" ? "Men's Eyeglasses"
                                                 : page === "women_glasses" ? "Women's Eyeglasses"
                                                     : page === "kids_glasses" ? "Kids Eyeglasses"
+                                                    : page === "Sunglasses" ? "Sunglasses"
+                                                    : page === "Eyeglasses" ? "Eyeglasses"
                                                         : page === "shop_by_face_shape" ? (
                                                             <div className="text-center">
                                                                 <p className="mx-auto">Shop By Face Shape</p>

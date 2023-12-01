@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 const genderFilter = ({ selectedGender, onGenderSelect }) => {
     const sizeOptions = [
@@ -8,11 +8,14 @@ const genderFilter = ({ selectedGender, onGenderSelect }) => {
         "Kids"
     ];
 
+
+    
+    
     const handleGenderClick = (gender) => {
         // Update the selected gender when a gender is clicked
         onGenderSelect(gender);
     };
-
+    
     return (
         <>
             <div className="absolute left-0 p-2 bg-white shadow-lg rounded-md z-50 w-[300px] cursor-pointer">

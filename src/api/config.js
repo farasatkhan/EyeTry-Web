@@ -1,8 +1,6 @@
 import axios from "axios";
 import API_URL from "../config/config";
 
-
-import { getDataFromLocalStorage } from "../utils/LocalStorage";
 import { isAccessTokenExpired, refreshAccessToken } from "../utils/authUtils";
 
 const unauthenticatedAxiosInstance = axios.create({
@@ -15,14 +13,12 @@ const authenticatedAxiosInstance = axios.create({
 
 authenticatedAxiosInstance.interceptors.request.use(
     async (config) => {
-        const accessToken = getDataFromLocalStorage("accessToken");
-
+        const accessToken = localStorage.getItem('accessToken');
         config.headers["Authorization"] = `Bearer ${accessToken}`;
 
         if (isAccessTokenExpired(accessToken)) {
-            const refreshToken = getDataFromLocalStorage("refreshToken");
+            const refreshToken = localStorage.getItem("refreshToken");
             const newAccessToken = await refreshAccessToken(refreshToken);
-
             if (newAccessToken !== null) {
                 config.headers["Authorization"] = `Bearer ${newAccessToken}`;
             } else {

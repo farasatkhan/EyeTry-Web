@@ -9,7 +9,6 @@ function PrivateRoute(props) {
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
-
     if (!accessToken) {
       // No access token found, redirect to sign-in page
       navigate('/signin');

@@ -81,6 +81,11 @@ import Filter from './pages/User/HomeScreens/filter'
 import Tryon from './pages/User/OrderManagement/Tryon'
 
 
+// Support Tickets
+import CreateSupportTicket from "./pages/User/SupportTickets/CreateSupportTicket";
+import ViewAllTickets from "./pages/User/SupportTickets/ViewAllTickets";
+import ViewSpecificTicket from "./pages/User/SupportTickets/ViewSpecificTicket";
+
 import { getStripeApiKey } from "./api/productsApi";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
@@ -172,6 +177,9 @@ function App() {
 
     {/* Chat Route  */}
     <Route path="/chat" element={<PrivateRoute Component={Chat} />} />
+    <Route path="/create_ticket" element={<PrivateRoute Component={CreateSupportTicket} />} />
+    <Route path="/view_tickets" element={<PrivateRoute Component={ViewAllTickets} />} />
+    <Route path="/view_tickets/:ticketId" element={<PrivateRoute Component={ViewSpecificTicket} />} />
 
     {/* Password Reset Routes */}
 

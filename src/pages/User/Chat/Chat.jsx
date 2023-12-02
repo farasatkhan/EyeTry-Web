@@ -68,10 +68,10 @@ const Chat = () => {
 
 
   return (
-    <div className="Chat  ">
+    <div className="Chat ">
       {/* Left Menu */}
-      <div className="Left-side-chat shadow-lg   ">
-      <div className="Chat-container   ">
+      <div className="Left-side-chat shadow-lg    ">
+      <div className="Chat-container  ">
         <h2 className='p-3 text-sm sm:text-lg  font-semibold text-gray-700'>Chats</h2>
         <div className="Chat-list  w-full    ">
           {
@@ -88,7 +88,7 @@ const Chat = () => {
       </div>
 
       {/* Right Side Menu */}
-      <div className="Right-side-chat ">
+      <div className="Right-side-chat  ">
         <ChatBox chat={currentChat} currentUser={userId} setSendMessage={setSendMessage} receivedMessage={receiveMessage}/>
       </div>
     </div>

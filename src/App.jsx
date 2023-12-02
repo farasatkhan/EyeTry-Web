@@ -175,11 +175,7 @@ function App() {
         <Route path="test_history" element={<PrivateRoute Component={TestHistory} />} />
       </Route>
 
-    {/* Chat Route  */}
-    <Route path="/chat" element={<PrivateRoute Component={Chat} />} />
-    <Route path="/create_ticket" element={<PrivateRoute Component={CreateSupportTicket} />} />
-    <Route path="/view_tickets" element={<PrivateRoute Component={ViewAllTickets} />} />
-    <Route path="/view_tickets/:ticketId" element={<PrivateRoute Component={ViewSpecificTicket} />} />
+    
 
     {/* Password Reset Routes */}
 
@@ -190,13 +186,12 @@ function App() {
       <Route path="/add_glasses" element={<PrivateRoute Component={AddGlasses} />} />
 
       {/* Customer Support Routes */}
-      <Route path="/support/*" element={<CustomerSupportNavbar />}>
-        <Route index path="dashboard" element={<PrivateRoute Component={CustomerSupportDashboard} />} />
-        <Route path="ticket_details" element={<PrivateRoute Component={SupportTicketDetails} />} />
-        <Route path="personal_information" element={<PrivateRoute Component={PersonalInformation} />} />
-        <Route path="upload_user_image" element={<PrivateRoute Component={CSUploadUserImage} />} />
-        <Route path="view_personal_info" element={<PrivateRoute Component={ViewPersonalInfo} />} />
-        {/* <Route path="create_support_ticket" element={<PrivateRoute Component={CreateSupportTicket} />} /> */}
+      <Route path="/support/*" element={<HomeNavbar />}>
+        {/* Chat Route  */}
+        <Route index element={<PrivateRoute Component={ViewAllTickets} />} />
+        <Route path="chat" element={<PrivateRoute Component={Chat} />} />
+        <Route path="create_ticket" element={<PrivateRoute Component={CreateSupportTicket} />} />
+        <Route path="view_tickets/:ticketId" element={<PrivateRoute Component={ViewSpecificTicket} />} />
       </Route>
     </>
   );

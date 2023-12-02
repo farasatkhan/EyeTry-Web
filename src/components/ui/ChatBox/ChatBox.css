@@ -2,7 +2,7 @@
     background: var(--cardColor);
     border-radius: 1rem;
     display: grid;
-    grid-template-rows: 14vh 70vh 13vh;
+    grid-template-rows: 14vh 60vh 13vh;
 }
 
 .chat-header {

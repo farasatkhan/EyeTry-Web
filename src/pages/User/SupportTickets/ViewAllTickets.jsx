@@ -19,7 +19,7 @@ import TableHead from '@mui/material/TableHead';
 import { TextField } from '@mui/material';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 import { getSupportTickets } from '../../../services/SupportTickets/supportTickets';
 
@@ -27,6 +27,7 @@ import { getSupportTickets } from '../../../services/SupportTickets/supportTicke
 
 function TablePaginationActions(props) {
     const theme = useTheme();
+
     const { count, page, rowsPerPage, onPageChange } = props;
 
     const handleFirstPageButtonClick = (event) => {
@@ -95,6 +96,7 @@ export default function CustomPaginationActionsTable() {
     const [searchQuery, setSearchQuery] = React.useState('');
     const [searchAttribute, setSearchAttribute] = React.useState('customerName');
     const [supportTickets, setSupportTickets] = React.useState([]);
+    const navigate = useNavigate()
 
     // Function to fetch support ticket data from the server
     const fetchSupportTickets = async () => {
@@ -122,6 +124,10 @@ export default function CustomPaginationActionsTable() {
         });
     };
 
+    const handleCreateTicket = () =>{
+        navigate('create_ticket')
+    }
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -131,108 +137,95 @@ export default function CustomPaginationActionsTable() {
         setPage(0);
     };
 
-    const handleSearchChange = (event) => {
-        setSearchQuery(event.target.value);
-    };
 
-    const handleAttributeChange = (event) => {
-        setSearchAttribute(event.target.value);
-    };
+
+
+
 
     const filteredRows = searchQuery
         ? filterRows(supportTickets, searchAttribute, searchQuery)
         : supportTickets;
 
     return (
-        <div>
-            <div className='space-x-4 mb-5'>
-                {/* Search input field */}
-                {console.log("Filtered ROws",filteredRows)}
-                <TextField
-                    type="text"
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    id="outlined-basic"
-                    label="Search"
-                    variant="outlined"
-                    size='small'
-                />
+        <div className='p-5  flex flex-col justify-center items-center' style={{alignSelf:"center"}}>
+            <div className="flex flex-row mt-3 pb-7 pt-3">
+                        <h4 className="ml-5  text-xl font-semibold tracking-tight text-gray-900 font-sans">Support Tickets</h4>
+            </div>
+            <div className='md:w-[70%] lg:w-[60%] '>
+                {/* <div className='space-x-2 mb-5 sm:space-x-4  '> */}
+                <div className='flex items-baseline justify-end pb-4 gap-x-4 '>
+                    <p>
+                        If you're facing any query , feel free to
+                    </p>
 
-                {/* Attribute selection dropdown */}
-                <Select
-                    value={searchAttribute}
-                    onChange={handleAttributeChange}
-                    size='small'
-                >
-                    <MenuItem value="customerName">Name</MenuItem>
-                    <MenuItem value="dateIssued">Date Issued</MenuItem>
-                    <MenuItem value="type">Ticket Type</MenuItem>
-                    <MenuItem value="priority">Ticket Priority</MenuItem>
-                    <MenuItem value="status">Status</MenuItem>
+                    <div  className=" flex">
+                        <button onClick={handleCreateTicket} className="py-1 px-4 rounded inline-flex items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent">
+                        <span>Create Ticket</span>
+                        </button>
+                    </div>
+    
+               
+               </div>
 
-                </Select>
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 430 }} aria-label="custom pagination table">
+                        <TableHead className='bg-gray-800'>
+                            <TableRow>
+                                <TableCell style={{ color: "white" }}>Date Issued</TableCell>
+                                <TableCell style={{ color: "white" }}>Ticket Type</TableCell>
+                                <TableCell style={{ color: "white" }}>Ticket Priority</TableCell>
+                                <TableCell style={{ color: "white" }}>Status</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {(rowsPerPage > 0
+                                ? filteredRows.slice(
+                                    page * rowsPerPage,
+                                    page * rowsPerPage + rowsPerPage
+                                )
+                                : filteredRows
+                            ).map((row) => (
+                                <TableRow key={row._id}>
+                                    <TableCell component="th" className='hover:scale-105 transform transition-transform duration-300 ease-in-out' scope="row" style={{ width: 160 }} >
+                                        <Link to={`view_tickets/${row._id}`}>
+                                            <span className=' cursor-pointer hover:text-blue-800 underline' >   {(row.dateIssued + '').split("T")[0]}</span>
+                                        </Link>
+                                    </TableCell>
+                                    <TableCell style={{ width: 160 }}>{row.type}</TableCell>
+                                    <TableCell style={{ width: 160 }}>{row.priority}</TableCell>
+                                    <TableCell style={{ width: 160 }}>{row.status}</TableCell>
+                                </TableRow>
+                            ))}
+                            {emptyRows > 0 && (
+                                <TableRow style={{ height: 53 * emptyRows }}>
+                                    <TableCell colSpan={5} />
+                                </TableRow>
+                            )}
+                        </TableBody>
+                        <TableFooter>
+                            <TableRow>
+                                <TablePagination
+                                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                    colSpan={5}
+                                    count={filteredRows.length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    SelectProps={{
+                                        inputProps: {
+                                            'aria-label': 'rows per page',
+                                        },
+                                        native: true,
+                                    }}
+                                    onPageChange={handleChangePage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                    ActionsComponent={TablePaginationActions}
+                                />
+                            </TableRow>
+                        </TableFooter>
+                    </Table>
+                </TableContainer>
             </div>
 
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-                    <TableHead className='bg-gray-800'>
-                        <TableRow>
-                            <TableCell style={{ color: "white" }}>Name</TableCell>
-                            <TableCell style={{ color: "white" }}>Date Issued</TableCell>
-                            <TableCell style={{ color: "white" }}>Ticket Type</TableCell>
-                            <TableCell style={{ color: "white" }}>Ticket Priority</TableCell>
-                            <TableCell style={{ color: "white" }}>Status</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {(rowsPerPage > 0
-                            ? filteredRows.slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                            )
-                            : filteredRows
-                        ).map((row) => (
-                            <TableRow key={row._id}>
-                                <TableCell component="th" className='hover:scale-105 transform transition-transform duration-300 ease-in-out' scope="row" style={{ width: 160 }} >
-                                    <Link to={`/view_tickets/${row._id}`}>
-                                        <span className=' cursor-pointer hover:text-blue-800 underline' >    {row.customerName}</span>
-                                    </Link>
-                                </TableCell>
-                                <TableCell style={{ width: 160 }}>{(row.dateIssued + '').split("T")[0]}</TableCell>
-                                <TableCell style={{ width: 160 }}>{row.type}</TableCell>
-                                <TableCell style={{ width: 160 }}>{row.priority}</TableCell>
-                                <TableCell style={{ width: 160 }}>{row.status}</TableCell>
-                            </TableRow>
-                        ))}
-                        {emptyRows > 0 && (
-                            <TableRow style={{ height: 53 * emptyRows }}>
-                                <TableCell colSpan={5} />
-                            </TableRow>
-                        )}
-                    </TableBody>
-                    <TableFooter>
-                        <TableRow>
-                            <TablePagination
-                                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                colSpan={5}
-                                count={filteredRows.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                SelectProps={{
-                                    inputProps: {
-                                        'aria-label': 'rows per page',
-                                    },
-                                    native: true,
-                                }}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                                ActionsComponent={TablePaginationActions}
-                            />
-                        </TableRow>
-                    </TableFooter>
-                </Table>
-            </TableContainer>
         </div>
     );
 }

@@ -30,6 +30,7 @@ export default function CreateSupportTicket() {
             const res = await createSupportTicket(ticketData)
             console.log(res)
             console.log("Ticket Created")
+            alert("Your Ticket Has Been Created Successfully")
         }
         catch(error){
             console.log(error)
@@ -98,11 +99,6 @@ export default function CreateSupportTicket() {
                                 <div className="flex">
                                     <button onClick={handleTicketCreation} className="py-1 px-4 rounded inline-flex items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent">
                                     <span>Create Ticket</span>
-                                    </button>
-                                </div>
-                                <div className="flex">
-                                    <button className="py-1 px-4 rounded inline-flex items-center bg-transparent hover:bg-black text-black font-semibold hover:text-white border border-black hover:border-transparent">
-                                    <span>Live Chat</span>
                                     </button>
                                 </div>
                             </div>

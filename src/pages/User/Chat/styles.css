@@ -21,8 +21,8 @@
     border-radius: 1rem;
     padding: 1rem;
     /* height: auto; */
-    min-height: 100vh;
-    max-height: 100vh;
+    min-height: 88vh;
+    max-height: 88vh;
     overflow-y: scroll;
     overflow-x: hidden;
    }

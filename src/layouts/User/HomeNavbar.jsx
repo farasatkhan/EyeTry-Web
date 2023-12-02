@@ -266,6 +266,9 @@ export default function PersistentDrawerLeft() {
       logout();
       navigate("/signin")
     }
+    else if (setting == "Profile"){
+      navigate("/user/profile")
+    }
     setAnchorElUser(null);
   };
 

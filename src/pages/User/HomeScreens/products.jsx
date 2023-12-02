@@ -28,12 +28,13 @@ const Products = () => {
     const [selectedSize, setSelectedSize] = useState("All Size");
     const [selectedGender, setSelectedGender] = useState("All Genders");
     const [selectedShape, setSelectedShape] = useState("All Shapes");
-    const [selectedFaceShape, setSelectedFaceShape] = useState("All Shapes");
+    const [selectedFaceShape, setSelectedFaceShape] = useState("All");
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(5000);
     const [selectedCategory, setSelectedCategory] = useState("All Categories");
     const [selectedRim, setSelectedRim] = useState("All Rims");
     const { page } = useParams();
+
 
     useEffect(() => {
         fetchProductsList();
@@ -42,6 +43,12 @@ const Products = () => {
     useEffect(() => {
         setFilteredProducts(productsList);
     }, [productsList]);
+
+    useEffect(() => {
+        pageFilter();
+    }, [productsList, page]);
+
+
 
     const fetchProductsList = async () => {
         try {
@@ -52,6 +59,12 @@ const Products = () => {
                 fetchedProductsList.map(async (product) => {
                     const response = await viewAllReviews(product._id);
                     const reviews = response.data;
+
+                    // Check if there are no reviews
+                    if (reviews.length === 0) {
+                        return { productId: product._id, rating: "No Reviews" };
+                    }
+
                     const sum = reviews.reduce((total, review) => total + review.stars, 0);
                     const averageRating = sum / reviews.length;
                     return { productId: product._id, rating: averageRating };
@@ -88,7 +101,7 @@ const Products = () => {
                         <img
                             src={completePath}
                             alt="product"
-                            className="object-contain w-[300px] h-[200px]"
+                            className="object-contain w-[300px] h-[200px] p-5"
                         />
                     </div>
                 );
@@ -116,10 +129,11 @@ const Products = () => {
     };
 
 
-    const handleFilter = ({ color, material, size, gender, shape, faceShape, minPrice, maxPrice, category, rim }) => {   // face shape remaining
+    const handleFilter = ({ color, material, size, gender, shape, faceShape, minPrice, maxPrice, category, rim }) => {
         setFilterColor(color);
         setFilterMaterial(material);
         setSelectedSize(size);
+        console.log("Gender Selected from page A", gender)
         setSelectedGender(gender);
         setSelectedShape(shape);
         setSelectedFaceShape(faceShape);
@@ -131,67 +145,81 @@ const Products = () => {
         console.log("Filters: " + color + ", " + material + ", " + size + ", " + gender + ", " + shape +
             ", " + faceShape + ", " + minPrice + ", " + maxPrice + ", " + category + ", " + rim)
 
-        const filtered = productsList.filter((product) => {
-            if (color === "All Colors" && material === "All Materials"
-                && size === "All Size" && gender === "All Genders" &&
-                shape === "All Shapes" && faceShape === "All Shapes" &&
-                category === "All Categories" && rim === "All Rims" &&
-                (product.priceInfo.price >= minPrice && // Price filtering
-                    product.priceInfo.price <= maxPrice)) {
+        console.log("first product list: ", productsList)
+        if (productsList) {
+            const filtered = productsList.filter((product) => {
+                if (color === "All Colors" && material === "All Materials"
+                    && size === "All Size" && gender === "All Genders" &&
+                    shape === "All Shapes" && faceShape === "All Shapes" &&
+                    category === "All Categories" && rim === "All Rims" &&
+                    (product.priceInfo.price >= minPrice && // Price filtering
+                        product.priceInfo.price <= maxPrice)) {
 
-                return true;
+                    return true;
+                }
+                const colorMatch =
+                    color === "All Colors" ||
+                    (product.frame_information &&
+                        product.frame_information.frame_variants &&
+                        product.frame_information.frame_variants.some(
+                            (variant) =>
+                                variant.color &&
+                                variant.color.toLowerCase() === color.toLowerCase()
+                        ));
+
+                const materialMatch =
+                    material === "All Materials" ||
+                    (product.frame_information &&
+                        product.frame_information.frame_variants &&
+                        product.frame_information.frame_material &&
+                        product.frame_information.frame_material.includes(material || material.toLowerCase()));
+
+                const sizeMatch =
+                    size === "All Size" ||
+                    (product.frame_information &&
+                        product.frame_information.frame_size &&
+                        product.frame_information.frame_size &&
+                        product.frame_information.frame_size.includes(size || size.toLowerCase()));
+
+                const genderMatch =
+                    gender === "All Genders" ||
+                    (product && product.person_information.genders.includes(gender || gender.toLowerCase()));
+
+                const shapeMatch =
+                    shape === "All Shapes" ||
+                    (product && (product.frame_shape === shape || product.frame_shape === shape.toLowerCase()));
+
+                const faceShapeMatch =
+                    faceShape === "All" ||
+                    (product && product.person_information.face_shape.includes(faceShape || faceShape.toLowerCase()));
+
+                const categoryMatch =
+                    category === "All Categories" ||
+                    (product && (product.categories.includes(category) || product.type.includes(category)));
+                // const rimMatch =
+                // category === "All Rims" ||
+                // (product && (product.rim_shape === rim || product.rim_shape === rim.toLowerCase()));
+
+                return (
+                    colorMatch &&
+                    materialMatch &&
+                    sizeMatch &&
+                    genderMatch &&
+                    shapeMatch &&
+                    faceShapeMatch &&
+                    categoryMatch &&
+                    (product.priceInfo.price >= minPrice &&
+                        product.priceInfo.price <= maxPrice)
+                );
+
+
             }
-            const colorMatch =
-                color === "All Colors" ||
-                (product.frame_information &&
-                    product.frame_information.frame_variants &&
-                    product.frame_information.frame_variants.some(
-                        (variant) =>
-                            variant.color &&
-                            variant.color.toLowerCase() === color.toLowerCase()
-                    ));
+            )
+            setFilteredProducts(filtered);
+            console.log("page filtered products: ", filtered);
 
-            const materialMatch =
-                material === "All Materials" ||
-                (product.frame_information &&
-                    product.frame_information.frame_variants &&
-                    product.frame_information.frame_material &&
-                    product.frame_information.frame_material.includes(material || material.toLowerCase()));
+        };
 
-            const sizeMatch =
-                size === "All Size" ||
-                (product.frame_information &&
-                    product.frame_information.frame_size &&
-                    product.frame_information.frame_size &&
-                    product.frame_information.frame_size.includes(size || size.toLowerCase()));
-
-            const genderMatch =
-                gender === "All Genders" ||
-                (product && product.person_information.genders.includes(gender || gender.toLowerCase()));
-
-            const shapeMatch =
-                shape === "All Shapes" ||
-                (product && (product.frame_shape === shape || product.frame_shape === shape.toLowerCase()));
-
-            const faceShapeMatch =
-                faceShape === "All Shapes" ||
-                (product && product.person_information.face_shape.includes(faceShape || faceShape.toLowerCase()));
-
-            const categoryMatch =
-                category === "All Categories" ||
-                (product && (product.categories.includes(category) || product.type.includes(category)));
-
-            // const rimMatch =
-            // category === "All Rims" ||
-            // (product && (product.rim_shape === rim || product.rim_shape === rim.toLowerCase()));
-
-
-            return colorMatch && materialMatch && sizeMatch && genderMatch && shapeMatch && faceShapeMatch && categoryMatch &&
-                (product.priceInfo.price >= minPrice && // Price filtering
-                    product.priceInfo.price <= maxPrice)
-        });
-
-        setFilteredProducts(filtered);
     };
 
 
@@ -205,25 +233,99 @@ const Products = () => {
     };
 
     // handling Men eyeglasses category 
-    useEffect(() => {
-        fetchProductsList();
 
-        // Setting initial value based on the page
-        if (page === "men_glasses" || page === "men_sunglasses") {
-            setSelectedGender("Male");
-        }
-        if (page === "women_glasses" || page === "women_sunglasses") {
-            setSelectedGender("Female");
-        }
-        if (page === "kids_glasses") {
-            setSelectedGender("Kids");
-        }
-        
-        // else {
-        //     setSelectedGender("All Genders");
-        // }
-    }, [page]);
 
+    const pageFilter = () => {
+
+        switch (page) {
+            case "men_glasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: "Male",
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Men",
+                    rim: selectedRim
+                });
+                break;
+            case "women_glasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: "Female",
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Women",
+                    rim: selectedRim
+                });
+                break;
+            case "kids_glasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: "Kids",
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Kids",
+                    rim: selectedRim
+                });
+                break;
+            case "Sunglasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: selectedGender,
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Sunglasses",
+                    rim: selectedRim
+                });
+                break;
+            case "Eyeglasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: selectedGender,
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Eyeglasses",
+                    rim: selectedRim
+                });
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
+
+
+
+    // handleFilter(filterParams);
+
+
+
+    // cut price calculation
+    const cutPrice = (price, discount) => {
+        return (price - (price * discount) / 100).toFixed()
+    }
 
     return (
         <>
@@ -235,30 +337,32 @@ const Products = () => {
                         <h2 className="text-white text-3xl font-sans font-semibold ">
                             {page === "featured_products" ? "Featured Products"
                                 : page === "new_arrival" ? "New Arrival"
-                                : page === "men_sunglasses" ? "Men Sunglasses"
-                                : page === "women_sunglasses" ? "Women Sunglasses"
-                                : page === "men_glasses" ? "Men's Eyeglasses"
-                                : page === "women_glasses" ? "Women's Eyeglasses"
-                                : page === "kids_glasses" ? "Kids Eyeglasses"
-                                : page === "shop_by_face_shape" ? (
-                                    <div className="text-center">
-                                      <p className="mx-auto">Shop By Face Shape</p>
-                                      <p className="mx-auto font-mono text-lg">Select face shape filter to get recommendations on the basis of facial feature</p>
-                                    </div>
-                                  )                             
-                                : page === "shop_by_frame_shape" ? (
-                                    <div className="text-center">
-                                      <p className="mx-auto">Shop By Frame Shape</p>
-                                      <p className="mx-auto font-mono text-lg">Select frame shape filter to get the results based on selected frame shape</p>
-                                    </div>
-                                  )                             
-                                  : page === "shop_by_frame_color" ? (
-                                    <div className="text-center">
-                                      <p className="mx-auto">Shop By Frame Color</p>
-                                      <p className="mx-auto font-mono text-lg">Select frame color filter to get the results based on selected color</p>
-                                    </div>
-                                  ) : "All Products"}
-                                                              
+                                    : page === "men_sunglasses" ? "Men Sunglasses"
+                                        : page === "women_sunglasses" ? "Women Sunglasses"
+                                            : page === "men_glasses" ? "Men's Eyeglasses"
+                                                : page === "women_glasses" ? "Women's Eyeglasses"
+                                                    : page === "kids_glasses" ? "Kids Eyeglasses"
+                                                    : page === "Sunglasses" ? "Sunglasses"
+                                                    : page === "Eyeglasses" ? "Eyeglasses"
+                                                        : page === "shop_by_face_shape" ? (
+                                                            <div className="text-center">
+                                                                <p className="mx-auto">Shop By Face Shape</p>
+                                                                <p className="mx-auto font-mono text-lg">Select face shape filter to get recommendations on the basis of facial feature</p>
+                                                            </div>
+                                                        )
+                                                            : page === "shop_by_frame_shape" ? (
+                                                                <div className="text-center">
+                                                                    <p className="mx-auto">Shop By Frame Shape</p>
+                                                                    <p className="mx-auto font-mono text-lg">Select frame shape filter to get the results based on selected frame shape</p>
+                                                                </div>
+                                                            )
+                                                                : page === "shop_by_frame_color" ? (
+                                                                    <div className="text-center">
+                                                                        <p className="mx-auto">Shop By Frame Color</p>
+                                                                        <p className="mx-auto font-mono text-lg">Select frame color filter to get the results based on selected color</p>
+                                                                    </div>
+                                                                ) : "All Products"}
+
 
                         </h2>
                     </div>
@@ -411,7 +515,7 @@ const Products = () => {
                                             </>
                                         )}
                                     </div>
-                                    <div onClick={() => handleNavigation(product._id)} className="product-rating font-bold text-base text-yellow-500 justify-between flex mx-auto mt-[4px]">
+                                    <div onClick={() => handleNavigation(product._id)} className="product-rating font-bold text-base text-[#FAAF00] justify-between flex mx-auto mt-[5px]">
                                         <Rating
                                             name={`rating-${product._id}`}
                                             value={productRatings[product._id] || 0}
@@ -419,20 +523,23 @@ const Products = () => {
                                             precision={0.1}
                                             emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                                         />
-                                        <p className="text-base">{productRatings[product._id]}</p>
+                                        <p className={`${productRatings[product._id] === "No Reviews" ? 'text-sm text-gray-400' : 'text-xl'} `}>{productRatings[product._id]}</p>
                                     </div>
                                     <div>
+
+                                        <p className=" mt-[3px] text-lg font-sans text-black block capitalize whitespace-no-wrap overflow-hidden truncate">{product.name}</p>
                                         <div className="flex justify-between items-center">
-                                            <p class="text-lg font-sans text-black truncate block capitalize">{product.name}</p>
-                                            <span class="text-gray-400 font-sans uppercase text-xs whitespace-nowrap ">{product.manufacturer}</span>
+                                            {/* <p class="text-lg font-sans text-black truncate block capitalize">{product.name}</p> */}
+                                            <span class="mt-[4px]  mb-[4px] text-gray-400 font-sans uppercase text-sm whitespace-nowrap ">{product.manufacturer}</span>
                                         </div>
                                         <div class="flex items-center mb-2">
                                             <p class="text-lg font-semibold text-black cursor-auto">${product.priceInfo.price}</p>
                                             <del>
-                                                <p class="text-sm text-gray-600 cursor-auto ml-2">$199</p>
+                                                <p className="text-sm text-gray-600 cursor-auto ml-2">${cutPrice(product.priceInfo.price, product.discount)}</p>
                                             </del>
-                                            <div class="ml-auto"><p className=" font-sans text-base font-bold text-red-600">{product.discount}% off</p></div>
-                                        </div>
+                                            <div className="ml-auto bg-gray-200 rounded-2xl p-1.5">
+                                                <p className={`font-sans text-xs font-bold ${product.discount > 0 ? 'text-green-600' : 'text-red-600 px-1'}`}>{product.discount}% off</p>
+                                            </div>                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -108,48 +108,50 @@ export default () => {
     try {
       const fetchedProductsList = await viewProductsList();
       setProductsList(fetchedProductsList);
-
+  
       // for new arrivals
       const oneWeekAgo = new Date();
-      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7); // Subtract 7 days to go back one week
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
       const arrivals = fetchedProductsList.filter(product => new Date(product.createdAt) >= oneWeekAgo);
-      // console.log('new arrivals: ' + JSON.stringify(arrivals, null, 2));
       setNewArrivals(arrivals);
-
-
+  
       // for men sunglasses
       const fetchMenSunglasses = fetchedProductsList.filter(product => product.type === "Sunglasses" && product.categories.includes("Men"));
       setMenSunglasses(fetchMenSunglasses);
-      // console.log('fetchMenSunglasses: ' + JSON.stringify(fetchMenSunglasses, null, 2));
-
-      // for men sunglasses
+  
+      // for women sunglasses
       const fetchWomenSunglasses = fetchedProductsList.filter(product => product.type === "Sunglasses" && product.categories.includes("Women"));
       setWomenSunglasses(fetchWomenSunglasses);
-      // console.log('fetchWomenSunglasses: ' + JSON.stringify(fetchWomenSunglasses, null, 2));
-
-
+  
       // Fetch and calculate product ratings for each product
       const productRatingsData = await Promise.all(
         fetchedProductsList.map(async (product) => {
           const response = await viewAllReviews(product._id);
           const reviews = response.data;
+  
+          // Check if there are no reviews
+          if (reviews.length === 0) {
+            return { productId: product._id, rating: "No reviews" };
+          }
+  
           const sum = reviews.reduce((total, review) => total + review.stars, 0);
           const averageRating = sum / reviews.length;
           return { productId: product._id, rating: averageRating };
         })
       );
-
+  
       // Convert product ratings data to an object
       const ratingsObject = {};
       productRatingsData.forEach((item) => {
         ratingsObject[item.productId] = item.rating;
       });
-
+  
       setProductRatings(ratingsObject);
     } catch (error) {
       console.error("Error fetching products list", error);
     }
   };
+  
 
   const productImage = (product, color) => {
     if (
@@ -275,6 +277,10 @@ export default () => {
   //   }, 2500);
   // }, [])
 
+  // cut price calculation
+  const cutPrice = (price, discount) => {
+    return (price - (price * discount) / 100).toFixed()
+  }
 
   return (
 
@@ -314,7 +320,7 @@ export default () => {
             heightRatio: 0.5,
             cover: true,
             lazyLoad: 'nearby',
-            height: '500px', 
+            height: '500px',
 
           }}
         >
@@ -324,14 +330,14 @@ export default () => {
             </SplideSlide>
           ))}
         </Splide>
-        <div className="w-[80%] mx-auto"> 
+        <div className="w-[80%] mx-auto">
 
           {/* featured products */}
           <div>
             <div data-aos="fade-up">
               <h1 className="font-sans text-3xl text-gray-500 font-semibold mx-auto text-center mt-10">Featured Products</h1>
               <div className="h-1 w-full mt-2 mb-5 bg-blue-400 lg:w-1/3 mx-auto rounded-full"></div>
-              <p className="font-sans text-sm mx-auto text-justify text-gray-500 font-semibold">The most excellent online eyeglasses and eyeglass frames are offered at Easy Sight, your one-stop
+              <p className="font-sans text-base mx-auto text-justify text-gray-500 font-semibold">The most excellent online eyeglasses and eyeglass frames are offered at Easy Sight, your one-stop
                 online store. We offer a wide range of high-quality items because we know how important it is for
                 you to access stylish and affordable eyewear. We provide options for everyone, whether you need
                 prescription or non-prescription sunglasses. Finding the ideal set of eyeglasses frames that fit
@@ -412,7 +418,7 @@ export default () => {
                       </div>
                       {/* Display product ratings */}
                       <div className="">
-                        <div className="product-rating font-bold text-base text-yellow-500 justify-between flex mx-auto">
+                        <div className="mt-1 product-rating font-bold text-base text-[#FAAF00] justify-between flex mx-auto">
                           <Rating
                             name={`rating-${product._id}`}
                             value={productRatings[product._id] || 0} // Use the calculated average rating
@@ -420,19 +426,22 @@ export default () => {
                             precision={0.1}
                             emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                           />
-                          <p className="text-base">{productRatings[product._id] === 0 ? "No Reviews" : productRatings[product._id]}</p>
+                          <p className={`${productRatings[product._id] === "No reviews" ? 'text-sm text-gray-400' : 'text-base' } `}>{productRatings[product._id] === 0 ? "No Reviews" : productRatings[product._id]}</p>
                         </div>
                         <div className="">
-                          <div className="flex justify-between items-center">
-                            <p className="text-lg font-sans text-black block capitalize truncate w-[100px]">{product.name}</p>
-                            <span className="text-gray-400 font-sans uppercase text-xs whitespace-nowrap ">{product.manufacturer}</span>
+                          <p className="text-lg font-sans text-black block capitalize whitespace-no-wrap overflow-hidden truncate">{product.name}</p>
+                          <div className=" flex justify-between items-center">
+                            <span className="text-gray-400 font-sans uppercase text-sm whitespace-nowrap">{product.manufacturer}</span>
+                            {/* <p className="text-gray-400 font-sans text-sm whitespace-nowrap">{product.rim_shape}</p> */}
                           </div>
                           <div className="flex items-center mb-2">
                             <p className="text-lg font-semibold text-black cursor-auto">${product.priceInfo.price}</p>
                             <del>
-                              <p className="text-sm text-gray-600 cursor-auto ml-2">$199</p>
+                              <p className="text-sm text-gray-600 cursor-auto ml-2">${cutPrice(product.priceInfo.price, product.discount)}</p>
                             </del>
-                            <div className="ml-auto"><p className=" font-sans text-base font-bold text-red-600">{product.discount}% off</p></div>
+                            <div className="ml-auto bg-gray-200 rounded-2xl p-1.5">
+                              <p className={`font-sans text-xs font-bold ${product.discount > 0 ? 'text-green-600' : 'text-red-600 px-1'}`}>{product.discount}% off</p>
+                            </div>
                           </div>
                         </div>
 
@@ -463,7 +472,7 @@ export default () => {
               <img data-aos="zoom-in" src={logo} loading="lazy" className=" ml-1 w-[50px] h-[30px] object-contain" alt="" />
             </div>
             <div className="h-1 w-full mt-2 mb-5 bg-blue-400 lg:w-[45%] mx-auto rounded-full shadow-lg"></div>
-            <p className="font-sans text-sm mx-auto text-center text-gray-500 font-semibold">Get a complete pair of prescription glasses</p>
+            <p className="font-sans text-base mx-auto text-center text-gray-500 font-semibold">Get a complete pair of prescription glasses</p>
           </div>
           <div data-aos="fade-up" className="flex flex-col space-y-2 mx-auto mt-10">
             <div className="flex flex-wrap">
@@ -527,9 +536,9 @@ export default () => {
           {/* New Arrival */}
           <div>
             <div data-aos="fade-up">
-              <h1 className="font-sans text-3xl text-gray-500 font-semibold mx-auto text-center mt-10">New Arrival</h1>
+              <h1 className="font-sans text-3xl text-gray-500 font-semibold mx-auto text-center mt-10">New Arrivals</h1>
               <div className="h-1 w-full mt-2 mb-5 bg-blue-400 lg:w-1/3 mx-auto rounded-full shadow-lg"></div>
-              <p className="font-sans text-sm mx-auto text-justify text-gray-500 font-semibold">Everyone should have access
+              <p className="font-sans text-base mx-auto text-justify text-gray-500 font-semibold">Everyone should have access
                 to high-quality eyewear, according to Easy Sight. We put a lot of effort into choosing the most fashionable and
                 long-lasting eyeglass frames available. High-quality materials are used to construct our goods to guarantee
                 durability and wear ability. We offer the ideal option for you, whether you need a set of glasses for regular
@@ -537,123 +546,136 @@ export default () => {
                 of professionals is always accessible to answer any questions you may have. Therefore, why wait? Experience
                 the greatest online eyeglass and frame purchasing at Easy Sight right now!</p>
             </div>
-
-            <Splide data-aos="fade-up"
-              className="mx-auto w-[420px] md:w-[680px] lg:w-[900px] xl:w-[1100px]"
-              options={{
-                perPage: 4,
-                gap: '2rem',
-                type: "loop",
-                perMove: 1,
-                cover: true,
-                lazyLoad: 'nearby',
-                pagination: false,
-                breakpoints: {
-                  1024: {
-                    perPage: 3,
-                    gap: '1rem',
-                  },
-                  768: {
-                    perPage: 2,
-                    gap: '.7rem',
-                  },
-                  480: {
-                    perPage: 1,
-                    gap: '.7rem',
-                  },
-                },
-                rewind: true,
-              }}
-              aria-label="My Favorite Images"
-            >
-              {newArrivals.map((product) => (
-                <SplideSlide className="" key={product._id}>
-                  <div
-                    className="items-center justify-center flex flex-col"
+            {
+              newArrivals.length > 0 ? (
+                <div>
+                  <Splide data-aos="fade-up"
+                    className="mx-auto w-[420px] md:w-[680px] lg:w-[900px] xl:w-[1100px]"
+                    options={{
+                      perPage: 4,
+                      gap: '2rem',
+                      type: "loop",
+                      perMove: 1,
+                      cover: true,
+                      lazyLoad: 'nearby',
+                      pagination: false,
+                      breakpoints: {
+                        1024: {
+                          perPage: 3,
+                          gap: '1rem',
+                        },
+                        768: {
+                          perPage: 2,
+                          gap: '.7rem',
+                        },
+                        480: {
+                          perPage: 1,
+                          gap: '.7rem',
+                        },
+                      },
+                      rewind: true,
+                    }}
+                    aria-label="My Favorite Images"
                   >
-                    <div className="" >
-                      <div onClick={() => handleNavigation(product._id)} className="cursor-pointer items-center justify-center flex flex-col mx-auto">
-                        {newArrivalImage(
-                          product,
-                          selectedColorsNewArrivals[product._id] ||
-                          (product.frame_information &&
-                            product.frame_information.frame_variants[0].color)
-                        )}
-                      </div>
+                    {newArrivals.map((product) => (
+                      <SplideSlide className="" key={product._id}>
+                        <div
+                          className="items-center justify-center flex flex-col"
+                        >
+                          <div className="" >
+                            <div onClick={() => handleNavigation(product._id)} className="cursor-pointer items-center justify-center flex flex-col mx-auto">
+                              {newArrivalImage(
+                                product,
+                                selectedColorsNewArrivals[product._id] ||
+                                (product.frame_information &&
+                                  product.frame_information.frame_variants[0].color)
+                              )}
+                            </div>
 
-                      {/* color palet */}
-                      {product.frame_information &&
-                        product.frame_information.frame_variants ? (
-                        <>
-                          <div className="flex mt-2">
-                            {product.frame_information.frame_variants.map((variant) => (
-                              <div
-                                className={`border-grey rounded-full  mr-2 ${selectedColorsNewArrivals[product._id] === variant.color
-                                  ? 'border-[2px] bg-blue-900'
-                                  : ''
-                                  }`}
-                              >
-                                <div
-                                  className={`h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
-                                  style={{ backgroundColor: variant.color }}
-                                  onClick={() =>
-                                    handleColorSelect(product._id, variant.color)
-                                  }
-                                ></div>
+                            {/* color palet */}
+                            {product.frame_information &&
+                              product.frame_information.frame_variants ? (
+                              <>
+                                <div className="flex mt-2">
+                                  {product.frame_information.frame_variants.map((variant) => (
+                                    <div
+                                      className={`border-grey rounded-full  mr-2 ${selectedColorsNewArrivals[product._id] === variant.color
+                                        ? 'border-[2px] bg-blue-900'
+                                        : ''
+                                        }`}
+                                    >
+                                      <div
+                                        className={`h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
+                                        style={{ backgroundColor: variant.color }}
+                                        onClick={() =>
+                                          handleColorSelect(product._id, variant.color)
+                                        }
+                                      ></div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <p>Color not available</p>
+                              </>
+                            )}
+                            {/* Display product ratings */}
+                            <div className="">
+                              <div className="product-rating font-bold text-base text-[#FAAF00] justify-between flex mx-auto">
+                                <Rating
+                                  name={`rating-${product._id}`}
+                                  value={productRatings[product._id] || 0} // Use the calculated average rating
+                                  readOnly
+                                  precision={0.1}
+                                  emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                />
+                          <p className={`${productRatings[product._id] === "No reviews" ? 'text-sm text-gray-400' : 'text-base' } `}>{productRatings[product._id] === 0 ? "No Reviews" : productRatings[product._id]}</p>
                               </div>
-                            ))}
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <p>Color not available</p>
-                        </>
-                      )}
-                      {/* Display product ratings */}
-                      <div className="">
-                        <div className="product-rating font-bold text-base text-yellow-500 justify-between flex mx-auto">
-                          <Rating
-                            name={`rating-${product._id}`}
-                            value={productRatings[product._id] || 0} // Use the calculated average rating
-                            readOnly
-                            precision={0.1}
-                            emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                          />
-                          <p className="text-base">{productRatings[product._id]}</p>
-                        </div>
-                        {/* <div className=" flex justify-between">
+                              {/* <div className=" flex justify-between">
                                 <p className="font-sans text-base" >{product.name}</p>
                                 <p className="font-sans text-lg font-semibold" >${product.priceInfo.price}</p>
                               </div> */}
-                        <div className="">
-                          <div className="flex justify-between items-center">
-                            <p className="text-lg font-sans text-black block capitalize truncate w-[100px]">{product.name}</p>
-                            <span className="text-gray-400 font-sans uppercase text-xs whitespace-nowrap ">{product.manufacturer}</span>
+                              <div className="">
+                                <p className="text-lg font-sans text-black block capitalize whitespace-no-wrap overflow-hidden truncate">{product.name}</p>
+                                <div className="flex justify-between items-center">
+                                  <span className="text-gray-400 font-sans uppercase text-sm whitespace-nowrap ">{product.manufacturer}</span>
+                                </div>
+                                <div className="flex items-center mb-2">
+                                  <p className="text-lg font-semibold text-black cursor-auto">${product.priceInfo.price}</p>
+                                  <del>
+                                    <p className="text-sm text-gray-600 cursor-auto ml-2">${cutPrice(product.priceInfo.price, product.discount)}</p>
+                                  </del>
+                                  <div className="ml-auto bg-gray-200 rounded-2xl p-1.5">
+                                    <p className={`font-sans text-xs font-bold ${product.discount > 0 ? 'text-green-600' : 'text-red-600 px-1'}`}>{product.discount}% off</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <div className="flex items-center mb-2">
-                            <p className="text-lg font-semibold text-black cursor-auto">${product.priceInfo.price}</p>
-                            <del>
-                              <p className="text-sm text-gray-600 cursor-auto ml-2">$199</p>
-                            </del>
-                            <div className="ml-auto"><p className=" font-sans text-base font-bold text-red-600">{product.discount}% off</p></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
 
-                  </div>
-                </SplideSlide>
-              ))}
-            </Splide>
-            {/* view more button */}
-            <div data-aos="fade-up"
-              className=" mx-auto flex justify-center mt-10">
-              <button onClick={() => handleNavigate('new_arrival')} className="py-1 px-4 rounded inline-flex items-center 
+                        </div>
+                      </SplideSlide>
+                    ))}
+                  </Splide>
+                  {/* view more button */}
+                  <div data-aos="fade-up"
+                    className=" mx-auto flex justify-center mt-10">
+                    <button onClick={() => handleNavigate('new_arrival')} className="py-1 px-4 rounded inline-flex items-center 
                         bg-transparent hover:bg-gray-700 text-gray-700 font-semibold 
                         hover:text-white border border-gray-500 hover:border-transparent ">
-                <span>View All </span>
-              </button>
-            </div>
+                      <span>View All </span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div data-aos="fade-up">
+                  <p className=" text-center text-2xl mt-10 text-bold text-gray-300">
+                    No New Arrivals Yet
+                  </p>
+                </div>
+              )
+            }
 
           </div>
 
@@ -663,12 +685,12 @@ export default () => {
           <div data-aos="fade-up">
             <h1 className="font-sans text-3xl text-gray-500 font-semibold mx-auto text-center mt-10">Fashion & Prescription Sunglasses</h1>
             <div className="h-1 w-full mt-2 mb-5 bg-blue-400 lg:w-1/2 mx-auto rounded-full shadow-lg"></div>
-            <p className="font-sans text-sm mx-auto  text-gray-500 font-semibold text-center">Sun rays and Style needs with and without power lens are extremely essential
+            <p className="font-sans text-base mx-auto  text-gray-500 font-semibold text-center">Sun rays and Style needs with and without power lens are extremely essential
               for each and every one. Enjoy all solutions at one place in an exclusive variety</p>
           </div>
 
           {/* Men Sunglasses  */}
-    
+
           <div className="flex space-x-3 justify-center items-center mx-auto mt-10 w-[420px] md:w-[680px] lg:w-[900px] xl:w-[1100px]">
             <div className="w-[50%]">
               <div onClick={() => handleNavigate('men_sunglasses')} className="relative group cursor-pointer">
@@ -691,7 +713,7 @@ export default () => {
                   autoplay: true, // Enable auto-play
                   interval: 1500,
                   breakpoints: {
-                    780: {
+                    1200: {
                       perPage: 1,
                       gap: '.7rem',
                     },
@@ -744,7 +766,7 @@ export default () => {
                         )}
                         {/* Display product ratings */}
                         <div className="">
-                          <div className="product-rating font-bold text-base text-yellow-500 justify-between flex mx-auto">
+                          <div className="mt-1 product-rating font-bold text-base text-[#FAAF00] justify-between flex mx-auto">
                             <Rating
                               name={`rating-${product._id}`}
                               value={productRatings[product._id] || 0} // Use the calculated average rating
@@ -752,7 +774,7 @@ export default () => {
                               precision={0.1}
                               emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                             />
-                            <p className="text-base">{productRatings[product._id]}</p>
+                          <p className={`${productRatings[product._id] === "No reviews" ? 'text-sm text-gray-400 white ' : 'text-base' } `}>{productRatings[product._id] === 0 ? "No Reviews" : productRatings[product._id]}</p>
                           </div>
                           {/* <div className=" flex justify-between">
                                   <div className="flex">
@@ -762,16 +784,18 @@ export default () => {
                                   <p className="font-sans text-lg font-semibold" >${product.priceInfo.price}</p>
                                 </div> */}
                           <div className="">
+                            <p className="text-lg font-sans text-black block capitalize whitespace-no-wrap overflow-hidden truncate">{product.name}</p>
                             <div className="flex justify-between items-center">
-                              <p className="text-lg font-sans text-black block capitalize truncate w-[100px]">{product.name}</p>
-                              <span className="text-gray-400 font-sans uppercase text-xs whitespace-nowrap ">{product.manufacturer}</span>
+                              <span className="text-gray-400 font-sans uppercase text-sm whitespace-nowrap ">{product.manufacturer}</span>
                             </div>
                             <div className="flex items-center mb-2">
                               <p className="text-lg font-semibold text-black cursor-auto">${product.priceInfo.price}</p>
                               <del>
-                                <p className="text-sm text-gray-600 cursor-auto ml-2">$199</p>
+                                <p className="text-sm text-gray-600 cursor-auto ml-2">${cutPrice(product.priceInfo.price, product.discount)}</p>
                               </del>
-                              <div className="ml-auto"><p className=" font-sans text-base font-bold text-red-600">{product.discount}% off</p></div>
+                              <div className="ml-auto bg-gray-200 rounded-2xl p-1.5">
+                                <p className={`font-sans text-xs font-bold ${product.discount > 0 ? 'text-green-600' : 'text-red-600 px-1'}`}>{product.discount}% off</p>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -806,7 +830,7 @@ export default () => {
                   autoplay: true, // Enable auto-play
                   interval: 1500,
                   breakpoints: {
-                    780: {
+                    1200: {
                       perPage: 1,
                       gap: '.7rem',
                     },
@@ -859,7 +883,7 @@ export default () => {
                         )}
                         {/* Display product ratings */}
                         <div className="">
-                          <div className="product-rating font-bold text-base text-yellow-500 justify-between flex mx-auto">
+                          <div className="mt-1 product-rating font-bold text-base text-[#FAAF00] justify-between flex mx-auto">
                             <Rating
                               name={`rating-${product._id}`}
                               value={productRatings[product._id] || 0} // Use the calculated average rating
@@ -867,7 +891,7 @@ export default () => {
                               precision={0.1}
                               emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                             />
-                            <p className="text-base">{productRatings[product._id]}</p>
+                          <p className={`${productRatings[product._id] === "No reviews" ? 'text-sm text-gray-400' : 'text-base' } `}>{productRatings[product._id] === 0 ? "No Reviews" : productRatings[product._id]}</p>
                           </div>
                           {/* <div className=" flex justify-between">
                                   <div className="flex">
@@ -877,16 +901,18 @@ export default () => {
                                   <p className="font-sans text-lg font-semibold" >${product.priceInfo.price}</p>
                                 </div> */}
                           <div className="">
+                            <p className="text-lg font-sans text-black block capitalize whitespace-no-wrap overflow-hidden truncate">{product.name}</p>
                             <div className="flex justify-between items-center">
-                              <p className="text-lg font-sans text-black block capitalize truncate w-[100px]">{product.name}</p>
-                              <span className="text-gray-400 font-sans uppercase text-xs whitespace-nowrap ">{product.manufacturer}</span>
+                              <span className="text-gray-400 font-sans uppercase text-sm whitespace-nowrap ">{product.manufacturer}</span>
                             </div>
                             <div className="flex items-center mb-2">
                               <p className="text-lg font-semibold text-black cursor-auto">${product.priceInfo.price}</p>
                               <del>
-                                <p className="text-sm text-gray-600 cursor-auto ml-2">$199</p>
+                                <p className="text-sm text-gray-600 cursor-auto ml-2">${cutPrice(product.priceInfo.price, product.discount)}</p>
                               </del>
-                              <div className="ml-auto"><p className=" font-sans text-base font-bold text-red-600">{product.discount}% off</p></div>
+                              <div className="ml-auto bg-gray-200 rounded-2xl p-1.5">
+                                <p className={`font-sans text-xs font-bold ${product.discount > 0 ? 'text-green-600' : 'text-red-600 px-1'}`}>{product.discount}% off</p>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -908,7 +934,7 @@ export default () => {
               <h1 className="font-sans text-3xl text-gray-500 font-semibold mx-auto text-center mt-20">Enhance Your Experience With Our Outstanding Features
               </h1>
               <div className="h-1 w-full mt-2 mb-5 bg-blue-400 lg:w-[75%] mx-auto rounded-full shadow-lg"></div>
-              <p className="mb-10 font-sans text-sm mx-auto text-center text-gray-500 font-semibold">Sun rays and Style needs with and without power lens are extremely essential
+              <p className="mb-10 font-sans text-base mx-auto text-center text-gray-500 font-semibold">Sun rays and Style needs with and without power lens are extremely essential
                 for each and every one. Enjoy all solutions at one place in an exclusive variety</p>
             </div>
 

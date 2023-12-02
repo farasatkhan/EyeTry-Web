@@ -144,7 +144,7 @@ function App() {
       </Route>
 
       {/* Profile Management Routes */}
-      <Route path="/user/*" element={<UserProfilingNavbar />}>
+      <Route path="/user/*" element={<HomeNavbar />}>
         <Route path="profile" element={<PrivateRoute Component={ProfileHome} />} />
         <Route path="wish" element={<PrivateRoute Component={Wishlist} />} />
         <Route path="add_address" element={<PrivateRoute Component={AddAddress} />} />
@@ -164,10 +164,10 @@ function App() {
         <Route path="success_alert" element={<PrivateRoute Component={SuccessAlert} />} />
       </Route>
 
-      <Route path="/products/*" element={<PrivateRoute Component={UserProfilingNavbar} />} ></Route>
+      <Route path="/products/*" element={<PrivateRoute Component={HomeNavbar} />} ></Route>
 
       {/* Vision Assessments */}
-      <Route path="/assessments/*" element={<VissionAssessmentsNavbar />}>
+      <Route path="/assessments/*" element={<HomeNavbar />}>
         <Route path="color_blind_test" element={<PrivateRoute Component={ColorBlindTest} />} />
         <Route path="vision_acuity_test" element={<PrivateRoute Component={VisionAcuityTest} />} />
         <Route path="contrast_sensitivity_test" element={<PrivateRoute Component={ContrastSensitivityTest} />} />

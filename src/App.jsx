@@ -131,57 +131,48 @@ function App() {
             )
           }
         />
-        
+
         <Route path="track_orders" element={<PrivateRoute Component={TrackOrders} />} />
         <Route path="tryon" element={<PrivateRoute Component={Tryon} />} />
-      </Route>
 
-      {/* Profile Management Routes */}
-      <Route path="/user/*" element={<HomeNavbar />}>
-        <Route path="profile" element={<PrivateRoute Component={ProfileHome} />} />
-        <Route path="wish" element={<PrivateRoute Component={Wishlist} />} />
-        <Route path="add_address" element={<PrivateRoute Component={AddAddress} />} />
-        <Route path="edit_address/:id" element={<PrivateRoute Component={EditAddress} />} />
-        <Route path="add_payment" element={<PrivateRoute Component={AddPayment} />} />
-        <Route path="edit_payment/:id" element={<PrivateRoute Component={EditPayment} />} />
-        <Route path="delete_account" element={<PrivateRoute Component={DeleteAccount} />} />
-        <Route path="edit_prescription/:id" element={<PrivateRoute Component={EditPrescriptions} />} />
-        <Route path="prescription_details" element={<PrivateRoute Component={PrescriptionDetails} />} />
-        <Route path="add_prescription" element={<PrivateRoute Component={AddPrescription} />} />
-        <Route path="change_password" element={<PrivateRoute Component={ChangePassword} />} />
-        <Route path="upload_tryon_images" element={<PrivateRoute Component={UploadTryonImages} />} />
-        <Route path="upload_user_image" element={<PrivateRoute Component={UploadUserImage} />} />
-        <Route path="measure_ipd" element={<PrivateRoute Component={MeasureIpd} />} />
-        <Route path="giftcards" element={<PrivateRoute Component={GiftCards} />} />
-        <Route path="my_details" element={<PrivateRoute Component={MyDetails} />} />
-        <Route path="success_alert" element={<PrivateRoute Component={SuccessAlert} />} />
-      </Route>
+        {/* Profile Management Routes */}
+        <Route path="user/profile" element={<PrivateRoute Component={ProfileHome} />} />
+        <Route path="user/wish" element={<PrivateRoute Component={Wishlist} />} />
+        <Route path="user/add_address" element={<PrivateRoute Component={AddAddress} />} />
+        <Route path="user/edit_address/:id" element={<PrivateRoute Component={EditAddress} />} />
+        <Route path="user/add_payment" element={<PrivateRoute Component={AddPayment} />} />
+        <Route path="user/edit_payment/:id" element={<PrivateRoute Component={EditPayment} />} />
+        <Route path="user/delete_account" element={<PrivateRoute Component={DeleteAccount} />} />
+        <Route path="user/edit_prescription/:id" element={<PrivateRoute Component={EditPrescriptions} />} />
+        <Route path="user/prescription_details" element={<PrivateRoute Component={PrescriptionDetails} />} />
+        <Route path="user/add_prescription" element={<PrivateRoute Component={AddPrescription} />} />
+        <Route path="user/change_password" element={<PrivateRoute Component={ChangePassword} />} />
+        <Route path="user/upload_tryon_images" element={<PrivateRoute Component={UploadTryonImages} />} />
+        <Route path="user/upload_user_image" element={<PrivateRoute Component={UploadUserImage} />} />
+        <Route path="user/measure_ipd" element={<PrivateRoute Component={MeasureIpd} />} />
+        <Route path="user/giftcards" element={<PrivateRoute Component={GiftCards} />} />
+        <Route path="user/my_details" element={<PrivateRoute Component={MyDetails} />} />
+        <Route path="user/success_alert" element={<PrivateRoute Component={SuccessAlert} />} />
 
-      <Route path="/products/*" element={<PrivateRoute Component={HomeNavbar} />} ></Route>
+        {/* Vision Assessments */}
+        <Route path="assessments/color_blind_test" element={<PrivateRoute Component={ColorBlindTest} />} />
+        <Route path="assessments/vision_acuity_test" element={<PrivateRoute Component={VisionAcuityTest} />} />
+        <Route path="assessments/contrast_sensitivity_test" element={<PrivateRoute Component={ContrastSensitivityTest} />} />
+        <Route path="assessments/astigmatism_test" element={<PrivateRoute Component={AstigmatismTest} />} />
+        <Route path="assessments/test_history" element={<PrivateRoute Component={TestHistory} />} />
 
-      {/* Vision Assessments */}
-      <Route path="/assessments/*" element={<HomeNavbar />}>
-        <Route path="color_blind_test" element={<PrivateRoute Component={ColorBlindTest} />} />
-        <Route path="vision_acuity_test" element={<PrivateRoute Component={VisionAcuityTest} />} />
-        <Route path="contrast_sensitivity_test" element={<PrivateRoute Component={ContrastSensitivityTest} />} />
-        <Route path="astigmatism_test" element={<PrivateRoute Component={AstigmatismTest} />} />
-        <Route path="test_history" element={<PrivateRoute Component={TestHistory} />} />
-      </Route>
+        {/* admin routes */}
+        <Route path="/admin_signin" element={<PrivateRoute Component={AdminSignin} />} />
+        <Route path="/add_frames" element={<PrivateRoute Component={AddFrames} />} />
+        <Route path="/add_lens" element={<PrivateRoute Component={AddLens} />} />
+        <Route path="/add_glasses" element={<PrivateRoute Component={AddGlasses} />} />
 
-      {/* admin routes */}
-      <Route path="/admin_signin" element={<PrivateRoute Component={AdminSignin} />} />
-      <Route path="/add_frames" element={<PrivateRoute Component={AddFrames} />} />
-      <Route path="/add_lens" element={<PrivateRoute Component={AddLens} />} />
-      <Route path="/add_glasses" element={<PrivateRoute Component={AddGlasses} />} />
-
-      {/* Customer Support Routes */}
-      <Route path="/support/*" element={<HomeNavbar />}>
-        <Route index path="dashboard" element={<PrivateRoute Component={CustomerSupportDashboard} />} />
-        <Route path="ticket_details" element={<PrivateRoute Component={SupportTicketDetails} />} />
-        <Route path="personal_information" element={<PrivateRoute Component={PersonalInformation} />} />
-        <Route path="upload_user_image" element={<PrivateRoute Component={CSUploadUserImage} />} />
-        <Route path="view_personal_info" element={<PrivateRoute Component={ViewPersonalInfo} />} />
-        {/* <Route path="create_support_ticket" element={<PrivateRoute Component={CreateSupportTicket} />} /> */}
+        {/* Customer Support Routes */}
+        <Route index path="support/dashboard" element={<PrivateRoute Component={CustomerSupportDashboard} />} />
+        <Route path="support/ticket_details" element={<PrivateRoute Component={SupportTicketDetails} />} />
+        <Route path="support/personal_information" element={<PrivateRoute Component={PersonalInformation} />} />
+        <Route path="support/upload_user_image" element={<PrivateRoute Component={CSUploadUserImage} />} />
+        <Route path="support/view_personal_info" element={<PrivateRoute Component={ViewPersonalInfo} />} />
       </Route>
     </>
   );

@@ -1,12 +1,12 @@
 // CartComponent.js
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, json, useNavigate } from 'react-router-dom';
 import { getUserData, deleteAddress, viewAllPayments, deletePaymentMethod } from '../../../api/userapi';
 import { BiEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import API_URL from '../../../config/config';
-import { checkout } from '../../../api/productsApi';
+import { checkout, getGiftcart } from '../../../api/productsApi';
 import { processPayment } from '../../../api/productsApi';
 import axios from '../../../api/axiosConfig';
 
@@ -26,6 +26,7 @@ import axiosConfig from '../../../api/axiosConfig';
 
 const Cart = () => {
 
+  const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
 
@@ -374,19 +375,40 @@ const Cart = () => {
     localStorage.setItem('cart', JSON.stringify(updatedCartItems));
   };
 
+  // getting giftcards
+  const [coupen, setCoupen] = useState("")
+  const [discount, setDiscount] = useState(0)
+
+    const getGiftcardsData = async (coupen) => {
+      if(discount === 0){
+        try {
+          const response = await getGiftcart(coupen);
+          console.log(response)
+          alert(`Congrats! ${response.giftcards[0].value}% discount added to your purchase.`)
+          setDiscount(response.giftcards[0].value)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      else{
+        alert("Coupen is invalid or already used!")
+      }
+    }
+
   return (
 
     <div>
       <div className="min-h-screen bg-gray-100 pt-20">
-        <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
+        <h1 className="mb-10 text-center text-3xl font-mono font-bold text-gray-600">Cart Items</h1>
         <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
           <div className="rounded-lg md:w-2/3">
             {cartItems && cartItems.length > 0 ?
               (
                 cartItems.map((item, index) => (
-                  <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
+                  <div className="justify-between mb-6 rounded-lg bg-white cursor-pointer p-6 shadow-md sm:flex sm:justify-start">
 
                     <img
+                    onClick={() => navigate(`/product_details/${item.productData._id}`)}
                       className="w-full rounded-lg sm:w-40"
                       src={
                         API_URL
@@ -408,8 +430,10 @@ const Cart = () => {
                     />
 
                     <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-                      <div className="mt-5 sm:mt-0">
-                        <h2 className="text-lg font-bold text-gray-900">{item.productData.name}</h2>
+                      <div onClick={() => navigate(`/product_details/${item.productData._id}`)} className="mt-5 sm:mt-0">
+                        <h2 className="text-lg font-bold text-gray-600">{item.productData.name}</h2>
+                        <p className=' text-sm mt-2'><span className='text-blue-900 font-semibold'>Frame:</span> {item.orderSelections.selectedOptions.frameProperties.frameColor}, {item.orderSelections.selectedOptions.frameProperties.frameSize}</p>
+                        <p className=' text-sm'><span className=' text-blue-900 font-semibold'>Lens:</span> {item.orderSelections.selectedOptions.lensProperties.glassesType}, {item.orderSelections.selectedOptions.lensProperties.lensType}, {item.orderSelections.selectedOptions.lensProperties.package}, {item.orderSelections.selectedOptions.lensProperties.prescriptionType}</p>
                         {/* <p className="mt-1 text-xs text-gray-700">Available Quantity: {item.productData.frame_information.frame_variants.quastity}</p> */}
                       </div>
                       <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
@@ -435,10 +459,10 @@ const Cart = () => {
                                     .selectedOptions
                                     .frameProperties
                                     .frameColor)
-                                ._id ,                                 
-                                item.orderSelections.selectedOptions.cartItemId
-                                )
-                              }
+                                ._id,
+                              item.orderSelections.selectedOptions.cartItemId
+                            )
+                            }
                           >-
                           </button>
 
@@ -475,7 +499,7 @@ const Cart = () => {
                                     .frameProperties
                                     .frameColor)
                                 ._id,
-                                item.orderSelections.selectedOptions.cartItemId
+                              item.orderSelections.selectedOptions.cartItemId
                             )}
                           >+</button>
                         </div>
@@ -526,15 +550,23 @@ const Cart = () => {
               <p className="text-gray-700">Subtotal</p>
               <p className="text-gray-700">${calculateTotalPrice().toFixed(2)}</p>
             </div>
-            <div className="flex justify-between">
+            <div className="mb-2 flex justify-between">
               <p className="text-gray-700">Shipping</p>
               <p className="text-gray-700">$4.99</p>
+            </div>
+            <div className="mb-2 flex justify-between">
+              <p className="text-gray-700">Giftcard Discount</p>
+              <p className="text-gray-700">{discount}%</p>
+            </div>
+            <div className="mb-2 flex justify-between">
+              <p className="text-gray-700">Amount Decreased</p>
+              <p className="text-gray-700">${ (((calculateTotalPrice() + 4.99).toFixed()) * discount ) / 100 }</p>
             </div>
             <hr className="my-4" />
             <div className="flex justify-between">
               <p className="text-lg font-bold">Total</p>
               <div className="">
-                <p className="mb-1 text-lg font-bold">${(calculateTotalPrice() + 4.99).toFixed(2)} USD</p>
+                <p className="mb-1 text-lg font-bold">${ (calculateTotalPrice() + 4.99).toFixed() - ((((calculateTotalPrice() + 4.99).toFixed()) * discount ) / 100) } USD</p>
                 <p className="text-sm text-gray-700">including VAT</p>
               </div>
             </div>
@@ -571,7 +603,7 @@ const Cart = () => {
 
           {/* Tab contents */}
           <div
-            className="border p-4 h-[200px] overflow-y-auto"
+            className="border p-4 h-[300px] overflow-y-auto"
             id="tab-content-container"
           >
             <div
@@ -669,10 +701,40 @@ const Cart = () => {
               className={`tab-content ${activeTab === 'Coupen' ? '' : 'hidden'}`}
               id="frame-tab"
             >
-              <h1 className="text-base font-semibold">No Coupen Added!</h1>
-              <table className="text-md font-semibold">
-                {/* Frame and Measurements Content */}
-              </table>
+             <div className=" bg-white border border-gray-200 rounded-lg shadow w-[80%]  md:w-[65%] mx-auto mb-10">
+                <div className="flex flex-row mt-5">
+                    <div className="left-0 pl-3 flex items-center pointer-events-none">
+                        <BiEdit size={30} className="mr-5 pb-1" />
+                    </div>
+                    <div class="flex items-center justify-between w-full">
+                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900">Giftcard / Add Coupen</h2>
+                        {/* <Link to='/user/giftcards'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
+                 hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
+                            <BiEdit size={20} class="mr-2" />
+                            <span>Buy Gift Cards</span>
+                        </button></Link> */}
+                    </div>
+                </div>
+                <hr className="border-3 border-gray-300 my-4" />
+                <div className="p-5">
+
+                    <p className="text-base font-sans mb-5">To get discount on the purchase, enter your card number or store credit</p>
+
+                    <span className="flex flex-row">
+                        <input value={coupen} onChange={e => setCoupen(e.target.value)} id='' className="block w-full sm:w-[80%] lg:w-[50%] pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
+                                focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
+                                sm:text-sm transition duration-150 ease-in-out" placeholder="Gift Card/Store Credit number" type="text" />
+                        <button onClick={() => getGiftcardsData(coupen)} className="ml-5 px-4 rounded inline-flex items-center 
+                                            bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
+                                             hover:text-white border border-blue-500 hover:border-transparent ">
+                            <span>Submit</span>
+                        </button>
+                    </span>
+
+
+                </div>
+            </div>
             </div>
 
           </div>

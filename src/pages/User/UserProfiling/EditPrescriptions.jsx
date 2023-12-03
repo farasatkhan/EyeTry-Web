@@ -358,9 +358,9 @@ export default function EditPrescriptionScreen() {
                                         label="Select Prescription Type"
                                         onChange={(e) => setPrescriptionType(e.target.value)}
                                     >
-                                        <MenuItem value={10}>Single Vision</MenuItem>
-                                        <MenuItem value={20}>Progressive</MenuItem>
-                                        <MenuItem value={30}>Bifocals</MenuItem>
+                                        <MenuItem value={"Single Vision"}>Single Vision</MenuItem>
+                                        <MenuItem value={"Progressive"}>Progressive</MenuItem>
+                                        <MenuItem value={"Bifocals"}>Bifocals</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Box>

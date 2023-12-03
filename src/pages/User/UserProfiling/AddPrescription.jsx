@@ -24,9 +24,9 @@ export default function AddPrescriptionScreen() {
     const handleSuccess = () => {
         setShowSuccessMessage(true);
         setTimeout(() => {
-          setShowSuccessMessage(false);
-        }, 3000); 
-      };
+            setShowSuccessMessage(false);
+        }, 3000);
+    };
 
     // radio button, IPD 1 , 2 numbers
     const [pdType, setPDType] = useState('oneNumber');
@@ -129,15 +129,15 @@ export default function AddPrescriptionScreen() {
 
     const navigate = useNavigate();
 
-        const HandleFindIpd = () => {
-            navigate("/user/measure_ipd")
-        }
+    const HandleFindIpd = () => {
+        navigate("/user/measure_ipd")
+    }
 
-        const SuccessAlert = () => {
-            return(
-                <SuccessAlert  showMessage={showSuccessMessage} onClose={() => setShowSuccessMessage(false)} />
-            )
-        }
+    const SuccessAlert = () => {
+        return (
+            <SuccessAlert showMessage={showSuccessMessage} onClose={() => setShowSuccessMessage(false)} />
+        )
+    }
 
 
     return (
@@ -160,20 +160,20 @@ export default function AddPrescriptionScreen() {
                     <div className="flex flex-row items-center space-x-20 mt-12">
                         <div className="flex-grow">
                             <div className="relative">
-                            {/* Date picker */}
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                
-                                    label="Date Of Prescription"
-                                    value={dateOfPrescription}
-                                    onChange={(newValue) => setDateOfPrescription(newValue)}
-                                    renderInput={(params) => (
-                                        <input
-                                            {...params}
-                                        />
-                                    )}
-                                />
-                            </LocalizationProvider>
+                                {/* Date picker */}
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker
+
+                                        label="Date Of Prescription"
+                                        value={dateOfPrescription}
+                                        onChange={(newValue) => setDateOfPrescription(newValue)}
+                                        renderInput={(params) => (
+                                            <input
+                                                {...params}
+                                            />
+                                        )}
+                                    />
+                                </LocalizationProvider>
                             </div>
                         </div>
                         <div className="flex-grow">
@@ -301,9 +301,9 @@ export default function AddPrescriptionScreen() {
                                         label="Select Prescription Type"
                                         onChange={(e) => setPrescriptionType(e.target.value)}
                                     >
-                                        <MenuItem value={10}>Single Vision</MenuItem>
-                                        <MenuItem value={20}>Progressive</MenuItem>
-                                        <MenuItem value={30}>Bifocals</MenuItem>
+                                        <MenuItem value={"Single Vision"}>Single Vision</MenuItem>
+                                        <MenuItem value={"Progressive"}>Progressive</MenuItem>
+                                        <MenuItem value={"Bifocals"}>Bifocals</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Box>

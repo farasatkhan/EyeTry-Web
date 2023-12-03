@@ -33,6 +33,7 @@ const Products = () => {
     const [maxPrice, setMaxPrice] = useState(5000);
     const [selectedCategory, setSelectedCategory] = useState("All Categories");
     const [selectedRim, setSelectedRim] = useState("All Rims");
+    const [newArrivals, setNewArrivals] = useState([]);
     const { page } = useParams();
 
 
@@ -54,6 +55,12 @@ const Products = () => {
         try {
             const fetchedProductsList = await viewProductsList();
             setProductsList(fetchedProductsList);
+
+            // for new arrivals
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+            const arrivals = fetchedProductsList.filter(product => new Date(product.createdAt) >= oneWeekAgo);
+            setNewArrivals(arrivals);
 
             const productRatingsData = await Promise.all(
                 fetchedProductsList.map(async (product) => {
@@ -308,6 +315,9 @@ const Products = () => {
                     rim: selectedRim
                 });
                 break;
+            case "new_arrival":
+                setFilteredProducts(newArrivals)
+                break;
 
             default:
                 break;
@@ -342,26 +352,26 @@ const Products = () => {
                                             : page === "men_glasses" ? "Men's Eyeglasses"
                                                 : page === "women_glasses" ? "Women's Eyeglasses"
                                                     : page === "kids_glasses" ? "Kids Eyeglasses"
-                                                    : page === "Sunglasses" ? "Sunglasses"
-                                                    : page === "Eyeglasses" ? "Eyeglasses"
-                                                        : page === "shop_by_face_shape" ? (
-                                                            <div className="text-center">
-                                                                <p className="mx-auto">Shop By Face Shape</p>
-                                                                <p className="mx-auto font-mono text-lg">Select face shape filter to get recommendations on the basis of facial feature</p>
-                                                            </div>
-                                                        )
-                                                            : page === "shop_by_frame_shape" ? (
-                                                                <div className="text-center">
-                                                                    <p className="mx-auto">Shop By Frame Shape</p>
-                                                                    <p className="mx-auto font-mono text-lg">Select frame shape filter to get the results based on selected frame shape</p>
-                                                                </div>
-                                                            )
-                                                                : page === "shop_by_frame_color" ? (
+                                                        : page === "Sunglasses" ? "Sunglasses"
+                                                            : page === "Eyeglasses" ? "Eyeglasses"
+                                                                : page === "shop_by_face_shape" ? (
                                                                     <div className="text-center">
-                                                                        <p className="mx-auto">Shop By Frame Color</p>
-                                                                        <p className="mx-auto font-mono text-lg">Select frame color filter to get the results based on selected color</p>
+                                                                        <p className="mx-auto">Shop By Face Shape</p>
+                                                                        <p className="mx-auto font-mono text-lg">Select face shape filter to get recommendations on the basis of facial feature</p>
                                                                     </div>
-                                                                ) : "All Products"}
+                                                                )
+                                                                    : page === "shop_by_frame_shape" ? (
+                                                                        <div className="text-center">
+                                                                            <p className="mx-auto">Shop By Frame Shape</p>
+                                                                            <p className="mx-auto font-mono text-lg">Select frame shape filter to get the results based on selected frame shape</p>
+                                                                        </div>
+                                                                    )
+                                                                        : page === "shop_by_frame_color" ? (
+                                                                            <div className="text-center">
+                                                                                <p className="mx-auto">Shop By Frame Color</p>
+                                                                                <p className="mx-auto font-mono text-lg">Select frame color filter to get the results based on selected color</p>
+                                                                            </div>
+                                                                        ) : "All Products"}
 
 
                         </h2>

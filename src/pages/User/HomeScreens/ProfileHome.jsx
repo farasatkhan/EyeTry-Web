@@ -1,16 +1,13 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import Sidebar from "../../../layouts/User/UserProfilingNavbar";
 import { BiEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import { FaRegEnvelope, FaUser, } from "react-icons/fa";
 import { getUserData, deleteAddress, viewAllPayments, deletePaymentMethod, viewAllPrescriptions, viewSpecificPrescriptions } from '../../../api/userapi';
 import tryonImg from '../../../assets/images/UserProfiling/tryon.png'
+import { deletePrescription } from "../../../api/userapi";
 
-// export default function ProfileHome() {
-
-//     return <Sidebar screenComponent={< ProfileHomeScreen />} />
-// }
 export default function ProfileHomeScreen() {
     const [addresses, setAddresses] = React.useState([])
     const [firstName, setFirstName] = React.useState('')
@@ -19,8 +16,22 @@ export default function ProfileHomeScreen() {
     const [payments, setPayments] = useState([])
     const [prescriptions, setPrescriptions] = useState([])
     const [isDeleted, setDeleted] = useState(false)
+
+    const profileRef = useRef(null);
+    const location = useLocation();
+
+    useEffect(() => {
+        // Check if the location includes a hash and it matches the target id
+        if (location.hash === '#profile-section' && profileRef.current) {
+            profileRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            });
+        }
+    }, [location]);
+
     // getting address book
-    React.useEffect(() => {
+    useEffect(() => {
         getProfileData()
         getPaymentData()
         getPrescriptionsData()
@@ -45,6 +56,18 @@ export default function ProfileHomeScreen() {
         try {
             await deleteAddress(id)
             getProfileData()
+        }
+        catch (e) {
+            throw e
+        }
+    }
+
+    // delete Prescription
+    const deleteSpecificPrescription = async (pid) => {
+        try {
+            await deletePrescription(pid)
+            console.log("prescription Deleted")
+            getPrescriptionsData()
         }
         catch (e) {
             throw e
@@ -160,7 +183,7 @@ export default function ProfileHomeScreen() {
                     </div>
 
 
-                    <label for="email" className="block text-sm mt-5 font-semibold text-gray-800 font-sans">Email</label>
+                    <label id="profile-section" ref={profileRef} for="email" className="block text-sm mt-5 font-semibold text-gray-800 font-sans">Email</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <FaRegEnvelope color='grey' />
@@ -193,9 +216,9 @@ export default function ProfileHomeScreen() {
                 </div>
                 <hr class="border-3 border-gray-300 my-4" />
                 <div className="p-5">
-                    {
-                        prescriptions.map((prescription, index) => (
-                            <div key={index} class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        {
+                            prescriptions.length !== 0 ? (
                                 <table class="w-full text-sm text-left text-gray-500">
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                         <tr>
@@ -213,37 +236,47 @@ export default function ProfileHomeScreen() {
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr class="bg-white border-b hover:bg-gray-50">
-                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                {prescription.prescriptionName}
-                                            </th>
-                                            <td class="px-6 py-4">
-                                                {prescription.dateOfPrescription}
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                {prescription.prescriptionType}
-                                            </td>
-                                            <td class=" py-4 text-right">
-                                                <button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                                    {
+                                        prescriptions.map((prescription, index) => (
+                                            <tbody key={index} >
+                                                <tr class="bg-white border-b hover:bg-gray-50">
+                                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                        {prescription.prescriptionName}
+                                                    </th>
+                                                    <td class="px-6 py-4">
+                                                        {prescription.dateOfPrescription}
+                                                    </td>
+                                                    <td class="px-6 py-4">
+                                                        {prescription.prescriptionType}
+                                                    </td>
+                                                    <td class=" py-4 text-right">
+                                                        <Link to={`/user/edit_prescription/${prescription._id}`} >
+                                                            <button class="py-1 px-4 rounded inline-flex items-center ml-auto
                                             bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                                              hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                                                    <BiEdit size={20} class="mr-2" />
-                                                    <span>Edit</span>
-                                                </button>
-                                                <button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                                                                <BiEdit size={20} class="mr-2" />
+                                                                <span>Edit</span>
+                                                            </button>
+                                                        </Link>
+                                                        <button onClick={() => deleteSpecificPrescription(prescription._id)} class="py-1 px-4 rounded inline-flex items-center ml-auto
                                             bg-transparent hover:bg-red-500 text-red-700 font-semibold 
                                              hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                                                    <MdDelete size={20} class="mr-2" />
-                                                    <span>Delete</span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                                            <MdDelete size={20} class="mr-2" />
+                                                            <span>Delete</span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        ))
+                                    }
                                 </table>
-                            </div>
-                        ))
-                    }
+                            ) : (
+                                <div>
+                                    <p className="font-sans text-base font-semibold p-2 py-3 ml-2">Prescription Not Added Yet</p>
+                                </div>
+                            )
+                        }
+                    </div>
                 </div>
             </div>
 
@@ -265,40 +298,47 @@ export default function ProfileHomeScreen() {
                 </div>
                 <hr class="border-3 border-gray-300 my-4" />
                 <div className="p-5">
-
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left text-gray-500">
+                        {
+                            prescriptions.length !== 0 ? (
+                                <table class="w-full text-sm text-left text-gray-500">
 
-                            <tbody>
-                                {
-                                    addresses.map((address) => (
-                                        <tr className="bg-white border-b hover:bg-gray-50">
-                                            <td className="px-6 py-4 text-base font-sans">
-                                                <h5 className="font-bold text-black mb-2">{address.firstName}</h5>
-                                                <p className="font-semibold text-base font-sans">This is your default delivery address</p>
-                                                <p className="text-base font-sans">
-                                                    {address.currentAddress}, {address.city}, {address.zipCode}, {address.country},
-                                                    {address.phone}
-                                                </p>
-                                            </td>
-                                            <td className="py-4 text-right">
-                                                <Link to={`/user/edit_address/${address._id}`}>
-                                                    <button className="py-1 px-4 rounded inline-flex items-center ml-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                                                        <BiEdit size={20} className="mr-2" />
-                                                        <span>Edit</span>
-                                                    </button>
-                                                </Link>
-                                                <button onClick={() => deleteSpecificAddress(address._id)} className="py-1 px-4 rounded inline-flex items-center ml-auto bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                                                    <MdDelete size={20} className="mr-2" />
-                                                    <span>Delete</span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))
-                                }
+                                    <tbody>
+                                        {
+                                            addresses.map((address) => (
+                                                <tr className="bg-white border-b hover:bg-gray-50">
+                                                    <td className="px-6 py-4 text-base font-sans">
+                                                        <h5 className="font-bold text-black mb-2">{address.firstName}</h5>
+                                                        <p className="font-semibold text-base font-sans">This is your default delivery address</p>
+                                                        <p className="text-base font-sans">
+                                                            {address.currentAddress}, {address.city}, {address.zipCode}, {address.country},
+                                                            {address.phone}
+                                                        </p>
+                                                    </td>
+                                                    <td className="py-4 text-right">
+                                                        <Link to={`/user/edit_address/${address._id}`}>
+                                                            <button className="py-1 px-4 rounded inline-flex items-center ml-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
+                                                                <BiEdit size={20} className="mr-2" />
+                                                                <span>Edit</span>
+                                                            </button>
+                                                        </Link>
+                                                        <button onClick={() => deleteSpecificAddress(address._id)} className="py-1 px-4 rounded inline-flex items-center ml-auto bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
+                                                            <MdDelete size={20} className="mr-2" />
+                                                            <span>Delete</span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        }
 
-                            </tbody>
-                        </table>
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <div>
+                                    <p className="font-sans text-base font-semibold p-2 py-3 ml-2">Address Not Added Yet</p>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             </div>

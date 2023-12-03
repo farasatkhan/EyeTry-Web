@@ -486,8 +486,6 @@ export default function AddPrescriptionScreen() {
             </div>
 
         </div >
-
-
     );
 }
 

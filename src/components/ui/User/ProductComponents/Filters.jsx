@@ -34,6 +34,5 @@ export const filters = [
         name: 'Category',
 
     },
-    // Add more filter categories here
 ];
 

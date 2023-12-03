@@ -59,8 +59,9 @@ import VissionAssessmentsNavbar from "./layouts/User/VissionAssessmentsNavbar";
 
 import SelectLensTypeComponent from "./components/ui/User/SelectLensTypeComponent/SelectLensTypeComponent";
 
-//cart
+// Order Management imports
 import Cart from "./pages/User/OrderManagement/Cart";
+import TrackOrders from "./pages/User/OrderManagement/TrackOrders";
 
 // Support Screens
 import CustomerSupportDashboard from "./pages/CustomerSupport/dashboard";
@@ -130,7 +131,8 @@ function App() {
             )
           }
         />
-
+        
+        <Route path="track_orders" element={<PrivateRoute Component={TrackOrders} />} />
         <Route path="tryon" element={<PrivateRoute Component={Tryon} />} />
       </Route>
 
@@ -143,7 +145,7 @@ function App() {
         <Route path="add_payment" element={<PrivateRoute Component={AddPayment} />} />
         <Route path="edit_payment/:id" element={<PrivateRoute Component={EditPayment} />} />
         <Route path="delete_account" element={<PrivateRoute Component={DeleteAccount} />} />
-        <Route path="edit_prescription" element={<PrivateRoute Component={EditPrescriptions} />} />
+        <Route path="edit_prescription/:id" element={<PrivateRoute Component={EditPrescriptions} />} />
         <Route path="prescription_details" element={<PrivateRoute Component={PrescriptionDetails} />} />
         <Route path="add_prescription" element={<PrivateRoute Component={AddPrescription} />} />
         <Route path="change_password" element={<PrivateRoute Component={ChangePassword} />} />
@@ -173,7 +175,7 @@ function App() {
       <Route path="/add_glasses" element={<PrivateRoute Component={AddGlasses} />} />
 
       {/* Customer Support Routes */}
-      <Route path="/support/*" element={<CustomerSupportNavbar />}>
+      <Route path="/support/*" element={<HomeNavbar />}>
         <Route index path="dashboard" element={<PrivateRoute Component={CustomerSupportDashboard} />} />
         <Route path="ticket_details" element={<PrivateRoute Component={SupportTicketDetails} />} />
         <Route path="personal_information" element={<PrivateRoute Component={PersonalInformation} />} />

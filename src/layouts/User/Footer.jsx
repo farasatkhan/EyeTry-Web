@@ -17,30 +17,30 @@ const Footer = () => {
                   <h2 className="mb-6 text-xs font-semibold  uppercase">PRODUCTS</h2>
                   <ul className="text-gray-400 font-medium text-sm">
                       <li className="mb-4">
-                          <Link to="https://flowbite.com/" class="hover:underline">Eyeglasses</Link>
+                          <Link to="/products/Eyeglasses" class="hover:underline">Eyeglasses</Link>
                       </li>
                       <li className="mb-4">
-                          <Link to="https://tailwindcss.com/" class="hover:underline">Sunglasses</Link>
+                          <Link to="/products/Sunglasses" class="hover:underline">Sunglasses</Link>
                       </li>
                       <li className="mb-4">
-                          <Link to="https://tailwindcss.com/" class="hover:underline">Glasses</Link>
+                          <Link to="/products/products" class="hover:underline">Glasses</Link>
                       </li>
                       <li className="mb-4">
                           <Link to="https://tailwindcss.com/" class="hover:underline">Contact</Link>
                       </li>
                       <li className="mb-4">
-                          <Link to="https://tailwindcss.com/" class="hover:underline">New Collections</Link>
+                          <Link to="/products/new_arrival" class="hover:underline">New Collections</Link>
                       </li>
-                      <li className="mb-4">
+                      {/* <li className="mb-4">
                           <Link to="https://tailwindcss.com/" class="hover:underline">Accessories</Link>
-                      </li>
+                      </li> */}
                   </ul>
               </div>
               <div>
                   <h2 className="mb-6 text-xs font-semibold  uppercase">SHOP ONLINE</h2>
                   <ul className="text-gray-400 font-medium">
                       <li className="mb-4">
-                          <Link to="https://github.com/themesberg/flowbite" class="hover:underline ">Virtual Try-On</Link>
+                          <Link to="/product_details/652e44f7bb19a06756275476" class="hover:underline ">Virtual Try-On</Link>
                       </li>
                   </ul>
                   <h2 className="mb-6 text-xs font-semibold  uppercase">Information</h2>
@@ -60,7 +60,7 @@ const Footer = () => {
                   <h2 className="mb-6 text-xs font-semibold  uppercase">GET PRESCRIPTION</h2>
                   <ul className="text-gray-400 font-medium">
                       <li className="mb-4">
-                          <Link to="#" className="hover:underline">Renew a Prescription</Link>
+                          <Link to="/user/profile#profile-section" className="hover:underline">Renew a Prescription</Link>
                       </li>
                   </ul>
                   <h2 className="mb-6 text-xs font-semibold  uppercase">GUIDE</h2>
@@ -69,7 +69,7 @@ const Footer = () => {
                           <Link to="#" className="hover:underline">Our Lenses</Link>
                       </li>
                       <li className="mb-4">
-                          <Link to="#" className="hover:underline">Prescriptions</Link>
+                          <Link to="/user/profile#profile-section" className="hover:underline">Prescriptions</Link>
                       </li>
                       <li className="mb-4">
                           <Link to="#" className="hover:underline">Care Instructions</Link>

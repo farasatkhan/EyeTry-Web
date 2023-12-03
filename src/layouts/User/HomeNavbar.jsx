@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -93,7 +93,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 const pages = ['Eyeglasses', 'Sunglasses', 'Vision Assessments'];
-const settings = ['Profile', 'Logout'];
+const settings = ['Profile', 'Your Orders', 'Logout'];
 
 
 // for sidebar
@@ -145,13 +145,30 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
+// navlinks
+export const navbarLinks = [
+  {
+      name: 'eyeglasses',
+  },
+  {
+      name: 'sunglasses',
+
+  },
+  {
+      name: 'visionAssessments',
+
+  },
+];
+
+
+
 export default function PersistentDrawerLeft() {
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
   // products list 
-  const [productsList, setPrductsList] = useState([]) 
+  const [productsList, setPrductsList] = useState([])
 
   useEffect(() => {
     const getUserName = async () => {
@@ -169,11 +186,11 @@ export default function PersistentDrawerLeft() {
 
   // Fetching product list for search data 
 
-  useEffect (() => {
+  useEffect(() => {
     fetchProductsList();
   }, [])
 
-  const fetchProductsList =  async () => {
+  const fetchProductsList = async () => {
     try {
       const products = await viewProductsList();
       const simplifiedProducts = products.map(product => ({
@@ -197,7 +214,7 @@ export default function PersistentDrawerLeft() {
       navigate(`/product_details/${value.id}`);
     }
   };
- 
+
 
   const [profilePic, setProfilePic] = React.useState(null)
   const baseURL = 'http://localhost:3000'
@@ -266,8 +283,11 @@ export default function PersistentDrawerLeft() {
       logout();
       navigate("/signin")
     }
-    else if (setting == "Profile"){
+    else if (setting == "Profile") {
       navigate("/user/profile")
+    }
+    else if (setting == "Your Orders") {
+      navigate("/track_orders")
     }
     setAnchorElUser(null);
   };
@@ -284,6 +304,16 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+  // handling navlinks dropdown
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -327,37 +357,53 @@ export default function PersistentDrawerLeft() {
 
           {/* Logo */}
           <div onClick={() => handleNavigate('/')} className='flex items-center cursor-pointer hidden sm:flex sm:block'>
-          <img className='w-[40px] h-[26px]' src={logo} alt="Logo" />
-          <div  style={{ fontWeight: "400", fontSize: "22px", marginLeft: 10, fontFamily: 'sans-serif' }} >
-            <span style={{ fontWeight: "700", fontSize: "22px", fontFamily: 'sans-serif' }}>EYE</span>TRY</div>
+            <img className='w-[40px] h-[26px]' src={logo} alt="Logo" />
+            <div style={{ fontWeight: "400", fontSize: "22px", marginLeft: 10, fontFamily: 'sans-serif' }} >
+              <span style={{ fontWeight: "700", fontSize: "22px", fontFamily: 'sans-serif' }}>EYE</span>TRY</div>
           </div>
 
 
 
           {/* pages brands , categories etc */}
           <div>
-            <Hidden mdDown>
-              <Box className="whitespace-nowrap" sx={{ ml: 5, flexGrow: 1, display: 'flex' }}>
-                {pages.map((page) => (
-                  <Button
-                    key={page}
-                    onClick={() => handleCloseNavMenu(page)}
-                    sx={{ my: 2, color: 'black', display: 'flex', fontWeight: { md: '700', lg: '700' }, fontSize: { md: '12px', lg: '12px' } }}
-                  >
-                    {page}
-                  </Button>
-                ))}
-              </Box >
-            </Hidden>
-          </div>
-
-          {/* <div className='flex space-x-4 ml-5'>
-            <p>Eyeglasses</p>
-            <p>Sunglasses</p>
-            <p>Categories</p>
-            <p>Brands</p>
-            <p>Vision Assessments</p>
-          </div> */}
+      <Hidden mdDown>
+        <Box
+          className="whitespace-nowrap"
+          sx={{ ml: 5, flexGrow: 1, display: 'flex' }}
+          onMouseLeave={handleClose} // Close options menu on mouse leave
+        >
+          {pages.map((page) => (
+            <React.Fragment key={page}>
+              <Button
+                onMouseEnter={handleClick}
+                sx={{
+                  my: 2,
+                  color: 'black',
+                  display: 'flex',
+                  fontWeight: { md: '700', lg: '700' },
+                  fontSize: { md: '12px', lg: '12px' },
+                }}
+              >
+                {page}
+              </Button>
+            </React.Fragment>
+          ))}
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+            elevation={1}
+          >
+            {/* Add your dropdown items here */}
+            <MenuItem onClick={handleClose}>Option 1</MenuItem>
+            <MenuItem onClick={handleClose}>Option 2</MenuItem>
+            <MenuItem onClick={handleClose}>Option 3</MenuItem>
+          </Menu>
+        </Box>
+      </Hidden>
+    </div>
 
           <Autocomplete
             className='w-[200px] mr-auto ml-5'
@@ -378,11 +424,11 @@ export default function PersistentDrawerLeft() {
                   type: 'search',
                   startAdornment: (
                     <SearchIcon
-                      style={{ marginRight: '8px', color: 'black' }} 
+                      style={{ marginRight: '8px', color: 'black' }}
                     />
                   ),
                   sx: {
-                    border: 'none', 
+                    border: 'none',
                   },
                 }}
               />
@@ -472,7 +518,7 @@ export default function PersistentDrawerLeft() {
             { text: 'Eyeglasses', path: '/products/Eyeglasses' },
             { text: 'Sunglasses', path: '/products/Sunglasses' },
             { text: 'Categories', path: '/products/Categories' },
-            { text: 'Brands', path: '/products/Brands' },
+            { text: 'Track Your Orders', path: '/track_orders' },
             { text: 'Vission Assessments', path: '/assessments/color_blind_test' },
             { text: 'Log Out', path: '/signin' }
           ].map(({ text, path }, index) => (

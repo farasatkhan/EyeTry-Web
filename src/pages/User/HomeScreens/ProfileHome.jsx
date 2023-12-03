@@ -229,7 +229,7 @@ export default function ProfileHomeScreen() {
                                                 Date
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                Type
+                                                PD Type
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 <span class="sr-only">Edit</span>
@@ -247,7 +247,7 @@ export default function ProfileHomeScreen() {
                                                         {prescription.dateOfPrescription}
                                                     </td>
                                                     <td class="px-6 py-4">
-                                                        {prescription.prescriptionType}
+                                                        {prescription.pdType}
                                                     </td>
                                                     <td class=" py-4 text-right">
                                                         <Link to={`/user/edit_prescription/${prescription._id}`} >

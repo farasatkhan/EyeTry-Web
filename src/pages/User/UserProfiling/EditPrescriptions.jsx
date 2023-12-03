@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { FaUser, } from "react-icons/fa";
 import { FormControl, InputLabel, MenuItem, Select, Radio, RadioGroup, FormControlLabel, Box, TextField } from '@mui/material';
-import { addPrescription } from "../../../api/userapi";
+import { editPrescription } from "../../../api/userapi";
 // for date picker
 import dayjs from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useNavigate } from "react-router-dom";
 import SuccessAlert from "../../../components/ui/User/Alerts/SuccessAlert";
 import { viewSpecificPrescriptions } from "../../../api/userapi";
 
-export default function AddPrescriptionScreen() {
+export default function EditPrescriptionScreen() {
 
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
@@ -39,6 +38,44 @@ export default function AddPrescriptionScreen() {
     const [dateOfPrescription, setDateOfPrescription] = useState(dayjs().set('date', 1));
     const [prescriptionType, setPrescriptionType] = useState('')
 
+    const { id } = useParams();
+    // getting specific prescription data
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const prescriptionData = await viewSpecificPrescriptions(id);
+                console.log(prescriptionData);
+
+                setPrescriptionName(prescriptionData.prescriptionName);
+                setPDType(prescriptionData.pdType);
+                setPDOneNumber(prescriptionData.pdOneNumber);
+                setPDLeftNumber(prescriptionData.pdLeftNumber);
+                setPDRightNumber(prescriptionData.pdRightNumber);
+                setBirthYear(prescriptionData.birthYear);
+                setDateOfPrescription(dayjs(prescriptionData.dateOfPrescription, "MM/DD/YYYY"));
+                setPrescriptionType(prescriptionData.prescriptionType);
+
+                setRightEye({
+                    SPH: prescriptionData.rightEyeOD.SPH,
+                    CYL: prescriptionData.rightEyeOD.CYL,
+                    Axis: prescriptionData.rightEyeOD.Axis,
+                    Prism: prescriptionData.rightEyeOD.Prism,
+                    Base: prescriptionData.rightEyeOD.Base,
+                });
+                setLeftEye({
+                    SPH: prescriptionData.leftEyeOS.SPH,
+                    CYL: prescriptionData.leftEyeOS.CYL,
+                    Axis: prescriptionData.leftEyeOS.Axis,
+                    Prism: prescriptionData.leftEyeOS.Prism,
+                    Base: prescriptionData.leftEyeOS.Base,
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
+    }, [id]);
 
     const [rightEye, setRightEye] = useState({
         SPH: "",
@@ -113,9 +150,11 @@ export default function AddPrescriptionScreen() {
             dateOfPrescription: dateOfPrescription.format("MM/DD/YYYY"),
         }
         try {
-            const SendPrescription = await addPrescription(prescriptionData)
+            const SendPrescription = await editPrescription(prescriptionData, id)
             console.log(SendPrescription)
+            alert("Prescription Updated")
             SuccessAlert()
+            navigate('/user/profile')
         }
         catch (error) {
             console.log(error)
@@ -134,52 +173,12 @@ export default function AddPrescriptionScreen() {
         )
     }
 
-    const { id } = useParams();
-    // getting specific prescription data
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const prescriptionData = await viewSpecificPrescriptions(id);
-                console.log(prescriptionData);
-    
-                setPrescriptionName(prescriptionData.prescriptionName);
-                setPDType(prescriptionData.pdType);
-                setPDOneNumber(prescriptionData.pdOneNumber);
-                setPDLeftNumber(prescriptionData.pdLeftNumber);
-                setPDRightNumber(prescriptionData.pdRightNumber);
-                setBirthYear(prescriptionData.birthYear);
-                setDateOfPrescription(dayjs(prescriptionData.dateOfPrescription, "MM/DD/YYYY"));
-                setPrescriptionType(prescriptionData.prescriptionType);
-    
-                setRightEye({
-                    SPH: prescriptionData.rightEyeOD.SPH,
-                    CYL: prescriptionData.rightEyeOD.CYL,
-                    Axis: prescriptionData.rightEyeOD.Axis,
-                    Prism: prescriptionData.rightEyeOD.Prism,
-                    Base: prescriptionData.rightEyeOD.Base,
-                });
-                setLeftEye({
-                    SPH: prescriptionData.leftEyeOS.SPH,
-                    CYL: prescriptionData.leftEyeOS.CYL,
-                    Axis: prescriptionData.leftEyeOS.Axis,
-                    Prism: prescriptionData.leftEyeOS.Prism,
-                    Base: prescriptionData.leftEyeOS.Base,
-                });
-            } catch (error) {
-                console.error(error);
-            }
-        };
-    
-        fetchData();
-    }, [id]);
-    
-
     return (
         <div className="flex flex-col min-h-screen">
             <div className="p-5 mt-10  bg-white border border-gray-200 rounded-lg shadow w-[90%] mx-auto mb-10">
                 <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10 ">
                     <div class=" text-center mb-12" >
-                        <h3 className="text-2xl sm:text-3xl  font-semibold font-sans">Add Prescription</h3>
+                        <h3 className="text-2xl sm:text-3xl  font-semibold font-sans">Edit Prescription</h3>
                     </div>
                     <label for="firstname" className="block text-base font-semibold text-gray-800 font-sans">Precription Name</label>
                     <div className="relative">
@@ -255,7 +254,15 @@ export default function AddPrescriptionScreen() {
                                 {pdType === 'oneNumber' && (
                                     <div className='mt-5 mx-auto' >
                                         <FormControl fullWidth>
-                                            <InputLabel id="pdOneNumber-label">Enter Your Pupillary Distance (One Number)</InputLabel>
+                                            <InputLabel id="pdOneNumber-label">
+                                                {
+                                                    pdOneNumber === null ? (
+                                                        <> Enter Your Pupillary Distance (One Number)</>
+                                                    ) : (
+                                                        <></>
+                                                    )
+                                                }
+                                            </InputLabel>
                                             <Select
                                                 labelId="pdOneNumber-label"
                                                 id="pdOneNumber"
@@ -277,7 +284,15 @@ export default function AddPrescriptionScreen() {
                                 {pdType === 'twoNumbers' && (
                                     <div className='flex flex-row space-x-4 mt-5' >
                                         <FormControl fullWidth>
-                                            <InputLabel id="pdLeftNumber-label">Left Pupillary Distance</InputLabel>
+                                            <InputLabel id="pdLeftNumber-label">
+                                                {
+                                                    pdLeftNumber === null ? (
+                                                        <>Left Pupillary Distance</>
+                                                    ) : (
+                                                        <></>
+                                                    )
+                                                }
+                                            </InputLabel>
                                             <Select
                                                 labelId="pdLeftNumber-label"
                                                 id="pdLeftNumber"
@@ -295,7 +310,15 @@ export default function AddPrescriptionScreen() {
                                         </FormControl>
 
                                         <FormControl fullWidth>
-                                            <InputLabel id="pdRightNumber-label">Right Pupillary Distance</InputLabel>
+                                            <InputLabel id="pdRightNumber-label">
+                                                {
+                                                    pdRightNumber === null ? (
+                                                        <>Right Pupillary Distance</>
+                                                    ) : (
+                                                        <></>
+                                                    )
+                                                }
+                                            </InputLabel>
                                             <Select
                                                 labelId="pdRightNumber-label"
                                                 id="pdRightNumber"
@@ -517,7 +540,7 @@ export default function AddPrescriptionScreen() {
                             }
                             }
                                 type="button" class="w-36 sm:w-56 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
-                         focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Save</button>
+                         focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Update</button>
                         </div>
 
 

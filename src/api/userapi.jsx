@@ -277,7 +277,7 @@ export const deleteAddress = async (id) => {
 export const addPrescription = async (prescriptionData) => {
     const data = prescriptionData
     try {
-        const accessToken = await localStorage.getItem("accessToken")
+        const accessToken = localStorage.getItem("accessToken")
         const response = await axios.post(`${baseURL}/users/add_prescription`, data, {
             headers: {
                 Authorization: `Bearer ${accessToken}`
@@ -293,6 +293,35 @@ export const addPrescription = async (prescriptionData) => {
                 console.log("Error Catched")
                 await reGenerateAccessToken()
                 return addPrescription(data)
+            }
+            catch (e) {
+                console.error("Error while refreshing token", e)
+                throw e
+            }
+        }
+        throw error;
+    }
+};
+// Edit Prescription
+export const editPrescription = async (prescriptionData, pid) => {
+    const data = prescriptionData
+    try {
+        const accessToken = localStorage.getItem("accessToken")
+        const response = await axios.put(`${baseURL}/users/update_prescription/${pid}`, data, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+        });
+        console.log("Response :", response)
+        return response;
+    }
+    catch (error) {
+        // Server is returning 403 for expired token
+        if (error.response && error.response.status == 403) {
+            try {
+                console.log("Error Catched")
+                await reGenerateAccessToken()
+                return editPrescription(data)
             }
             catch (e) {
                 console.error("Error while refreshing token", e)

@@ -46,6 +46,7 @@ const Cart = () => {
   const [activeTab, setActiveTab] = useState('paymentMethod');
   const [productQuantities, setProductQuantities] = useState({});
   const [productData, setProductData] = useState({});
+  const [shippingPrice, setShippingPrice] = useState(4.99);
 
 
   // getting address book
@@ -118,7 +119,10 @@ const Cart = () => {
     const storedCartItems = JSON.parse(localStorage.getItem('cart'));
     setCartItems(storedCartItems);
     console.log("cart screen data", storedCartItems);
-
+    if (storedCartItems.length === 0){
+      setShippingPrice(0)
+      setDiscount(0)
+    }
   }
 
   useEffect(() => {
@@ -152,7 +156,7 @@ const Cart = () => {
       const { data } = await axios.post(
         "payment/process_payment",
         {
-          amount: (calculateTotalPrice() + 4.99).toFixed(2),
+          amount: (calculateTotalPrice() + shippingPrice).toFixed(2),
           // Add any other required data here
         }
       );
@@ -236,7 +240,7 @@ const Cart = () => {
       const order = {
         user: uid,
         items: items,
-        totalPrice: (calculateTotalPrice() + 4.99).toFixed(2),
+        totalPrice: (calculateTotalPrice() + shippingPrice).toFixed(2),
         paymentMethod: payments[0]._id,
         shippingAddress: {
           name: addresses[0].firstName,
@@ -254,6 +258,7 @@ const Cart = () => {
         const response = await checkout(order); // Sending the entire order as one request
         console.log("Order Placed Successfully!", response.data);
         alert("Order Placed Successfully!")
+        setDiscount(0)
       } catch (e) {
         console.error(e);
       }
@@ -370,7 +375,7 @@ const Cart = () => {
 
     // Update the cartItems state
     setCartItems(updatedCartItems);
-
+    getLocalStorageCartItems();
     // Update the local storage to reflect the changes
     localStorage.setItem('cart', JSON.stringify(updatedCartItems));
   };
@@ -394,6 +399,9 @@ const Cart = () => {
         alert("Coupen is invalid or already used!")
       }
     }
+
+    // shipping price
+    
 
   return (
 
@@ -552,7 +560,7 @@ const Cart = () => {
             </div>
             <div className="mb-2 flex justify-between">
               <p className="text-gray-700">Shipping</p>
-              <p className="text-gray-700">$4.99</p>
+              <p className="text-gray-700">${shippingPrice}</p>
             </div>
             <div className="mb-2 flex justify-between">
               <p className="text-gray-700">Giftcard Discount</p>
@@ -560,13 +568,13 @@ const Cart = () => {
             </div>
             <div className="mb-2 flex justify-between">
               <p className="text-gray-700">Amount Decreased</p>
-              <p className="text-gray-700">${ (((calculateTotalPrice() + 4.99).toFixed()) * discount ) / 100 }</p>
+              <p className="text-gray-700">${ (((calculateTotalPrice() + shippingPrice).toFixed()) * discount ) / 100 }</p>
             </div>
             <hr className="my-4" />
             <div className="flex justify-between">
               <p className="text-lg font-bold">Total</p>
               <div className="">
-                <p className="mb-1 text-lg font-bold">${ (calculateTotalPrice() + 4.99).toFixed() - ((((calculateTotalPrice() + 4.99).toFixed()) * discount ) / 100) } USD</p>
+                <p className="mb-1 text-lg font-bold">${ (calculateTotalPrice() + shippingPrice).toFixed() - ((((calculateTotalPrice() + shippingPrice).toFixed()) * discount ) / 100) } USD</p>
                 <p className="text-sm text-gray-700">including VAT</p>
               </div>
             </div>
@@ -725,11 +733,15 @@ const Cart = () => {
                         <input value={coupen} onChange={e => setCoupen(e.target.value)} id='' className="block w-full sm:w-[80%] lg:w-[50%] pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
                                 focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
                                 sm:text-sm transition duration-150 ease-in-out" placeholder="Gift Card/Store Credit number" type="text" />
-                        <button onClick={() => getGiftcardsData(coupen)} className="ml-5 px-4 rounded inline-flex items-center 
-                                            bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
-                                             hover:text-white border border-blue-500 hover:border-transparent ">
-                            <span>Submit</span>
-                        </button>
+                       <button
+  onClick={() => getGiftcardsData(coupen)}
+  disabled={cartItems.length === 0}
+  className={`ml-5 px-4 rounded inline-flex items-center 
+    ${cartItems.length === 0 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent'}`}
+>
+  <span>Submit</span>
+</button>
+
                     </span>
 
 

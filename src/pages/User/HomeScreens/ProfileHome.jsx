@@ -7,6 +7,7 @@ import { FaRegEnvelope, FaUser, } from "react-icons/fa";
 import { getUserData, deleteAddress, viewAllPayments, deletePaymentMethod, viewAllPrescriptions, viewSpecificPrescriptions } from '../../../api/userapi';
 import tryonImg from '../../../assets/images/UserProfiling/tryon.png'
 import { deletePrescription } from "../../../api/userapi";
+import TrackOrder from '../../../components/ui/User/OrderComponets/TrackOrder'
 
 export default function ProfileHomeScreen() {
     const [addresses, setAddresses] = React.useState([])
@@ -136,7 +137,7 @@ export default function ProfileHomeScreen() {
                 </div>
                 <hr class="border-3 border-gray-300 my-4" />
                 <div className="p-5">
-                    <p className="text-base">You currently have no orders</p>
+                    < TrackOrder />
                 </div>
             </div>
 

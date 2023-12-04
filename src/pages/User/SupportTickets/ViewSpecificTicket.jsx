@@ -13,13 +13,8 @@ import { createChat } from "../../../services/Chat/chat";
 export default function ViewSpecificTicket() {
     const { ticketId } = useParams();
 
-    const [ticketStatus, setTicketStatus] = React.useState('');
-
     const userId = localStorage.getItem('userID')
 
-    const handleAttributeChange = (event) => {
-        setTicketStatus(event.target.value);
-    };
 
     const navigate = useNavigate();
     const [supportTicket, setSupportTicket] = React.useState({
@@ -32,7 +27,6 @@ export default function ViewSpecificTicket() {
         status: '',
     });
 
-    const [message, setMessage] = React.useState('');
     const fetchSupportTicket = async () => {
         try {
             const data = await getSupportTicketById(ticketId);

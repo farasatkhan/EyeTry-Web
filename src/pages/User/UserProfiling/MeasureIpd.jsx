@@ -1,22 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaBookOpen } from "react-icons/fa";
 import { uploadProfileImage } from '../../../api/userapi';
 import defaultImage from '../../../assets/images/UserProfiling/pfpdefault.png';
 import { sendImageToIPDServer } from "../../../services/IPD/ipdApi";
-
+import defaultIpd from '../../../assets/images/UserProfiling/defaultIpd.jpeg'
 export default function UploadUserImageScreen() {
 
     const [selectedImage, setSelectedImage] = useState(null);
     const [uploadedImage, setUploadedImage] = useState(null); // State to store the uploaded image
+    const [ipd, setIpd] = useState(null)
 
     const [successVisible, setSuccessVisible] = React.useState(false)
     const [successMessage, setSuccessMessage] = React.useState(null)
 
     const [errorVisible, setErrorVisible] = React.useState(false)
     const [errorMessage, setErrorMessage] = React.useState(null)
+    
 
     // Clear the error and success msgs on every rerender
-    React.useEffect(() => {
+    useEffect(() => {
         setErrorVisible(false)
         setSuccessVisible(false)
         // SetGuidelinesShow(false)
@@ -44,6 +46,7 @@ export default function UploadUserImageScreen() {
                 setErrorMessage('')
                 setErrorVisible(false)
                 console.log("Your IPD is: " , res.data.ipd_in_mm)
+                setIpd(res.data.ipd_in_mm)
         }
             setSuccessVisible(true)
         }
@@ -56,6 +59,8 @@ export default function UploadUserImageScreen() {
         }
     }
 
+    // stroing user IPD in localstorage
+    const userIpd = localStorage.setItem('userIPD' , ipd)
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -67,6 +72,13 @@ export default function UploadUserImageScreen() {
                         <h3 className="text-2xl sm:text-3xl  font-semibold font-sans">Measure Your IPD</h3>
                         <p className=" font-sans text-base mt-3">Insert Your IPD Picture</p>
                     </div>
+
+                    <p className="text-xl font-sans font-semibold mt-10 mb-2">Calibration Guide</p>
+                    <p>Please Align your face with the camera and make sure the lighting conditions are good. Place marker on your forehead or under your nose, and make sure it also aligns wells with the camera angle.
+                            Sample Image is provided below which shows how to hold the marker</p>
+                    <p className="mt-5">Consider Sample Image: </p>
+                    <img className="w-[500px] h-[400px] object-contain mx-auto mt-5" src={defaultIpd} alt="img" />
+                
 
                     <p className="text-xl font-sans font-semibold mt-10">Add an Image</p>
                     {successVisible &&

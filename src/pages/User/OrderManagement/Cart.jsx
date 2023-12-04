@@ -9,6 +9,8 @@ import API_URL from '../../../config/config';
 import { checkout, getGiftcart } from '../../../api/productsApi';
 import { processPayment } from '../../../api/productsApi';
 import axios from '../../../api/axiosConfig';
+import Modal from "react-modal";
+import stripeLogo from '../../../assets/images/orders/stripeLogo.png'
 
 import {
   CardNumberElement,
@@ -43,11 +45,11 @@ const Cart = () => {
   const [hasPaymentMethod, setHasPaymentMethod] = useState(false);
   const [hasShippingAddress, setHasShippingAddress] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const [activeTab, setActiveTab] = useState('paymentMethod');
+  const [activeTab, setActiveTab] = useState('shippingAddress');
   const [productQuantities, setProductQuantities] = useState({});
   const [productData, setProductData] = useState({});
   const [shippingPrice, setShippingPrice] = useState(4.99);
-
+  const [userName, setUserName] = useState('')
 
   // getting address book
   useEffect(() => {
@@ -61,7 +63,7 @@ const Cart = () => {
       setAddresses(response.addressBook)
       setUid(response._id)
       setHasShippingAddress(response.addressBook.length > 0);
-
+      setUserName(`${response.firstName} ${response.lastName}`)
     }
     catch (e) {
       throw e
@@ -146,6 +148,7 @@ const Cart = () => {
     event.preventDefault();
 
     // Assuming 'stripe' and 'elements' are properly set up
+    openModal();
 
     if (!stripe || !elements) {
       // Stripe not yet loaded
@@ -166,19 +169,23 @@ const Cart = () => {
       const result = await stripe.confirmCardPayment(client_secret, {
         payment_method: {
           card: elements.getElement(CardNumberElement),
-          // You can add additional payment method details here if needed
+          billing_details: {
+            name: userName,
+          },
         },
       });
 
       if (result.error) {
         // Handle payment error
         console.error(result.error.message);
+        alert(result.error.message)
         return;
 
       } else {
         // Payment successful, you can send the paymentMethod to your server if necessary
         const paymentMethod = result.paymentIntent.payment_method;
         console.log("Payment Successful! " + " amount: " + calculateTotalPrice())
+        closeModal();
       }
     } catch (error) {
       console.error(error);
@@ -389,7 +396,7 @@ const Cart = () => {
       try {
         const response = await getGiftcart(coupen);
         console.log(response);
-  
+
         // Check if the gift card has expired
         if (response.message && response.message.includes("expired")) {
           alert("The gift card has expired!");
@@ -406,9 +413,34 @@ const Cart = () => {
     }
   }
 
-  // shipping price
 
+  const [isModalOpen, setModalOpen] = useState(false);
 
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const cardElementStyle = {
+    base: {
+      fontSize: '18px',
+      color: '#424770',
+      '::placeholder': {
+        color: '#aab7c4',
+      },
+      // border: '1px solid black', 
+    },
+    invalid: {
+      color: 'red',
+    },
+  };
+
+  const cardElementOptions = {
+    style: cardElementStyle,
+  };
   return (
 
     <div>
@@ -580,11 +612,11 @@ const Cart = () => {
             <div className="flex justify-between">
               <p className="text-lg font-bold">Total</p>
               <div className="">
-                <p className="mb-1 text-lg font-bold">${(calculateTotalPrice() + shippingPrice).toFixed() - ((((calculateTotalPrice() + shippingPrice).toFixed()) * discount) / 100)} USD</p>
+                <p className="mb-1 text-lg font-bold">${(calculateTotalPrice() + shippingPrice).toFixed(2) - ((((calculateTotalPrice() + shippingPrice).toFixed(2)) * discount) / 100)} USD</p>
                 <p className="text-sm text-gray-700">including VAT</p>
               </div>
             </div>
-            <button onClick={placeOrder} disabled={(cartItems && cartItems.length < 1)} className={`cursor-pointer mt-6 w-full
+            <button onClick={openModal} disabled={(cartItems && cartItems.length < 1)} className={`cursor-pointer mt-6 w-full
              rounded-md ${cartItems && cartItems.length < 1 ? 'bg-gray-500 hover:bg-gray-600' : 'bg-blue-500 hover:bg-blue-600'}  py-1.5 font-medium text-blue-50
                `}>Check out</button>
           </div>
@@ -596,12 +628,6 @@ const Cart = () => {
           {/* Tab buttons */}
           <div className="flex mb-4 space-x-4">
             <button
-              className={` text-lg tab-btn ${activeTab === 'paymentMethod' ? 'text-blue-400 border-b-[3px] border-blue-500' : ''}`}
-              onClick={() => handleTabClick('paymentMethod')}
-            >
-              Payment Method
-            </button>
-            <button
               className={`text-lg tab-btn ${activeTab === 'shippingAddress' ? 'text-blue-400 border-b-[3px] border-blue-500' : ''}`}
               onClick={() => handleTabClick('shippingAddress')}
             >
@@ -611,7 +637,7 @@ const Cart = () => {
               className={`text-lg tab-btn ${activeTab === 'Coupen' ? 'text-blue-400 border-b-[3px] border-blue-500' : ''}`}
               onClick={() => handleTabClick('Coupen')}
             >
-              Coupen
+              Gift Card
             </button>
           </div>
 
@@ -624,27 +650,49 @@ const Cart = () => {
               className={`tab-content ${activeTab === 'paymentMethod' ? '' : 'hidden'}`}
               id="description-tab"
             >
-              <h5 className="font-semibold text-black">
-                {payments.length > 0 ? payments[0].nameOnCard : "No Payment Method"}
-              </h5>
-              <p className="text-base font-sans">
-                <CardNumberElement />
-                <CardExpiryElement />
-                <CardCvcElement />
-                {/* {payments.length > 0 ? (
-                  <>
-                    VISA&nbsp;&nbsp;{payments[0].paymentType}&nbsp;&nbsp;
-                    <br />
-                    Card No: {payments[0].cardNumber}&nbsp;&nbsp;
-                    <br />
-                    Expiration Date: {payments[0].expirationMonth}/{payments[0].expirationYear}&nbsp;&nbsp;
-                    <br />
-                    Address: {payments[0].billingInfo.address}
-                  </>
-                ) : (
-                  "No Payment Method added!"
-                )} */}
-              </p>
+
+              <div>
+                {/* Modal for card elements */}
+                <div className='relative'>
+                  <Modal
+                    isOpen={isModalOpen}
+                    onRequestClose={closeModal}
+                    contentLabel="Card Modal"
+                    style={{
+                      content: {
+                        width: '400px', // Adjust the width as needed
+                        height: '500px', // Adjust the height as needed
+                        margin: 'auto', // Center the modal horizontally
+                      },
+                    }}
+                  >
+                    {/* <h2 className='' style={{ textAlign: 'center', fontFamily: 'sans-serif' , fontSize: 24, fontWeight:'bold', color: "#5B63FF" }}>Enter Card Details</h2> */}
+                    <div className='  '>
+                      <img src={stripeLogo} className='w-full h-20 object-contain mb-10' alt='' />
+
+                      <div style={{ marginBottom: '16px', border: '2px solid #00308F', padding: 8, borderRadius: 5 }}>
+                        <CardNumberElement options={cardElementOptions} />
+                      </div>
+
+
+                      <div style={{ marginBottom: '16px', border: '2px solid #00308F', padding: 8, borderRadius: 5 }}>
+                        <CardExpiryElement options={cardElementOptions} />
+                      </div>
+
+                      <div style={{ marginBottom: '16px', border: '2px solid #00308F', padding: 8, borderRadius: 5 }}>
+                        <CardCvcElement options={cardElementOptions} />
+                      </div>
+                    </div>
+                    <div>
+                    </div>
+
+                    <div className=' absolute w-[90%] mx-auto bottom-10 flex flex-col justify-center items-center '>
+                      <button className="py-2 w-[80%] mx-auto bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white mb-3" onClick={(event) => placeOrder(event)}>Pay</button>
+                      <button className="py-2 w-[80%] mx-auto bg-gray-800 rounded-lg text-white" onClick={closeModal}>Close</button>
+                    </div>
+                  </Modal>
+                </div>
+              </div>
 
               <div className=" py-4 text-right">
                 <Link to={paymentRoute} state={{ from: '/user/cart' }} >
@@ -674,7 +722,7 @@ const Cart = () => {
               className={`tab-content ${activeTab === 'shippingAddress' ? '' : 'hidden'}`}
               id="description-tab"
             >
-              <h5 className="font-semibold text-black">
+              {/* <h5 className="font-semibold text-black">
                 {addresses.length > 0 ? "This is your default delivery address" : "No Shipping Address Added!"}
               </h5>
               <p className="text-base font-sans">
@@ -707,6 +755,82 @@ const Cart = () => {
                     <span>Delete</span>
                   </button>
                 }
+              </div> */}
+
+              <div className=" bg-white border border-gray-200 rounded-lg shadow w-[80%]  md:w-[65%] mx-auto mb-10">
+                <div className="flex flex-row mt-5">
+                  <div className="left-0 pl-3 flex items-center pointer-events-none">
+                    <BiEdit size={30} className="mr-5 pb-1" />
+                  </div>
+                  <div class="flex items-center justify-between w-full">
+                    <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900">Address Book</h2>
+                  </div>
+                </div>
+                <hr class="border-3 border-gray-300 my-4" />
+                <div className="p-5">
+                  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    {
+                      addresses.length !== 0 ? (
+                        <table class="w-full text-sm text-left text-gray-500">
+
+                          <tbody>
+
+                            <tr className="bg-white border-b hover:bg-gray-50">
+                              <td className="px-6 py-4 text-base font-sans">
+                                <h5 className="font-bold text-black mb-2">{addresses[0].firstName}</h5>
+                                <p className="font-semibold text-base font-sans">This is your default delivery address</p>
+                                <p className="text-base font-sans">
+                                  {addresses[0].currentAddress}, {addresses[0].city}, {addresses[0].zipCode}, {addresses[0].country},
+                                  {addresses[0].phone}
+                                </p>
+                              </td>
+                              <td className="py-4 text-right">
+                                <Link state={{ from: '/cart' }} to={`/user/edit_address/${addresses[0]._id}`}>
+                                  <button className="py-1 px-4 rounded inline-flex items-center ml-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
+                                    <BiEdit size={20} className="mr-2" />
+                                    <span>Edit</span>
+                                  </button>
+                                </Link>
+                                <button onClick={() => deleteSpecificAddress(addresses[0]._id)} className="py-1 px-4 rounded inline-flex items-center ml-auto bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
+                                  <MdDelete size={20} className="mr-2" />
+                                  <span>Delete</span>
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      ) : (
+                        <div>
+                          <p className="font-sans text-base font-semibold p-2 py-3 ml-2">Address Not Added Yet</p>
+                        </div>
+                      )
+                    }
+                    {
+                      addresses.length > 0 ? (
+                        <></>
+                      ) : (
+                    <div className=" py-4 text-right">
+                      <Link to={addressRoute} state={{ from: '/user/cart' }} >
+                        <button className="py-1 px-4 rounded inline-flex items-center ml-auto
+                                                bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
+                                                 hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
+                          <BiEdit size={20} className="mr-2" />
+                          <span>{addressBtnText}</span>
+                        </button>
+                      </Link>
+                      {addresses.length > 0 &&
+                        <button onClick={() => deleteSpecificAddress(addresses[0]._id)} className="py-1 px-4 rounded inline-flex items-center ml-auto
+                                                bg-transparent hover:bg-red-500 text-red-700 font-semibold 
+                                                 hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
+                          <MdDelete size={20} className="mr-2" />
+                          <span>Delete</span>
+                        </button>
+                      }
+                    </div>
+                      )
+                    }
+                  </div>
+                </div>
               </div>
 
             </div>
@@ -744,7 +868,7 @@ const Cart = () => {
                       disabled={cartItems.length === 0}
                       className={`ml-5 px-4 rounded inline-flex items-center 
                         ${cartItems.length === 0 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent'}`}
-                        >
+                    >
                       <span>Submit</span>
                     </button>
 
@@ -763,4 +887,5 @@ const Cart = () => {
     </div>
   )
 }
+
 export default Cart;

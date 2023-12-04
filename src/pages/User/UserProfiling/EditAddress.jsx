@@ -13,7 +13,7 @@ export default function EditAddressScreen() {
 
     const navigate = useNavigate();
     const location = useLocation();  // Check if the user came from the Order Screen
-    const cameFromOrderScreen = location.state && location.state.from === '/user/cart';
+    const cameFromOrderScreen = location.state && location.state.from === '/cart';
 
     const {id} = useParams();
     const [address, setAddress] = React.useState([])
@@ -88,7 +88,7 @@ export default function EditAddressScreen() {
                 setSuccessVisible(true)
                 // handling cart navigation
                 if (cameFromOrderScreen) {
-                    // Redirect to Order Screen
+                    alert("Address Updated!")
                     navigate('/cart');
                   } else {
                     // Show an alert for payment method added during profile completion

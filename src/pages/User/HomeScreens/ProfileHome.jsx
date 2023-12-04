@@ -10,9 +10,9 @@ import { deletePrescription } from "../../../api/userapi";
 import TrackOrder from '../../../components/ui/User/OrderComponets/TrackOrder'
 
 export default function ProfileHomeScreen() {
-    const [addresses, setAddresses] = React.useState([])
-    const [firstName, setFirstName] = React.useState('')
-    const [lastName, setLastName] = React.useState('')
+    const [addresses, setAddresses] = useState([])
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
     const [email, setEmail] = React.useState('')
     const [payments, setPayments] = useState([])
     const [prescriptions, setPrescriptions] = useState([])
@@ -301,7 +301,7 @@ export default function ProfileHomeScreen() {
                 <div className="p-5">
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         {
-                            prescriptions.length !== 0 ? (
+                            addresses.length !== 0 ? (
                                 <table class="w-full text-sm text-left text-gray-500">
 
                                     <tbody>

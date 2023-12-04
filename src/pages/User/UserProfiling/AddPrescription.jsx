@@ -139,7 +139,9 @@ export default function AddPrescriptionScreen() {
         )
     }
 
-
+    //getting ipd from local storage
+    const userIpd = localStorage.getItem('userIPD') 
+    
     return (
         <div className="flex flex-col min-h-screen">
             <div className="p-5 mt-10  bg-white border border-gray-200 rounded-lg shadow w-[90%] mx-auto mb-10">
@@ -281,7 +283,13 @@ export default function AddPrescriptionScreen() {
                                 )}
                             </div>
                             <div class="ml-5 mt-10">
-                                <p class="text-sm mb-1">Don't know your Pupillary Distance (PD)?</p>
+                            {
+                                    userIpd == null  || userIpd == 'null' ? (
+                                        <p class="text-sm mb-1">Don't know your Pupillary Distance (PD)?</p>
+                                    ) : (
+                                        <p class="text-sm mb-1 text-green-700 font-semibold">Your Measured IPD is: {userIpd}</p>
+                                    )
+                                }
                                 <button onClick={() => HandleFindIpd()} class="px-4 py-2 rounded inline-flex items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent">
                                     <span>Find your IPD</span>
                                 </button>

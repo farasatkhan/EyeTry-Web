@@ -1,75 +1,32 @@
 // reducer.js
 
-// Function to generate a random cartItemId
-const generateRandomCartItemId = () => Math.floor(Math.random() * 9999999999999999999);
+// Define action type
+const UPDATE_CART_ITEMS = 'UPDATE_CART_ITEMS';
 
+// Initial state for the cart
 const initialState = {
-  selectedOptions: {
-    cartItemId: generateRandomCartItemId(),
-    lensProperties: {
-      lensType: "",
-      prescriptionType: "",
-      package: "",
-      coatings: "",
-      glassesType: "",
-      upgrades: "",
-      transitionLens: {
-        transitionType: "",
-        color: ""
-      },
-      sunglassesLens: {
-        sunglassesType: "",
-        color: ""
-      },
-    },
-    prescription: {
-      pdType: "",
-      pdOneNumber: null,
-      pdLeftNumber: null,
-      pdRightNumber: null,
-      rightEyeOD: {
-        SPH: "",
-        CYL: "",
-        Axis: "",
-        Prism: "",
-        Base: "",
-      },
-      leftEyeOS: {
-        SPH: "",
-        CYL: "",
-        Axis: "",
-        Prism: "",
-        Base: "",
-      },
-      birthYear: null,
-    },
-  },
+  items: [],
 };
 
-const reducer = (state = initialState, action) => {
+// Reducer function
+const cartReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'UPDATE_SELECTED_OPTIONS':
-      // Generate a new random cartItemId
-      const newCartItemId = generateRandomCartItemId();
-
-      // Merge the new values with the existing state using the spread operator
-      const updatedSelectedOptions = {
-        ...state.selectedOptions,
-        ...action.payload,
-        cartItemId: newCartItemId,
-        lensProperties: {
-          ...state.selectedOptions.lensProperties,
-          ...action.payload.lensProperties,
-        },
-      };
-
+    case UPDATE_CART_ITEMS:
+      // Update cart items
       return {
         ...state,
-        selectedOptions: updatedSelectedOptions,
+        items: action.payload,
       };
+
     default:
       return state;
   }
 };
 
-export default reducer;
+// Action creator for updating cart items
+export const updateCartItems = (cartItems) => ({
+  type: UPDATE_CART_ITEMS,
+  payload: cartItems,
+});
+
+export default cartReducer;

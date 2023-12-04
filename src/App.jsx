@@ -176,12 +176,17 @@ function App() {
         <Route path="/add_lens" element={<PrivateRoute Component={AddLens} />} />
         <Route path="/add_glasses" element={<PrivateRoute Component={AddGlasses} />} />
 
+        
+
         {/* Customer Support Routes */}
-        <Route index path="support/dashboard" element={<PrivateRoute Component={CustomerSupportDashboard} />} />
-        <Route path="support/ticket_details" element={<PrivateRoute Component={SupportTicketDetails} />} />
-        <Route path="support/personal_information" element={<PrivateRoute Component={PersonalInformation} />} />
-        <Route path="support/upload_user_image" element={<PrivateRoute Component={CSUploadUserImage} />} />
-        <Route path="support/view_personal_info" element={<PrivateRoute Component={ViewPersonalInfo} />} />
+        <Route index path="support/" element={<PrivateRoute Component={ViewAllTickets} />} />
+        <Route path="support/create_ticket" element={<PrivateRoute Component={CreateSupportTicket} />} />
+        <Route path="support/view_tickets/:ticketId" element={<PrivateRoute Component={ViewSpecificTicket} />} />
+        {/* <Route path="support/view_tickets" element={<PrivateRoute Component={ViewAllTickets} />} /> */}
+        <Route path="support/chat" element={<PrivateRoute Component={Chat} />} />
+
+        {/* <Route path="/chat" element={<PrivateRoute Component={Chat} />} /> */}
+
       </Route>
     </>
   );

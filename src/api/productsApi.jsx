@@ -266,3 +266,32 @@ export const processPayment = async () => {
     }
 };
 
+// view all giftcards
+
+export const getGiftcart = async (coupen) => {
+    try {
+        const accessToken = await localStorage.getItem("accessToken")
+        const response = await axios.get(`products/v1/order/getGiftcard/${coupen}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+        });
+        console.log("Response :", response.data)
+        return response.data;
+    }
+    catch (error) {
+        // Server is returning 403 for expired token
+        if (error.response && error.response.status == 403) {
+            try {
+                console.log("Error Catched")
+                await reGenerateAccessToken()
+                return viewAllGiftcards()
+            }
+            catch (e) {
+                console.error("Error while refreshing token", e)
+                throw e
+            }
+        }
+        throw error;
+    }
+};

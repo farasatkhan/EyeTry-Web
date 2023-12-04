@@ -119,7 +119,7 @@ const Cart = () => {
     const storedCartItems = JSON.parse(localStorage.getItem('cart'));
     setCartItems(storedCartItems);
     console.log("cart screen data", storedCartItems);
-    if (storedCartItems.length === 0){
+    if (storedCartItems.length === 0) {
       setShippingPrice(0)
       setDiscount(0)
     }
@@ -384,24 +384,30 @@ const Cart = () => {
   const [coupen, setCoupen] = useState("")
   const [discount, setDiscount] = useState(0)
 
-    const getGiftcardsData = async (coupen) => {
-      if(discount === 0){
-        try {
-          const response = await getGiftcart(coupen);
-          console.log(response)
-          alert(`Congrats! ${response.giftcards[0].value}% discount added to your purchase.`)
-          setDiscount(response.giftcards[0].value)
-        } catch (error) {
-          console.log(error)
+  const getGiftcardsData = async (coupen) => {
+    if (discount === 0) {
+      try {
+        const response = await getGiftcart(coupen);
+        console.log(response);
+  
+        // Check if the gift card has expired
+        if (response.message && response.message.includes("expired")) {
+          alert("The gift card has expired!");
+        } else {
+          alert(`Congrats! ${response.giftcard.value}% discount added to your purchase.`);
+          setDiscount(response.giftcard.value);
         }
+      } catch (error) {
+        console.log(error);
+        alert("Error occurred while processing the gift card.");
       }
-      else{
-        alert("Coupen is invalid or already used!")
-      }
+    } else {
+      alert("Coupon is invalid or already used!");
     }
+  }
 
-    // shipping price
-    
+  // shipping price
+
 
   return (
 
@@ -416,7 +422,7 @@ const Cart = () => {
                   <div className="justify-between mb-6 rounded-lg bg-white cursor-pointer p-6 shadow-md sm:flex sm:justify-start">
 
                     <img
-                    onClick={() => navigate(`/product_details/${item.productData._id}`)}
+                      onClick={() => navigate(`/product_details/${item.productData._id}`)}
                       className="w-full rounded-lg sm:w-40"
                       src={
                         API_URL
@@ -568,13 +574,13 @@ const Cart = () => {
             </div>
             <div className="mb-2 flex justify-between">
               <p className="text-gray-700">Amount Decreased</p>
-              <p className="text-gray-700">${ (((calculateTotalPrice() + shippingPrice).toFixed()) * discount ) / 100 }</p>
+              <p className="text-gray-700">${(((calculateTotalPrice() + shippingPrice).toFixed()) * discount) / 100}</p>
             </div>
             <hr className="my-4" />
             <div className="flex justify-between">
               <p className="text-lg font-bold">Total</p>
               <div className="">
-                <p className="mb-1 text-lg font-bold">${ (calculateTotalPrice() + shippingPrice).toFixed() - ((((calculateTotalPrice() + shippingPrice).toFixed()) * discount ) / 100) } USD</p>
+                <p className="mb-1 text-lg font-bold">${(calculateTotalPrice() + shippingPrice).toFixed() - ((((calculateTotalPrice() + shippingPrice).toFixed()) * discount) / 100)} USD</p>
                 <p className="text-sm text-gray-700">including VAT</p>
               </div>
             </div>
@@ -709,44 +715,44 @@ const Cart = () => {
               className={`tab-content ${activeTab === 'Coupen' ? '' : 'hidden'}`}
               id="frame-tab"
             >
-             <div className=" bg-white border border-gray-200 rounded-lg shadow w-[80%]  md:w-[65%] mx-auto mb-10">
+              <div className=" bg-white border border-gray-200 rounded-lg shadow w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
-                    <div className="left-0 pl-3 flex items-center pointer-events-none">
-                        <BiEdit size={30} className="mr-5 pb-1" />
-                    </div>
-                    <div class="flex items-center justify-between w-full">
-                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900">Giftcard / Add Coupen</h2>
-                        {/* <Link to='/user/giftcards'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                  <div className="left-0 pl-3 flex items-center pointer-events-none">
+                    <BiEdit size={30} className="mr-5 pb-1" />
+                  </div>
+                  <div class="flex items-center justify-between w-full">
+                    <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900">Giftcard / Add Coupen</h2>
+                    {/* <Link to='/user/giftcards'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
                             <BiEdit size={20} class="mr-2" />
                             <span>Buy Gift Cards</span>
                         </button></Link> */}
-                    </div>
+                  </div>
                 </div>
                 <hr className="border-3 border-gray-300 my-4" />
                 <div className="p-5">
 
-                    <p className="text-base font-sans mb-5">To get discount on the purchase, enter your card number or store credit</p>
+                  <p className="text-base font-sans mb-5">To get discount on the purchase, enter your card number or store credit</p>
 
-                    <span className="flex flex-row">
-                        <input value={coupen} onChange={e => setCoupen(e.target.value)} id='' className="block w-full sm:w-[80%] lg:w-[50%] pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
+                  <span className="flex flex-row">
+                    <input value={coupen} onChange={e => setCoupen(e.target.value)} id='' className="block w-full sm:w-[80%] lg:w-[50%] pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
                                 focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
                                 sm:text-sm transition duration-150 ease-in-out" placeholder="Gift Card/Store Credit number" type="text" />
-                       <button
-  onClick={() => getGiftcardsData(coupen)}
-  disabled={cartItems.length === 0}
-  className={`ml-5 px-4 rounded inline-flex items-center 
-    ${cartItems.length === 0 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent'}`}
->
-  <span>Submit</span>
-</button>
+                    <button
+                      onClick={() => getGiftcardsData(coupen)}
+                      disabled={cartItems.length === 0}
+                      className={`ml-5 px-4 rounded inline-flex items-center 
+                        ${cartItems.length === 0 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent'}`}
+                        >
+                      <span>Submit</span>
+                    </button>
 
-                    </span>
+                  </span>
 
 
                 </div>
-            </div>
+              </div>
             </div>
 
           </div>

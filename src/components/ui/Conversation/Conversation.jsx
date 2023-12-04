@@ -39,7 +39,8 @@ const Conversation = ({ data, currentUser, online }) => {
           <img
             src={userData?.profilePicture? API_PUBLIC_DIR_URL + userData.profilePicture : defaultProfilePic }
             alt="Profile"
-            className=" max-w-12 max-h-12 rounded-full "
+            style={{width: '2.5rem', height: '2.5rem'}}
+            className="max-w-12  max-h-12 rounded-full "
           />
           <div className="name" style={{fontSize: '0.8rem'}}>
             <span>{userData?.firstName} {userData?.lastName}</span>

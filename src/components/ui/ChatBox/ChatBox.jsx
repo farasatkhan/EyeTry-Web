@@ -101,12 +101,14 @@ useEffect(()=> {
             <div className="chat-header p-2 pt-3 shadow-sm border-r-4 ">
               <div className="follower pl-4">
                 <div>
-                  <img
-                    src={userData?.profilePicture? API_PUBLIC_DIR_URL + userData.profilePicture : defaultProfilePic 
-                    }
-                    alt="Profile"
-                    className="max-w-12 max-h-12 rounded-full resize"     
-                  />
+                    <img
+                      src={userData?.profilePicture? API_PUBLIC_DIR_URL + userData.profilePicture : defaultProfilePic 
+                      }
+                      alt="Profile"
+                      style={{width: '3rem', height: '3rem'}}
+                      className="max-w-12 max-h-12 rounded-full"     
+                    />
+                    
                   <div className="name" style={{ fontSize: "0.9rem" }}>
                     <span>
                       {userData?.firstName} {userData?.lastName}

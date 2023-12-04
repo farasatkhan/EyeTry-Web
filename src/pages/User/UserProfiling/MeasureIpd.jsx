@@ -15,7 +15,7 @@ export default function UploadUserImageScreen() {
 
     const [errorVisible, setErrorVisible] = React.useState(false)
     const [errorMessage, setErrorMessage] = React.useState(null)
-    
+
 
     // Clear the error and success msgs on every rerender
     useEffect(() => {
@@ -45,9 +45,9 @@ export default function UploadUserImageScreen() {
                 setSuccessMessage("Your IPD in mm is " + res.data.ipd_in_mm)
                 setErrorMessage('')
                 setErrorVisible(false)
-                console.log("Your IPD is: " , res.data.ipd_in_mm)
+                console.log("Your IPD is: ", res.data.ipd_in_mm)
                 setIpd(res.data.ipd_in_mm)
-        }
+            }
             setSuccessVisible(true)
         }
         catch (err) {
@@ -60,7 +60,7 @@ export default function UploadUserImageScreen() {
     }
 
     // stroing user IPD in localstorage
-    const userIpd = localStorage.setItem('userIPD' , ipd)
+    const userIpd = localStorage.setItem('userIPD', ipd)
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -75,23 +75,35 @@ export default function UploadUserImageScreen() {
 
                     <p className="text-xl font-sans font-semibold mt-10 mb-2">Calibration Guide</p>
                     <p>Please Align your face with the camera and make sure the lighting conditions are good. Place marker on your forehead or under your nose, and make sure it also aligns wells with the camera angle.
-                            Sample Image is provided below which shows how to hold the marker</p>
+                        Sample Image is provided below which shows how to hold the marker</p>
                     <p className="mt-5">Consider Sample Image: </p>
                     <img className="w-[500px] h-[400px] object-contain mx-auto mt-5" src={defaultIpd} alt="img" />
-                
+
 
                     <p className="text-xl font-sans font-semibold mt-10">Add an Image</p>
                     {successVisible &&
-                        <p style={{ color: 'green', fontSize: 16, alignSelf: 'flex-start', textAlign: 'center', alignSelf: 'center', paddingBottom: '2%' }}>
-                            {successMessage}
-                        </p>
+                        <div className=" mt-5 flex items-center p-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                            <svg className="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span className="sr-only">Info</span>
+                            <div>
+                                <span className="font-semibold">Success alert! {successMessage}</span>
+                            </div>
+                        </div>
                     }{
                         errorVisible &&
-                        <p style={{ color: 'red', fontSize: 16, alignSelf: 'flex-start', textAlign: 'center', alignSelf: 'center', paddingBottom: '2%' }}>
-                            {errorMessage}
-                        </p>
+                        <div className=" mt-5 flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                            <svg className="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span className="sr-only">Info</span>
+                            <div>
+                                <span className="font-semibold">Failed alert!  {errorMessage}</span>
+                            </div>
+                        </div>
                     }
-                    <div className="bg-white border border-gray-200 rounded-lg shadow mt-10 mx-auto mb-10">
+                    <div className="bg-white border border-gray-200 rounded-lg shadow mt-5 mx-auto mb-10">
                         <div class="flex flex-col items-center justify-between w-full p-5 pt-7 sm:flex-row sm:items-center">
                             <h2 class="mr-auto text-base font-sans tracking-tight text-gray-900 text-justify sm:w-auto sm:mr-5">
                                 Please make sure your face is straight and level
@@ -135,7 +147,7 @@ export default function UploadUserImageScreen() {
 
             </div>
 
-        </div>
+        </div >
 
 
     );

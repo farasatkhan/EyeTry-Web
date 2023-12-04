@@ -48,6 +48,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { getUserData } from '../../api/userapi';
 import { viewProductsList } from '../../api/productsApi';
+import { useSelector } from "react-redux";
 
 // for navbar
 const Search = styled('div')(({ theme }) => ({
@@ -169,6 +170,9 @@ export default function PersistentDrawerLeft() {
 
   // products list 
   const [productsList, setPrductsList] = useState([])
+
+  const cartItemsLength = useSelector((state) => state.cartItemsNumber);
+  const cartItems = cartItemsLength.cartItemsNumber;
 
   useEffect(() => {
     const getUserName = async () => {
@@ -438,7 +442,7 @@ export default function PersistentDrawerLeft() {
 
           <div className='ml-auto flex'>
             <IconButton onClick={() => navigate('cart')} size="large" aria-label="cart items 4" color="inherit">
-              <Badge badgeContent={4} color="error">
+              <Badge badgeContent={cartItems} color="error">
                 <FaCartShopping className='h-[22px] w-[22px]' />
               </Badge>
             </IconButton>
@@ -447,7 +451,7 @@ export default function PersistentDrawerLeft() {
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
+              <Badge badgeContent={null} color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>

@@ -11,6 +11,8 @@ import { processPayment } from '../../../api/productsApi';
 import axios from '../../../api/axiosConfig';
 import Modal from "react-modal";
 import stripeLogo from '../../../assets/images/orders/stripeLogo.png'
+import { useSelector, useDispatch } from "react-redux";
+import { updatedCartItemsNumber } from '../../../redux/actions/cartItemsNumber';
 
 import {
   CardNumberElement,
@@ -20,22 +22,11 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 
-
-import CreditCardIcon from "@mui/icons-material/CreditCard";
-import EventIcon from "@mui/icons-material/Event";
-import VpnKeyIcon from "@mui/icons-material/VpnKey";
-import axiosConfig from '../../../api/axiosConfig';
-
 const Cart = () => {
 
   const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
-
-  // const handleSubmit = async (event) => {
-
-  // };
-
 
   // getting payment and address data
   const [addresses, setAddresses] = React.useState([])
@@ -50,6 +41,11 @@ const Cart = () => {
   const [productData, setProductData] = useState({});
   const [shippingPrice, setShippingPrice] = useState(4.99);
   const [userName, setUserName] = useState('')
+
+  const dispatch = useDispatch();
+
+  dispatch(updatedCartItemsNumber(cartItems.length));
+
 
   // getting address book
   useEffect(() => {

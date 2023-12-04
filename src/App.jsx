@@ -39,6 +39,9 @@ import UploadUserImage from "./pages/User/UserProfiling/UploadUserImage";
 import FaceDetection from "./pages/User/FaceDetection/FaceDetection";
 import MeasureIpd from "./pages/User/UserProfiling/MeasureIpd";
 import SuccessAlert from "./components/ui/User/Alerts/SuccessAlert"
+// Chat
+import Chat from "./pages/User/Chat";
+
 // admin imports
 import AddFrames from "./pages/Admin/AddFrames";
 import AddLens from "./pages/Admin/AddLens";
@@ -77,6 +80,12 @@ import ProductDetails from './pages/User/OrderManagement/ProductDetails'
 import Products from './pages/User/HomeScreens/products'
 import Filter from './pages/User/HomeScreens/filter'
 import Tryon from './pages/User/OrderManagement/Tryon'
+
+
+// Support Tickets
+import CreateSupportTicket from "./pages/User/SupportTickets/CreateSupportTicket";
+import ViewAllTickets from "./pages/User/SupportTickets/ViewAllTickets";
+import ViewSpecificTicket from "./pages/User/SupportTickets/ViewSpecificTicket";
 
 import { getStripeApiKey } from "./api/productsApi";
 import { loadStripe } from "@stripe/stripe-js";
@@ -167,12 +176,17 @@ function App() {
         <Route path="/add_lens" element={<PrivateRoute Component={AddLens} />} />
         <Route path="/add_glasses" element={<PrivateRoute Component={AddGlasses} />} />
 
+        
+
         {/* Customer Support Routes */}
-        <Route index path="support/dashboard" element={<PrivateRoute Component={CustomerSupportDashboard} />} />
-        <Route path="support/ticket_details" element={<PrivateRoute Component={SupportTicketDetails} />} />
-        <Route path="support/personal_information" element={<PrivateRoute Component={PersonalInformation} />} />
-        <Route path="support/upload_user_image" element={<PrivateRoute Component={CSUploadUserImage} />} />
-        <Route path="support/view_personal_info" element={<PrivateRoute Component={ViewPersonalInfo} />} />
+        <Route index path="support/" element={<PrivateRoute Component={ViewAllTickets} />} />
+        <Route path="support/create_ticket" element={<PrivateRoute Component={CreateSupportTicket} />} />
+        <Route path="support/view_tickets/:ticketId" element={<PrivateRoute Component={ViewSpecificTicket} />} />
+        {/* <Route path="support/view_tickets" element={<PrivateRoute Component={ViewAllTickets} />} /> */}
+        <Route path="support/chat" element={<PrivateRoute Component={Chat} />} />
+
+        {/* <Route path="/chat" element={<PrivateRoute Component={Chat} />} /> */}
+
       </Route>
     </>
   );

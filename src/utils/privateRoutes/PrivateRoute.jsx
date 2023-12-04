@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import jwtDecode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import { reGenerateAccessToken, logoutUser} from '../../api/authapi';
 
 function PrivateRoute(props) {
@@ -9,7 +9,6 @@ function PrivateRoute(props) {
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
-
     if (!accessToken) {
       // No access token found, redirect to sign-in page
       navigate('/signin');

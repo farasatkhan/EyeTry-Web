@@ -35,7 +35,7 @@
     "dayjs": "^1.11.7",
     "glidejs": "^2.1.0",
     "jeelizvtowidget": "^4.3.5",
-    "jwt-decode": "^3.1.2",
+    "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
@@ -48,7 +48,9 @@
     "react-spinners": "^0.13.8",
     "react-webcam": "^7.1.1",
     "redux": "^4.2.1",
+    "socket.io-client": "^4.7.2",
     "swiper": "^10.3.0",
+    "timeago.js": "^4.0.2",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {

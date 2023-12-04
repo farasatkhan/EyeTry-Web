@@ -49,7 +49,7 @@ const Footer = () => {
                           <Link to="https://github.com/themesberg/flowbite" class="hover:underline ">FAQs</Link>
                       </li>
                       <li className="mb-4">
-                          <Link to="https://github.com/themesberg/flowbite" class="hover:underline ">Returns</Link>
+                          <Link to="/support" class="hover:underline ">Returns</Link>
                       </li>
                       <li className="mb-4">
                           <Link to="https://github.com/themesberg/flowbite" class="hover:underline ">Shippings</Link>
@@ -80,7 +80,7 @@ const Footer = () => {
                   <h2 className="mb-6 text-xs font-semibold uppercase">Need Help?</h2>
                   <ul className="text-gray-400 font-medium">
                       <li className="mb-4">
-                          <Link to="#" className="hover:underline">Connect with Support</Link>
+                          <Link to="/support/create_ticket" className="hover:underline">Connect with Support</Link>
                       </li>
                   </ul>
                   <h2 className="mb-6 text-xs font-semibold uppercase">About US</h2>

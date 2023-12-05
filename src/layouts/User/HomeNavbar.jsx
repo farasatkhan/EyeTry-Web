@@ -50,6 +50,9 @@ import { getUserData } from '../../api/userapi';
 import { viewProductsList } from '../../api/productsApi';
 import { useSelector } from "react-redux";
 import { BiSupport } from "react-icons/bi";
+import EyeglassesNavLink from '../../components/ui/User/LayoutComponents/Navlinks/Eyeglasses';
+import SunglassesNavLink from '../../components/ui/User/LayoutComponents/Navlinks/Sunglasses';
+import VisionAssessmentNavLink from '../../components/ui/User/LayoutComponents/Navlinks/VisionAssessment';
 
 // for navbar
 const Search = styled('div')(({ theme }) => ({
@@ -150,14 +153,14 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 // navlinks
 export const navbarLinks = [
   {
-      name: 'eyeglasses',
+    name: 'eyeglasses',
   },
   {
-      name: 'sunglasses',
+    name: 'sunglasses',
 
   },
   {
-      name: 'visionAssessments',
+    name: 'visionAssessments',
 
   },
 ];
@@ -165,6 +168,19 @@ export const navbarLinks = [
 
 
 export default function PersistentDrawerLeft() {
+  const [activeFilter, setActiveFilter] = useState(null);
+  const handleFilterHover = (filterName) => {
+    setActiveFilter(filterName);
+    console.log("handleFilterHover called")
+  };
+
+  const handleFilterLeave = (filterName) => {
+    if (filterName === "Face Shape")
+      setActiveFilter(filterName);
+    else setActiveFilter(null)
+    console.log("handleFilterLeave called")
+
+  };
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -371,13 +387,13 @@ export default function PersistentDrawerLeft() {
 
           {/* pages brands , categories etc */}
           <div>
-      <Hidden mdDown>
-        <Box
-          className="whitespace-nowrap"
-          sx={{ ml: 5, flexGrow: 1, display: 'flex' }}
-          onMouseLeave={handleClose} // Close options menu on mouse leave
-        >
-          {pages.map((page) => (
+            <Hidden mdDown>
+              <Box
+                className="whitespace-nowrap"
+                sx={{ ml: 5, flexGrow: 1, display: 'flex' }}
+                onMouseLeave={handleClose} // Close options menu on mouse leave
+              >
+                {/* {pages.map((page) => (
             <React.Fragment key={page}>
               <Button
                 onMouseEnter={handleClick}
@@ -392,8 +408,44 @@ export default function PersistentDrawerLeft() {
                 {page}
               </Button>
             </React.Fragment>
-          ))}
-          <Menu
+          ))} */}
+                {pages.map((filter) => (
+                  <React.Fragment key={filter}>
+
+                    <div
+                      key={filter}
+                      className="relative group cursor-pointer "
+                      onMouseEnter={() => handleFilterHover(filter)}
+                      onMouseLeave={() => handleFilterLeave(filter)}
+                    >
+                      <div className="flex items-center h-full transition duration-300 ease-in-out group-hover:text-blue-400">
+                        <Button
+                          sx={{
+                            my: 2,
+                            color: 'black',
+                            display: 'flex',
+                            fontWeight: { md: '700', lg: '700' },
+                            fontSize: { md: '12px', lg: '12px' },
+                          }}
+                        >
+                          {filter}               
+                            
+                        </Button>
+                      </div>
+                      {activeFilter === "Eyeglasses" && filter === "Eyeglasses" && (
+                        < EyeglassesNavLink />
+                      )}
+                      {activeFilter === "Sunglasses" && filter === "Sunglasses" && (
+                        < SunglassesNavLink />
+                      )}
+                      {activeFilter === "Vision Assessments" && filter === "Vision Assessments" && (
+                        < VisionAssessmentNavLink />
+                      )}
+                    </div>
+
+                  </React.Fragment>
+                ))}
+                {/* <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={handleClose}
@@ -401,15 +453,15 @@ export default function PersistentDrawerLeft() {
             transformOrigin={{ vertical: 'top', horizontal: 'left' }}
             elevation={1}
           >
-            {/* Add your dropdown items here */}
             <MenuItem onClick={handleClose}>Option 1</MenuItem>
             <MenuItem onClick={handleClose}>Option 2</MenuItem>
             <MenuItem onClick={handleClose}>Option 3</MenuItem>
-          </Menu>
-        </Box>
-      </Hidden>
-    </div>
-
+          </Menu> */}
+              </Box>
+            </Hidden>
+          </div>
+          <eyeglassesNavLink
+          />
           <Autocomplete
             className='w-[200px] mr-auto ml-5'
             size='small'
@@ -454,7 +506,7 @@ export default function PersistentDrawerLeft() {
               onClick={() => navigate('/support')}
             >
               <Badge badgeContent={null} color="error">
-              <BiSupport  className='h-[22px] w-[22px]'  />
+                <BiSupport className='h-[22px] w-[22px]' />
               </Badge>
             </IconButton>
             <Box sx={{ flexGrow: 0, ml: 2, }}>

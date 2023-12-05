@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Link, Outlet} from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -42,6 +42,17 @@ import { viewProfileImage } from '../../api/userapi';
 import ellipse from '../../assets/images/UserProfiling/Ellipse.png'
 import logo from '../../assets/images/Logo/logo.png'
 import { FaCartShopping } from "react-icons/fa6";
+
+// managig navlinks
+const handleFilterHover = (filterName) => {
+  setActiveFilter(filterName);
+};
+
+const handleFilterLeave = (filterName) => {
+  if (filterName === "Face Shape")
+    setActiveFilter(filterName);
+  else setActiveFilter(null)
+};
 
 // for navbar
 const Search = styled('div')(({ theme }) => ({
@@ -140,26 +151,29 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function PersistentDrawerLeft() {
-  const [profilePic,setProfilePic] = React.useState(null)
+
+  const [activeFilter, setActiveFilter] = useState(null);
+
+  const [profilePic, setProfilePic] = React.useState(null)
   const baseURL = 'http://localhost:3000'
 
   // getting name from local storage
   const firstName = localStorage.getItem("firstName")
   const lastName = localStorage.getItem("lastName")
-  
+
   // getting profile image
-  React.useEffect( ()=>{
+  React.useEffect(() => {
 
     const getImage = async () => {
-      try{        
+      try {
         const img = await viewProfileImage();
-        setProfilePic(baseURL+img.location)
-        }
-      catch (e){
-        if (e.response.status == 403){
+        setProfilePic(baseURL + img.location)
+      }
+      catch (e) {
+        if (e.response.status == 403) {
           console.log('Refreshing Token Failed')
         }
-        if (e.response.status == 400){
+        if (e.response.status == 400) {
           console.log('No Image is present')
           setProfilePic(null)
         }
@@ -169,7 +183,7 @@ export default function PersistentDrawerLeft() {
     }
 
     getImage();
-  },[])
+  }, [])
 
   const navigate = useNavigate();
 
@@ -181,27 +195,27 @@ export default function PersistentDrawerLeft() {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
   const handleCloseNavMenu = (page) => {
-    if (page == "Assessments"){
+    if (page == "Assessments") {
       navigate("/assessments/color_blind_test")
     }
     setAnchorElNav(null);
 
   };
 
-  const logout = async () =>{
+  const logout = async () => {
     await logoutUser()
 
   }
   const handleCloseUserMenu = (setting) => {
-    if (setting == "Logout"){
+    if (setting == "Logout") {
       logout();
       navigate("/signin")
-      
+
     }
     setAnchorElUser(null);
   };
@@ -224,7 +238,7 @@ export default function PersistentDrawerLeft() {
       <CssBaseline />
       <AppBar position="fixed" style={{ color: "black", backgroundColor: "white", paddingRight: 20, paddingLeft: 20, display: "flex" }} open={open}>
         <Toolbar sx={{ flexGrow: 1 }}>
-          <IconButton 
+          <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
@@ -233,7 +247,7 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-          
+
           {/* logo */}
           {/* <FaGlasses size={30} sx={{ display: { xs: 'flex', sm: 'flex' }, mr: 1, ml: { xs: 0, sm: 2, md: 5, lg: 7, xl: 10 } }} /> */}
           {/* <Typography 
@@ -254,7 +268,7 @@ export default function PersistentDrawerLeft() {
           >/
           </Typography> */}
           <img className='w-[40px] h-[26px]' src={logo} alt="Logo" />
-          <div style={{ fontWeight: "400", fontSize: "22px", marginLeft:10, fontFamily: 'sans-serif' }} ><span style={{ fontWeight: "700", fontSize: "22px", fontFamily: 'sans-serif' }}>EYE</span>TRY</div>
+          <div style={{ fontWeight: "400", fontSize: "22px", marginLeft: 10, fontFamily: 'sans-serif' }} ><span style={{ fontWeight: "700", fontSize: "22px", fontFamily: 'sans-serif' }}>EYE</span>TRY</div>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' } }}>
             {/* <IconButton
@@ -295,7 +309,7 @@ export default function PersistentDrawerLeft() {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none'},
+                display: { xs: 'block', md: 'none' },
               }}
             >
               {pages.map((page) => (
@@ -326,8 +340,8 @@ export default function PersistentDrawerLeft() {
 
           {/* pages brands , categories etc */}
           {/* Accessories are removed temporarly */}
-          <Box sx={{ ml: 5, flexGrow: 1, display: { xs: 'none', sm: 'none', md: 'none', lg:'flex' } }}>
-            {pages.map((page) => (
+          <Box sx={{ ml: 5, flexGrow: 1, display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' } }}>
+            {/* {pages.map((page) => (
               <Button
                 key={page}
                 onClick={() => handleCloseNavMenu(page)}
@@ -335,7 +349,7 @@ export default function PersistentDrawerLeft() {
               >
                 {page}
               </Button>
-            ))}
+            ))} */}
           </Box >
 
           <Box sx={{ display: 'flex', justifyContent: 'flex-start', flexGrow: 1 }}>
@@ -351,10 +365,10 @@ export default function PersistentDrawerLeft() {
               </Search>
             </Search>
           </Box>
-          
+
           <IconButton onClick={() => navigate('cart')} size="large" aria-label="show 4 new mails" color="inherit">
             <Badge badgeContent={4} color="error">
-            <FaCartShopping className='h-[22px] w-[22px]'  />
+              <FaCartShopping className='h-[22px] w-[22px]' />
             </Badge>
           </IconButton>
           <IconButton
@@ -371,7 +385,7 @@ export default function PersistentDrawerLeft() {
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src={profilePic} />
                 <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className='font-black'>{firstName} {lastName}</p></p>
-                <image alt="user-profile-pic" src={ellipse} width={50} height={50}  />
+                <image alt="user-profile-pic" src={ellipse} width={50} height={50} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -427,40 +441,40 @@ export default function PersistentDrawerLeft() {
 
         <Divider />
 
-<List>
-  {[
-    { text: 'My Profile', path: '/user/profile' },
-    { text: 'Personal Details', path: '/user/my_details' },
-    { text: 'My Prescriptions', path: '/user/prescription_details' },
-    { text: 'Address Book', path: '/user/add_address' },
-    { text: 'Payment Methods', path: '/user/add_payment' },
-    { text: 'Try On Images', path: '/user/upload_tryon_images' },
-    { text: 'Manage Giftcards', path: '/user/giftcards' },
-    { text: 'Log Out' , path: '/signin' }
-  ].map(({ text, path }, index) => (
-    <ListItem key={text} disablePadding>
-      <ListItemButton
-        component={Link}
-        to={path}
-        onClick={text === 'Log Out' ? logout : undefined}
-      >
-        <ListItemIcon>
-          {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-        </ListItemIcon>
-        <ListItemText primary={text} />
-      </ListItemButton>
-    </ListItem>
-  ))}
-</List>
+        <List>
+          {[
+            { text: 'My Profile', path: '/user/profile' },
+            { text: 'Personal Details', path: '/user/my_details' },
+            { text: 'My Prescriptions', path: '/user/prescription_details' },
+            { text: 'Address Book', path: '/user/add_address' },
+            { text: 'Payment Methods', path: '/user/add_payment' },
+            { text: 'Try On Images', path: '/user/upload_tryon_images' },
+            { text: 'Manage Giftcards', path: '/user/giftcards' },
+            { text: 'Log Out', path: '/signin' }
+          ].map(({ text, path }, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton
+                component={Link}
+                to={path}
+                onClick={text === 'Log Out' ? logout : undefined}
+              >
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
 
 
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
         <div className='bg-gray-50'>
-        <Outlet />
+          <Outlet />
         </div>
-        <Footer/>
+        <Footer />
       </Main>
     </Box>
   );

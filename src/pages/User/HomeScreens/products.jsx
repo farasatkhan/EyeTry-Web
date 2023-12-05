@@ -43,7 +43,7 @@ const Products = () => {
 
     useEffect(() => {
         setFilteredProducts(productsList);
-    }, [productsList]);
+    }, [productsList, page]);
 
     useEffect(() => {
         pageFilter();
@@ -312,6 +312,90 @@ const Products = () => {
                     minPrice: minPrice,
                     maxPrice: maxPrice,
                     category: "Eyeglasses",
+                    rim: selectedRim
+                });
+                break;
+            case "men_eyeglasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: "Male",
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Eyeglasses",
+                    rim: selectedRim
+                });
+                break;
+            case "women_eyeglasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: "Female",
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Eyeglasses",
+                    rim: selectedRim
+                });
+                break;
+            case "kids_eyeglasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: "Kids",
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Eyeglasses",
+                    rim: selectedRim
+                });
+                break;
+            case "men_sunglasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: "Male",
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Sunglasses",
+                    rim: selectedRim
+                });
+                break;
+            case "women_sunglasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: "Female",
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Sunglasses",
+                    rim: selectedRim
+                });
+                break;
+            case "kids_sunglasses":
+                handleFilter({
+                    color: filterColor,
+                    material: filterMaterial,
+                    size: selectedSize,
+                    gender: "Kids",
+                    shape: selectedShape,
+                    faceShape: selectedFaceShape,
+                    minPrice: minPrice,
+                    maxPrice: maxPrice,
+                    category: "Sunglasses",
                     rim: selectedRim
                 });
                 break;

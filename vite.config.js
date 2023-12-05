@@ -11,5 +11,8 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
+  },
+  optimizeDeps: {
+    include: ['@mui/material/Tooltip'],
   }
 })

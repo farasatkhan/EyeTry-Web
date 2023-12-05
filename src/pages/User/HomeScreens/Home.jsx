@@ -259,6 +259,8 @@ export default () => {
             lazyLoad: 'nearby',
             height: '500px',
             type: 'loop',
+            autoplay: true, 
+            interval: 2500, 
             breakpoints: {
               900: {
 

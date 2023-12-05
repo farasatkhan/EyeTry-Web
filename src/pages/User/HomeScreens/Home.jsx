@@ -3,8 +3,6 @@ import API_URL from "../../../config/config";
 import { useNavigate } from "react-router-dom";
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
-// import Carousel from 'react-material-ui-carousel';
-import { Paper } from '@mui/material';
 // Import rating components
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
@@ -20,27 +18,16 @@ import shopByFace from '../../../assets/images/products/shopByFace.jpg'
 import shopByStyle from '../../../assets/images/products/shopByStyle.jpg'
 import glassesColor from '../../../assets/images/products/glassesColor.jpg'
 import logo from '../../../assets/images/Logo/logo.png'
-
 import faceShapeAnalysis from '../../../assets/images/ExclusiveFeatures/faceShapeAnalysis.webp'
 import ipdMeasurement from '../../../assets/images/ExclusiveFeatures/ipdMeasurement.webp'
 import virtualTryOn from '../../../assets/images/ExclusiveFeatures/virtualTryOn.webp'
 import vissionAssessments from '../../../assets/images/ExclusiveFeatures/visionAcuity.webp'
 import 'aos/dist/aos.css'; // Import the AOS CSS
-import banner1 from '../../../assets/images/products/banner1.webp'
-import banner2 from '../../../assets/images/products/banner2.webp'
-import HashLoader from "react-spinners/HashLoader";
-
+import banner2 from '../../../assets/images/products/sunglassesBanner.webp'
+import banner3 from '../../../assets/images/products/eyeglassesBanner.webp'
+import banner1 from '../../../assets/images/products/everyoneBanner.png'
 
 export default () => {
-
-  const items = [
-    {
-      imageUrl: banner1,
-    },
-    {
-      imageUrl: banner2,
-    },
-  ];
 
   const exclusiveFeatures = [
     {
@@ -85,21 +72,6 @@ export default () => {
   const [womenSunglasses, setWomenSunglasses] = useState([])
 
 
-  // // animation
-  // useEffect(() => {
-  //   AOS.init({
-  //     duration: 2000,
-  //     once: false, // Make sure "once" is set to false
-  //     // offset: 100,
-  //     delay: 1000,
-  //   });
-  // }, []);
-
-
-  // AOS.refresh(); // Refresh AOS when content changes
-
-
-
   useEffect(() => {
     fetchProductsList();
   }, []);
@@ -108,50 +80,50 @@ export default () => {
     try {
       const fetchedProductsList = await viewProductsList();
       setProductsList(fetchedProductsList);
-  
+
       // for new arrivals
       const oneWeekAgo = new Date();
       oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
       const arrivals = fetchedProductsList.filter(product => new Date(product.createdAt) >= oneWeekAgo);
       setNewArrivals(arrivals);
-  
+
       // for men sunglasses
       const fetchMenSunglasses = fetchedProductsList.filter(product => product.type === "Sunglasses" && product.categories.includes("Men"));
       setMenSunglasses(fetchMenSunglasses);
-  
+
       // for women sunglasses
       const fetchWomenSunglasses = fetchedProductsList.filter(product => product.type === "Sunglasses" && product.categories.includes("Women"));
       setWomenSunglasses(fetchWomenSunglasses);
-  
+
       // Fetch and calculate product ratings for each product
       const productRatingsData = await Promise.all(
         fetchedProductsList.map(async (product) => {
           const response = await viewAllReviews(product._id);
           const reviews = response.data;
-  
+
           // Check if there are no reviews
           if (reviews.length === 0) {
             return { productId: product._id, rating: "No reviews" };
           }
-  
+
           const sum = reviews.reduce((total, review) => total + review.stars, 0);
           const averageRating = sum / reviews.length;
           return { productId: product._id, rating: averageRating };
         })
       );
-  
+
       // Convert product ratings data to an object
       const ratingsObject = {};
       productRatingsData.forEach((item) => {
         ratingsObject[item.productId] = item.rating;
       });
-  
+
       setProductRatings(ratingsObject);
     } catch (error) {
       console.error("Error fetching products list", error);
     }
   };
-  
+
 
   const productImage = (product, color) => {
     if (
@@ -216,32 +188,6 @@ export default () => {
   };
 
 
-  // const sunglassesImage = (product) => {
-  //   if (
-  //     product
-  //   ) {
-  //     const variant = product.frame_information.frame_variants[0]
-
-
-  //     if (variant && variant.images && variant.images[0]) {
-  //       const path = variant.images[0];
-  //       const completePath = API_URL + path;
-  //       return (
-  //         <div className="">
-  //           <img
-  //             src={completePath}
-  //             alt="product"
-  //             className="object-contain"
-  //           />
-  //         </div>
-  //       );
-  //     }
-  //   }
-
-  //   // Return a placeholder or handle the case where image data is missing
-  //   return <div className="mt-2">Image not available</div>;
-  // };
-
   const navigate = useNavigate();
   const handleNavigation = (id) => {
     console.log(id)
@@ -262,71 +208,76 @@ export default () => {
     }
   };
 
-  // handle navigations
+    // handle navigations
+
   const handleNavigate = (page) => {
     navigate(`/products/${page}`)
   }
-
-  // loading spinners
-  // const [loading, setLoading] = useState(false)
-
-  // useEffect(() => {
-  //   setLoading(false)
-  //   setTimeout(() => {
-  //     setLoading(false)
-  //   }, 2500);
-  // }, [])
-
-  // cut price calculation
+  
   const cutPrice = (price, discount) => {
     return (price - (price * discount) / 100).toFixed()
+  }
+  
+  const items = [
+    {
+      imageUrl: banner1,
+    },
+    {
+      imageUrl: banner2,
+    },
+    {
+      imageUrl: banner3,
+    },
+    // {
+    //   imageUrl: banner4,
+    // },
+  ];
+  
+  // handleBannerNavigation
+  const handleBannerNavigation = (item) => {
+    if (item.imageUrl === banner2){
+      navigate('/products/Sunglasses')
+    }
+    else if (item.imageUrl === banner3){
+      navigate('/products/Eyeglasses')
+    }
+    else if (item.imageUrl === banner1){
+      navigate('/products/all_products')
+    }
   }
 
   return (
 
     <>
-      {/* {
-
-        loading ?
-
-          (
-            <div className="bg-white flex justify-center items-center h-screen">
-              <HashLoader
-
-                color={"#0891b2"}
-                loading={loading}
-                size={50}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-              />
-            </div>
-
-          )
-
-          :
-
-          ( */}
       <div className="bg-white flex-1">
-        {/* <Carousel>
-                {items.map((item, i) => (
-                  <Paper key={i}>
-                    <img className="w-full h-[300px] md:h-[450px] lg:h-[500px] xl:h-[600px] object-fit" loading="lazy" src={item.imageUrl} alt={`Image ${i + 1}`} />
-                  </Paper>
-                ))}
-              </Carousel> */}
         <Splide
+          className="cursor-pointer bg-black"
           options={{
             type: 'fade',
             heightRatio: 0.5,
             cover: true,
             lazyLoad: 'nearby',
             height: '500px',
+            type: 'loop',
+            breakpoints: {
+              900: {
 
+                fixedHeight: 300,
+              },
+              600: {
+
+                fixedHeight: 200,
+              },
+              1200: {
+
+                fixedHeight: 350,
+              }
+            }
           }}
         >
           {items.map((item, i) => (
-            <SplideSlide>
-              <img src={item.imageUrl} loading="lazy" alt={`Image ${i + 1}`} />
+            <SplideSlide onClick={() => handleBannerNavigation(item)}>
+              <img  className="object-contain" src={item.imageUrl} loading="lazy" alt={`Image ${i + 1}`} />
             </SplideSlide>
           ))}
         </Splide>
@@ -426,7 +377,7 @@ export default () => {
                             precision={0.1}
                             emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                           />
-                          <p className={`${productRatings[product._id] === "No reviews" ? 'text-sm text-gray-400' : 'text-base' } `}>{productRatings[product._id] === 0 ? "No Reviews" : productRatings[product._id]}</p>
+                          <p className={`${productRatings[product._id] === "No reviews" ? 'text-sm text-gray-400' : 'text-base'} `}>{productRatings[product._id] === 0 ? "No Reviews" : productRatings[product._id]}</p>
                         </div>
                         <div className="">
                           <p className="text-lg font-sans text-black block capitalize whitespace-no-wrap overflow-hidden truncate">{product.name}</p>
@@ -630,7 +581,7 @@ export default () => {
                                   precision={0.1}
                                   emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                                 />
-                          <p className={`${productRatings[product._id] === "No reviews" ? 'text-sm text-gray-400' : 'text-base' } `}>{productRatings[product._id] === 0 ? "No Reviews" : productRatings[product._id]}</p>
+                                <p className={`${productRatings[product._id] === "No reviews" ? 'text-sm text-gray-400' : 'text-base'} `}>{productRatings[product._id] === 0 ? "No Reviews" : productRatings[product._id]}</p>
                               </div>
                               {/* <div className=" flex justify-between">
                                 <p className="font-sans text-base" >{product.name}</p>
@@ -774,7 +725,7 @@ export default () => {
                               precision={0.1}
                               emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                             />
-                          <p className={`${productRatings[product._id] === "No reviews" ? 'text-sm text-gray-400 white ' : 'text-base' } `}>{productRatings[product._id] === 0 ? "No Reviews" : productRatings[product._id]}</p>
+                            <p className={`${productRatings[product._id] === "No reviews" ? 'text-sm text-gray-400 white ' : 'text-base'} `}>{productRatings[product._id] === 0 ? "No Reviews" : productRatings[product._id]}</p>
                           </div>
                           {/* <div className=" flex justify-between">
                                   <div className="flex">
@@ -891,7 +842,7 @@ export default () => {
                               precision={0.1}
                               emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                             />
-                          <p className={`${productRatings[product._id] === "No reviews" ? 'text-sm text-gray-400' : 'text-base' } `}>{productRatings[product._id] === 0 ? "No Reviews" : productRatings[product._id]}</p>
+                            <p className={`${productRatings[product._id] === "No reviews" ? 'text-sm text-gray-400' : 'text-base'} `}>{productRatings[product._id] === 0 ? "No Reviews" : productRatings[product._id]}</p>
                           </div>
                           {/* <div className=" flex justify-between">
                                   <div className="flex">

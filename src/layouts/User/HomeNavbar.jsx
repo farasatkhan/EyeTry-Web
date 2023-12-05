@@ -422,14 +422,14 @@ export default function PersistentDrawerLeft() {
                         <Button
                           sx={{
                             my: 2,
-                            color: 'black',
+                            color: `${activeFilter === filter ? '#0088C8' : 'black'}`,
                             display: 'flex',
                             fontWeight: { md: '700', lg: '700' },
                             fontSize: { md: '12px', lg: '12px' },
                           }}
                         >
                           {filter}               
-                            
+
                         </Button>
                       </div>
                       {activeFilter === "Eyeglasses" && filter === "Eyeglasses" && (

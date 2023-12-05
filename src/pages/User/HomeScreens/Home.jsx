@@ -29,26 +29,27 @@ import banner1 from '../../../assets/images/products/everyoneBanner.png'
 
 export default () => {
 
+
   const exclusiveFeatures = [
     {
       imageUrl: faceShapeAnalysis,
-      text: 'Face Shape Analysis', // Add text for the first image
+      text: 'Face Shape Analysis', 
       info: 'Our frame finder feature uses advanced facial recognition technology to analyze your unique facial features and suggest the best eyeglass frames for your face shape. By simply uploading a photo of yourself, our system can identify key features and recommend frames that will complement your unique facial structure. '
     },
     {
       imageUrl: ipdMeasurement,
-      text: 'IPD Measurement', // Add text for the second image
+      text: 'IPD Measurement', 
       info: 'Your IPD is a key factor in achieving optimal vision through your eyeglasses. An incorrect IPD measurement can lead to discomfort, headaches, and distorted vision. Our technology ensures that your IPD is taken into account, so the eyeglass frames we recommend aesthetically pleasing, functional and enhancing your visual experience.'
     },
     {
       imageUrl: virtualTryOn,
-      text: 'Virtual Try-On', // Add text for the third image
+      text: 'Virtual Try-On', 
       info: 'Our visual assessment feature is designed to help you assess your vision and determine whether you need glasses or a new prescription. Using a series of simple and intuitive tests, our system measures your visual acuity, color vision, depth perception, and other key factors that contribute to good vision. '
 
     },
     {
       imageUrl: vissionAssessments,
-      text: 'Vision Assessments', // Add text for the fourth image
+      text: 'Vision Assessments', 
       info: 'Our visual assessment feature is designed to help you assess your vision and determine whether you need glasses or a new prescription. Using a series of simple and intuitive tests, our system measures your visual acuity, color vision, depth perception, and other key factors that contribute to good vision. '
     },
   ];
@@ -56,6 +57,10 @@ export default () => {
   const handleExclusiveClick = (item) => {
     if (item.text === 'Vision Assessments') {
       navigate('/assessments/color_blind_test')
+    } else if (item.text === 'IPD Measurement') {
+      navigate('/user/measure_ipd')
+    } else if (item.text === 'Virtual Try-On') {
+      navigate('/product_details/652e44f7bb19a06756275476')
     }
     else {
       navigate('/products/exclusive_features')

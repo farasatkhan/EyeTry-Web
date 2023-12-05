@@ -231,7 +231,7 @@ const Products = () => {
 
 
     // products colors handling:
-    const handleColorSelect = (productId, color, category) => {
+    const handleColorSelect = (productId, color) => {
         setSelectedColorsFeatured({
             ...selectedColorsFeatured,
             [productId]: color,
@@ -502,20 +502,20 @@ const Products = () => {
                                             <>
                                                 <div className="flex mt-2 h-6 items-center">
                                                     {product.frame_information.frame_variants.map((variant) => (
-                                                        <div
-                                                            className={`border-gray-300 rounded-full mr-1 ${selectedColorsFeatured[product._id] === variant.color_code
-                                                                ? "border-[2px] bg-blue-900"
-                                                                : ""
-                                                                }`}
-                                                        >
-                                                            <div
-                                                                className={`h-6 w-6 rounded-full bg-blue-800 cursor-pointer border-white border-[3px] hover:bg-blue-900`}
-                                                                style={{ backgroundColor: variant.color }}
-                                                                onClick={() =>
-                                                                    handleColorSelect(product._id, variant.color, "featured")
-                                                                }
-                                                            ></div>
-                                                        </div>
+                                                             <div
+                                                             className={`border-grey rounded-full  mr-2 ${selectedColorsFeatured[product._id] === variant.color
+                                                               ? 'border-[2px] bg-blue-900'
+                                                               : ''
+                                                               }`}
+                                                           >
+                                                             <div
+                                                               className={`h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
+                                                               style={{ backgroundColor: `${variant.color_code}` }}
+                                                               onClick={() =>
+                                                                 handleColorSelect(product._id, variant.color)
+                                                               }
+                                                             ></div>
+                                                           </div>
                                                     ))}
                                                 </div>
                                             </>

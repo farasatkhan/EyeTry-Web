@@ -49,6 +49,7 @@ import TextField from '@mui/material/TextField';
 import { getUserData } from '../../api/userapi';
 import { viewProductsList } from '../../api/productsApi';
 import { useSelector } from "react-redux";
+import { BiSupport } from "react-icons/bi";
 
 // for navbar
 const Search = styled('div')(({ theme }) => ({
@@ -448,11 +449,12 @@ export default function PersistentDrawerLeft() {
             </IconButton>
             <IconButton
               size="large"
-              aria-label="show 17 new notifications"
+              aria-label=""
               color="inherit"
+              onClick={() => navigate('/support')}
             >
               <Badge badgeContent={null} color="error">
-                <NotificationsIcon />
+              <BiSupport  className='h-[22px] w-[22px]'  />
               </Badge>
             </IconButton>
             <Box sx={{ flexGrow: 0, ml: 2, }}>

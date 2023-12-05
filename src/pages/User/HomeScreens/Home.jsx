@@ -402,7 +402,7 @@ export default () => {
                                 >
                                   <div
                                     className={`h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
-                                    style={{ backgroundColor: variant.color }}
+                                    style={{ backgroundColor: `${variant.color_code}` }}
                                     onClick={() => handleColorSelect(product._id, variant.color, "featured")}
 
                                   ></div>
@@ -606,7 +606,7 @@ export default () => {
                                     >
                                       <div
                                         className={`h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
-                                        style={{ backgroundColor: variant.color }}
+                                        style={{ backgroundColor: `${variant.color_code}` }}
                                         onClick={() =>
                                           handleColorSelect(product._id, variant.color)
                                         }
@@ -750,7 +750,7 @@ export default () => {
                                 >
                                   <div
                                     className={`h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
-                                    style={{ backgroundColor: variant.color }}
+                                    style={{ backgroundColor: `${variant.color_code}` }}
                                     onClick={() =>
                                       handleColorSelect(product._id, variant.color)
                                     }
@@ -867,7 +867,7 @@ export default () => {
                                 >
                                   <div
                                     className={`h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
-                                    style={{ backgroundColor: variant.color }}
+                                    style={{ backgroundColor: `${variant.color_code}` }}
                                     onClick={() =>
                                       handleColorSelect(product._id, variant.color)
                                     }

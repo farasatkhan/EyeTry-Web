@@ -36,9 +36,9 @@ export default function SelectLensTypeComponent({onNextStep}) {
                 <div className="w-[20%] flex items-center rounded-l-lg">
                     <img className="h-[60px] ml-5" src={clear} alt="free silver package" />
                 </div>
-                <div class="w-[75%] p-4">
-                    <h2 class="text-lg font-bold mb-2">Clear</h2>
-                    <p class=" text-sm font-sans">Lenses for everyday use</p>
+                <div className="w-[75%] p-4">
+                    <h2 className="text-lg font-bold mb-2">Clear</h2>
+                    <p className=" text-sm font-sans">Lenses for everyday use</p>
                 </div>
             </div>
 
@@ -46,9 +46,9 @@ export default function SelectLensTypeComponent({onNextStep}) {
                 <div className="w-[20%] flex items-center rounded-l-lg">
                     <img className="h-[60px] ml-5" src={bluelight} alt="free silver package" />
                 </div>
-                <div class="w-[75%] p-4">
-                    <h2 class="text-lg font-bold mb-2">Blue Light Lenses (+$39 +$19.50)</h2>
-                    <p class=" text-sm font-sans">Protect your eyes from the emissions of digital devices</p>
+                <div className="w-[75%] p-4">
+                    <h2 className="text-lg font-bold mb-2">Blue Light Lenses (+$39 +$19.50)</h2>
+                    <p className=" text-sm font-sans">Protect your eyes from the emissions of digital devices</p>
                 </div>
             </div>
 
@@ -56,9 +56,9 @@ export default function SelectLensTypeComponent({onNextStep}) {
                 <div className="w-[20%] flex items-center rounded-l-lg">
                     <img className="h-[60px] ml-2" src={transition} alt="free silver package" />
                 </div>
-                <div class="w-[75%] p-4">
-                    <h2 class="text-lg font-bold mb-2">Transition / Photochromic (From +$69 +$34.50)</h2>
-                    <p class=" text-sm font-sans">Darken when outdoors, fade back to clear indoors</p>
+                <div className="w-[75%] p-4">
+                    <h2 className="text-lg font-bold mb-2">Transition / Photochromic (From +$69 +$34.50)</h2>
+                    <p className=" text-sm font-sans">Darken when outdoors, fade back to clear indoors</p>
                 </div>
             </div>
 
@@ -66,9 +66,9 @@ export default function SelectLensTypeComponent({onNextStep}) {
                 <div className="w-[20%] flex items-center rounded-l-lg">
                     <img className="h-[60px] ml-5" src={sunglasses} alt="free silver package" />
                 </div>
-                <div class="w-[75%] p-4">
-                    <h2 class="text-lg font-bold mb-2">Sunglasses (From +$29 +$14.50)</h2>
-                    <p class=" text-sm font-sans">Tints, Mirrored or Polarized</p>
+                <div className="w-[75%] p-4">
+                    <h2 className="text-lg font-bold mb-2">Sunglasses (From +$29 +$14.50)</h2>
+                    <p className=" text-sm font-sans">Tints, Mirrored or Polarized</p>
                 </div>
             </div>
         </div>

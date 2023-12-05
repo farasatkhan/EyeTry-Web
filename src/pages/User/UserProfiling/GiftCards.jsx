@@ -22,7 +22,7 @@ export default function GiftCardsScreen() {
             <div className="p-5  bg-white border border-gray-200 rounded-lg shadow  w-[90%] mx-auto mb-5">
 
                 <div className="w-[100%] md:w-[70%] lg:w-[70%] mx-auto mt-10">
-                    <div class=" text-center md:mb-0 mb-4">
+                    <div className=" text-center md:mb-0 mb-4">
                         <h3 className="text-2xl sm:text-4xl  font-bold font-sans">Manage Gift Cards</h3>
                         <p className=" font-sans text-base mt-3">Manage Your Gift Cards</p>
                     </div>
@@ -32,12 +32,12 @@ export default function GiftCardsScreen() {
                             <div className="left-0 pl-3 flex items-center pointer-events-none">
                                 <FaBookOpen size={30} className="mr-5 pb-1" />
                             </div>
-                            <div class="flex items-center justify-between w-full">
-                                <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 ">Buy Giftcard</h2>
+                            <div className="flex items-center justify-between w-full">
+                                <h2 className="mr-auto text-xl font-bold tracking-tight text-gray-900 ">Buy Giftcard</h2>
 
                             </div>
                         </div>
-                        <hr class="border-3 border-gray-300 my-4" />
+                        <hr className="border-3 border-gray-300 my-4" />
                         <div className="p-5">
 
                             <span className="flex flex-row space-x-5">
@@ -77,7 +77,7 @@ export default function GiftCardsScreen() {
                                         </FormControl>
                                     </Box>
                                 </div>
-                                <button class="ml-5 px-4 rounded inline-flex items-center 
+                                <button className="ml-5 px-4 rounded inline-flex items-center 
                                             bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                                              hover:text-white border border-blue-500 hover:border-transparent ">
                                     <span>Check Balance</span>
@@ -94,54 +94,54 @@ export default function GiftCardsScreen() {
                             <div className="left-0 pl-3 flex items-center pointer-events-none">
                                 <FaBookOpen size={30} className="mr-5 pb-1" />
                             </div>
-                            <div class="flex items-center justify-between w-full">
-                                <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 ">Manage Gift Cards</h2>
+                            <div className="flex items-center justify-between w-full">
+                                <h2 className="mr-auto text-xl font-bold tracking-tight text-gray-900 ">Manage Gift Cards</h2>
                             </div>
                         </div>
-                        <hr class="border-3 border-gray-300 my-4" />
+                        <hr className="border-3 border-gray-300 my-4" />
                         <div className="p-5">
 
-                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                <div class="overflow-x-auto">
-                                    <table class="w-full text-sm text-left text-gray-500 ">
-                                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-sm text-left text-gray-500 ">
+                                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
                                             <tr>
-                                                <th scope="col" class="px-6 py-3">
+                                                <th scope="col" className="px-6 py-3">
                                                     Gift Card Number
                                                 </th>
-                                                <th scope="col" class="px-6 py-3">
+                                                <th scope="col" className="px-6 py-3">
                                                     Value
                                                 </th>
-                                                <th scope="col" class="px-6 py-3">
+                                                <th scope="col" className="px-6 py-3">
                                                     Type
                                                 </th>
-                                                <th scope="col" class="px-6 py-3">
+                                                <th scope="col" className="px-6 py-3">
                                                     Edit
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="bg-white border-b  hover:bg-gray-50 ">
-                                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                            <tr className="bg-white border-b  hover:bg-gray-50 ">
+                                                <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                                                     gitfcard 1
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td className="px-6 py-4">
                                                     5/20/2023
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td className="px-6 py-4">
                                                     type 1
                                                 </td>
-                                                <td class=" py-4 text-right">
-                                                    <button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                                                <td className=" py-4 text-right">
+                                                    <button className="py-1 px-4 rounded inline-flex items-center ml-auto
             bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
             hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                                                        <FaBookOpen size={20} class="mr-2" />
+                                                        <FaBookOpen size={20} className="mr-2" />
                                                         <span>Edit</span>
                                                     </button>
-                                                    <button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                                                    <button className="py-1 px-4 rounded inline-flex items-center ml-auto
             bg-transparent hover:bg-red-500 text-red-700 font-semibold 
             hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                                                        <FaBookOpen size={20} class="mr-2" />
+                                                        <FaBookOpen size={20} className="mr-2" />
                                                         <span>Delete</span>
                                                     </button>
                                                 </td>

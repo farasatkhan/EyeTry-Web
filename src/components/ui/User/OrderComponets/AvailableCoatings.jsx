@@ -50,15 +50,15 @@ export default function SelectLensTypeComponent({onNextStep, onSelectedOptions})
         <div className="w-[25%] flex items-center">
           <img className="h-[65px] ml-8" src={superHydrophobic} alt="free silver package" />
         </div>
-        <div class="w-[55%] p-4">
-          <h2 class="text-lg font-bold mb-2">Super Hydrophobic</h2>
-          <p class="text-base font-sans">Easy to clean. Keep water, fingerprints and debris away from your lenses.</p>
+        <div className="w-[55%] p-4">
+          <h2 className="text-lg font-bold mb-2">Super Hydrophobic</h2>
+          <p className="text-base font-sans">Easy to clean. Keep water, fingerprints and debris away from your lenses.</p>
         </div>
         <div className="w-[20%] flex justify-center items-center">
           <input className="w-8 h-8 rounded-sm" type="checkbox" ref={checkboxRef} />
         </div>
       </div>
-      <button onClick={() => handleNext(11)} type="button" class="mt-12 w-full block mx-auto text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5  mb-2">Continue</button>
+      <button onClick={() => handleNext(11)} type="button" className="mt-12 w-full block mx-auto text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5  mb-2">Continue</button>
 
 
 

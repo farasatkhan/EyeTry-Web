@@ -49,9 +49,9 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep, onSelect
             <h1 className="font-sans font-semibold text-2xl mx-auto mb-10 ">Sunglasses Lens Selection</h1>
 
             <div className="flex flex-row fixed-div mb-3  bg-white border-2 border-gray-300 rounded-md hover:border-gray-400">
-                <div class="w-[60%] p-4">
-                    <h2 class="text-lg font-bold mb-2">Polarized (+$99 +$49.50)</h2>
-                    <p class=" text-sm font-sans">Reduce glare and haze for clearer vision</p>
+                <div className="w-[60%] p-4">
+                    <h2 className="text-lg font-bold mb-2">Polarized (+$99 +$49.50)</h2>
+                    <p className=" text-sm font-sans">Reduce glare and haze for clearer vision</p>
                 </div>
                 <div className="w-[40%] flex items-center bg-white rounded-lg flow-row space-x-2">
                     {/* <img className="h-[80px]" src={clear} alt="free silver package" /> */}
@@ -77,9 +77,9 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep, onSelect
             </div>
 
             <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-md hover:border-gray-400">
-                <div class="w-[60%] p-4">
-                    <h2 class="text-lg font-bold mb-2">Color Tint (+$29 +$14.50)</h2>
-                    <p class=" text-sm font-sans">Sun protection basic lenses</p>
+                <div className="w-[60%] p-4">
+                    <h2 className="text-lg font-bold mb-2">Color Tint (+$29 +$14.50)</h2>
+                    <p className=" text-sm font-sans">Sun protection basic lenses</p>
                 </div>
                 <div className="w-[40%] flex items-center bg-white rounded-lg flow-row space-x-2 flex-wrap">
                     {/* <img className="h-[80px]" src={clear} alt="free silver package" /> */}
@@ -132,9 +132,9 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep, onSelect
             </div>
 
             <div className="flex flex-row fixed-div mb-3 bg-white border-2 border-gray-300 rounded-md hover:border-gray-400">
-                <div class="w-[60%] p-4">
-                    <h2 class="text-lg font-bold mb-2">Mirrored (+$49 +$24.50)</h2>
-                    <p class=" text-sm font-sans">High fashionable reflective color</p>
+                <div className="w-[60%] p-4">
+                    <h2 className="text-lg font-bold mb-2">Mirrored (+$49 +$24.50)</h2>
+                    <p className=" text-sm font-sans">High fashionable reflective color</p>
                 </div>
                 <div className="w-[40%] flex items-center bg-white rounded-lg flow-row space-x-2 flex-wrap ">
                     {/* <img className="h-[80px]" src={clear} alt="free silver package" /> */}
@@ -186,7 +186,7 @@ export default function SelectLensTypeComponent({ onUpdate, onNextStep, onSelect
                 </div>
             </div>
 
-            <div class="flex justify-center mt-10">
+            <div className="flex justify-center mt-10">
                 <button onClick={() => handleNext(10)} type="button" className="text-white bg-red-800 hover:bg-red-900 focus:outline-none 
                 focus:ring-4 focus:ring-red-300 font-semibold rounded-lg text-sm py-2.5 mb-2
                  w-full">

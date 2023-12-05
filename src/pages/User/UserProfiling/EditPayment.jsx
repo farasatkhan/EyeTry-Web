@@ -162,7 +162,7 @@ export default function AddPaymentScreen() {
 
 
                 <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10">
-                    <div class=" text-center md:mb-0 mb-4 mx-auto">
+                    <div className=" text-center md:mb-0 mb-4 mx-auto">
                         <h3 className="text-2xl sm:text-4xl  font-bold font-sans">Edit Payment Method</h3>
                         <p className=" font-sans text-base mt-3">Select Your Payment Method</p>
                     </div>
@@ -347,8 +347,8 @@ export default function AddPaymentScreen() {
 
 
                     <div className="md:ml-auto md:text-right text-center mt-20">
-                        <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-8 py-2.5 mr-2 mb-2">Cancel</button>
-                        <button onClick={savePaymentMethod} type="button" class=" text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5 mr-2 mb-2">Save</button>
+                        <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-8 py-2.5 mr-2 mb-2">Cancel</button>
+                        <button onClick={savePaymentMethod} type="button" className=" text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5 mr-2 mb-2">Save</button>
                     </div>
                 </div>
             </div>

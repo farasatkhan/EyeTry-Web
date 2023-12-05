@@ -479,10 +479,10 @@ const Cart = () => {
                         {/* <p className="mt-1 text-xs text-gray-700">Available Quantity: {item.productData.frame_information.frame_variants.quastity}</p> */}
                       </div>
                       <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
-                        {/* <div class="flex items-center border-gray-100">
-                          <span class="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"> - </span>
-                          <input class="h-8 w-8 border bg-white text-center text-xs outline-none" type="number" value="2" min="1" />
-                          <span class="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"> + </span>
+                        {/* <div className="flex items-center border-gray-100">
+                          <span className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"> - </span>
+                          <input className="h-8 w-8 border bg-white text-center text-xs outline-none" type="number" value="2" min="1" />
+                          <span className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"> + </span>
                         </div> */}
 
                         <div className="flex items-center border-gray-100">
@@ -758,16 +758,16 @@ const Cart = () => {
                   <div className="left-0 pl-3 flex items-center pointer-events-none">
                     <BiEdit size={30} className="mr-5 pb-1" />
                   </div>
-                  <div class="flex items-center justify-between w-full">
-                    <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900">Address Book</h2>
+                  <div className="flex items-center justify-between w-full">
+                    <h2 className="mr-auto text-xl font-bold tracking-tight text-gray-900">Address Book</h2>
                   </div>
                 </div>
-                <hr class="border-3 border-gray-300 my-4" />
+                <hr className="border-3 border-gray-300 my-4" />
                 <div className="p-5">
-                  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                  <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                     {
                       addresses.length !== 0 ? (
-                        <table class="w-full text-sm text-left text-gray-500">
+                        <table className="w-full text-sm text-left text-gray-500">
 
                           <tbody>
 

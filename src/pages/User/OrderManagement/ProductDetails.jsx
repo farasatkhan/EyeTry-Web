@@ -665,7 +665,7 @@ export default function SelectLensTypeScreen({ rating }) {
                             className=" py-1 px-4 rounded inline-flex items-center 
                                             bg-transparent hover:bg-gray-700 text-gray-700 font-semibold 
                                              hover:text-white border border-gray-500 hover:border-transparent ">
-                            <BiEdit size={20} class="mr-2" />
+                            <BiEdit size={20} className="mr-2" />
                             <span>Write a Review</span>
                         </button>
                     </div>
@@ -794,7 +794,7 @@ export default function SelectLensTypeScreen({ rating }) {
                     ))}
                     <div onClick={handleLoadMore}
                         className="flex justify-center mt-10">
-                        <button class="py-1 px-4 rounded inline-flex items-center 
+                        <button className="py-1 px-4 rounded inline-flex items-center 
                         bg-transparent hover:bg-gray-700 text-gray-700 font-semibold 
                         hover:text-white border border-gray-500 hover:border-transparent ">
                             <span>Load More</span>

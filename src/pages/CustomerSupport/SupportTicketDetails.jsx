@@ -15,35 +15,35 @@ export default function SupportTicketDetails() {
 
                 <div className=" bg-white border border-gray-200 rounded-lg shadow mt-10  mx-auto mb-10">
                     <div className="flex flex-row mt-3">
-                        <h4 class="ml-5  text-xl font-semibold tracking-tight text-gray-900 font-sans">Support Ticket Details</h4>
+                        <h4 className="ml-5  text-xl font-semibold tracking-tight text-gray-900 font-sans">Support Ticket Details</h4>
                     </div>
-                    <hr class="border-3 border-gray-300 my-4" />
+                    <hr className="border-3 border-gray-300 my-4" />
                     <div className="p-5 text-base">
 
-                        <table class="table-auto mx-auto p-4">
+                        <table className="table-auto mx-auto p-4">
                             <tr>
-                                <th class="p-2">Customer Name</th>
-                                <td class="p-2">Abdul Sammi Gul</td>
+                                <th className="p-2">Customer Name</th>
+                                <td className="p-2">Abdul Sammi Gul</td>
                             </tr>
                             <tr>
-                                <th class="p-2">Ticket Type</th>
-                                <td class="p-2">Product Return</td>
+                                <th className="p-2">Ticket Type</th>
+                                <td className="p-2">Product Return</td>
                             </tr>
                             <tr>
-                                <th class="p-2">Ticket Priority</th>
-                                <td class="p-2">Low</td>
+                                <th className="p-2">Ticket Priority</th>
+                                <td className="p-2">Low</td>
                             </tr>
                             <tr>
-                                <th class="p-2">Issue Description</th>
-                                <td class="p-2">Want to return the product</td>
+                                <th className="p-2">Issue Description</th>
+                                <td className="p-2">Want to return the product</td>
                             </tr>
                             <tr>
-                                <th class="p-2">Order Number</th>
-                                <td class="p-2">203</td>
+                                <th className="p-2">Order Number</th>
+                                <td className="p-2">203</td>
                             </tr>
                             <tr>
-                                <th class="p-2">Status</th>
-                                <td class="p-2">
+                                <th className="p-2">Status</th>
+                                <td className="p-2">
 
                                     <Select
                                         value={searchAttribute}
@@ -76,10 +76,10 @@ export default function SupportTicketDetails() {
                 </div>
 
                 <div className="md:ml-auto md:text-right text-center mb-10">
-                    <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4
+                    <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4
                              focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Live Chat</button>
                     <Link to='/user/edit_prescription'>
-                        <button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
+                        <button type="button" className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
                          focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Mark as Resolved</button></Link>
                 </div>
             </div>

@@ -52,7 +52,7 @@ export default function ChangePasswordScreen() {
 
                 <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10">
                     <div className="mb-10 flex flex-col md:flex-row md:items-center">
-                        <div class="md:text-left text-center md:mb-0 mb-4">
+                        <div className="md:text-left text-center md:mb-0 mb-4">
                             <h3 className="text-2xl sm:text-4xl  font-bold font-sans">Change Password</h3>
                             <p className=" font-sans text-base ">Update your password quickly by using current password</p>
                         </div>
@@ -102,8 +102,8 @@ export default function ChangePasswordScreen() {
 
                     <div className="w-full flex items-center justify-center">
                         <div className="md:ml-auto md:text-right text-center mt-16 mb-10">
-                            <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Cancel</button>
-                            <button onClick={handlePassword} type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Change Password</button>
+                            <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Cancel</button>
+                            <button onClick={handlePassword} type="button" className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Change Password</button>
                         </div>
                     </div>
                 </div>

@@ -290,7 +290,7 @@ const Products = () => {
                         className="p-1 flex flex-wrap items-center justify-center mb-[500px]"
                     >
                         {filteredProducts.map((product) => (
-                            <div class="flex-shrink-0 m-6 relative overflow-hidden rounded-lg max-w-xs shadow-sm bg-white cursor-pointer">
+                            <div className="flex-shrink-0 m-6 relative overflow-hidden rounded-lg max-w-xs shadow-sm bg-white cursor-pointer">
                                 <div onClick={() => handleNavigation(product._id)}>
                                     {productImage(
                                         product,
@@ -343,15 +343,15 @@ const Products = () => {
                                     </div>
                                     <div>
                                         <div className="flex justify-between items-center">
-                                            <p class="text-lg font-sans text-black truncate block capitalize">{product.name}</p>
-                                            <span class="text-gray-400 font-sans uppercase text-xs">{product.manufacturer}</span>
+                                            <p className="text-lg font-sans text-black truncate block capitalize">{product.name}</p>
+                                            <span className="text-gray-400 font-sans uppercase text-xs">{product.manufacturer}</span>
                                         </div>
-                                        <div class="flex items-center mb-2">
-                                            <p class="text-lg font-semibold text-black cursor-auto">${product.priceInfo.price}</p>
+                                        <div className="flex items-center mb-2">
+                                            <p className="text-lg font-semibold text-black cursor-auto">${product.priceInfo.price}</p>
                                             <del>
-                                                <p class="text-sm text-gray-600 cursor-auto ml-2">$199</p>
+                                                <p className="text-sm text-gray-600 cursor-auto ml-2">$199</p>
                                             </del>
-                                            <div class="ml-auto"><p className=" font-sans text-base font-bold text-red-600">{product.discount}% off</p></div>
+                                            <div className="ml-auto"><p className=" font-sans text-base font-bold text-red-600">{product.discount}% off</p></div>
                                         </div>
                                     </div>
                                 </div>

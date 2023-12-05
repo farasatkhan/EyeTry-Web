@@ -346,7 +346,7 @@ export default function SelectLensTypeComponentProp({ onSelectedOptions, onNextS
                     </div>
                 </div>
 
-                <div class="flex justify-center mt-6">
+                <div className="flex justify-center mt-6">
                     <button onClick={() => {
                         if (!validateForm()) {
                             return

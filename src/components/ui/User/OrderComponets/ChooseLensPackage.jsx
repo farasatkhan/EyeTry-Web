@@ -36,9 +36,9 @@ export default function ChooseLensPackage({ onNextStep }) {
                     <div className="w-[25%] flex items-center bg-white rounded-l-lg">
                         <img className="h-200" src={silverLens} alt="free silver package" />
                     </div>
-                    <div class="w-[75%] p-4">
-                        <h2 class="text-lg font-bold mb-2">Silver (Free)</h2>
-                        <p class=" text-sm font-sans">1.5 index ClearViz©️ Lenses</p>
+                    <div className="w-[75%] p-4">
+                        <h2 className="text-lg font-bold mb-2">Silver (Free)</h2>
+                        <p className=" text-sm font-sans">1.5 index ClearViz©️ Lenses</p>
                     </div>
                 </div>
 
@@ -50,12 +50,12 @@ export default function ChooseLensPackage({ onNextStep }) {
                     <div className="w-[25%] flex items-center bg-white rounded-l-lg">
                         <img className="h-200" src={goldLens} alt="free silver package" />
                     </div>
-                    <div class="w-[75%] p-4">
-                        <h2 class="text-lg font-bold mb-2">Gold</h2>
+                    <div className="w-[75%] p-4">
+                        <h2 className="text-lg font-bold mb-2">Gold</h2>
                         <div className="text-xs mb-2">
                             <span className="text-blue-600 font-semibold mr-2 bg-blue-200 rounded-full p-[4px]">Lens Protective</span>
                         </div>
-                        <p class=" text-sm font-sans">1.5 index ClearViz©️ Lenses, Anti-scratch coating, 100% UV-Block coating, Anti-reflective coating</p>
+                        <p className=" text-sm font-sans">1.5 index ClearViz©️ Lenses, Anti-scratch coating, 100% UV-Block coating, Anti-reflective coating</p>
                     </div>
                 </div>
 
@@ -67,13 +67,13 @@ export default function ChooseLensPackage({ onNextStep }) {
                     <div className="w-[25%] flex items-center bg-white rounded-l-lg">
                         <img className="h-200" src={platinumLens} alt="free silver package" />
                     </div>
-                    <div class="w-[75%] p-4">
-                        <h2 class="text-lg font-bold mb-2">Platinum</h2>
+                    <div className="w-[75%] p-4">
+                        <h2 className="text-lg font-bold mb-2">Platinum</h2>
                         <div className="text-xs mb-2">
                             <span className="text-blue-600 font-semibold mr-2 bg-blue-200 rounded-full p-[4px]">Lens Protective</span>
                             <span className="text-green-600 font-semibold mr-2 bg-green-200 rounded-full p-[4px]">Super Thin Lenses</span>
                         </div>
-                        <p class=" text-sm font-sans">1.61 index featherweight G-vision©️ Lenses, up to 30% thinner, Anti-scratch coating, 100% UV-block coating, Anti-reflective coating</p>
+                        <p className=" text-sm font-sans">1.61 index featherweight G-vision©️ Lenses, up to 30% thinner, Anti-scratch coating, 100% UV-block coating, Anti-reflective coating</p>
                     </div>
                 </div>
 
@@ -84,14 +84,14 @@ export default function ChooseLensPackage({ onNextStep }) {
                     <div className="w-[25%] flex items-center bg-white rounded-l-lg">
                         <img className="h-200" src={diamnondLens} alt="free silver package" />
                     </div>
-                    <div class="w-[75%] p-4">
-                        <h2 class="text-lg font-bold mb-2">Diamond</h2>
+                    <div className="w-[75%] p-4">
+                        <h2 className="text-lg font-bold mb-2">Diamond</h2>
                         <div className="text-xs mb-2">
                             <span className="text-blue-600 font-semibold mr-2 bg-blue-200 rounded-full p-[4px]">Lens Protective</span>
                             <span className="text-green-600 font-semibold mr-2 bg-green-200 rounded-full p-[4px]">Super Thin Lenses</span>
                             <span className="text-yellow-600 font-semibold bg-yellow-200 rounded-full p-[4px]">Premium coatings</span>
                         </div>
-                        <p class=" text-sm font-sans">1.67 index G-vision©️ ultra-thin lenses, up to 40% thinner, Anti-scratch coating, 100% UV-Block coating (UVA + UVB), Enhanced Anti-reflective coating, Free Prescription Card (15% off your next purchase)</p>
+                        <p className=" text-sm font-sans">1.67 index G-vision©️ ultra-thin lenses, up to 40% thinner, Anti-scratch coating, 100% UV-Block coating (UVA + UVB), Enhanced Anti-reflective coating, Free Prescription Card (15% off your next purchase)</p>
                     </div>
                 </div>
             </div>

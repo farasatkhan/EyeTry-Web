@@ -92,7 +92,7 @@ export default function AddAddressScreen() {
             <div className="p-5  bg-white border border-gray-200 rounded-lg shadow  w-[90%] mx-auto mb-5">
                 <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10">
                     <div className="mb-10 flex flex-col md:flex-row md:items-center">
-                        <div class="md:text-left text-center md:mb-0 mb-4">
+                        <div className="md:text-left text-center md:mb-0 mb-4">
                             <h3 className="text-2xl sm:text-4xl  font-bold font-sans">Add Address</h3>
                             <p className=" font-sans text-base ">Edit your profile quickly</p>
                         </div>
@@ -203,8 +203,8 @@ export default function AddAddressScreen() {
                     </div>
 
                     <div className="md:ml-auto md:text-right text-center mt-20">
-                        <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-8 py-2.5 mr-2 mb-2 ">Cancel</button>
-                        <button type="button" onClick={saveAddress} class=" text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5 mr-2 mb-2 ">Save</button>
+                        <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-8 py-2.5 mr-2 mb-2 ">Cancel</button>
+                        <button type="button" onClick={saveAddress} className=" text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5 mr-2 mb-2 ">Save</button>
                     </div>
                 </div>
             </div>

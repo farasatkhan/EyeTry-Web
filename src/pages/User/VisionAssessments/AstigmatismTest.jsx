@@ -93,8 +93,8 @@ const AstigmatismTestScreen = () => {
                 </div>
 
                 <div className='mt-5 mx-auto flex justify-center space-x-3'>
-                    <button class="px-10 py-2 bg-gray-700 text-white rounded" onClick={() => handleAnswer(true)}>Yes</button>
-                    <button class=" px-10 py-2 bg-red-700 text-white rounded" onClick={() => handleAnswer(false)}>No</button>
+                    <button className="px-10 py-2 bg-gray-700 text-white rounded" onClick={() => handleAnswer(true)}>Yes</button>
+                    <button className=" px-10 py-2 bg-red-700 text-white rounded" onClick={() => handleAnswer(false)}>No</button>
                 </div>
             </div>
         );

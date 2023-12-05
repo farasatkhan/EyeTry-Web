@@ -43,7 +43,7 @@ export default function UploadTryonImagesScreen() {
             <div className="p-5  bg-white border border-gray-200 rounded-lg shadow w-[90%] mx-auto mb-5">
 
                 <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10">
-                    <div class=" text-center md:mb-0 mb-4">
+                    <div className=" text-center md:mb-0 mb-4">
                         <h3 className="text-2xl sm:text-4xl  font-bold font-sans">Upload Try On Image</h3>
                         <p className=" font-sans text-base mt-3">Manage Your Try-On Images</p>
                     </div>
@@ -52,7 +52,7 @@ export default function UploadTryonImagesScreen() {
 
                     <p className="text-base font-sans font-bold mt-10">PD - Pupillary Distance</p>
                     <div className="text-base font-sans font-semibold flex items-center ml-5 mt-2" >
-                        <label class="flex items-center">
+                        <label className="flex items-center">
                             <input
                                 type="radio"
                                 value="option1"
@@ -60,10 +60,10 @@ export default function UploadTryonImagesScreen() {
                                 onChange={handleOptionChange}
                                 className="w-4 h-4 mr-2"
                             />
-                            <span class="ml-2">Option 1</span>
+                            <span className="ml-2">Option 1</span>
                         </label>
 
-                        <label class="flex items-center ml-4">
+                        <label className="flex items-center ml-4">
                             <input
                                 type="radio"
                                 value="option2"
@@ -71,7 +71,7 @@ export default function UploadTryonImagesScreen() {
                                 onChange={handleOptionChange}
                                 className="w-4 h-4 mr-2"
                             />
-                            <span class="ml-2">Option 2</span>
+                            <span className="ml-2">Option 2</span>
                         </label>
                     </div>
 
@@ -79,9 +79,9 @@ export default function UploadTryonImagesScreen() {
                         <input id='email' className="block w-full sm:w-[80%] lg:w-[50%] pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
                         focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
                             sm:text-sm transition duration-150 ease-in-out" placeholder="Enter your pupillary distance" type="number" />
-                        <div class="ml-5">
-                            <p class="text-sm mb-1">Don't know your Pupillary Distance (PD)?</p>
-                            <button class="px-4 py-2 rounded inline-flex items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent">
+                        <div className="ml-5">
+                            <p className="text-sm mb-1">Don't know your Pupillary Distance (PD)?</p>
+                            <button className="px-4 py-2 rounded inline-flex items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent">
                                 <span>Find your IPD</span>
                             </button>
                         </div>
@@ -93,14 +93,14 @@ export default function UploadTryonImagesScreen() {
 
 
                     <div className="bg-white border border-gray-200 rounded-lg shadow mt-10 mx-auto mb-10">
-                        <div class="flex flex-col items-center justify-between w-full p-5 pt-7 sm:flex-row sm:items-center">
-                            <h2 class="mr-auto text-base font-sans text-normal tracking-tight text-gray-900 text-justify sm:w-auto sm:mr-5">Please make sure your face is straight and level
+                        <div className="flex flex-col items-center justify-between w-full p-5 pt-7 sm:flex-row sm:items-center">
+                            <h2 className="mr-auto text-base font-sans text-normal tracking-tight text-gray-900 text-justify sm:w-auto sm:mr-5">Please make sure your face is straight and level
                                 Use a photo <p>without glasses.
                                     Don’t tilt your head or use sideview
                                 </p>
                             </h2>
-                            <button class="py-2.5 px-4 rounded inline-flex items-center sm:ml-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent justify-end mt-5 sm:mt-0">
-                                <FaBookOpen size={20} class="mr-2" />
+                            <button className="py-2.5 px-4 rounded inline-flex items-center sm:ml-auto bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent justify-end mt-5 sm:mt-0">
+                                <FaBookOpen size={20} className="mr-2" />
                                 <span>Capture Image</span>
                             </button>
                         </div>

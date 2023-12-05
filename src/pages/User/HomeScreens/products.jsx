@@ -484,7 +484,7 @@ const Products = () => {
                         className="p-1 flex flex-wrap items-center justify-center mb-[500px]"
                     >
                         {filteredProducts.map((product) => (
-                            <div class="flex-shrink-0 m-6 relative overflow-hidden rounded-lg max-w-xs shadow-sm bg-white cursor-pointer">
+                            <div className="flex-shrink-0 m-6 relative overflow-hidden rounded-lg max-w-xs shadow-sm bg-white cursor-pointer">
                                 <div className="justify-center flex" onClick={() => handleNavigation(product._id)}>
                                     {productImage(
                                         product,
@@ -539,11 +539,11 @@ const Products = () => {
 
                                         <p className=" mt-[3px] text-lg font-sans text-black block capitalize whitespace-no-wrap overflow-hidden truncate">{product.name}</p>
                                         <div className="flex justify-between items-center">
-                                            {/* <p class="text-lg font-sans text-black truncate block capitalize">{product.name}</p> */}
-                                            <span class="mt-[4px]  mb-[4px] text-gray-400 font-sans uppercase text-sm whitespace-nowrap ">{product.manufacturer}</span>
+                                            {/* <p className="text-lg font-sans text-black truncate block capitalize">{product.name}</p> */}
+                                            <span className="mt-[4px]  mb-[4px] text-gray-400 font-sans uppercase text-sm whitespace-nowrap ">{product.manufacturer}</span>
                                         </div>
-                                        <div class="flex items-center mb-2">
-                                            <p class="text-lg font-semibold text-black cursor-auto">${product.priceInfo.price}</p>
+                                        <div className="flex items-center mb-2">
+                                            <p className="text-lg font-semibold text-black cursor-auto">${product.priceInfo.price}</p>
                                             <del>
                                                 <p className="text-sm text-gray-600 cursor-auto ml-2">${cutPrice(product.priceInfo.price, product.discount)}</p>
                                             </del>

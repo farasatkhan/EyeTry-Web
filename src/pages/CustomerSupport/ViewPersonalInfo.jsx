@@ -10,23 +10,23 @@ const ViewPersonalInfo = () => {
     const [email, setEmail] = React.useState('')
 
     return (
-        <div class="flex items-center justify-center h-screen">
+        <div className="flex items-center justify-center h-screen">
             <div className="bg-white border border-gray-200 rounded-lg shadow w-[80%]  md:w-[65%] mx-auto mb-10">
                 <div className="flex flex-row mt-5">
                     <div className="left-0 pl-3 flex items-center pointer-events-none">
                         <BiEdit size={30} className="mr-5 pb-1" />
                     </div>
-                    <div class="flex items-center justify-between w-full">
-                        <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900">Personal Information</h2>
-                        <Link to='/user/my_details'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                    <div className="flex items-center justify-between w-full">
+                        <h2 className="mr-auto text-xl font-bold tracking-tight text-gray-900">Personal Information</h2>
+                        <Link to='/user/my_details'><button className="py-1 px-4 rounded inline-flex items-center ml-auto
          bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
          hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                            <BiEdit size={20} class="mr-2" />
+                            <BiEdit size={20} className="mr-2" />
                             <span>Edit</span>
                         </button></Link>
                     </div>
                 </div>
-                <hr class="border-3 border-gray-300 my-4" />
+                <hr className="border-3 border-gray-300 my-4" />
                 <div className="p-5">
                     <div className="flex flex-row space-x-4">
                         <div className="flex-grow">

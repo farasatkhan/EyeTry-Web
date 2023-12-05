@@ -19,7 +19,7 @@ export default function DeleteAccountScreen() {
 
         <div className="w-[100%] md:w-[70%] lg:w-[60%] mx-auto mt-10">
           <div className="mb-10 flex flex-col md:flex-row md:items-center">
-            <div class="md:text-left text-center md:mb-0 mb-4">
+            <div className="md:text-left text-center md:mb-0 mb-4">
               <h3 className="text-2xl sm:text-3xl font-semibold font-sans">Delete Account</h3>
               <p className=" font-sans text-base ">Account can not be recovered once deleted</p>
             </div>

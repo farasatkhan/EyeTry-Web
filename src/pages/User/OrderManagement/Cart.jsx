@@ -44,7 +44,9 @@ const Cart = () => {
 
   const dispatch = useDispatch();
 
-  dispatch(updatedCartItemsNumber(cartItems.length));
+  useEffect(() => {
+    dispatch(updatedCartItemsNumber(cartItems.length));
+  }, [dispatch, cartItems.length]);
 
 
   // getting address book
@@ -116,7 +118,7 @@ const Cart = () => {
   const getLocalStorageCartItems = () => {
     const storedCartItems = JSON.parse(localStorage.getItem('cart'));
     setCartItems(storedCartItems);
-    console.log("cart screen data", storedCartItems);
+    // console.log("cart screen data", storedCartItems);
     if (storedCartItems.length === 0) {
       setShippingPrice(0)
       setDiscount(0)
@@ -291,7 +293,7 @@ const Cart = () => {
     if (storedProductData) {
       setProductData(JSON.parse(storedProductData));
     }
-    console.log("product data", JSON.stringify(productData, null, 2));
+    // console.log("product data", JSON.stringify(productData, null, 2));
   }, []);
 
 
@@ -447,7 +449,7 @@ const Cart = () => {
             {cartItems && cartItems.length > 0 ?
               (
                 cartItems.map((item, index) => (
-                  <div className="justify-between mb-6 rounded-lg bg-white cursor-pointer p-6 shadow-md sm:flex sm:justify-start">
+                  <div key={index} className="justify-between mb-6 rounded-lg bg-white cursor-pointer p-6 shadow-md sm:flex sm:justify-start">
 
                     <img
                       onClick={() => navigate(`/product_details/${item.productData._id}`)}
@@ -510,15 +512,12 @@ const Cart = () => {
 
                           <div className='h-8 border bg-white text-center text-xs outline-none'
                             style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <input
-                              type="number"
-                              value={productQuantities[`${item.productData._id}_${item.productData.frame_information
+                            <div style={{ marginLeft: 12, border: 'none', width: 40, background: 'none', outline: 'none', textAlign: 'center', fontSize: '14px' }}
+                            >
+                              {productQuantities[`${item.productData._id}_${item.productData.frame_information
                                 .frame_variants.find((v) => v.color === item.orderSelections.selectedOptions
                                   .frameProperties.frameColor)._id}_${item.orderSelections.selectedOptions.cartItemId}`]}
-                              min="1"
-                              readOnly
-                              style={{ marginLeft: 12, border: 'none', width: 40, background: 'none', outline: 'none', textAlign: 'center', fontSize: '14px' }}
-                            />
+                            </div>
                           </div>
 
 
@@ -565,13 +564,13 @@ const Cart = () => {
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
                               viewBox="0 0 24 24"
-                              stroke-width="1.5"
+                              strokeWidth="1.5"
                               stroke="currentColor"
                               className="h-5 w-5 cursor-pointer duration-150 hover:text-red-500"
                             >
                               <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                                 d="M6 18L18 6M6 6l12 12"
                               />
                             </svg>
@@ -805,24 +804,24 @@ const Cart = () => {
                       addresses.length > 0 ? (
                         <></>
                       ) : (
-                    <div className=" py-4 text-right">
-                      <Link to={addressRoute} state={{ from: '/user/cart' }} >
-                        <button className="py-1 px-4 rounded inline-flex items-center ml-auto
+                        <div className=" py-4 text-right">
+                          <Link to={addressRoute} state={{ from: '/user/cart' }} >
+                            <button className="py-1 px-4 rounded inline-flex items-center ml-auto
                                                 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                                                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                          <BiEdit size={20} className="mr-2" />
-                          <span>{addressBtnText}</span>
-                        </button>
-                      </Link>
-                      {addresses.length > 0 &&
-                        <button onClick={() => deleteSpecificAddress(addresses[0]._id)} className="py-1 px-4 rounded inline-flex items-center ml-auto
+                              <BiEdit size={20} className="mr-2" />
+                              <span>{addressBtnText}</span>
+                            </button>
+                          </Link>
+                          {addresses.length > 0 &&
+                            <button onClick={() => deleteSpecificAddress(addresses[0]._id)} className="py-1 px-4 rounded inline-flex items-center ml-auto
                                                 bg-transparent hover:bg-red-500 text-red-700 font-semibold 
                                                  hover:text-white border border-red-500 hover:border-transparent justify-end mr-5">
-                          <MdDelete size={20} className="mr-2" />
-                          <span>Delete</span>
-                        </button>
-                      }
-                    </div>
+                              <MdDelete size={20} className="mr-2" />
+                              <span>Delete</span>
+                            </button>
+                          }
+                        </div>
                       )
                     }
                   </div>
@@ -840,12 +839,12 @@ const Cart = () => {
                   <div className="left-0 pl-3 flex items-center pointer-events-none">
                     <BiEdit size={30} className="mr-5 pb-1" />
                   </div>
-                  <div class="flex items-center justify-between w-full">
-                    <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900">Giftcard / Add Coupen</h2>
-                    {/* <Link to='/user/giftcards'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                  <div className="flex items-center justify-between w-full">
+                    <h2 className="mr-auto text-xl font-bold tracking-tight text-gray-900">Giftcard / Add Coupen</h2>
+                    {/* <Link to='/user/giftcards'><button className="py-1 px-4 rounded inline-flex items-center ml-auto
                  bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
                  hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
-                            <BiEdit size={20} class="mr-2" />
+                            <BiEdit size={20} className="mr-2" />
                             <span>Buy Gift Cards</span>
                         </button></Link> */}
                   </div>

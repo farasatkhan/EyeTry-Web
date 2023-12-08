@@ -21,43 +21,43 @@ export default function SelectLensTypeComponentProp({ selectedOptions, onConfirm
     const navigate = useNavigate();
 
     const handleAddToCart = async () => {
-      dispatch(updateSelectedOptions({
-        "id": id,
-      }));
-    
-      try {
-        const productData = await viewParticularProduct(id);
-        
-        if (productData) {
-          console.log("review screen fetched product data", JSON.stringify(productData, null, 2));
-    
-          // Retrieve the existing cart data from local storage or initialize an empty array
-          const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-          // Create a combined object with 'orderSelections' and 'productData'
-          const combinedObject = {
-            orderSelections: orderSelections,
-            productData: productData // Assuming 'productData' is an object
-          };
-    
-          // Push the combined object into the cart data array
-          existingCart.push(combinedObject);
-    
-          // Update the cart data in local storage
-          localStorage.setItem('cart', JSON.stringify(existingCart));
-    
-          // You can also log the updated cart data
-          console.log("Updated cart data in local storage:", JSON.stringify(existingCart, null, 2));
+        dispatch(updateSelectedOptions({
+            "id": id,
+        }));
+
+        try {
+            const productData = await viewParticularProduct(id);
+
+            if (productData) {
+                //   console.log("review screen fetched product data", JSON.stringify(productData, null, 2));
+
+                // Retrieve the existing cart data from local storage or initialize an empty array
+                const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                // Create a combined object with 'orderSelections' and 'productData'
+                const combinedObject = {
+                    orderSelections: orderSelections,
+                    productData: productData // Assuming 'productData' is an object
+                };
+
+                // Push the combined object into the cart data array
+                existingCart.push(combinedObject);
+
+                // Update the cart data in local storage
+                localStorage.setItem('cart', JSON.stringify(existingCart));
+
+                // You can also log the updated cart data
+                console.log("Updated cart data in local storage:", JSON.stringify(existingCart, null, 2));
+            }
+        } catch (error) {
+            throw error;
         }
-      } catch (error) {
-        throw error;
-      }
-    
-      navigate('/cart');
+
+        navigate('/cart');
     }
-    
-    
-    
+
+
+
 
     return (
         <div className="w-full">
@@ -69,23 +69,24 @@ export default function SelectLensTypeComponentProp({ selectedOptions, onConfirm
                     <div className="flex flex-row">
                         <div className="rounded-l-sm w-[20%] flex justify-center items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="transparent" stroke-width="1.5"
-                             viewBox="0 0 44 31" className="summaryInfoRow__icon___3Y-el"><path stroke="currentColor" stroke-linecap="round"
-                              stroke-linejoin="round" d="M18.684 21.137c0 4.896-3.96 8.86-8.843 8.86-4.884 0-8.84-3.964-8.84-8.86 0-4.895 
+                                viewBox="0 0 44 31" className="summaryInfoRow__icon___3Y-el"><path stroke="currentColor" strokeLinecap="round"
+                                strokeLinejoin="round" d="M18.684 21.137c0 4.896-3.96 8.86-8.843 8.86-4.884 0-8.84-3.964-8.84-8.86 0-4.895 
                               3.956-8.86 8.84-8.86s8.843 3.965 8.843 8.86Zm0 0A3.32 3.32 0 0 1 22 17.814a3.322 3.322 0 0 1 3.315 3.323m0 
                               0c0 4.896 3.957 8.86 8.842 8.86 4.884 0 8.843-3.964 8.843-8.86 0-4.895-3.96-8.86-8.843-8.86-4.885 0-8.842 
                               3.965-8.842 8.86ZM1 20.937V4.324A3.32 3.32 0 0 1 4.315 1m38.684 19.937V4.324A3.324 3.324 0 0 0 39.683 1">
-                                </path></svg>
+                                </path>
+                            </svg>
                         </div>
                         <div className="rounded-r-sm w-[80%] p-5">
                             <h3 className="text-md font-semibold">Frame</h3>
                             <p className="text-sm font-sans">Prada PR 10YV, Brown / Tortoise, Medium  (<span className="line-through">+$468</span> +$421)</p>
                         </div>
-                    </div>
+                    </div>ke-linejoin
                     <hr></hr>
                     <div className="flex flex-row">
                         <div className="rounded-l-sm w-[20%] flex justify-center items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" stroke-width="1.5" viewBox="0 0 32 26" 
-                            className="summaryInfoRow__icon___3Y-el"><path stroke="currentColor" stroke-linecap="round" d="m11.5 10.97 3.47-3.47m3.06 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" stroke-width="1.5" viewBox="0 0 32 26"
+                                className="summaryInfoRow__icon___3Y-el"><path stroke="currentColor" strokeLinecap="round" d="m11.5 10.97 3.47-3.47m3.06 
                             10 3.47-3.47m-9.18 2.65L20.4 8.6m6.45 12.12c2.9-3.09 3.98-7.58 3.4-11.7-.53-3.58-3.67-5.65-6.84-6.73C17.4.1 5.36.4 2.4 
                             5.7-.68 11.34 5.31 25 16.51 25c4.08-.03 6.6-1.1 9-3.03l-.42.3c.63-.47 1.24-.97 1.76-1.55Z"></path></svg></div>
                         <div className="rounded-r-sm w-[80%] p-5">
@@ -99,10 +100,10 @@ export default function SelectLensTypeComponentProp({ selectedOptions, onConfirm
                     <div className="flex flex-row">
                         <div className="rounded-l-sm w-[20%] flex justify-center items-center">
                             <svg fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 30 30" stroke-width="1.5"
-                             className="summaryInfoRow__icon___3Y-el"><circle cx="15" cy="15" r="14" fill="#fff" stroke="#0F0F0F" stroke-width="1.5"
-                              stroke-linecap="round" stroke-linejoin="round"></circle><path d="m20.732 14.997-5.727-6.364-5.728 6.364" 
-                              stroke="#0F0F0F" stroke-width="1.5" stroke-linejoin="round"></path><path stroke="#000" stroke-width="1.5" 
-                              d="M15.117 8.633v12.728"></path></svg></div>
+                                className="summaryInfoRow__icon___3Y-el"><circle cx="15" cy="15" r="14" fill="#fff" stroke="#0F0F0F" stroke-width="1.5"
+                                strokeLinecap="round" strokeLinejoin="round"></circle><path d="m20.732 14.997-5.727-6.364-5.728 6.364"
+                                        stroke="#0F0F0F" stroke-width="1.5" strokeLinejoin="round"></path><path stroke="#000" stroke-width="1.5"
+                                            d="M15.117 8.633v12.728"></path></svg></div>
                         <div className="rounded-r-sm w-[80%] h-full p-5">
                             <h3 className="text-md font-semibold">Upgrades</h3>
                             <p className="text-sm font-sans">Prada PR 10YV, Brown / Tortoise, Medium (<span className="line-through">+$468</span> +$421)</p>

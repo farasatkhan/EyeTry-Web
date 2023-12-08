@@ -11,7 +11,7 @@ export const viewProductsList = async () => {
                 Authorization: `Bearer ${accessToken}`
             }
         });
-        console.log("Response ", response?.data || "Not Modified 304 ")
+        // console.log("Response ", response?.data || "Not Modified 304 ")
         return response?.data;
     }
     catch (error) {
@@ -69,7 +69,7 @@ export const viewParticularProduct = async (glassesId) => {
                 Authorization: `Bearer ${accessToken}`
             }
         });
-        console.log("Response ", response?.data || "Not Modified 304 ")
+        // console.log("Response ", response?.data || "Not Modified 304 ")
         return response?.data;
     }
     catch (error) {
@@ -188,7 +188,7 @@ export const viewAllOrders = async (userId) => {
                 Authorization: `Bearer ${accessToken}`
             },
         });
-        console.log("Response :", response.data)
+        // console.log("Response :", response.data)
         return response;
     }
     catch (error) {
@@ -218,7 +218,7 @@ export const getStripeApiKey = async () => {
                 Authorization: `Bearer ${accessToken}`
             },
         });
-        console.log("Response :", response.data)
+        // console.log("Response :", response.data)
         return response;
     }
     catch (error) {
@@ -246,7 +246,7 @@ export const processPayment = async () => {
                 Authorization: `Bearer ${accessToken}`
             },
         });
-        console.log("Response :", response.data)
+        // console.log("Response :", response.data)
         return response;
     }
     catch (error) {

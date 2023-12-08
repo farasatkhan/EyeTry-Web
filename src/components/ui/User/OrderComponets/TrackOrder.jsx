@@ -98,7 +98,7 @@ export default function CustomPaginationActionsTable() {
     // getting userId
     const userIdString = localStorage.getItem('userID')
     const userID = JSON.parse(userIdString)
-    console.log(userID)
+    // console.log(userID)
 
     // getting orders data 
 
@@ -112,7 +112,7 @@ export default function CustomPaginationActionsTable() {
         try {
             const orders = await viewAllOrders(userID)
             setOrdersData(orders.data.orders)
-            console.log("orders Data: ", orders.data)
+            // console.log("orders Data: ", orders.data)
         } catch (error) {
             console.log(error)
         }

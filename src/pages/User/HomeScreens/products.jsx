@@ -567,8 +567,8 @@ const Products = () => {
                         data-aos-duration="1000"
                         className="p-1 flex flex-wrap items-center justify-center mb-[500px]"
                     >
-                        {filteredProducts.map((product) => (
-                            <div className="flex-shrink-0 m-6 relative overflow-hidden rounded-lg max-w-xs shadow-sm bg-white cursor-pointer">
+                        {filteredProducts.map((product, index) => (
+                            <div key={index} className="flex-shrink-0 m-6 relative overflow-hidden rounded-lg max-w-xs shadow-sm bg-white cursor-pointer">
                                 <div className="justify-center flex" onClick={() => handleNavigation(product._id)}>
                                     {productImage(
                                         product,
@@ -585,8 +585,9 @@ const Products = () => {
                                             product.frame_information.frame_variants ? (
                                             <>
                                                 <div className="flex mt-2 h-6 items-center">
-                                                    {product.frame_information.frame_variants.map((variant) => (
+                                                    {product.frame_information.frame_variants.map((variant, index) => (
                                                              <div
+                                                             key={index}
                                                              className={`border-grey rounded-full  mr-2 ${selectedColorsFeatured[product._id] === variant.color
                                                                ? 'border-[2px] bg-blue-900'
                                                                : ''
@@ -612,7 +613,7 @@ const Products = () => {
                                     <div onClick={() => handleNavigation(product._id)} className="product-rating font-bold text-base text-[#FAAF00] justify-between flex mx-auto mt-[5px]">
                                         <Rating
                                             name={`rating-${product._id}`}
-                                            value={productRatings[product._id] || 0}
+                                            value={parseFloat(productRatings[product._id]) || 0}
                                             readOnly
                                             precision={0.1}
                                             emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}

@@ -283,7 +283,7 @@ export const addPrescription = async (prescriptionData) => {
                 Authorization: `Bearer ${accessToken}`
             },
         });
-        console.log("Response :", response)
+        // console.log("Response :", response)
         return response;
     }
     catch (error) {
@@ -341,7 +341,7 @@ export const viewAllPrescriptions = async () => {
                 Authorization: `Bearer ${accessToken}`
             },
         });
-        console.log("All Prescriptions ", response?.data)
+        // console.log("All Prescriptions ", response?.data)
         return response?.data; // incase server return 304 
     }
     catch (error) {
@@ -465,7 +465,7 @@ export const viewAllPayments = async () => {
                 Authorization: `Bearer ${accessToken}`
             },
         });
-        console.log("All Payments ", response?.data)
+        // console.log("All Payments ", response?.data)
         return response?.data; // incase server return 304 
     }
     catch (error) {
@@ -633,7 +633,7 @@ export const viewProfileImage = async () => {
                 Authorization: `Bearer ${accessToken}`
             }
         });
-        console.log("Response ", response?.data || "Not Modified 304 ")
+        // console.log("Response ", response?.data || "Not Modified 304 ")
         return response?.data;
     }
     catch (error) {

@@ -36,7 +36,6 @@ export default function ProfileHomeScreen() {
         getProfileData()
         getPaymentData()
         getPrescriptionsData()
-        getSpecificPrescriptionsData()
     }, [])
 
     const getProfileData = async () => {
@@ -102,18 +101,7 @@ export default function ProfileHomeScreen() {
         try {
             const response = await viewAllPrescriptions()
             setPrescriptions(response)
-            console.log("prescriptions: " + prescriptions)
-        }
-        catch (e) {
-            throw e
-        }
-    }
-    // managing prescriptions
-    const getSpecificPrescriptionsData = async () => {
-        try {
-            const response = await viewSpecificPrescriptions()
-            // setPrescriptions(response)
-            console.log("Specific prescriptions: " + response)
+            // console.log("prescriptions: " + prescriptions)
         }
         catch (e) {
             throw e
@@ -160,7 +148,7 @@ export default function ProfileHomeScreen() {
                 <div className="p-5">
                     <div className="flex flex-row space-x-4">
                         <div className="flex-grow">
-                            <label for="firstname" className="block text-sm font-semibold text-gray-800 font-sans">First Name</label>
+                            <label htmlFor="firstname" className="block text-sm font-semibold text-gray-800 font-sans">First Name</label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <FaUser color='grey' />
@@ -171,7 +159,7 @@ export default function ProfileHomeScreen() {
                             </div>
                         </div>
                         <div className="flex-grow">
-                            <label for="lastname" className="block text-sm font-semibold text-gray-800 font-sans">Last Name</label>
+                            <label htmlFor="lastname" className="block text-sm font-semibold text-gray-800 font-sans">Last Name</label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <FaUser color='grey' />
@@ -184,7 +172,7 @@ export default function ProfileHomeScreen() {
                     </div>
 
 
-                    <label id="profile-section" ref={profileRef} for="email" className="block text-sm mt-5 font-semibold text-gray-800 font-sans">Email</label>
+                    <label id="profile-section" ref={profileRef} htmlFor="email" className="block text-sm mt-5 font-semibold text-gray-800 font-sans">Email</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <FaRegEnvelope color='grey' />
@@ -306,8 +294,8 @@ export default function ProfileHomeScreen() {
 
                                     <tbody>
                                         {
-                                            addresses.map((address) => (
-                                                <tr className="bg-white border-b hover:bg-gray-50">
+                                            addresses.map((address, index) => (
+                                                <tr key={index} className="bg-white border-b hover:bg-gray-50">
                                                     <td className="px-6 py-4 text-base font-sans">
                                                         <h5 className="font-bold text-black mb-2">{address.firstName}</h5>
                                                         <p className="font-semibold text-base font-sans">This is your default delivery address</p>
@@ -367,8 +355,8 @@ export default function ProfileHomeScreen() {
 
                             <tbody>
                                 {
-                                    payments.map((payment) => (
-                                        <tr className="bg-white border-b">
+                                    payments.map((payment, index) => (
+                                        <tr key={index} className="bg-white border-b">
 
                                             <td className="px-6 py-4 text-base">
                                                 <h5 className=" font-bold text-black">{payment.nameOnCard}</h5>

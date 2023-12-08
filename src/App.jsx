@@ -104,7 +104,7 @@ function App() {
   const getStripeApiKeyData = async () => {
     const { data } = await getStripeApiKey()
     setStripeApiKey(data.stripeApiKey)
-    console.log(data.stripeApiKey)
+    // console.log(data.stripeApiKey)
   }
 
 

@@ -171,14 +171,12 @@ export default function PersistentDrawerLeft() {
   const [activeFilter, setActiveFilter] = useState(null);
   const handleFilterHover = (filterName) => {
     setActiveFilter(filterName);
-    console.log("handleFilterHover called")
   };
 
   const handleFilterLeave = (filterName) => {
     if (filterName === "Face Shape")
       setActiveFilter(filterName);
     else setActiveFilter(null)
-    console.log("handleFilterLeave called")
 
   };
 
@@ -409,11 +407,11 @@ export default function PersistentDrawerLeft() {
               </Button>
             </React.Fragment>
           ))} */}
-                {pages.map((filter) => (
-                  <React.Fragment key={filter}>
+                {pages.map((filter, index) => (
+                  <React.Fragment key={index}>
 
                     <div
-                      key={filter}
+                      // key={filter}
                       className="relative group cursor-pointer "
                       onMouseEnter={() => handleFilterHover(filter)}
                       onMouseLeave={() => handleFilterLeave(filter)}
@@ -428,7 +426,7 @@ export default function PersistentDrawerLeft() {
                             fontSize: { md: '12px', lg: '12px' },
                           }}
                         >
-                          {filter}               
+                          {filter}
 
                         </Button>
                       </div>
@@ -455,13 +453,12 @@ export default function PersistentDrawerLeft() {
           >
             <MenuItem onClick={handleClose}>Option 1</MenuItem>
             <MenuItem onClick={handleClose}>Option 2</MenuItem>
-            <MenuItem onClick={handleClose}>Option 3</MenuItem>
+            <MenuItem onClick={handleClose}>
+            Option 3</MenuItem>
           </Menu> */}
               </Box>
             </Hidden>
           </div>
-          <eyeglassesNavLink
-          />
           <Autocomplete
             className='w-[200px] mr-auto ml-5'
             size='small'
@@ -470,7 +467,7 @@ export default function PersistentDrawerLeft() {
             disableClearable
             options={productsList}
             getOptionLabel={(option) => option.name}
-            getOptionSelected={(option, value) => option.id === value.id}
+            // getOptionSelected={(option, value) => option.id === value.id}
             onChange={handleSearchOptionClick}
             renderInput={(params) => (
               <TextField
@@ -513,8 +510,10 @@ export default function PersistentDrawerLeft() {
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src={profilePic} />
-                  <p className='text-sm ml-2 whitespace-nowrap hidden sm:inline-block'>Hi, Welcome<p className='font-black'>{firstName} {lastName}</p></p>
-                  <image alt="user-profile-pic" src={ellipse} width={50} height={50} />
+                  <div className='text-sm ml-2 whitespace-nowrap hidden sm:inline-block'>
+                    Hi, Welcome
+                    <p className='font-black'>{firstName} {lastName}</p>
+                  </div>
                 </IconButton>
               </Tooltip>
               <Menu
@@ -533,8 +532,8 @@ export default function PersistentDrawerLeft() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
+                {settings.map((setting, index) => (
+                  <MenuItem key={index} onClick={() => handleCloseUserMenu(setting)}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}

@@ -33,8 +33,8 @@ export default function SelectLensTypeScreen({ rating }) {
     const dispatch = useDispatch();
     // review states
     const [hideReviewBox, setHideReviewBox] = useState(true)
-    const [reviewTitle, setReviewTitle] = useState(null)
-    const [reviewDescription, setReviewDescription] = useState(null)
+    const [reviewTitle, setReviewTitle] = useState("")
+    const [reviewDescription, setReviewDescription] = useState("")
     const [value, setValue] = useState(3);
     const [hover, setHover] = useState(-1);
     const [userHasOrderedProduct, setUserHasOrderedProduct] = useState(false)
@@ -82,7 +82,7 @@ export default function SelectLensTypeScreen({ rating }) {
             try {
                 const response = await viewAllReviews(id);
                 setReviews(response.data);
-                console.log("reviewsData: ", response.data);
+                // console.log("reviewsData: ", response.data);
 
                 // Calculate average reviews
                 if (response.data && response.data.length > 0) {
@@ -103,15 +103,15 @@ export default function SelectLensTypeScreen({ rating }) {
     // getting user ID from local storage
     const userString = localStorage.getItem('userID')
     const userID = JSON.parse(userString)
-    console.log("userID: " + userID)
+    // console.log("userID: " + userID)
 
     useEffect(() => {
 
         const fetchOrders = async () => {
             try {
                 const response = await viewAllOrders(userID);
-                console.log("Orders list retrieved Successfully!");
-                console.log("Order Data: ", response.data.orders);
+                // console.log("Orders list retrieved Successfully!");
+                // console.log("Order Data: ", response.data.orders);
                 setOrders(response.data.orders)
             } catch (e) {
                 console.error(e);
@@ -220,12 +220,12 @@ export default function SelectLensTypeScreen({ rating }) {
                         setActiveColor(defaultColor);
                         setActiveImages(absoluteImages);
                         setActiveImg(absoluteImages[0]);
-                        console.log("default activeColor" + activeColor)
+                        // console.log("default activeColor" + activeColor)
                     }
 
                     // try on 
                     setSkuModel(fetchedGlasses.sku_model)
-                    console.log("product sku: " + typeof (`${fetchedGlasses.sku_model}`))
+                    // console.log("product sku: " + typeof (`${fetchedGlasses.sku_model}`))
                 }
                 fetchData();
             } catch (error) {
@@ -406,7 +406,7 @@ export default function SelectLensTypeScreen({ rating }) {
                             <div className="flex mt-3">
                                 {product && frameColors ? (
                                     frameColors.map((color, index) => (
-                                        <div className={`${activeColor === color ? 'border-black rounded-full border-2 mr-2' : "mr-2"} `}>
+                                        <div key={index} className={`${activeColor === color ? 'border-black rounded-full border-2 mr-2' : "mr-2"} `}>
                                             <div
                                                 key={index}
                                                 className={`h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
@@ -543,84 +543,63 @@ export default function SelectLensTypeScreen({ rating }) {
                             {
                                 product && product.frame_information && product.lens_information && product.person_information ? (
                                     <table className="text-md mt-4">
-                                        <tbody>
-                                            <div className=" flex-col flex md:flex-row space-x-10">
-                                                <div>
-                                                    <tr>
-                                                        <td className="font-semibold">Frame Material:</td>
-                                                        <td>
-                                                            {product.frame_information.frame_material.join(', ')}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td className="font-semibold">Frame Size:</td>
-                                                        <td>
-                                                            {product.frame_information.frame_size.join(', ')}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td className="font-semibold">Lens Material:</td>
-                                                        <td>
-                                                            {product.lens_information.measurement_type}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td className="font-semibold">Lens Width:</td>
-                                                        <td>
-                                                            {product.lens_information.lens_width} mm
-                                                        </td>
-                                                    </tr>
-                                                </div>
-                                                <div>
-                                                    <tr>
-                                                        <td className="font-semibold">Lens Height:</td>
-                                                        <td>
-                                                            {product.lens_information.lens_height} mm
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td className="font-semibold">Total Width:</td>
-                                                        <td>
-                                                            {product.lens_information.total_width} mm
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td className="font-semibold">Bridge Width:</td>
-                                                        <td>
-                                                            {product.lens_information.bridge_width} mm
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td className="font-semibold">Temple Length:</td>
-                                                        <td>
-                                                            {product.lens_information.temple_length} mm
-                                                        </td>
-                                                    </tr>
-                                                </div>
-                                                <div>
-                                                    <tr>
-                                                        <td className="font-semibold">Is Multifocal:</td>
-                                                        <td>
-                                                            {product.lens_information.is_multifocal ? 'Yes' : 'No'}
-                                                        </td>
-                                                    </tr>
-                                                    {/* Add more lens properties as needed... */}
-                                                    <tr>
-                                                        <td className="font-semibold">Face Shape:</td>
-                                                        <td>
-                                                            {product.person_information.face_shape.join(', ')}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td className="font-semibold">Genders:</td>
-                                                        <td>
-                                                            {product.person_information.genders.join(', ')}
-                                                        </td>
-                                                    </tr>
-                                                </div>
-                                            </div>
-                                        </tbody>
-                                    </table>
+                                    <tbody>
+                                        <tr className="flex-col flex md:flex-row space-x-10">
+                                            <td>
+                                                <tr>
+                                                    <td className="font-semibold">Frame Material:</td>
+                                                    <td>{product.frame_information.frame_material.join(', ')}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="font-semibold">Frame Size:</td>
+                                                    <td>{product.frame_information.frame_size.join(', ')}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="font-semibold">Lens Material:</td>
+                                                    <td>{product.lens_information.measurement_type}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="font-semibold">Lens Width:</td>
+                                                    <td>{product.lens_information.lens_width} mm</td>
+                                                </tr>
+                                            </td>
+                                            <td>
+                                                <tr>
+                                                    <td className="font-semibold">Lens Height:</td>
+                                                    <td>{product.lens_information.lens_height} mm</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="font-semibold">Total Width:</td>
+                                                    <td>{product.lens_information.total_width} mm</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="font-semibold">Bridge Width:</td>
+                                                    <td>{product.lens_information.bridge_width} mm</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="font-semibold">Temple Length:</td>
+                                                    <td>{product.lens_information.temple_length} mm</td>
+                                                </tr>
+                                            </td>
+                                            <td>
+                                                <tr>
+                                                    <td className="font-semibold">Is Multifocal:</td>
+                                                    <td>{product.lens_information.is_multifocal ? 'Yes' : 'No'}</td>
+                                                </tr>
+                                                {/* Add more lens properties as needed... */}
+                                                <tr>
+                                                    <td className="font-semibold">Face Shape:</td>
+                                                    <td>{product.person_information.face_shape.join(', ')}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="font-semibold">Genders:</td>
+                                                    <td>{product.person_information.genders.join(', ')}</td>
+                                                </tr>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
                                 ) : (
                                     <p className="mt-5 text-blue-400 cursor-pointer">
                                         Frame Measurements (Loading...)
@@ -742,7 +721,7 @@ export default function SelectLensTypeScreen({ rating }) {
                 {/* customers reviews */}
                 <div className="w-[80%] mx-auto mb-20">
                     {reviews.slice(0, visibleReviewsCount).map((review, index) => (
-                        <div className="mt-5">
+                        <div key={index} className="mt-5">
                             <div className="flex items-center space-x-3">
                                 {
                                     review.user.profilePicture ?

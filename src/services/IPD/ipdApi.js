@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const flaskAPIURL = 'http://localhost:5001'
+const flaskAPIURL = 'http://localhost:5004'
 // Send User Image to IPD Measurement EndPoint
 
 // export const sendImageToIPDServer = async (file) => {

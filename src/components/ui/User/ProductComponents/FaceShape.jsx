@@ -11,6 +11,7 @@ const shapeFilter = ({ selectedShape, onShapeSelect }) => {
     "Heart-Shaped",
     "Diamond",
     "Rectangle/Long",
+    "Oblong",
   ];
 
   const handleShapeClick = (shape) => {

@@ -33,23 +33,23 @@ export default () => {
   const exclusiveFeatures = [
     {
       imageUrl: faceShapeAnalysis,
-      text: 'Face Shape Analysis', 
+      text: 'Face Shape Analysis',
       info: 'Our frame finder feature uses advanced facial recognition technology to analyze your unique facial features and suggest the best eyeglass frames for your face shape. By simply uploading a photo of yourself, our system can identify key features and recommend frames that will complement your unique facial structure. '
     },
     {
       imageUrl: ipdMeasurement,
-      text: 'IPD Measurement', 
+      text: 'IPD Measurement',
       info: 'Your IPD is a key factor in achieving optimal vision through your eyeglasses. An incorrect IPD measurement can lead to discomfort, headaches, and distorted vision. Our technology ensures that your IPD is taken into account, so the eyeglass frames we recommend aesthetically pleasing, functional and enhancing your visual experience.'
     },
     {
       imageUrl: virtualTryOn,
-      text: 'Virtual Try-On', 
+      text: 'Virtual Try-On',
       info: 'Our visual assessment feature is designed to help you assess your vision and determine whether you need glasses or a new prescription. Using a series of simple and intuitive tests, our system measures your visual acuity, color vision, depth perception, and other key factors that contribute to good vision. '
 
     },
     {
       imageUrl: vissionAssessments,
-      text: 'Vision Assessments', 
+      text: 'Vision Assessments',
       info: 'Our visual assessment feature is designed to help you assess your vision and determine whether you need glasses or a new prescription. Using a series of simple and intuitive tests, our system measures your visual acuity, color vision, depth perception, and other key factors that contribute to good vision. '
     },
   ];
@@ -195,7 +195,6 @@ export default () => {
 
   const navigate = useNavigate();
   const handleNavigation = (id) => {
-    console.log(id)
     navigate(`/product_details/${id}`);
   };
 
@@ -213,16 +212,16 @@ export default () => {
     }
   };
 
-    // handle navigations
+  // handle navigations
 
   const handleNavigate = (page) => {
     navigate(`/products/${page}`)
   }
-  
+
   const cutPrice = (price, discount) => {
     return (price - (price * discount) / 100).toFixed()
   }
-  
+
   const items = [
     {
       imageUrl: banner1,
@@ -237,16 +236,16 @@ export default () => {
     //   imageUrl: banner4,
     // },
   ];
-  
+
   // handleBannerNavigation
   const handleBannerNavigation = (item) => {
-    if (item.imageUrl === banner2){
+    if (item.imageUrl === banner2) {
       navigate('/products/Sunglasses')
     }
-    else if (item.imageUrl === banner3){
+    else if (item.imageUrl === banner3) {
       navigate('/products/Eyeglasses')
     }
-    else if (item.imageUrl === banner1){
+    else if (item.imageUrl === banner1) {
       navigate('/products/all_products')
     }
   }
@@ -258,14 +257,13 @@ export default () => {
         <Splide
           className="cursor-pointer bg-black"
           options={{
-            type: 'fade',
             heightRatio: 0.5,
             cover: true,
             lazyLoad: 'nearby',
             height: '500px',
             type: 'loop',
-            autoplay: true, 
-            interval: 2500, 
+            autoplay: true,
+            interval: 2500,
             breakpoints: {
               900: {
 
@@ -283,8 +281,8 @@ export default () => {
           }}
         >
           {items.map((item, i) => (
-            <SplideSlide onClick={() => handleBannerNavigation(item)}>
-              <img  className="object-contain" src={item.imageUrl} loading="lazy" alt={`Image ${i + 1}`} />
+            <SplideSlide key={i} onClick={() => handleBannerNavigation(item)}>
+              <img className="object-contain" src={item.imageUrl} loading="lazy" alt={`Image ${i + 1}`} />
             </SplideSlide>
           ))}
         </Splide>
@@ -351,8 +349,9 @@ export default () => {
                           product.frame_information.frame_variants ? (
                           <>
                             <div className="flex mt-2">
-                              {product.frame_information.frame_variants.map((variant) => (
+                              {product.frame_information.frame_variants.map((variant, index) => (
                                 <div
+                                  key={index}
                                   className={`border-grey rounded-full  mr-2 ${selectedColorsFeatured[product._id] === variant.color
                                     ? 'border-[2px] bg-blue-900'
                                     : ''
@@ -379,7 +378,7 @@ export default () => {
                         <div className="mt-1 product-rating font-bold text-base text-[#FAAF00] justify-between flex mx-auto">
                           <Rating
                             name={`rating-${product._id}`}
-                            value={productRatings[product._id] || 0} // Use the calculated average rating
+                            value={parseFloat(productRatings[product._id]) || 0} // Use the calculated average rating
                             readOnly
                             precision={0.1}
                             emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
@@ -555,8 +554,9 @@ export default () => {
                               product.frame_information.frame_variants ? (
                               <>
                                 <div className="flex mt-2">
-                                  {product.frame_information.frame_variants.map((variant) => (
+                                  {product.frame_information.frame_variants.map((variant, index) => (
                                     <div
+                                      key={index}
                                       className={`border-grey rounded-full  mr-2 ${selectedColorsNewArrivals[product._id] === variant.color
                                         ? 'border-[2px] bg-blue-900'
                                         : ''
@@ -583,7 +583,7 @@ export default () => {
                               <div className="product-rating font-bold text-base text-[#FAAF00] justify-between flex mx-auto">
                                 <Rating
                                   name={`rating-${product._id}`}
-                                  value={productRatings[product._id] || 0} // Use the calculated average rating
+                                  value={parseFloat(productRatings[product._id]) || 0} // Use the calculated average rating
                                   readOnly
                                   precision={0.1}
                                   emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
@@ -699,8 +699,9 @@ export default () => {
                           product.frame_information.frame_variants ? (
                           <>
                             <div className="flex mt-2">
-                              {product.frame_information.frame_variants.map((variant) => (
+                              {product.frame_information.frame_variants.map((variant, index) => (
                                 <div
+                                  key={index}
                                   className={`border-grey rounded-full  mr-2 ${selectedColorsNewArrivals[product._id] === variant.color
                                     ? 'border-[2px] bg-blue-900'
                                     : ''
@@ -727,7 +728,7 @@ export default () => {
                           <div className="mt-1 product-rating font-bold text-base text-[#FAAF00] justify-between flex mx-auto">
                             <Rating
                               name={`rating-${product._id}`}
-                              value={productRatings[product._id] || 0} // Use the calculated average rating
+                              value={parseFloat(productRatings[product._id]) || 0} // Use the calculated average rating
                               readOnly
                               precision={0.1}
                               emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
@@ -816,8 +817,9 @@ export default () => {
                           product.frame_information.frame_variants ? (
                           <>
                             <div className="flex mt-2">
-                              {product.frame_information.frame_variants.map((variant) => (
+                              {product.frame_information.frame_variants.map((variant, index) => (
                                 <div
+                                  key={index}
                                   className={`border-grey rounded-full  mr-2 ${selectedColorsNewArrivals[product._id] === variant.color
                                     ? 'border-[2px] bg-blue-900'
                                     : ''
@@ -844,7 +846,7 @@ export default () => {
                           <div className="mt-1 product-rating font-bold text-base text-[#FAAF00] justify-between flex mx-auto">
                             <Rating
                               name={`rating-${product._id}`}
-                              value={productRatings[product._id] || 0} // Use the calculated average rating
+                              value={parseFloat(productRatings[product._id]) || 0} // Use the calculated average rating
                               readOnly
                               precision={0.1}
                               emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}

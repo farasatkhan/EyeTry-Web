@@ -416,11 +416,11 @@ const Products = () => {
     }
 
     // handling view more button
-    const [rowsToShow, setRowsToShow] = useState(8);
+    const [rowsToShow, setRowsToShow] = useState(12);
 
     const handleViewMore = () => {
         // Increase the number of rows to show by 3
-        setRowsToShow(rowsToShow + 8);
+        setRowsToShow(rowsToShow + 12);
     };
 
 

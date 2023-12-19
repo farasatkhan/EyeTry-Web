@@ -24,26 +24,18 @@ import InputBase from '@mui/material/InputBase';
 import AdbIcon from '@mui/icons-material/Adb';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
 import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
-import { FaBold, FaSortDown } from "react-icons/fa";
-import { red } from '@mui/material/colors';
-import EmailSent from '../../pages/User/UserProfiling/EmailSent';
 import Footer from './Footer';
-import { FaGlasses } from "react-icons/fa";
 import { logoutUser } from '../../api/authapi';
 import { useNavigate } from 'react-router-dom';
-import { Navigation } from '@mui/icons-material';
 import { viewProfileImage } from '../../api/userapi';
-import ellipse from '../../assets/images/UserProfiling/Ellipse.png'
 import logo from '../../assets/images/Logo/logo.png'
 import { FaCartShopping } from "react-icons/fa6";
 import Hidden from '@mui/material/Hidden';
-import { Grid } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { getUserData } from '../../api/userapi';

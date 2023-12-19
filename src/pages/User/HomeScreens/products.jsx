@@ -410,16 +410,19 @@ const Products = () => {
     }
 
 
-
-
-    // handleFilter(filterParams);
-
-
-
     // cut price calculation
     const cutPrice = (price, discount) => {
         return (price - (price * discount) / 100).toFixed()
     }
+
+    // handling view more button
+    const [rowsToShow, setRowsToShow] = useState(8);
+
+    const handleViewMore = () => {
+        // Increase the number of rows to show by 3
+        setRowsToShow(rowsToShow + 8);
+    };
+
 
     return (
         <>
@@ -563,12 +566,11 @@ const Products = () => {
                     </div>
                     <section
                         id="Projects"
-                        data-aos="fade-up"
-                        data-aos-duration="1000"
-                        className="p-1 flex flex-wrap items-center justify-center mb-[500px]"
+                        className="p-1 flex flex-wrap items-center justify-center min-h-screen"
                     >
-                        {filteredProducts.map((product, index) => (
-                            <div key={index} className="flex-shrink-0 m-6 relative overflow-hidden rounded-lg max-w-xs shadow-sm bg-white cursor-pointer">
+                        {filteredProducts.slice(0, rowsToShow).map((product, index) => (
+                            <div data-aos="fade-up" data-aos-duration="1000" key={index} 
+                                className="flex-shrink-0 m-6 relative overflow-hidden rounded-lg max-w-xs shadow-sm bg-white cursor-pointer">
                                 <div className="justify-center flex" onClick={() => handleNavigation(product._id)}>
                                     {productImage(
                                         product,
@@ -586,21 +588,21 @@ const Products = () => {
                                             <>
                                                 <div className="flex mt-2 h-6 items-center">
                                                     {product.frame_information.frame_variants.map((variant, index) => (
-                                                             <div
-                                                             key={index}
-                                                             className={`border-grey rounded-full  mr-2 ${selectedColorsFeatured[product._id] === variant.color
-                                                               ? 'border-[2px] bg-blue-900'
-                                                               : ''
-                                                               }`}
-                                                           >
-                                                             <div
-                                                               className={`h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
-                                                               style={{ backgroundColor: `${variant.color_code}` }}
-                                                               onClick={() =>
-                                                                 handleColorSelect(product._id, variant.color)
-                                                               }
-                                                             ></div>
-                                                           </div>
+                                                        <div
+                                                            key={index}
+                                                            className={`border-grey rounded-full  mr-2 ${selectedColorsFeatured[product._id] === variant.color
+                                                                ? 'border-[2px] bg-blue-900'
+                                                                : ''
+                                                                }`}
+                                                        >
+                                                            <div
+                                                                className={`h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
+                                                                style={{ backgroundColor: `${variant.color_code}` }}
+                                                                onClick={() =>
+                                                                    handleColorSelect(product._id, variant.color)
+                                                                }
+                                                            ></div>
+                                                        </div>
                                                     ))}
                                                 </div>
                                             </>
@@ -640,6 +642,15 @@ const Products = () => {
                             </div>
                         ))}
                     </section>
+                    {filteredProducts.length > rowsToShow && (
+                        <div className="flex justify-center mt-8 mb-32">
+                            <button onClick={handleViewMore} className="py-1 px-4 rounded inline-flex items-center 
+                        bg-transparent hover:bg-gray-700 text-gray-700 font-semibold 
+                        hover:text-white border border-gray-500 hover:border-transparent ">
+                                <span>View More </span>
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </>

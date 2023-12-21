@@ -87,10 +87,11 @@ export default () => {
       setProductsList(fetchedProductsList);
 
       // for new arrivals
-      const oneWeekAgo = new Date();
-      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-      const arrivals = fetchedProductsList.filter(product => new Date(product.createdAt) >= oneWeekAgo);
+      const oneMonthAgo = new Date();
+      oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+      const arrivals = fetchedProductsList.filter(product => new Date(product.createdAt) >= oneMonthAgo);
       setNewArrivals(arrivals);
+      
 
       // for men sunglasses
       const fetchMenSunglasses = fetchedProductsList.filter(product => product.type === "Sunglasses" && product.categories.includes("Men"));
@@ -295,10 +296,8 @@ export default () => {
               <div className="h-1 w-full mt-2 mb-5 bg-blue-400 lg:w-1/3 mx-auto rounded-full"></div>
               <p className="font-sans text-base mx-auto text-justify text-gray-500 font-semibold">The most excellent online eyeglasses and eyeglass frames are offered at Easy Sight, your one-stop
                 online store. We offer a wide range of high-quality items because we know how important it is for
-                you to access stylish and affordable eyewear. We provide options for everyone, whether you need
-                prescription or non-prescription sunglasses. Finding the ideal set of eyeglasses frames that fit
-                your style, personality, and budget is simple with the help of our easy-to-use website. We have
-                everything you want, glasses from timelessly elegant designs to the newest techniques.</p>
+                you to access stylish eyewear. We provide options for everyone, whether you need
+                prescription or non-prescription sunglasses.</p>
             </div>
 
             <Splide data-aos="fade-up"
@@ -498,10 +497,7 @@ export default () => {
               <p className="font-sans text-base mx-auto text-justify text-gray-500 font-semibold">Everyone should have access
                 to high-quality eyewear, according to Easy Sight. We put a lot of effort into choosing the most fashionable and
                 long-lasting eyeglass frames available. High-quality materials are used to construct our goods to guarantee
-                durability and wear ability. We offer the ideal option for you, whether you need a set of glasses for regular
-                usage or a special event. In addition to helping you discover the best glasses for your requirements, our team
-                of professionals is always accessible to answer any questions you may have. Therefore, why wait? Experience
-                the greatest online eyeglass and frame purchasing at Easy Sight right now!</p>
+                durability and wear ability. </p>
             </div>
             {
               newArrivals.length > 0 ? (

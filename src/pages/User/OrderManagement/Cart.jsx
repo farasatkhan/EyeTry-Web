@@ -118,6 +118,10 @@ const Cart = () => {
   const getLocalStorageCartItems = () => {
     const storedCartItems = JSON.parse(localStorage.getItem('cart'));
     setCartItems(storedCartItems);
+    if (!storedCartItems) {
+      // If 'cart' is not present, initialize it in local storage
+      localStorage.setItem('cart', JSON.stringify([]));
+    }
     // console.log("cart screen data", storedCartItems);
     if (storedCartItems.length === 0) {
       setShippingPrice(0)

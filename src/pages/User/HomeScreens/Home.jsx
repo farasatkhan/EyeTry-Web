@@ -303,7 +303,7 @@ export default () => {
 
             {
               loading ? (
-                <div className="flex justify-center items-center p-20">
+                <div className="flex justify-center items-center p-40">
                   <SyncLoader color="#0369a1" />
                 </div>
 

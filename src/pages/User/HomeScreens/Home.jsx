@@ -26,7 +26,6 @@ import 'aos/dist/aos.css'; // Import the AOS CSS
 import banner2 from '../../../assets/images/products/sunglassesBanner.webp'
 import banner3 from '../../../assets/images/products/eyeglassesBanner.webp'
 import banner1 from '../../../assets/images/products/everyoneBanner.png'
-import HashLoader from "react-spinners/HashLoader";
 import SyncLoader from "react-spinners/SyncLoader";
 
 export default () => {

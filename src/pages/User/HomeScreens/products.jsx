@@ -16,6 +16,7 @@ import FaceShapeFilter from "../../../components/ui/User/ProductComponents/FaceS
 import PriceFilter from "../../../components/ui/User/ProductComponents/Price"
 import CategoryFilter from "../../../components/ui/User/ProductComponents/Categories"
 import RimFilter from "../../../components/ui/User/ProductComponents/FrameRim"
+import SyncLoader from "react-spinners/SyncLoader";
 
 const Products = () => {
     const [productsList, setProductsList] = useState([]);
@@ -34,6 +35,7 @@ const Products = () => {
     const [selectedCategory, setSelectedCategory] = useState("All Categories");
     const [selectedRim, setSelectedRim] = useState("All Rims");
     const [newArrivals, setNewArrivals] = useState([]);
+    const [loading, setLoading] = useState(false);
     const { page } = useParams();
 
 
@@ -53,6 +55,7 @@ const Products = () => {
 
     const fetchProductsList = async () => {
         try {
+            setLoading(true);
             const fetchedProductsList = await viewProductsList();
             setProductsList(fetchedProductsList);
 
@@ -84,6 +87,7 @@ const Products = () => {
             });
 
             setProductRatings(ratingsObject);
+            setLoading(false);
         } catch (error) {
             console.error("Error fetching products list", error);
         }
@@ -568,79 +572,87 @@ const Products = () => {
                         id="Projects"
                         className="p-1 flex flex-wrap items-center justify-center min-h-screen"
                     >
-                        {filteredProducts.slice(0, rowsToShow).map((product, index) => (
-                            <div data-aos="fade-up" data-aos-duration="1000" key={index} 
-                                className="flex-shrink-0 m-6 relative overflow-hidden rounded-lg max-w-xs shadow-sm bg-white cursor-pointer">
-                                <div className="justify-center flex" onClick={() => handleNavigation(product._id)}>
-                                    {productImage(
-                                        product,
-                                        selectedColorsFeatured[product._id] ||
-                                        (product.frame_information &&
-                                            product.frame_information.frame_variants[0].color)
-                                    )}
+                        {
+                            loading ? (
+                                <div className="flex justify-center items-center p-20">
+                                    <SyncLoader color="#0369a1" />
                                 </div>
-                                {/* product details section */}
-                                <div className="px-4">
-                                    {/* color palette */}
-                                    <div className="">
-                                        {product.frame_information &&
-                                            product.frame_information.frame_variants ? (
-                                            <>
-                                                <div className="flex mt-2 h-6 items-center">
-                                                    {product.frame_information.frame_variants.map((variant, index) => (
-                                                        <div
-                                                            key={index}
-                                                            className={`border-grey rounded-full  mr-2 ${selectedColorsFeatured[product._id] === variant.color
-                                                                ? 'border-[2px] bg-blue-900'
-                                                                : ''
-                                                                }`}
-                                                        >
-                                                            <div
-                                                                className={`h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
-                                                                style={{ backgroundColor: `${variant.color_code}` }}
-                                                                onClick={() =>
-                                                                    handleColorSelect(product._id, variant.color)
-                                                                }
-                                                            ></div>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <p>Color not available</p>
-                                            </>
-                                        )}
-                                    </div>
-                                    <div onClick={() => handleNavigation(product._id)} className="product-rating font-bold text-base text-[#FAAF00] justify-between flex mx-auto mt-[5px]">
-                                        <Rating
-                                            name={`rating-${product._id}`}
-                                            value={parseFloat(productRatings[product._id]) || 0}
-                                            readOnly
-                                            precision={0.1}
-                                            emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                                        />
-                                        <p className={`${productRatings[product._id] === "No Reviews" ? 'text-sm text-gray-400' : 'text-xl'} `}>{productRatings[product._id]}</p>
-                                    </div>
-                                    <div>
 
-                                        <p className=" mt-[3px] text-lg font-sans text-black block capitalize whitespace-no-wrap overflow-hidden truncate">{product.name}</p>
-                                        <div className="flex justify-between items-center">
-                                            {/* <p className="text-lg font-sans text-black truncate block capitalize">{product.name}</p> */}
-                                            <span className="mt-[4px]  mb-[4px] text-gray-400 font-sans uppercase text-sm whitespace-nowrap ">{product.manufacturer}</span>
+                            ) : (
+                                filteredProducts.slice(0, rowsToShow).map((product, index) => (
+                                    <div data-aos="fade-up" data-aos-duration="1000" key={index}
+                                        className="flex-shrink-0 m-6 relative overflow-hidden rounded-lg max-w-xs shadow-sm bg-white cursor-pointer">
+                                        <div className="justify-center flex" onClick={() => handleNavigation(product._id)}>
+                                            {productImage(
+                                                product,
+                                                selectedColorsFeatured[product._id] ||
+                                                (product.frame_information &&
+                                                    product.frame_information.frame_variants[0].color)
+                                            )}
                                         </div>
-                                        <div className="flex items-center mb-2">
-                                            <p className="text-lg font-semibold text-black cursor-auto">${product.priceInfo.price}</p>
-                                            <del>
-                                                <p className="text-sm text-gray-600 cursor-auto ml-2">${cutPrice(product.priceInfo.price, product.discount)}</p>
-                                            </del>
-                                            <div className="ml-auto bg-gray-200 rounded-2xl p-1.5">
-                                                <p className={`font-sans text-xs font-bold ${product.discount > 0 ? 'text-green-600' : 'text-red-600 px-1'}`}>{product.discount}% off</p>
-                                            </div>                                        </div>
+                                        {/* product details section */}
+                                        <div className="px-4">
+                                            {/* color palette */}
+                                            <div className="">
+                                                {product.frame_information &&
+                                                    product.frame_information.frame_variants ? (
+                                                    <>
+                                                        <div className="flex mt-2 h-6 items-center">
+                                                            {product.frame_information.frame_variants.map((variant, index) => (
+                                                                <div
+                                                                    key={index}
+                                                                    className={`border-grey rounded-full  mr-2 ${selectedColorsFeatured[product._id] === variant.color
+                                                                        ? 'border-[2px] bg-blue-900'
+                                                                        : ''
+                                                                        }`}
+                                                                >
+                                                                    <div
+                                                                        className={`h-7 w-7 rounded-full bg-blue-800 cursor-pointer border-white border-[4px] hover:bg-blue-900`}
+                                                                        style={{ backgroundColor: `${variant.color_code}` }}
+                                                                        onClick={() =>
+                                                                            handleColorSelect(product._id, variant.color)
+                                                                        }
+                                                                    ></div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <p>Color not available</p>
+                                                    </>
+                                                )}
+                                            </div>
+                                            <div onClick={() => handleNavigation(product._id)} className="product-rating font-bold text-base text-[#FAAF00] justify-between flex mx-auto mt-[5px]">
+                                                <Rating
+                                                    name={`rating-${product._id}`}
+                                                    value={parseFloat(productRatings[product._id]) || 0}
+                                                    readOnly
+                                                    precision={0.1}
+                                                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                                />
+                                                <p className={`${productRatings[product._id] === "No Reviews" ? 'text-sm text-gray-400' : 'text-xl'} `}>{productRatings[product._id]}</p>
+                                            </div>
+                                            <div>
+
+                                                <p className=" mt-[3px] text-lg font-sans text-black block capitalize whitespace-no-wrap overflow-hidden truncate">{product.name}</p>
+                                                <div className="flex justify-between items-center">
+                                                    {/* <p className="text-lg font-sans text-black truncate block capitalize">{product.name}</p> */}
+                                                    <span className="mt-[4px]  mb-[4px] text-gray-400 font-sans uppercase text-sm whitespace-nowrap ">{product.manufacturer}</span>
+                                                </div>
+                                                <div className="flex items-center mb-2">
+                                                    <p className="text-lg font-semibold text-black cursor-auto">${product.priceInfo.price}</p>
+                                                    <del>
+                                                        <p className="text-sm text-gray-600 cursor-auto ml-2">${cutPrice(product.priceInfo.price, product.discount)}</p>
+                                                    </del>
+                                                    <div className="ml-auto bg-gray-200 rounded-2xl p-1.5">
+                                                        <p className={`font-sans text-xs font-bold ${product.discount > 0 ? 'text-green-600' : 'text-red-600 px-1'}`}>{product.discount}% off</p>
+                                                    </div>                                        </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        ))}
+                                ))
+                            )}
                     </section>
                     {filteredProducts.length > rowsToShow && (
                         <div className="flex justify-center mt-8 mb-32">

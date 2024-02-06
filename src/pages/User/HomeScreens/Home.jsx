@@ -87,10 +87,11 @@ export default () => {
       setProductsList(fetchedProductsList);
 
       // for new arrivals
-      const oneMonthAgo = new Date();
-      oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-      const arrivals = fetchedProductsList.filter(product => new Date(product.createdAt) >= oneMonthAgo);
+      const oneYearAgo = new Date();
+      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+      const arrivals = fetchedProductsList.filter(product => new Date(product.createdAt) >= oneYearAgo);
       setNewArrivals(arrivals);
+      
 
 
       // for men sunglasses
@@ -961,8 +962,6 @@ export default () => {
           </div>
         </div>
       </div>
-      {/* ) */}
-      {/* } */}
     </>
 
 
